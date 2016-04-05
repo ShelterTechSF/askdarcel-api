@@ -32,4 +32,18 @@ RSpec.describe 'Resources' do
       end
     end
   end
+  context 'show' do
+    let!(:resources) { create_list :resource, 4 }
+    let!(:resource_a) { create :resource, name: 'a' }
+
+    it 'returns specific resource' do
+      get "/resources/#{resource_a.id}"
+      expect(response_json).to include(
+        'id' => resource_a.id,
+        'addresses' => Array,
+        'schedule' => Hash,
+        'phones' => Array
+      )
+    end
+  end
 end

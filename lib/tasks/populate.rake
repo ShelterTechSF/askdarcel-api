@@ -11,88 +11,28 @@ namespace :db do
     categories = %w(Shelter Food Medical Hygiene Technology)
 
     categories.each do |category|
-      FactoryGirl.create(:category, 
+      FactoryGirl.create(:category,
                          name: category)
-    end   
- 
+    end
+
     categories = Category.all
 
-    shelterDescriptions = [
-'Shelter for 1 or 2 parent families, expectant couples (with proof), and pregnant women in 7th month or 5th month with proof. Same-sex couples accepted. 1 night or 60 day beds.',
-'1-night bed and 24 hour drop-in showers and support services available. Doctors on site.',
+    shelter_descriptions = [
+      'Shelter for 1 or 2 parent families, expectant couples (with proof), and pregnant women in 7th month or 5th month with proof. Same-sex couples accepted. 1 night or 60 day beds.',
+      '1-night bed and 24 hour drop-in showers and support services available. Doctors on site.',
 
-'First-come, first-serve; no reservations required but identification mandatory. No pets, no families. 1 day beds only.',
+      'First-come, first-serve; no reservations required but identification mandatory. No pets, no families. 1 day beds only.',
 
-'5 beds for women in crisis (rape or domestic violence); stay up to 7 days. 16 shelter beds; stay varies. 16 beds in supportive housing (5 for HIV+ women); stay up to 18 months. 8-bed substance abuse program for any woman 18+; stay 1-4 months.',
+      '5 beds for women in crisis (rape or domestic violence); stay up to 7 days. 16 shelter beds; stay varies. 16 beds in supportive housing (5 for HIV+ women); stay up to 18 months. 8-bed substance abuse program for any woman 18+; stay 1-4 months.',
 
-'Operates on a drop-in basis. Members sign in between 12:30 and 1pm. People aree seen on a first-come, first-served basis. If you have them, bring ID, letter of diagnosis and proof of income. At this time, AHASF is unable to provide phone counseling, or e-mail counseling or to set up special appointments for intakes. During drop-in, they will perform an intake assessment and create an Individualized Housing Plan.'
+      'Operates on a drop-in basis. Members sign in between 12:30 and 1pm. People aree seen on a first-come, first-served basis. If you have them, bring ID, letter of diagnosis and proof of income. At this time, AHASF is unable to provide phone counseling, or e-mail counseling or to set up special appointments for intakes. During drop-in, they will perform an intake assessment and create an Individualized Housing Plan.'
     ]
-
-    foodDescriptions=[
-'Serves lunch Monday and Wednesday. Dinner available all days.',
-
-'Serves three free, nutritious meals a day, 364 days a year (New Years Day Closed; on many holidays a bag meal is given out after breakfast & there is no lunch or dinner serving).',
-
-'Outreach wing of St. Mark’s ministry. Lunch and Dinner served, with to-go portions available as available. Families and singles accepted.',
-
-'Weekly food pantry (Thursday).',
-
-'Serves one hot meal a day. Anyone willing to stand in line will be served. Can return to line for more servings. Separate dining section for families with children. Families and seniors are served up to two trays at the table, without returning to the line. Wheelchair accessible. Families & folks age 60+ or unable to carry a tray: 10-11:30am. All others: 11:30am-1:30pm. When you arrive you will be given a number for a meal.',
-
-'Meals, groceries and nutrition education for people living with serious illnesses, including cancer, diabetes, heart disease, HIV/AIDS.',
-]
-
-    medicalDescriptions=
-[
-'Call for an appt. M-F 8am-4:30pm for psychiatric services, medical triage, support groups, informational classes, medical and HIV primary care, podiatry, substance abuse treatment & housing referrals. Drop-in for primary care M-F 8am. Drop-in social work clinic M-F 8am-12pm. Sobriety Support group MWF 9:30am. Harm Reduction Group Tu 9:30-10am. AA meetings Th 6:30-7:30pm. Call for schedule of free shuttle to Ft. Miley.',
-
-'Urgent and Primary Care, Mental Health, TB and HIV testing, Transgender Services and Immunizations. Insurance only. For San Francisco residents 18 or over. Call for appt.',
-
-'Case management, social services, individual counseling, employment, legal assistance, substance abuse support, information & referrals, emergency & transitional housing, move-in assistance, eviction prevention, benefits advocacy (SS, VA, military discharge upgrade), mail and message services.',
-
-'Through a partnership with the San Francisco Department of Public Health, physicians and nurse practitioners provide care to senior patients (55+) by appointment from Monday through Friday (9 am to 5 pm), and on a drop-in basis for urgent care on Tuesdays (1 pm to 2 pm) and Fridays (9 am to 11 am). Podiatrist, clinic for women, and pharmacist also available.',
-
-'Urgent and Primary Care, Dental, Podiatry, TB, STD, HIV, and Pregnancy testing, Health for Women, Family Planning, Prenatal Care, and Immunizations. Sliding scale (outpatient medical services free to homeless). Call for appt. Pediatrics & optometry available.'
-]
-
-    hygieneDescriptions = [
-'1-night bed and 24 hour drop-in showers and support services available. Doctors on site.',
-
-'Six (6) services per week in San Francisco.\n
-Tue:\n
-8:30am - 2pm\n
-Wed:\n
-8:30am - 12pm, 2pm - 5pm\n
-Thu - Fri:\n
-8:30am - 2pm\n
-Sat:\n
-7am - 1pm\n',
-
-'A place to shower on Tuesday through Saturday.',
-
-'Portable toilet at the corner of Golden Gate and Jones Tues-Fri 2pm - 9pm.',
-
-'Storage for personal belongings. Only one bag stored. Clothing and Shoes only. No suitcases - only plastic bags , duffle bags, back packs and acceptable containers.',
-]
-
-    techDescriptions=[
-'Computer lab and resources to help with job search. Free Job Search Assistance, Computer and Job Search Skills Workshops, Employer Spotlights, and Job Search Strategy Groups. Use of computer lab to improve your typing speed and computer skills with self-paced tutorials. Resume and cover letter assistance. Assistance studying for GED, NCLEX-PN, and NCLEX-RN.',
-
-'The Adult Education Center offers morning and afternoon classes in literacy, basic education, GED preparation and high school diploma completion. Students attend small classes and can receive one-on-one instruction. Classes are open-enrollment; students can sign up anytime and be placed in a class right away.',
-
-'Offers computer access and training to seniors (age 60+). Assistance can be provided in Vietnamese.',
-
-'Job Search Assistance, Career Planning and Exploration, Job Preparation Workshops, Training Opportunities, Access to Resource Room with Computers, Fax and Copy machines, Unemployment Information (link to EDD), Availability of Supportive Services (including childcare and transportation). All services are free of charge.',
-
-'Affiliated with John Muir Elementary School. Services for Families with children only. Black and white printer, scanner, wireless internet, and assistive technology available.'
-]
-
 
     128.times do
       name = Faker::Company.name
       short_description = Faker::Lorem.sentence if rand(2) == 0
-      long_description = shelterDescriptions[rand(5)-1] 
-      #long_description = Faker::Lorem.paragraph if rand(2) == 0
+      long_description = shelter_descriptions[rand(5) - 1]
+      # long_description = Faker::Lorem.paragraph if rand(2) == 0
       website = Faker::Internet.url if rand(2) == 0
 
       FactoryGirl.create(:resource,

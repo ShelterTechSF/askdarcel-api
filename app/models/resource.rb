@@ -3,4 +3,6 @@ class Resource < ActiveRecord::Base
   has_many :addresses
   has_many :phones
   has_one :schedule
+  has_many :notes
+  has_many :services
 end

@@ -8,7 +8,7 @@ namespace :db do
 
     require 'faker/sheltertech'
 
-    [ScheduleDay, Schedule, Phone, Address, Category, Resource].each(&:delete_all)
+    [Note, ScheduleDay, Schedule, Phone, Address, Category, Service, Resource].each(&:delete_all)
 
     %w(Shelter Food Medical Hygiene Technology).each do |category|
       FactoryGirl.create(:category, name: category)
@@ -20,13 +20,19 @@ namespace :db do
       short_description = Faker::Lorem.sentence if rand(2) == 0
       long_description = Faker::ShelterTech.description
       website = Faker::Internet.url if rand(2) == 0
+      services = []
+      (rand(2) + 1).times do
+        services.push(FactoryGirl.create(:service,
+                                         long_description: Faker::ShelterTech.description))
 
-      FactoryGirl.create(:resource,
-                         name: name,
-                         short_description: short_description,
-                         long_description: long_description,
-                         website: website,
-                         categories: categories.sample(rand(4)))
+        FactoryGirl.create(:resource,
+                           name: name,
+                           short_description: short_description,
+                           long_description: long_description,
+                           website: website,
+                           categories: categories.sample(rand(4)),
+                           services: services)
+      end
     end
   end
 end

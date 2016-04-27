@@ -27,6 +27,12 @@ namespace :db do
                          long_description: long_description,
                          website: website,
                          categories: categories.sample(rand(4)))
+      (rand(2)+1).times do 
+        FactoryGirl.create(:service,
+                           long_description: Faker::ShelterTech.description)
+      end
+ 
+     
     end
   end
 end

@@ -5,6 +5,7 @@ FactoryGirl.define do
       create(:address, resource: resource)
       create(:phone, resource: resource)
       create(:schedule, resource: resource)
+      create(:note, resource: resource)
     end
   end
 end

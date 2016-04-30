@@ -8,7 +8,7 @@ namespace :db do
 
     require 'faker/sheltertech'
 
-    [ScheduleDay, Schedule, Phone, Address, Category, Resource].each(&:delete_all)
+    [Note, ScheduleDay, Schedule, Phone, Address, Category, Service, Resource].each(&:delete_all)
 
     %w(Shelter Food Medical Hygiene Technology).each do |category|
       FactoryGirl.create(:category, name: category)

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160405025104) do
+ActiveRecord::Schema.define(version: 20160427223914) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,17 @@ ActiveRecord::Schema.define(version: 20160405025104) do
   add_index "categories_resources", ["category_id"], name: "index_categories_resources_on_category_id", using: :btree
   add_index "categories_resources", ["resource_id"], name: "index_categories_resources_on_resource_id", using: :btree
 
+  create_table "notes", force: :cascade do |t|
+    t.text     "note"
+    t.integer  "resource_id"
+    t.integer  "service_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "notes", ["resource_id"], name: "index_notes_on_resource_id", using: :btree
+  add_index "notes", ["service_id"], name: "index_notes_on_service_id", using: :btree
+
   create_table "phones", force: :cascade do |t|
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
@@ -84,13 +95,33 @@ ActiveRecord::Schema.define(version: 20160405025104) do
   create_table "schedules", force: :cascade do |t|
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
-    t.integer  "resource_id", null: false
+    t.integer  "resource_id"
+    t.integer  "service_id"
   end
 
   add_index "schedules", ["resource_id"], name: "index_schedules_on_resource_id", using: :btree
+  add_index "schedules", ["service_id"], name: "index_schedules_on_service_id", using: :btree
+
+  create_table "services", force: :cascade do |t|
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+    t.string   "name"
+    t.text     "long_description"
+    t.string   "eligibility"
+    t.string   "required_documents"
+    t.decimal  "fee"
+    t.text     "application_process"
+    t.integer  "resource_id"
+  end
+
+  add_index "services", ["resource_id"], name: "index_services_on_resource_id", using: :btree
 
   add_foreign_key "addresses", "resources"
+  add_foreign_key "notes", "resources"
+  add_foreign_key "notes", "services"
   add_foreign_key "phones", "resources"
   add_foreign_key "schedule_days", "schedules"
   add_foreign_key "schedules", "resources"
+  add_foreign_key "schedules", "services"
+  add_foreign_key "services", "resources"
 end

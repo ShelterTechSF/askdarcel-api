@@ -6,6 +6,9 @@ gem 'activerecord', '~> 4.2'
 gem 'activesupport', '~> 4.2'
 gem 'railties', '~> 4.2'
 gem 'rails-api', '0.4.0'
+gem 'devise','4.0.0'
+gem 'devise_token_auth', '0.1.37'
+gem 'omniauth','1.3.1'
 
 # Persistence
 gem 'pg', '~> 0.15'

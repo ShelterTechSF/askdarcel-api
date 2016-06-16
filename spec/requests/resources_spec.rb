@@ -7,8 +7,8 @@ RSpec.describe 'Resources' do
 
       it 'returns all resources' do
         get '/resources'
-        returned_ids = response_json['resources'].map { |r| r['id'] }
-        expect(returned_ids).to match(resources.map(&:id))
+        expect(response_json).to match({})
+        expect(response).to have_http_status(:bad_request)
       end
     end
 

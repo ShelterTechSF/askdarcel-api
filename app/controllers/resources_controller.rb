@@ -3,11 +3,13 @@ class ResourcesController < ApplicationController
     category_id = params[:category_id]
     result = if category_id
                resources.joins(:categories).where('categories.id' => category_id)
-             else
-               resources.all
              end
 
-    render json: ResourcesPresenter.present(result)
+    if result
+      render json: ResourcesPresenter.present(result)
+    else
+      render json: {}, status: :bad_request
+    end
   end
 
   def show

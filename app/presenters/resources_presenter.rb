@@ -9,5 +9,5 @@ class ResourcesPresenter < Jsonite
   property :phones, with: PhonesPresenter
   property :address, with: AddressPresenter
   property :notes, with: NotesPresenter
-  property :categories, with: CategoriesPresenter
+  property :categories, with: CategoryPresenter
 end

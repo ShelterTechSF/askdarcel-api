@@ -58,16 +58,18 @@ ActiveRecord::Schema.define(version: 20161204211752) do
   end
 
   create_table "change_requests", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
     t.string   "type"
     t.integer  "object_id"
-    t.string   "status"
+    t.string   "status",     default: "pending"
   end
 
   create_table "field_changes", force: :cascade do |t|
-    t.string "field_name"
-    t.string "field_value"
+    t.string  "field_name"
+    t.string  "field_value"
+    t.integer "change_request_id", null: false
+    t.index ["change_request_id"], name: "index_field_changes_on_change_request_id", using: :btree
   end
 
   create_table "keywords", force: :cascade do |t|
@@ -169,6 +171,7 @@ ActiveRecord::Schema.define(version: 20161204211752) do
   end
 
   add_foreign_key "addresses", "resources"
+  add_foreign_key "field_changes", "change_requests"
   add_foreign_key "notes", "resources"
   add_foreign_key "notes", "services"
   add_foreign_key "phones", "resources"

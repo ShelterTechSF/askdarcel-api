@@ -1,0 +1,3 @@
+class ServiceChangeRequest < ChangeRequest
+
+end

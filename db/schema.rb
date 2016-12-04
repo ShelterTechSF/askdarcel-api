@@ -58,9 +58,9 @@ ActiveRecord::Schema.define(version: 20161204211752) do
   end
 
   create_table "change_requests", force: :cascade do |t|
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.string   "object_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "type"
     t.integer  "object_id"
     t.string   "status"
   end

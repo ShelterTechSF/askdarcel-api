@@ -38,7 +38,7 @@ namespace :db do
                            services: services)
 
         FactoryGirl.create(:change_request,
-                           object_name: 'resource',
+                           type: 'ResourceChangeRequest',
                            status: 'pending',
                            object_id: resource.id)
 

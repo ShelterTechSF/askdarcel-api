@@ -3,7 +3,7 @@ class CreateChangeRequest < ActiveRecord::Migration[5.0]
     create_table :change_requests do |t|
       t.timestamps null: false
 
-      t.string :object_name
+      t.string :type
       t.integer :object_id
       t.string :status
     end

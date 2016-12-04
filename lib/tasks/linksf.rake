@@ -114,6 +114,29 @@ namespace :linksf do
       # ...
 
       resource.save!
+
+      change_request = ChangeRequest.new
+
+      change_request.object_id = resource.id
+      change_request.type='ResourceChangeRequest'
+      change_request.status=ChangeRequest.pending
+
+      field_change = change_request.field_changes.build
+      field_change.field_name = 'name'
+      field_change.field_value = resource.name + '(changed)'
+
+      field_change = change_request.field_changes.build
+      field_change.field_name = 'long_description'
+      if resource.long_description.present?
+        field_change.field_value = resource.long_description + '(changed)'
+      else
+        field_change.field_value = '(changed)'
+      end
+
+      change_request.save!
+
+
+
     end
   end
 end

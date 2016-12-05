@@ -1,12 +1,14 @@
 class ChangerequestsController < ApplicationController
   def create
     if params[:resource_id]
-      change_request = ResourceChangeRequest.create(object_id: params[:resource_id])
+      @change_request = ResourceChangeRequest.create(object_id: params[:resource_id])
     elsif params[:service_id]
-      change_request = ServiceChangeRequest.create(object_id: params[:service_id])
+      @change_request = ServiceChangeRequest.create(object_id: params[:service_id])
     end
 
-    render status: :created, json: ChangeRequestsPresenter.present(change_request)
+    @change_request.field_changes = field_changes
+
+    render status: :created, json: ChangeRequestsPresenter.present(@change_request)
   end
 
   def index
@@ -26,6 +28,16 @@ class ChangerequestsController < ApplicationController
   end
 
   private
+
+  def field_changes
+    params[:changerequest][:field_changes].map do |fc|
+      field_change_hash = {}
+      field_change_hash[:field_name] = fc[:field_name]
+      field_change_hash[:field_value] = fc[:field_value]
+      field_change_hash[:change_request_id] = @change_request.id
+      FieldChange.create(field_change_hash)
+    end
+  end
 
   def changerequest
     ChangeRequest.includes(:field_changes)

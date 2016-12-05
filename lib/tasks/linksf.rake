@@ -124,8 +124,7 @@ namespace :linksf do
 
         change_request = ChangeRequest.new
         change_request.object_id = service.id
-        puts 'serviceid...'
-        puts service.id
+
         change_request.type='ServiceChangeRequest'
         change_request.status=ChangeRequest.pending
 

@@ -31,8 +31,14 @@ class ChangeRequestsController < ApplicationController
 
   def reject
     change_request = ChangeRequest.find params[:change_request_id]
-    change_request.rejected!
-    render status: :ok
+    if change_request.pending?
+      change_request.rejected!
+      render status: :ok
+    elsif change_request.rejected?
+      render status: :not_modified
+    else
+      render status: :precondition_failed
+    end
   end
 
   private

@@ -1,4 +1,5 @@
 class PhonesPresenter < Jsonite
+  property :id
   property :number
   property :extension
   property :service_type

@@ -1,4 +1,5 @@
 class ServicesPresenter < Jsonite
+  property :id
   property :name
   property :long_description
   property :eligibility

@@ -1,4 +1,5 @@
 class AddressPresenter < Jsonite
+  property :id
   property :attention
   property :address_1
   property :address_2

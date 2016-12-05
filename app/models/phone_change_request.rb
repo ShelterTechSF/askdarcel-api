@@ -1,0 +1,2 @@
+class PhoneChangeRequest < ChangeRequest
+end

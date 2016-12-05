@@ -1,0 +1,2 @@
+class NoteChangeRequest < ChangeRequest
+end

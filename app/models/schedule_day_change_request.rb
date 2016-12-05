@@ -1,0 +1,2 @@
+class ScheduleDayChangeRequest < ChangeRequest
+end

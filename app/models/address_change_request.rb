@@ -1,0 +1,2 @@
+class AddressChangeRequest < ChangeRequest
+end

@@ -6,13 +6,25 @@ Rails.application.routes.draw do
     end
 
     resources :ratings, only: :create
-    resources :changerequests, only: :create
+    resources :change_requests, only: :create
   end
   resources :services do
     resources :ratings, only: :create
-    resources :changerequests, only: :create
+    resources :change_requests, only: :create
   end
-  resources :changerequests do
+  resources :notes do
+    resources :change_requests, only: :create
+  end
+  resources :addresses do
+    resources :change_requests, only: :create
+  end
+  resources :schedule_days do
+    resources :change_requests, only: :create
+  end
+  resources :phones do
+    resources :change_requests, only: :create
+  end
+  resources :change_requests do
     post :approve
     post :reject
   end

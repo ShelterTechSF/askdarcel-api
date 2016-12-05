@@ -287,7 +287,7 @@
 				}
 			],
 			"request": {
-				"url": "http://askdarcel.lvh.me:3000/resources/1/changerequests",
+				"url": "http://askdarcel.lvh.me:3000/resources/1/change_requests",
 				"method": "POST",
 				"header": [
 					{
@@ -325,7 +325,159 @@
 				}
 			],
 			"request": {
-				"url": "http://askdarcel.lvh.me:3000/services/1/changerequests",
+				"url": "http://askdarcel.lvh.me:3000/services/1/change_requests",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \n\t\"name\" : \"newname\",\n\t\"size\" : \"test\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Submit Schedule Day ChangeRequest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://askdarcel.lvh.me:3000/schedule_days/1/change_requests",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \n\t\"name\" : \"newname\",\n\t\"size\" : \"test\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Submit Note ChangeRequest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://askdarcel.lvh.me:3000/notes/1/change_requests",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \n\t\"name\" : \"newname\",\n\t\"size\" : \"test\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Submit Phone ChangeRequest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://askdarcel.lvh.me:3000/phones/1/change_requests",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \n\t\"name\" : \"newname\",\n\t\"size\" : \"test\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Submit Address ChangeRequest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://askdarcel.lvh.me:3000/addresses/1/change_requests",
 				"method": "POST",
 				"header": [
 					{
@@ -363,7 +515,7 @@
 				}
 			],
 			"request": {
-				"url": "http://askdarcel.lvh.me:3000/changerequests",
+				"url": "http://askdarcel.lvh.me:3000/change_requests",
 				"method": "GET",
 				"header": [
 					{
@@ -396,7 +548,7 @@
 				}
 			],
 			"request": {
-				"url": "http://askdarcel.lvh.me:3000/changerequests/1/approve",
+				"url": "http://askdarcel.lvh.me:3000/change_requests/1/approve",
 				"method": "POST",
 				"header": [
 					{
@@ -429,7 +581,7 @@
 				}
 			],
 			"request": {
-				"url": "http://askdarcel.lvh.me:3000/changerequests/1/reject",
+				"url": "http://askdarcel.lvh.me:3000/change_requests/1/reject",
 				"method": "POST",
 				"header": [
 					{

@@ -14,7 +14,11 @@
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
-						"exec": "tests[\"Response time is less than 200ms\"] = responseTime < 200;\n\ntests[\"Status code is 400\"] = responseCode.code === 400;"
+						"exec": [
+							"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
+							"",
+							"tests[\"Status code is 400\"] = responseCode.code === 400;"
+						]
 					}
 				}
 			],
@@ -43,7 +47,11 @@
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
-						"exec": "tests[\"Response time is less than 1000ms\"] = responseTime < 1000;\n\ntests[\"Status code is 200\"] = responseCode.code === 200;"
+						"exec": [
+							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
 					}
 				}
 			],
@@ -72,12 +80,49 @@
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
-						"exec": "tests[\"Response time is less than 200ms\"] = responseTime < 200;\n\ntests[\"Status code is 200\"] = responseCode.code === 200;"
+						"exec": [
+							"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
 					}
 				}
 			],
 			"request": {
 				"url": "http://askdarcel.lvh.me:3000/resources/1",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"rating\": {\n\t\t\"rating\": 4\n\t}\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get service by id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://askdarcel.lvh.me:3000/services/1",
 				"method": "GET",
 				"header": [
 					{
@@ -101,7 +146,11 @@
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
-						"exec": "tests[\"Response time is less than 200ms\"] = responseTime < 200;\n\ntests[\"Status code is 200\"] = responseCode.code === 200;"
+						"exec": [
+							"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
 					}
 				}
 			],
@@ -130,7 +179,11 @@
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
-						"exec": "tests[\"Response time is less than 1000ms\"] = responseTime < 1000;\n\ntests[\"Status code is 200\"] = responseCode.code === 200;"
+						"exec": [
+							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
 					}
 				}
 			],
@@ -159,7 +212,11 @@
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
-						"exec": "tests[\"Response time is less than 1000ms\"] = responseTime < 1000;\n\ntests[\"Status code is 200\"] = responseCode.code === 200;"
+						"exec": [
+							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
 					}
 				}
 			],
@@ -188,13 +245,192 @@
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
-						"exec": "tests[\"Response time is less than 1000ms\"] = responseTime < 1000;\n\ntests[\"Status code is 200\"] = responseCode.code === 200;"
+						"exec": [
+							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
 					}
 				}
 			],
 			"request": {
 				"url": "http://askdarcel.lvh.me:3000/resources/search?query=food&lat=100&long=100",
 				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"rating\": {\n\t\t\"rating\": 4\n\t}\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Submit Resource ChangeRequest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://askdarcel.lvh.me:3000/resources/1/changerequests",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"field_changes\": [\n      {\n        \"field_name\": \"name1\",\n        \"field_value\": \"value1\"\n      },\n      {\n        \"field_name\": \"name2\",\n        \"field_value\": \"value2\"\n      }\n    ]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Submit Service ChangeRequest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://askdarcel.lvh.me:3000/services/1/changerequests",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"field_changes\": [\n      {\n        \"field_name\": \"name1\",\n        \"field_value\": \"value1\"\n      },\n      {\n        \"field_name\": \"name2\",\n        \"field_value\": \"value2\"\n      }\n    ]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get all ChangeRequests",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://askdarcel.lvh.me:3000/changerequests",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"rating\": {\n\t\t\"rating\": 4\n\t}\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Approve ChangeRequest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://askdarcel.lvh.me:3000/changerequests/1/approve",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"rating\": {\n\t\t\"rating\": 4\n\t}\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Reject ChangeRequest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://askdarcel.lvh.me:3000/changerequests/1/reject",
+				"method": "POST",
 				"header": [
 					{
 						"key": "Accept",

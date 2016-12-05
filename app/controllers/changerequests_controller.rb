@@ -30,10 +30,10 @@ class ChangerequestsController < ApplicationController
   private
 
   def field_changes
-    params[:changerequest][:field_changes].map do |fc|
+    params[:changerequest].map do |fc|
       field_change_hash = {}
-      field_change_hash[:field_name] = fc[:field_name]
-      field_change_hash[:field_value] = fc[:field_value]
+      field_change_hash[:field_name] = fc[0]
+      field_change_hash[:field_value] = fc[1]
       field_change_hash[:change_request_id] = @change_request.id
       FieldChange.create(field_change_hash)
     end

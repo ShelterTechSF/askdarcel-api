@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
     resources :ratings, only: :create
     resources :changerequests, only: :create
-  endgit
+  end
   resources :services do
     resources :ratings, only: :create
     resources :changerequests, only: :create

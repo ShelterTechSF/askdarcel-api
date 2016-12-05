@@ -5,7 +5,7 @@ class CreateChangeRequest < ActiveRecord::Migration[5.0]
 
       t.string :type
       t.integer :object_id
-	  t.column :status, :string, default: :pending
+	    t.column :status, :integer, default: 0
 
     end
   end

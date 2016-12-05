@@ -109,11 +109,6 @@ namespace :linksf do
           close = value[0][1] / 100
           service.schedule.schedule_days.build(opens_at: open, closes_at: close, day: days_of_week[key.to_s.to_i])
         end
-
-        
-
-
-
       end
 
       # ...
@@ -121,12 +116,11 @@ namespace :linksf do
       resource.save!
 
       resource.services.each do |service|
-
         change_request = ChangeRequest.new
         change_request.object_id = service.id
 
-        change_request.type='ServiceChangeRequest'
-        change_request.status=ChangeRequest.pending
+        change_request.type = 'ServiceChangeRequest'
+        change_request.status = ChangeRequest.statuses[:pending]
 
         field_change = change_request.field_changes.build
         field_change.field_name = 'name'
@@ -134,21 +128,20 @@ namespace :linksf do
 
         field_change = change_request.field_changes.build
         field_change.field_name = 'long_description'
-        if service.long_description.present?
-          field_change.field_value = service.long_description + '(changed)'
-        else
-          field_change.field_value = '(changed)'
-        end
+        field_change.field_value = if service.long_description.present?
+                                     service.long_description + '(changed)'
+                                   else
+                                     '(changed)'
+                                   end
 
         change_request.save!
-
       end
 
       change_request = ChangeRequest.new
 
       change_request.object_id = resource.id
-      change_request.type='ResourceChangeRequest'
-      change_request.status=ChangeRequest.pending
+      change_request.type = 'ResourceChangeRequest'
+      change_request.status = ChangeRequest.statuses[:pending]
 
       field_change = change_request.field_changes.build
       field_change.field_name = 'name'
@@ -156,16 +149,13 @@ namespace :linksf do
 
       field_change = change_request.field_changes.build
       field_change.field_name = 'long_description'
-      if resource.long_description.present?
-        field_change.field_value = resource.long_description + '(changed)'
-      else
-        field_change.field_value = '(changed)'
-      end
+      field_change.field_value = if resource.long_description.present?
+                                   resource.long_description + '(changed)'
+                                 else
+                                   '(changed)'
+                                 end
 
       change_request.save!
-
-
-
     end
   end
 end

@@ -6,8 +6,14 @@ Rails.application.routes.draw do
     end
 
     resources :ratings, only: :create
+    resources :changerequests, only: :create
   end
   resources :services do
     resources :ratings, only: :create
+    resources :changerequests, only: :create
+  end
+  resources :changerequests do
+    post :approve
+    post :reject
   end
 end

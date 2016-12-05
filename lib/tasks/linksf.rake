@@ -109,11 +109,41 @@ namespace :linksf do
           close = value[0][1] / 100
           service.schedule.schedule_days.build(opens_at: open, closes_at: close, day: days_of_week[key.to_s.to_i])
         end
+
+        
+
+
+
       end
 
       # ...
 
       resource.save!
+
+      resource.services.each do |service|
+
+        change_request = ChangeRequest.new
+        change_request.object_id = service.id
+        puts 'serviceid...'
+        puts service.id
+        change_request.type='ServiceChangeRequest'
+        change_request.status=ChangeRequest.pending
+
+        field_change = change_request.field_changes.build
+        field_change.field_name = 'name'
+        field_change.field_value = service.name + '(changed)'
+
+        field_change = change_request.field_changes.build
+        field_change.field_name = 'long_description'
+        if service.long_description.present?
+          field_change.field_value = service.long_description + '(changed)'
+        else
+          field_change.field_value = '(changed)'
+        end
+
+        change_request.save!
+
+      end
 
       change_request = ChangeRequest.new
 

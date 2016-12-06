@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount_devise_token_auth_for 'Admin', at: '/admin/auth'
   resources :categories
   resources :resources do
     collection do

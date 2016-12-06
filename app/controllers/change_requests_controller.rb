@@ -25,6 +25,7 @@ class ChangeRequestsController < ApplicationController
 
   def approve
     change_request = ChangeRequest.find params[:change_request_id]
+    persist_change change_request
     change_request.approved!
     render status: :ok
   end
@@ -42,6 +43,58 @@ class ChangeRequestsController < ApplicationController
   end
 
   private
+
+  def persist_change (change_request)
+
+    object_id = change_request.object_id
+    puts object_id
+
+    if change_request.is_a? ServiceChangeRequest
+      puts 'ServiceChangeRequest'
+      service = Service.find(change_request.object_id)
+      field_change_hash = get_field_change_hash change_request
+      service.update field_change_hash
+    elsif change_request.is_a? ResourceChangeRequest
+      puts 'ResourceChangeRequest'
+      resource = Resource.find(change_request.object_id)
+      field_change_hash = get_field_change_hash change_request
+      resource.update field_change_hash      
+    elsif change_request.is_a? ScheduleDayChangeRequest
+      puts 'ScheduleDayChangeRequest'
+      schedule_day = ScheduleDay.find(change_request.object_id)
+      field_change_hash = get_field_change_hash change_request
+      schedule_day.update field_change_hash
+    elsif change_request.is_a? NoteChangeRequest
+      puts 'NoteChangeRequest'
+      note = Note.find(change_request.object_id)
+      field_change_hash = get_field_change_hash change_request
+      note.update field_change_hash      
+    elsif change_request.is_a? PhoneChangeRequest
+      puts 'PhoneChangeRequest'
+      phone = Phone.find(change_request.object_id)
+      field_change_hash = get_field_change_hash change_request
+      phone.update field_change_hash      
+    elsif change_request.is_a? AddressChangeRequest
+      puts 'AddressChangeRequest'
+      address = Address.find(change_request.object_id)
+      field_change_hash = get_field_change_hash change_request  
+      address.update field_change_hash    
+    else
+      puts 'invalid request'
+    end
+  end
+
+  def get_field_change_hash (change_request)
+
+    field_change_hash = {}
+
+      field_changes = change_request.field_changes.each do |field_change|       
+        puts field_change.field_name
+        puts field_change.field_value
+        field_change_hash[field_change.field_name] = field_change.field_value
+      end
+      return field_change_hash
+  end
 
   def field_changes
     params[:change_request].map do |fc|

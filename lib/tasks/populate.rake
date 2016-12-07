@@ -18,6 +18,11 @@ namespace :db do
 
     categories = Category.all
 
+    admin = Admin.new
+    admin.email = 'dev-admin@sheltertech.org'
+    admin.password = 'dev-test-01'
+    admin.save
+
     128.times do
       name = Faker::Company.name
       short_description = Faker::Lorem.sentence if rand(2) == 0

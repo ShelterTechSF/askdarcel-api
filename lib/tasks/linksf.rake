@@ -31,6 +31,11 @@ namespace :linksf do
 
     records = data[:result].drop(1)
 
+    admin = Admin.new
+    admin.email = 'dev-admin@sheltertech.org'
+    admin.password = 'dev-test-01'
+    admin.save
+
     records.each do |record|
       resource = Resource.new
       resource.name = record[:name]

@@ -8,6 +8,10 @@ gem 'geokit-rails'
 # Persistence
 gem 'pg', '~> 0.15'
 
+# Auth
+gem 'devise_token_auth'
+gem 'omniauth'
+
 # Use Puma as the app server
 gem 'puma'
 

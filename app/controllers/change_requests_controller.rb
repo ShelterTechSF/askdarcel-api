@@ -20,31 +20,43 @@ class ChangeRequestsController < ApplicationController
   end
 
   def index
-    render json: ChangeRequestsPresenter.present(changerequest.pending)
+    if !admin_signed_in?
+      render status: :unauthorized
+    else
+      render json: ChangeRequestsPresenter.present(changerequest.pending)
+    end
   end
 
   def approve
-    change_request = ChangeRequest.find params[:change_request_id]
-    if change_request.pending?
-      persist_change change_request
-      change_request.approved!
-      render status: :ok
-    elsif change_request.approved?
-      render status: :not_modified
+    if !admin_signed_in?
+      render status: :unauthorized
     else
-      render status: :precondition_failed
+      change_request = ChangeRequest.find params[:change_request_id]
+      if change_request.pending?
+        persist_change change_request
+        change_request.approved!
+        render status: :ok
+      elsif change_request.approved?
+        render status: :not_modified
+      else
+        render status: :precondition_failed
+      end
     end
   end
 
   def reject
-    change_request = ChangeRequest.find params[:change_request_id]
-    if change_request.pending?
-      change_request.rejected!
-      render status: :ok
-    elsif change_request.rejected?
-      render status: :not_modified
+    if !admin_signed_in?
+      render status: :unauthorized
     else
-      render status: :precondition_failed
+      change_request = ChangeRequest.find params[:change_request_id]
+      if change_request.pending?
+        change_request.rejected!
+        render status: :ok
+      elsif change_request.rejected?
+        render status: :not_modified
+      else
+        render status: :precondition_failed
+      end
     end
   end
 

@@ -64,6 +64,21 @@
 						"key": "Accept",
 						"value": "application/json",
 						"description": ""
+					},
+					{
+						"key": "access-token",
+						"value": "{{access-token}}",
+						"description": ""
+					},
+					{
+						"key": "client",
+						"value": "{{client}}",
+						"description": ""
+					},
+					{
+						"key": "uid",
+						"value": "dev-admin@sheltertech.org",
+						"description": ""
 					}
 				],
 				"body": {
@@ -97,6 +112,21 @@
 						"key": "Accept",
 						"value": "application/json",
 						"description": ""
+					},
+					{
+						"key": "access-token",
+						"value": "{{access-token}}",
+						"description": ""
+					},
+					{
+						"key": "client",
+						"value": "{{client}}",
+						"description": ""
+					},
+					{
+						"key": "uid",
+						"value": "dev-admin@sheltertech.org",
+						"description": ""
 					}
 				],
 				"body": {
@@ -129,6 +159,21 @@
 					{
 						"key": "Accept",
 						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "access-token",
+						"value": "{{access-token}}",
+						"description": ""
+					},
+					{
+						"key": "client",
+						"value": "{{client}}",
+						"description": ""
+					},
+					{
+						"key": "uid",
+						"value": "dev-admin@sheltertech.org",
 						"description": ""
 					}
 				],

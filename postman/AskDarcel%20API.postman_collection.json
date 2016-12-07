@@ -270,7 +270,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{  \n\t\"change_request\" : {\n\t\t\"name\" : \"newname\",\n\t\t\"size\" : \"test\"\n\t}\n}"
+					"raw": "{  \n\t\"change_request\" : {\n\t\t\"website\" : \"www.google.com\"\n\t}\n}"
 				},
 				"description": ""
 			},
@@ -461,105 +461,6 @@
 				"body": {
 					"mode": "raw",
 					"raw": "{  \n\t\"change_request\" : {\n\t\t\"city\" : \"Selma\"\n\t}\n}"
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Get all ChangeRequests",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
-							"",
-							"tests[\"Status code is 200\"] = responseCode.code === 200;"
-						]
-					}
-				}
-			],
-			"request": {
-				"url": "http://askdarcel.lvh.me:3000/change_requests",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"rating\": {\n\t\t\"rating\": 4\n\t}\n}"
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Approve ChangeRequest",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
-							"",
-							"tests[\"Status code is 200\"] = responseCode.code === 200;"
-						]
-					}
-				}
-			],
-			"request": {
-				"url": "http://askdarcel.lvh.me:3000/change_requests/1/approve",
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"rating\": {\n\t\t\"rating\": 4\n\t}\n}"
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Reject ChangeRequest",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
-							"",
-							"tests[\"Status code is 200\"] = responseCode.code === 200;"
-						]
-					}
-				}
-			],
-			"request": {
-				"url": "http://askdarcel.lvh.me:3000/change_requests/1/reject",
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"rating\": {\n\t\t\"rating\": 4\n\t}\n}"
 				},
 				"description": ""
 			},

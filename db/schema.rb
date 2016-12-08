@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161206004753) do
+ActiveRecord::Schema.define(version: 20161208022001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,6 +80,7 @@ ActiveRecord::Schema.define(version: 20161206004753) do
     t.string   "type"
     t.integer  "object_id"
     t.integer  "status",     default: 0
+    t.integer  "action",     default: 1
   end
 
   create_table "field_changes", force: :cascade do |t|

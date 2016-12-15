@@ -1,6 +1,6 @@
 # askdarcel-api [![Build Status](https://travis-ci.org/ShelterTechSF/askdarcel-api.svg?branch=master)](https://travis-ci.org/ShelterTechSF/askdarcel-api)
 
-## Set-up Instructions
+## macOS Set-up Instructions
 
 ### Install Dependencies
 
@@ -29,3 +29,32 @@ After cloning the repository and `cd`ing into the workspace:
   - `bin/rake db:create db:schema:load db:populate`
 4. Run the development server.
   - `bin/rails s -b 0.0.0.0`
+
+
+## Docker-based Development Set-up Instructions
+
+### Requirements
+
+Docker Engine >= 1.10
+Docker Compose >= 1.6
+
+Follow the [Docker installation instructions](https://www.docker.com/products/overview) for your OS.
+
+### Set up the project
+
+This is not a full guide to Docker and Docker Compose, so please consult other
+guides to learn more about those tools.
+
+```sh
+# Start the database container (in the background with -d)
+$ docker-compose up -d db
+
+# Populate the initial development database
+$ docker-compose run --rm api rake db:create db:schema:load linksf:import
+
+# Start the Rails development server in the api container (in the foreground)
+$ docker-compose up api
+
+# To stop all containers, including background ones
+$ docker-compose stop
+```

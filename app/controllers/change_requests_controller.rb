@@ -104,7 +104,7 @@ class ChangeRequestsController < ApplicationController
   def get_field_change_hash(change_request)
     field_change_hash = {}
 
-    field_changes = change_request.field_changes.each do |field_change|
+    change_request.field_changes.each do |field_change|
       puts field_change.field_name
       puts field_change.field_value
       field_change_hash[field_change.field_name] = field_change.field_value

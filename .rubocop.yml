@@ -8,6 +8,7 @@ AllCops:
     - 'Gemfile'
     - 'Guardfile'
     - 'vendor/**/*'
+    - app/controllers/change_requests_controller.rb
 
 Documentation:
     Enabled: false

@@ -26,6 +26,8 @@ After cloning the repository and `cd`ing into the workspace:
 2. Install the required gems.
   - `bundle install`
 3. Set up the development database and load dummy data.
-  - `bin/rake db:create db:schema:load db:populate`
+  - `bin/rake db:create:all`
+  - `bin/rake db:migrate`
+  - `bin/rake linksf:import`
 4. Run the development server.
   - `bin/rails s -b 0.0.0.0`

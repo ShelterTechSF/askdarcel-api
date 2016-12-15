@@ -1,0 +1,19 @@
+version: "2"
+services:
+  db:
+    image: "postgres:9.5"
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    command: rails server --port=3000 --binding=0.0.0.0
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgres://postgres@db/askdarcel_development
+      TEST_DATABASE_URL: postgres://postgres@db/askdarcel_test
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/src/app

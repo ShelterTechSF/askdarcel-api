@@ -15,6 +15,8 @@ gem 'omniauth'
 # Use Puma as the app server
 gem 'puma'
 
+gem 'phonelib'
+
 group :production do
   gem 'activerecord-nulldb-adapter'
 end

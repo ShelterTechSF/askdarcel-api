@@ -69,7 +69,6 @@ namespace :linksf do
         record[:phoneNumbers].each do |phone_number|
           next unless phone_number[:number].present?
           phone = resource.phones.build
-          phone.country_code = 'US'
           phone.service_type = phone_number[:info]
           phone.number = phone_number[:number]
         end

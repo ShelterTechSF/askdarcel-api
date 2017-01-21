@@ -12,7 +12,7 @@ class ChangerequestsController < ApplicationController
   end
 
   def index
-    render json: ChangeRequestsPresenter.present(changerequest.pending)
+    render json: ChangeRequestsPresenter.present(change_request.pending)
   end
 
   def approve
@@ -49,7 +49,7 @@ class ChangerequestsController < ApplicationController
     end
   end
 
-  def changerequest
-    ChangeRequest.includes(:field_changes)
+  def change_request
+    ChangeRequest.includes(:field_changes, :resource)
   end
 end

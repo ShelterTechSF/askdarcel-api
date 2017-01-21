@@ -127,6 +127,8 @@ namespace :linksf do
         change_request.type = 'ServiceChangeRequest'
         change_request.status = ChangeRequest.statuses[:pending]
 
+        change_request.resource = resource
+
         field_change = change_request.field_changes.build
         field_change.field_name = 'name'
         field_change.field_value = service.name + '(changed)'
@@ -147,6 +149,8 @@ namespace :linksf do
       change_request.object_id = resource.id
       change_request.type = 'ResourceChangeRequest'
       change_request.status = ChangeRequest.statuses[:pending]
+
+      change_request.resource = resource
 
       field_change = change_request.field_changes.build
       field_change.field_name = 'name'

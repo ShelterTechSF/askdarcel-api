@@ -51,11 +51,11 @@ class ChangerequestsController < ApplicationController
 
   def change_request
     ChangeRequest.includes(:field_changes, resource: [
-:address, :phones, :categories, :notes,
-                      schedule: :schedule_days,
-                      services: [:notes, { schedule: :schedule_days }],
-                      ratings: [:review]]
+                             :address, :phones, :categories, :notes,
+                             schedule: :schedule_days,
+                             services: [:notes, { schedule: :schedule_days }],
+                             ratings: [:review]]
 
-      )
+                          )
   end
 end

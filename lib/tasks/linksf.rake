@@ -171,9 +171,9 @@ end
 
 class LinkSF
   def self.parse_number(number, country_code)
-    self.try_plain_parse(number, country_code) ||
-      self.try_ext_parse(number, country_code) ||
-      self.try_area_code_parse(number, country_code)
+    try_plain_parse(number, country_code) ||
+      try_ext_parse(number, country_code) ||
+      try_area_code_parse(number, country_code)
   end
 
   def self.try_plain_parse(number, country_code)
@@ -182,7 +182,7 @@ class LinkSF
   end
 
   def self.try_ext_parse(number, country_code)
-    self.try_plain_parse(number.gsub(/ext.?\s*/, ';ext='), country_code)
+    try_plain_parse(number.gsub(/ext.?\s*/, ';ext='), country_code)
   end
 
   def self.try_area_code_parse(number, country_code)
@@ -190,7 +190,9 @@ class LinkSF
     number_to_area_code = {
       '227-0245' => '415'
     }
-    raise "Please manually check #{number}'s area code and add it to the list in this Raketask" unless number_to_area_code.key? number
-    self.try_plain_parse(number_to_area_code[number] + number, country_code)
+    unless number_to_area_code.key? number
+      raise "Please manually check #{number}'s area code and add it to the list in this Raketask"
+    end
+    try_plain_parse(number_to_area_code[number] + number, country_code)
   end
 end

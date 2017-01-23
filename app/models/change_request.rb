@@ -3,4 +3,5 @@ class ChangeRequest < ActiveRecord::Base
   enum action: { insert: 0, edit: 1, remove: 2 }
 
   has_many :field_changes
+  belongs_to :resource
 end

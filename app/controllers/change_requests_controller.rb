@@ -1,17 +1,27 @@
 class ChangeRequestsController < ApplicationController
   def create
     if params[:resource_id]
-      @change_request = ResourceChangeRequest.create(object_id: params[:resource_id])
+      @change_request = ResourceChangeRequest.create(object_id: params[:resource_id], resource_id: params[:resource_id])
     elsif params[:service_id]
-      @change_request = ServiceChangeRequest.create(object_id: params[:service_id])
+      @change_request = ServiceChangeRequest.create(object_id: params[:service_id], resource_id: Service.find(params[:service_id]).resource_id)
     elsif params[:address_id]
-      @change_request = AddressChangeRequest.create(object_id: params[:address_id])
+      @change_request = AddressChangeRequest.create(object_id: params[:address_id], resource_id: Address.find(params[:address_id]).resource_id)
     elsif params[:phone_id]
-      @change_request = PhoneChangeRequest.create(object_id: params[:phone_id])
+      @change_request = PhoneChangeRequest.create(object_id: params[:phone_id], resource_id: Phone.find(params[:phone_id]).resource_id)
     elsif params[:schedule_day_id]
-      @change_request = ScheduleDayChangeRequest.create(object_id: params[:schedule_day_id])
+      schedule = Schedule.find(ScheduleDay.find(params[:schedule_day_id]).schedule_id)
+      if (schedule.resource_id)
+        @change_request = ScheduleDayChangeRequest.create(object_id: params[:schedule_day_id], resource_id: schedule.resource_id)
+      else 
+        @change_request = ScheduleDayChangeRequest.create(object_id: params[:schedule_day_id], resource_id: Service.find(schedule.service_id).resource_id)
+      end         
     elsif params[:note_id]
-      @change_request = NoteChangeRequest.create(object_id: params[:note_id])
+      note = Note.find(params[:note_id])
+      if (note.resource_id)
+        @change_request = NoteChangeRequest.create(object_id: params[:note_id], resource_id: note.resource_id)
+      else
+        @change_request = NoteChangeRequest.create(object_id: params[:note_id], resource_id: Service.find(note.service_id).resource_id)
+      end
     end
 
     @change_request.field_changes = field_changes

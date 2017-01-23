@@ -4,6 +4,7 @@ class ResourcesPresenter < Jsonite
   property :short_description
   property :long_description
   property :website
+  property :verified_at
   property :services, with: ServicesPresenter
   property :schedule, with: SchedulesPresenter
   property :phones, with: PhonesPresenter

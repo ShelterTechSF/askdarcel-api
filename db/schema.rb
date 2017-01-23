@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170116075815) do
+ActiveRecord::Schema.define(version: 20170121235411) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,12 +75,14 @@ ActiveRecord::Schema.define(version: 20170116075815) do
   end
 
   create_table "change_requests", force: :cascade do |t|
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
     t.string   "type"
     t.integer  "object_id"
-    t.integer  "status",     default: 0
-    t.integer  "action",     default: 1
+    t.integer  "status",      default: 0
+    t.integer  "action",      default: 1
+    t.integer  "resource_id"
+    t.index ["resource_id"], name: "index_change_requests_on_resource_id", using: :btree
   end
 
   create_table "field_changes", force: :cascade do |t|
@@ -142,6 +144,7 @@ ActiveRecord::Schema.define(version: 20170116075815) do
     t.string   "short_description"
     t.text     "long_description"
     t.string   "website"
+    t.datetime "verified_at"
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -179,6 +182,7 @@ ActiveRecord::Schema.define(version: 20170116075815) do
     t.decimal  "fee"
     t.text     "application_process"
     t.integer  "resource_id"
+    t.datetime "verified_at"
     t.index ["resource_id"], name: "index_services_on_resource_id", using: :btree
   end
 
@@ -187,6 +191,7 @@ ActiveRecord::Schema.define(version: 20170116075815) do
   end
 
   add_foreign_key "addresses", "resources"
+  add_foreign_key "change_requests", "resources"
   add_foreign_key "field_changes", "change_requests"
   add_foreign_key "notes", "resources"
   add_foreign_key "notes", "services"

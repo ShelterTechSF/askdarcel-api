@@ -6,6 +6,7 @@ class ServicesPresenter < Jsonite
   property :required_documents
   property :fee
   property :application_process
+  property :verified_at
   property :schedule, with: SchedulesPresenter
   property :notes, with: NotesPresenter
 end

@@ -12,6 +12,7 @@
 
 ActiveRecord::Schema.define(version: 20170216032041) do
 
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -120,9 +121,7 @@ ActiveRecord::Schema.define(version: 20170216032041) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.string   "number",       null: false
-    t.string   "extension"
     t.string   "service_type", null: false
-    t.string   "country_code", null: false
     t.integer  "resource_id",  null: false
     t.index ["resource_id"], name: "index_phones_on_resource_id", using: :btree
   end

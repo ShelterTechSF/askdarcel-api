@@ -5,6 +5,7 @@
 # `bundle exec rake linksf:import[path/to/linksf-dump.json] RAILS_ENV=production`
 
 require 'json' # not sure if this is necessary in ruby 2.x, json might be part of stdlib now
+require 'phonelib'
 
 namespace :linksf do
   task :import, [:filename] => :environment do |_t, args|
@@ -69,9 +70,8 @@ namespace :linksf do
         record[:phoneNumbers].each do |phone_number|
           next unless phone_number[:number].present?
           phone = resource.phones.build
-          phone.country_code = 'US'
           phone.service_type = phone_number[:info]
-          phone.number = phone_number[:number]
+          phone.number = LinkSF.parse_number(phone_number[:number], 'US').full_e164
         end
       end
 
@@ -172,5 +172,33 @@ namespace :linksf do
 
       change_request.save!
     end
+  end
+end
+
+class LinkSF
+  def self.parse_number(number, country_code)
+    try_plain_parse(number, country_code) ||
+      try_ext_parse(number, country_code) ||
+      try_area_code_parse(number, country_code)
+  end
+
+  def self.try_plain_parse(number, country_code)
+    return unless Phonelib.valid_for_country?(number, country_code)
+    Phonelib.parse(number, country_code)
+  end
+
+  def self.try_ext_parse(number, country_code)
+    try_plain_parse(number.gsub(/ext.?\s*/, ';ext='), country_code)
+  end
+
+  def self.try_area_code_parse(number, country_code)
+    return unless country_code == 'US' && Phonelib.parse(number, country_code).sanitized.length == 7
+    number_to_area_code = {
+      '227-0245' => '415'
+    }
+    unless number_to_area_code.key? number
+      raise "Please manually check #{number}'s area code and add it to the list in this Raketask"
+    end
+    try_plain_parse(number_to_area_code[number] + number, country_code)
   end
 end

@@ -28,7 +28,7 @@ namespace :linksf do
     #  FactoryGirl.create(:category, name: category)
     # end
 
-    days_of_week = %w(Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
+    days_of_week = %w(Sunday Monday Tuesday Wednesday Thursday Friday Saturday)
 
     records = data[:result].drop(1)
 

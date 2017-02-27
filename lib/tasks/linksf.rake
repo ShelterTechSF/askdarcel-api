@@ -19,7 +19,7 @@ namespace :linksf do
     category_names.each do |name|
       FactoryGirl.create(:category, name: name)
     end
-    
+
     admin = Admin.new
     admin.email = 'dev-admin@sheltertech.org'
     admin.password = 'dev-test-01'
@@ -97,7 +97,6 @@ namespace :linksf do
           open = schedule[:opens_at] / 100
           close = schedule[:closes_at] / 100
           service.schedule.schedule_days.build(opens_at: open, closes_at: close, day: schedule[:weekday])
-
         end
       end
 

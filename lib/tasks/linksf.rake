@@ -87,7 +87,7 @@ namespace :linksf do
 
         resource.schedule = service.schedule
 
-        category_name = json_service[:category]
+        category_name = json_service[:taxonomy]
         category_name = 'shelter' if category_name == 'housing'
         cat = Category.where('lower(name) = ?', category_name).first
 

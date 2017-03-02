@@ -60,3 +60,13 @@ $ docker-compose up api
 # To stop all containers, including background ones
 $ docker-compose stop
 ```
+
+### Running Postman tests from the command line
+
+```sh
+# Refresh DB
+$ docker-compose run --rm api rake db:create db:schema:load linksf:import
+
+# Run Docker container that executes Postman CLI tool named newman
+$ docker-compose run --rm postman
+```

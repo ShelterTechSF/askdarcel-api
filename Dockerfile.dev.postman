@@ -1,0 +1,4 @@
+FROM node:6.10
+
+RUN npm install -g newman
+WORKDIR /usr/src/app

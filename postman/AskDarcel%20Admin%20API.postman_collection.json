@@ -24,7 +24,7 @@
 				}
 			],
 			"request": {
-				"url": "http://askdarcel.lvh.me:3000/admin/auth/sign_in",
+				"url": "{{base_url}}/admin/auth/sign_in",
 				"method": "POST",
 				"header": [
 					{
@@ -49,7 +49,7 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
+							"tests[\"Response time is less than 8000ms\"] = responseTime < 8000;",
 							"",
 							"tests[\"Status code is 200\"] = responseCode.code === 200;"
 						]
@@ -57,7 +57,7 @@
 				}
 			],
 			"request": {
-				"url": "http://askdarcel.lvh.me:3000/change_requests",
+				"url": "{{base_url}}/change_requests",
 				"method": "GET",
 				"header": [
 					{
@@ -102,7 +102,7 @@
 				}
 			],
 			"request": {
-				"url": "http://askdarcel.lvh.me:3000/change_requests/1/approve",
+				"url": "{{base_url}}/change_requests/1/approve",
 				"method": "POST",
 				"header": [
 					{
@@ -147,7 +147,7 @@
 				}
 			],
 			"request": {
-				"url": "http://askdarcel.lvh.me:3000/change_requests/2/reject",
+				"url": "{{base_url}}/change_requests/2/reject",
 				"method": "POST",
 				"header": [
 					{
@@ -192,7 +192,7 @@
 				}
 			],
 			"request": {
-				"url": "http://askdarcel.lvh.me:3000/admin/auth/sign_out",
+				"url": "{{base_url}}/admin/auth/sign_out",
 				"method": "DELETE",
 				"header": [
 					{

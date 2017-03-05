@@ -49,7 +49,7 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"tests[\"Response time is less than 8000ms\"] = responseTime < 8000;",
+							"tests[\"Response time is less than 12000ms\"] = responseTime < 12000;",
 							"",
 							"tests[\"Status code is 200\"] = responseCode.code === 200;"
 						]

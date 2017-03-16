@@ -5,7 +5,7 @@ class ServicesController < ApplicationController
     render status: :accepted
   end
 
-  def show
+  def pending
     render json: ServicesPresenter.present(services.pending)
   end
 

@@ -15,6 +15,9 @@ gem 'omniauth'
 # Use Puma as the app server
 gem 'puma'
 
+gem 'phonelib'
+gem 'faker', '~> 1.6'
+
 group :production do
   gem 'activerecord-nulldb-adapter'
 end
@@ -25,7 +28,6 @@ group :development, :test do
   gem 'byebug'
   gem 'bullet'
   gem 'factory_girl_rails', '~> 4.7'
-  gem 'faker', '~> 1.6'
   gem 'rspec-rails', '~> 3.4'
   gem 'spring'
   gem 'rubocop', '~> 0.38.0', require: false

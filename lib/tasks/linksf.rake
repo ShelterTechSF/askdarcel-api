@@ -5,114 +5,98 @@
 # `bundle exec rake linksf:import[path/to/linksf-dump.json] RAILS_ENV=production`
 
 require 'json' # not sure if this is necessary in ruby 2.x, json might be part of stdlib now
+require 'phonelib'
 
 namespace :linksf do
-  task :import, [:filename] => :environment do |_t, args|
-    args.with_defaults(filename: 'linksf-pretty.json')
+  task :import, [:dirname] => :environment do |_t, args|
+    args.with_defaults(dirname: 'linksf')
 
-    filename = './linksf.json'
+    locations = JSON.parse(File.read(File.join(args.dirname, 'locations.json')), symbolize_names: true)
+    organizations = JSON.parse(File.read(File.join(args.dirname, 'organizations.json')), symbolize_names: true)
 
-    data = JSON.parse(File.read(filename), symbolize_names: true)
+    category_names = %w(Shelter Food Medical Hygiene Technology)
 
-    # Drop the first element because it's just an integer count of the number
-    # of resource records.
-
-    category_names = %w(Shelter Food Medical Hygiene Technology Money)
-
-    6.times do |i|
-      FactoryGirl.create(:category, name: category_names[i])
+    category_names.each do |name|
+      FactoryGirl.create(:category, name: name)
     end
-
-    # %w(Shelter Food Medical Hygiene Technology).each do |category|
-    #  FactoryGirl.create(:category, name: category)
-    # end
-
-    days_of_week = %w(Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
-
-    records = data[:result].drop(1)
 
     admin = Admin.new
     admin.email = 'dev-admin@sheltertech.org'
     admin.password = 'dev-test-01'
     admin.save
 
-    records.each do |record|
-      resource = Resource.new
-      resource.name = record[:name]
-      resource.website = record[:website]
-      resource.long_description = record[:notes]
+    # locations is an object with IDs as the keys, which we don't need
+    locations.each_value do |location|
+      # One of the locations has no services.
+      next if location[:services].nil?
 
-      category_name = record[:categories]
-      category_name = 'shelter' if category_name == 'housing'
+      organization = organizations[location[:organization_id].to_sym]
+      resource = Resource.new
+      resource.name = location[:name]
+      resource.website = organization[:url]
+      resource.long_description = location[:description]
 
       puts 'adding ' + resource.name
 
       puts 'resource description is :' + resource.long_description
 
-      record[:services].each do |service_json|
-        category_name = service_json[:category]
+      if resource.long_description.blank? || resource.long_description.length < 15
+        puts 'replacing bad description with nil'
+        resource.long_description = nil
+      end
+      # Once again, location[:services] is an object with IDs as the keys
+      location[:services].each_value do |service_json|
+        category_name = service_json[:taxonomy]
         category_name = 'shelter' if category_name == 'housing'
         cat = Category.where('lower(name) = ?', category_name).first
-
-        if resource.long_description.blank? || resource.long_description.length < 15
-          puts 'replacing bad description with nil'
-          resource.long_description = nil
-        end
 
         resource.categories << cat
       end
 
-      # cat = Category.where('lower(name) = ?', category_name).first
-      # resource.categories << cat
-
-      if record[:phoneNumbers].present?
-        record[:phoneNumbers].each do |phone_number|
+      if organization[:phones].present?
+        organization[:phones].each do |phone_number|
           next unless phone_number[:number].present?
           phone = resource.phones.build
-          phone.country_code = 'US'
-          phone.service_type = phone_number[:info]
-          phone.number = phone_number[:number]
+          phone.service_type = phone_number[:department]
+          phone.number = LinkSF.parse_number(phone_number[:number], 'US').full_e164
         end
       end
 
-      # 7.times do |i|
-      #  schedule_day = resource.schedule.schedule_days.build
-      #  schedule_day.day = days_of_week[i]
-      #  schedule_day.opens_at = record[:openHours].get[0]
-      #  schedule_day.closes_at = record[:openHours].get[0]
-      # end
-
       address = Address.new
-      address.city = record[:city]
-      address.address_1 = record[:address]
+      address.city = location[:physical_address][:city]
+      address.address_1 = location[:physical_address][:address_1]
       address.state_province = 'CA'
-      address.postal_code = Faker::Address.postcode
+      address.postal_code = ''
       address.country = 'USA'
 
-      json_location = record[:location]
-      address.latitude = json_location[:latitude]
-      address.longitude = json_location[:longitude]
+      address.latitude = location[:latitude]
+      address.longitude = location[:longitude]
       resource.address = address
 
-      record[:services].each do |json_service|
+      location[:services].each_value do |json_service|
         service = resource.services.build
         service.name = json_service[:name]
         service.long_description = json_service[:description]
 
-        if record[:notes].present?
+        if json_service[:application_process].present?
           note = service.notes.build
-          note.note = record[:notes]
+          note.note = json_service[:application_process]
         end
 
         service.schedule = Schedule.new
 
         resource.schedule = service.schedule
 
-        next unless json_service[:openHours].present?
-        json_service[:openHours].each do |key, value|
-          open = value[0][0] / 100
-          close = value[0][1] / 100
-          service.schedule.schedule_days.build(opens_at: open, closes_at: close, day: days_of_week[key.to_s.to_i])
+        category_name = json_service[:taxonomy]
+        category_name = 'shelter' if category_name == 'housing'
+        cat = Category.where('lower(name) = ?', category_name).first
+
+        service.categories << cat
+        next unless json_service[:schedules].present?
+        json_service[:schedules].each do |schedule|
+          open = schedule[:opens_at] / 100
+          close = schedule[:closes_at] / 100
+          service.schedule.schedule_days.build(opens_at: open, closes_at: close, day: schedule[:weekday])
         end
       end
 
@@ -166,5 +150,33 @@ namespace :linksf do
 
       change_request.save!
     end
+  end
+end
+
+class LinkSF
+  def self.parse_number(number, country_code)
+    try_plain_parse(number, country_code) ||
+      try_ext_parse(number, country_code) ||
+      try_area_code_parse(number, country_code)
+  end
+
+  def self.try_plain_parse(number, country_code)
+    return unless Phonelib.valid_for_country?(number, country_code)
+    Phonelib.parse(number, country_code)
+  end
+
+  def self.try_ext_parse(number, country_code)
+    try_plain_parse(number.gsub(/ext.?\s*/, ';ext='), country_code)
+  end
+
+  def self.try_area_code_parse(number, country_code)
+    return unless country_code == 'US' && Phonelib.parse(number, country_code).sanitized.length == 7
+    number_to_area_code = {
+      '227-0245' => '415'
+    }
+    unless number_to_area_code.key? number
+      raise "Please manually check #{number}'s area code and add it to the list in this Raketask"
+    end
+    try_plain_parse(number_to_area_code[number] + number, country_code)
   end
 end

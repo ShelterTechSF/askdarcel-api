@@ -1,0 +1,15 @@
+{
+  "id": "a9d0af1a-5b21-f477-503c-693194a5036e",
+  "name": "Postman Globals",
+  "values": [
+    {
+      "key": "base_url",
+      "value": "http://askdarcel.lvh.me:3000",
+      "type": "text",
+      "enabled": true
+    }
+  ],
+  "_postman_variable_scope": "globals",
+  "_postman_exported_at": "2017-03-02T07:28:09.276Z",
+  "_postman_exported_using": "Postman/4.10.2"
+}

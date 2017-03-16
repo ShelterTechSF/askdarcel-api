@@ -9,4 +9,5 @@ class ServicesPresenter < Jsonite
   property :verified_at
   property :schedule, with: SchedulesPresenter
   property :notes, with: NotesPresenter
+  property :categories, with: CategoryPresenter
 end

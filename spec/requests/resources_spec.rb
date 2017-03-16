@@ -57,7 +57,7 @@ RSpec.describe 'Resources' do
     let!(:resources) { create_list :resource, 4 }
     let!(:resource_a) do
       create :resource, name: 'a',
-                        services: create_list(:service, 2)
+                        services: create_list(:service, 1)
     end
 
     it 'returns specific resource' do

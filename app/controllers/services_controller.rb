@@ -3,7 +3,7 @@ class ServicesController < ApplicationController
     render status: :accepted
   end
 
-  def pending
+  def show
     if !admin_signed_in?
       render status: :unauthorized
     else

@@ -15,7 +15,9 @@ Rails.application.routes.draw do
     resources :change_requests, only: :create
     post :approve
     post :reject
-    get :pending
+    collection do
+      get :pending
+    end
   end
   resources :notes do
     resources :change_requests, only: :create

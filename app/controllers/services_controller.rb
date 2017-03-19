@@ -50,7 +50,7 @@ class ServicesController < ApplicationController
   private
 
   def services
-    Service.includes(:notes, schedule: :schedule_days)
+    Service.includes(:notes, :categories, schedule: :schedule_days)
   end
 
   # Clean raw request params for interoperability with Rails APIs.

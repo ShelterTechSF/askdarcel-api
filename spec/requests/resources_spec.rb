@@ -56,8 +56,14 @@ RSpec.describe 'Resources' do
   context 'show' do
     let!(:resources) { create_list :resource, 4 }
     let!(:resource_a) do
-      create :resource, name: 'a',
-                        services: create_list(:service, 1)
+      resource = create :resource, name: 'a'
+      create_list(:service, 1, resource: resource)
+      resource
+    end
+    let!(:resource_b) do
+      resource = create :resource, name: 'a'
+      create_list(:service, 1, status: :pending, resource: resource)
+      resource
     end
 
     it 'returns specific resource' do
@@ -81,6 +87,11 @@ RSpec.describe 'Resources' do
         'notes' => Array,
         'schedule' => Hash
       )
+    end
+
+    it 'does not return unapproved services' do
+      get "/resources/#{resource_b.id}"
+      expect(response_json['resource']['services']).to have(0).items
     end
   end
 end

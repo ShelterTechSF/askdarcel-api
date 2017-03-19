@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :service do
     name { Faker::Company.name }
+    status :approved
     resource nil
     after :create do |service|
       create(:note, service: service)

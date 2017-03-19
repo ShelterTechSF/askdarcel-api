@@ -5,7 +5,12 @@ class ResourcesPresenter < Jsonite
   property :long_description
   property :website
   property :verified_at
-  property :services, with: ServicesPresenter
+  property(:services) do
+    # Filter services in Ruby to avoid ignoring prefetched rows and generating
+    # a new query.
+    approved_services = services.select(&:approved?)
+    ServicesPresenter.present(approved_services)
+  end
   property :schedule, with: SchedulesPresenter
   property :phones, with: PhonesPresenter
   property :address, with: AddressPresenter

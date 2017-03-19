@@ -11,6 +11,6 @@ class Service < ActiveRecord::Base
   accepts_nested_attributes_for :schedule
 
   before_create do
-    self.status = :pending unless self.status
+    self.status = :pending unless status
   end
 end

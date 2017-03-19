@@ -21,8 +21,6 @@ class ServicesController < ApplicationController
     else
       render status: :bad_request, json: @service.errors
     end
-  rescue
-    render status: :bad_request
   end
 
   def pending
@@ -72,7 +70,7 @@ class ServicesController < ApplicationController
   #
   # In addition, it filters out all the attributes that are unsafe for users to
   # set, including all :id keys besides category ids and Service's :status.
-  def clean_service_params_for_create
+  def clean_service_params_for_create # rubocop:disable Metrics/MethodLength
     service_params = params.permit(
       :name,
       :long_description,
@@ -82,11 +80,9 @@ class ServicesController < ApplicationController
       :application_process,
       :resource_id,
       :email,
-      schedule: [
-        {schedule_days: [:day, :opens_at, :closes_at]},
-      ],
+      schedule: [{ schedule_days: [:day, :opens_at, :closes_at] }],
       notes: [:note],
-      categories: [:id],
+      categories: [:id]
     )
 
     if service_params.key? :schedule

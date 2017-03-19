@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "AskDarcel API",
-		"_postman_id": "f135fc75-e243-0a25-7568-74cb84acff5e",
+		"_postman_id": "410db4c3-3d2a-21b0-f2a7-33a79dee0409",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -498,7 +498,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"name\": \"Foo Service\",\n  \"long_description\": \"Bar description\",\n  \"eligibility\": \"foo\",\n  \"required_documents\": \"bar\",\n  \"fee\": \"foo\",\n  \"application_process\": \"bar\",\n  \"schedule\": {\n    \"schedule_days\": [\n      {\n        \"id\": 5,\n        \"day\": \"Friday\",\n        \"opens_at\": 9,\n        \"closes_at\": 17\n      },\n      {\n        \"id\": 4,\n        \"day\": \"Thursday\",\n        \"opens_at\": 9,\n        \"closes_at\": 17\n      },\n      {\n        \"id\": 3,\n        \"day\": \"Wednesday\",\n        \"opens_at\": 9,\n        \"closes_at\": 17\n      },\n      {\n        \"id\": 2,\n        \"day\": \"Tuesday\",\n        \"opens_at\": 11,\n        \"closes_at\": 19\n      },\n      {\n        \"id\": 1,\n        \"day\": \"Monday\",\n        \"opens_at\": 11,\n        \"closes_at\": 19\n      }\n    ]\n  },\n  \"notes\": [\n    {\n      \"id\": 1,\n      \"note\": \"foo\"\n    }\n  ],\n  \"categories\": [\n    {\n      \"id\": 3\n    }\n  ]\n}"
+					"raw": "{\n  \"services\": [\n    {\n      \"name\": \"Foo Service\",\n      \"long_description\": \"Bar description\",\n      \"eligibility\": \"foo\",\n      \"required_documents\": \"bar\",\n      \"fee\": \"foo\",\n      \"application_process\": \"bar\",\n      \"schedule\": {\n        \"schedule_days\": [\n          {\n            \"day\": \"Friday\",\n            \"opens_at\": 9,\n            \"closes_at\": 17\n          },\n          {\n            \"day\": \"Thursday\",\n            \"opens_at\": 9,\n            \"closes_at\": 17\n          },\n          {\n            \"day\": \"Wednesday\",\n            \"opens_at\": 9,\n            \"closes_at\": 17\n          },\n          {\n            \"day\": \"Tuesday\",\n            \"opens_at\": 11,\n            \"closes_at\": 19\n          },\n          {\n            \"day\": \"Monday\",\n            \"opens_at\": 11,\n            \"closes_at\": 19\n          }\n        ]\n      },\n      \"notes\": [\n        {\n          \"note\": \"foo\"\n        }\n      ],\n      \"categories\": [\n        {\n          \"id\": 3\n        }\n      ]\n    }\n  ]\n}"
 				},
 				"description": ""
 			},

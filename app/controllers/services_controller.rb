@@ -9,17 +9,13 @@ class ServicesController < ApplicationController
   wrap_parameters false
 
   def create
-    service_params = clean_service_params_for_create
-    # Set categories separately because unlike the other nested resources,
-    # categories are many-to-many with services and we should associate the
-    # service with the existing categories.
-    category_ids = service_params.delete(:categories).collect { |h| h[:id] }
-    @service = Service.create(service_params)
-    if @service.valid?
-      @service.category_ids = category_ids
-      render status: :created, json: ServicesPresenter.present(@service)
+    services_params = clean_services_params
+    services = services_params.map { |s| Service.new(s) }
+    if services.any?(&:invalid?)
+      render status: :bad_request, json: { services: services.select(&:invalid?).map(&:errors) }
     else
-      render status: :bad_request, json: @service.errors
+      Service.transaction { services.each(&:save!) }
+      render status: :created, json: { services: services.map { |s| ServicesPresenter.present(s) } }
     end
   end
 
@@ -57,40 +53,49 @@ class ServicesController < ApplicationController
     Service.includes(:notes, schedule: :schedule_days)
   end
 
-  # Clean params for creating service
-  #
-  # Rails doesn't accept the same format for nested parameters when creating
-  # models as the format we output when serializing to JSON. In particular, the
-  # Model#create method expects the key for nested resources to have a suffix of
-  # "_attributes"; e.g. "notes_attributes", not "notes". See
-  # http://stackoverflow.com/a/8719885
-  #
-  # This method transforms all keys representing nested resources into
-  # #{key}_attribute.
-  #
-  # In addition, it filters out all the attributes that are unsafe for users to
-  # set, including all :id keys besides category ids and Service's :status.
-  def clean_service_params_for_create # rubocop:disable Metrics/MethodLength
-    service_params = params.permit(
+  # Clean raw request params for interoperability with Rails APIs.
+  def clean_services_params
+    services_params = params.require(:services).map { |s| permit_service_params(s) }
+    resource_id = params.require(:resource_id)
+    services_params.each { |s| transform_service_params!(s, resource_id) }
+  end
+
+  # Filter out all the attributes that are unsafe for users to set, including
+  # all :id keys besides category ids and Service's :status.
+  def permit_service_params(service_params) # rubocop:disable Metrics/MethodLength
+    service_params.permit(
       :name,
       :long_description,
       :eligibility,
       :required_documents,
       :fee,
       :application_process,
-      :resource_id,
       :email,
       schedule: [{ schedule_days: [:day, :opens_at, :closes_at] }],
       notes: [:note],
       categories: [:id]
     )
+  end
 
-    if service_params.key? :schedule
-      schedule = service_params[:schedule_attributes] = service_params.delete(:schedule)
+  # Transform parameters for creating a single service in-place.
+  #
+  # Rails doesn't accept the same format for nested parameters when creating
+  # models as the format we output when serializing to JSON. In particular, the
+  # Model#new method expects the key for nested resources to have a suffix of
+  # "_attributes"; e.g. "notes_attributes", not "notes".
+  #
+  # This method transforms all keys representing nested resources into
+  # #{key}_attribute.
+  def transform_service_params!(service, resource_id)
+    if service.key? :schedule
+      schedule = service[:schedule_attributes] = service.delete(:schedule)
       schedule[:schedule_days_attributes] = schedule.delete(:schedule_days)
     end
-    service_params[:notes_attributes] = service_params.delete(:notes) if service_params.key? :notes
-    service_params
+    service[:notes_attributes] = service.delete(:notes) if service.key? :notes
+    service[:resource_id] = resource_id
+    # Unlike other nested resources, don't create new categories; associate
+    # with the existing ones.
+    service['category_ids'] = service.delete(:categories).collect { |h| h[:id] }
   end
 
   def resource

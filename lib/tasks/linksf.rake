@@ -77,6 +77,7 @@ namespace :linksf do
         service = resource.services.build
         service.name = json_service[:name]
         service.long_description = json_service[:description]
+        service.status = :approved
 
         if json_service[:application_process].present?
           note = service.notes.build

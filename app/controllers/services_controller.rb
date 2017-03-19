@@ -20,7 +20,11 @@ class ServicesController < ApplicationController
   end
 
   def pending
-    render json: ServicesPresenter.present(services.pending)
+    pending_services = services.includes(resource: [
+      :address, :phones, :categories, :notes, schedule: :schedule_days,
+      services: [:notes, :categories, { schedule: :schedule_days }],
+      ratings: [:review]]).pending
+    render json: ServicesWithResourcePresenter.present(pending_services)
   end
 
   def approve

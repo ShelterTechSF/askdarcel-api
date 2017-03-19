@@ -11,7 +11,10 @@ rvm:
 node_js:
   - "6"
 
-cache: bundler
+cache:
+  bundler: true
+  directories:
+    - $(npm config get prefix)/bin/newman
 
 addons:
   # We should be using a newer version (like the latest, 9.5), but

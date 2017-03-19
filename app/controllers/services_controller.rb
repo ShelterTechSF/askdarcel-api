@@ -89,13 +89,13 @@ class ServicesController < ApplicationController
   def transform_service_params!(service, resource_id)
     if service.key? :schedule
       schedule = service[:schedule_attributes] = service.delete(:schedule)
-      schedule[:schedule_days_attributes] = schedule.delete(:schedule_days)
+      schedule[:schedule_days_attributes] = schedule.delete(:schedule_days) if schedule.key? :schedule_days
     end
     service[:notes_attributes] = service.delete(:notes) if service.key? :notes
     service[:resource_id] = resource_id
     # Unlike other nested resources, don't create new categories; associate
     # with the existing ones.
-    service['category_ids'] = service.delete(:categories).collect { |h| h[:id] }
+    service['category_ids'] = service.delete(:categories).collect { |h| h[:id] } if service.key? :categories
   end
 
   def resource

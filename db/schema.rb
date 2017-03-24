@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170223031402) do
+ActiveRecord::Schema.define(version: 20170324170333) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -158,8 +158,8 @@ ActiveRecord::Schema.define(version: 20170223031402) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.string   "day",         null: false
-    t.integer  "opens_at",    null: false
-    t.integer  "closes_at",   null: false
+    t.integer  "opens_at"
+    t.integer  "closes_at"
     t.integer  "schedule_id", null: false
     t.index ["schedule_id"], name: "index_schedule_days_on_schedule_id", using: :btree
   end

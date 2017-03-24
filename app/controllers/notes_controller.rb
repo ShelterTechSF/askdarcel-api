@@ -1,6 +1,6 @@
 class NotesController < ApplicationController
-
   def create
+
     if params[:service_id]
       note = service.notes.build
       note.note = params[:note][:note]
@@ -16,8 +16,6 @@ class NotesController < ApplicationController
 
   private
 
-
-
   def service
     @service ||= Service.find params[:service_id] if params[:service_id]
   end
@@ -25,5 +23,4 @@ class NotesController < ApplicationController
   def resource
     @resource ||= Resource.find params[:resource_id] if params[:resource_id]
   end
-
 end

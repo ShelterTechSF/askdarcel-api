@@ -95,7 +95,7 @@ namespace :linksf do
         service.categories << cat
         next unless json_service[:schedules].present?
         json_service[:schedules].each do |schedule|
-          open = schedule[:opens_at] 
+          open = schedule[:opens_at]
           close = schedule[:closes_at]
           service.schedule.schedule_days.build(opens_at: open, closes_at: close, day: schedule[:weekday])
         end

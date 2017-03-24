@@ -9,6 +9,7 @@ AllCops:
     - 'Guardfile'
     - 'vendor/**/*'
     - app/controllers/change_requests_controller.rb
+    - app/controllers/notes_controller.rb
 
 Documentation:
     Enabled: false

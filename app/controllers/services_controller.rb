@@ -15,6 +15,23 @@ class ServicesController < ApplicationController
       render status: :bad_request, json: { services: services.select(&:invalid?).map(&:errors) }
     else
       Service.transaction { services.each(&:save!) }
+
+
+      services.each do |service|
+        puts 'O_O??'
+        service.schedule = Schedule.new
+
+        day_names = %w(Sunday Monday Tuesday Wednesday Thursday Friday Saturday)
+
+        day_names.each do |day|
+          service.schedule.schedule_days.build(day: day) 
+        end
+
+        service.save!
+      end
+
+
+
       render status: :created, json: { services: services.map { |s| ServicesPresenter.present(s) } }
     end
   end

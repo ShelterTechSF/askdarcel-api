@@ -1,5 +1,4 @@
 class ResourcesController < ApplicationController
-
   def index
     category_id = params.require :category_id
     relation = resources.joins(:categories).joins(:address)

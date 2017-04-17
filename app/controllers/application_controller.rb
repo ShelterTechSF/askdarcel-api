@@ -5,7 +5,7 @@ class ApplicationController < ActionController::API
   end
 
   def cachable
-    expires_in 20.minute, public: true, must_revalidate: true
+    expires_in 5.minute, public: true, must_revalidate: true
   end
 
   private

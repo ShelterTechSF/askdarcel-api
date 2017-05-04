@@ -44,14 +44,6 @@ class ChangeRequestsController < ApplicationController
       change_request = ChangeRequest.find params[:change_request_id]
       if change_request.pending?
 
-        puts 'eh'
-        puts params[:change_request]
-        puts 'hi'
-
-        puts change_request.id
-
-        puts 'wut'
-
         FieldChange.delete_all(["change_request_id = ?", change_request.id])
 
         change_request.field_changes = field_changes_approve change_request.id
@@ -160,8 +152,6 @@ class ChangeRequestsController < ApplicationController
       field_change_hash[:field_name] = fc[0]
       field_change_hash[:field_value] = fc[1]
       field_change_hash[:change_request_id] = change_request_id
-      puts change_request_id
-      puts 'harro'
       FieldChange.create(field_change_hash)
     end
   end

@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "AskDarcel Admin API",
-		"_postman_id": "fb1e8906-9e05-aff4-d1a0-f473b2e78ae1",
+		"_postman_id": "cb9399ad-1257-4de9-6f25-a729197d1fc8",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -225,7 +225,10 @@
 						"description": ""
 					}
 				],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": ""
 			},
 			"response": []
@@ -268,7 +271,10 @@
 						"description": ""
 					}
 				],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": ""
 			},
 			"response": []
@@ -311,7 +317,10 @@
 						"description": ""
 					}
 				],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": ""
 			},
 			"response": []

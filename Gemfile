@@ -18,6 +18,9 @@ gem 'puma'
 gem 'phonelib'
 gem 'faker', '~> 1.6'
 
+# Search Provider
+gem 'algoliasearch-rails', '~> 1.19.1'
+
 # CORS
 gem 'rack-cors'
 

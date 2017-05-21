@@ -14,7 +14,7 @@ class ResourcesController < ApplicationController
 
   def search
     result = Resources::Search.perform(params.require(:query), sort_order, scope: resources)
-    render json: ResourcesPresenter.present(result)
+    render json: {resources: ResourcesPresenter.present(result)}
   end
 
   def create

@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "AskDarcel Admin API",
-		"_postman_id": "fb1e8906-9e05-aff4-d1a0-f473b2e78ae1",
+		"_postman_id": "a44fd75a-f5b2-0158-4221-b4104f32907e",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -127,11 +127,16 @@
 						"key": "uid",
 						"value": "dev-admin@sheltertech.org",
 						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": ""
+					"raw": "{  \n\t\"change_request\" : {\n\t\t\"name\" : \"newnamee\"\n\t}\n}"
 				},
 				"description": ""
 			},
@@ -225,7 +230,10 @@
 						"description": ""
 					}
 				],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": ""
 			},
 			"response": []
@@ -268,7 +276,10 @@
 						"description": ""
 					}
 				],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": ""
 			},
 			"response": []
@@ -311,7 +322,10 @@
 						"description": ""
 					}
 				],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": ""
 			},
 			"response": []

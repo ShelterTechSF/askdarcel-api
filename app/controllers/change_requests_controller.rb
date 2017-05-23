@@ -43,6 +43,13 @@ class ChangeRequestsController < ApplicationController
     else
       change_request = ChangeRequest.find params[:change_request_id]
       if change_request.pending?
+
+        FieldChange.delete_all(["change_request_id = ?", change_request.id])
+
+        change_request.field_changes = field_changes_approve change_request.id
+
+        change_request.save!
+
         persist_change change_request
         change_request.approved!
         render status: :ok
@@ -52,6 +59,13 @@ class ChangeRequestsController < ApplicationController
         render status: :precondition_failed
       end
     end
+  end
+
+  def replace_field_changes(change_request)
+
+
+
+    return change_request
   end
 
   def reject
@@ -131,6 +145,17 @@ class ChangeRequestsController < ApplicationController
       FieldChange.create(field_change_hash)
     end
   end
+
+  def field_changes_approve(change_request_id)
+    params[:change_request].map do |fc|
+      field_change_hash = {}
+      field_change_hash[:field_name] = fc[0]
+      field_change_hash[:field_value] = fc[1]
+      field_change_hash[:change_request_id] = change_request_id
+      FieldChange.create(field_change_hash)
+    end
+  end
+
 
   def changerequest
     ChangeRequest.includes(:field_changes, resource: [

@@ -1,7 +1,7 @@
 class Service < ActiveRecord::Base
   enum status: { pending: 0, approved: 1, rejected: 2 }
 
-  belongs_to :resource, required: true
+  belongs_to :resource, required: true, touch: true
   has_many :notes
   has_one :schedule
   has_and_belongs_to_many :categories

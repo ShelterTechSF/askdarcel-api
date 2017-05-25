@@ -40,6 +40,12 @@ GEM
       i18n (~> 0.7)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
+    algoliasearch (1.12.7)
+      httpclient (~> 2.8.3)
+      json (>= 1.5.1)
+    algoliasearch-rails (1.19.1)
+      algoliasearch (~> 1.12.4)
+      json (>= 1.5.1)
     arel (7.1.2)
     ast (2.3.0)
     bcrypt (3.1.11)
@@ -74,7 +80,9 @@ GEM
     globalid (0.3.7)
       activesupport (>= 4.1.0)
     hashie (3.4.6)
+    httpclient (2.8.3)
     i18n (0.7.0)
+    json (2.1.0)
     jsonite (0.0.3)
       activesupport (>= 3.1.0)
     loofah (2.0.3)
@@ -183,6 +191,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord-nulldb-adapter
+  algoliasearch-rails (~> 1.19.1)
   bullet
   byebug
   devise_token_auth
@@ -201,4 +210,4 @@ DEPENDENCIES
   spring
 
 BUNDLED WITH
-   1.13.6
+   1.15.0

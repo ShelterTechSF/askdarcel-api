@@ -22,7 +22,7 @@ class Resource < ActiveRecord::Base
     self.status = :pending unless status
   end
 
-  algoliasearch do
+  algoliasearch per_environment: true do
     geoloc :address_latitude, :address_longitude
 
     add_attribute :address do

@@ -13,7 +13,7 @@ class Resource < ActiveRecord::Base
   has_many :ratings
   has_many :change_requests
 
-  algoliasearch do
+  algoliasearch per_environment: true do
     geoloc :address_latitude, :address_longitude
 
     add_attribute :address do

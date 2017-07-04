@@ -43,17 +43,17 @@ class Resource < ActiveRecord::Base
     end
 
     add_attribute :categories do
-      categories.map {|c| c.name }
+      categories.map(&:name)
     end
 
     add_attribute :keywords do
-     keywords.map {|k| k.name }
+     keywords.map(&:name)
     end
 
     add_attribute :services do
-      services.map {|s| {
-        name: s.name,
-      }}
+      services.map do |s|
+        { name: s.name }
+      end
     end
   end
 end

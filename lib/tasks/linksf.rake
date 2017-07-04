@@ -35,6 +35,7 @@ namespace :linksf do
       resource.name = location[:name]
       resource.website = organization[:url]
       resource.long_description = location[:description]
+      resource.status = :approved
 
       puts 'adding ' + resource.name
 

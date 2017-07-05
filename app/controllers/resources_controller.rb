@@ -13,8 +13,10 @@ class ResourcesController < ApplicationController
   end
 
   def search
-    result = Resources::Search.perform(params.require(:query), sort_order, scope: resources)
-    render json: {resources: ResourcesPresenter.present(result)}
+    result = Resources::Search.perform(params.require(:query), lat_lng: lat_lng, scope: resources)
+    # root: :resources is required if Algolia is used since Jsonite won't wrap
+    # the result with a :resources key.
+    render json: ResourcesPresenter.present(result, root: :resources)
   end
 
   def create

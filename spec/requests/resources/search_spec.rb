@@ -26,7 +26,7 @@ RSpec.describe 'Resources' do
       end
     end
 
-    Resources::Search::SEARCH_COLUMNS[:resources].each do |col|
+    Resources::Search::DatabaseStrategy::SEARCH_COLUMNS[:resources].each do |col|
       include_examples 'a matching record', col
     end
   end

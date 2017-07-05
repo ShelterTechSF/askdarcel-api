@@ -22,37 +22,39 @@ class Resource < ActiveRecord::Base
     self.status = :pending unless status
   end
 
-  algoliasearch per_environment: true do
-    geoloc :address_latitude, :address_longitude
+  if Rails.configuration.x.algolia.enabled
+    algoliasearch per_environment: true do
+      geoloc :address_latitude, :address_longitude
 
-    add_attribute :address do
-      if address.present?
-        {
-          city: address.city,
-          state_province: address.state_province,
-          postal_code: address.postal_code,
-          country: address.country,
-        }
-      else
-        {}
+      add_attribute :address do
+        if address.present?
+          {
+            city: address.city,
+            state_province: address.state_province,
+            postal_code: address.postal_code,
+            country: address.country
+          }
+        else
+          {}
+        end
       end
-    end
 
     add_attribute :notes do
      notes.map {|n| n.note }
     end
 
-    add_attribute :categories do
-      categories.map(&:name)
-    end
+      add_attribute :categories do
+        categories.map(&:name)
+      end
 
-    add_attribute :keywords do
-     keywords.map(&:name)
-    end
+      add_attribute :keywords do
+        keywords.map(&:name)
+      end
 
-    add_attribute :services do
-      services.map do |s|
-        { name: s.name }
+      add_attribute :services do
+        services.map do |s|
+          { name: s.name }
+        end
       end
     end
   end

@@ -7,6 +7,8 @@ Rails.application.routes.draw do
       get :search
     end
 
+    post :create
+
     resources :ratings, only: :create
     resources :change_requests, only: :create
     resources :services, only: :create

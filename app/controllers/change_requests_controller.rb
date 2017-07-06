@@ -6,8 +6,9 @@ class ChangeRequestsController < ApplicationController
       @change_request = ServiceChangeRequest.create(object_id: params[:service_id], resource_id: Service.find(params[:service_id]).resource_id)
     elsif params[:address_id]
       @change_request = AddressChangeRequest.create(object_id: params[:address_id], resource_id: Address.find(params[:address_id]).resource_id)
-    elsif params[:phone_id]
-      @change_request = PhoneChangeRequest.create(object_id: params[:phone_id], resource_id: Phone.find(params[:phone_id]).resource_id)
+    elsif params[:phone_id] || params[:type] == 'phones'
+      resource_id = params[:parent_resource_id] || Phone.find(params[:phone_id]).resource_id
+      @change_request = PhoneChangeRequest.create(object_id: params[:phone_id], resource_id: resource_id)
     elsif params[:schedule_day_id]
       schedule = Schedule.find(ScheduleDay.find(params[:schedule_day_id]).schedule_id)
       if (schedule.resource_id)
@@ -22,6 +23,9 @@ class ChangeRequestsController < ApplicationController
       else
         @change_request = NoteChangeRequest.create(object_id: params[:note_id], resource_id: Service.find(note.service_id).resource_id)
       end
+    else
+      render status: :bad_request
+      return
     end
 
     @change_request.field_changes = field_changes
@@ -89,36 +93,38 @@ class ChangeRequestsController < ApplicationController
   def persist_change(change_request)
     object_id = change_request.object_id
     puts object_id
+    field_change_hash = get_field_change_hash change_request
 
     if change_request.is_a? ServiceChangeRequest
       puts 'ServiceChangeRequest'
       service = Service.find(change_request.object_id)
-      field_change_hash = get_field_change_hash change_request
       service.update field_change_hash
     elsif change_request.is_a? ResourceChangeRequest
       puts 'ResourceChangeRequest'
       resource = Resource.find(change_request.object_id)
-      field_change_hash = get_field_change_hash change_request
       resource.update field_change_hash
     elsif change_request.is_a? ScheduleDayChangeRequest
       puts 'ScheduleDayChangeRequest'
       schedule_day = ScheduleDay.find(change_request.object_id)
-      field_change_hash = get_field_change_hash change_request
       schedule_day.update field_change_hash
     elsif change_request.is_a? NoteChangeRequest
       puts 'NoteChangeRequest'
       note = Note.find(change_request.object_id)
-      field_change_hash = get_field_change_hash change_request
       note.update field_change_hash
     elsif change_request.is_a? PhoneChangeRequest
       puts 'PhoneChangeRequest'
-      phone = Phone.find(change_request.object_id)
-      field_change_hash = get_field_change_hash change_request
+      if change_request.object_id
+        phone = Phone.find(change_request.object_id)
+      else
+        phone = Phone.new(resource_id: change_request.resource_id, service_type: '')
+      end
+      if field_change_hash["number"]
+        field_change_hash["number"] = Phonelib.parse(field_change_hash["number"], 'US').full_e164
+      end
       phone.update field_change_hash
     elsif change_request.is_a? AddressChangeRequest
       puts 'AddressChangeRequest'
       address = Address.find(change_request.object_id)
-      field_change_hash = get_field_change_hash change_request
       address.update field_change_hash
     else
       puts 'invalid request'

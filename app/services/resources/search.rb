@@ -31,6 +31,7 @@ module Resources
         .left_outer_joins(:categories)
         .left_outer_joins(:address)
         .where("#{CLAUSE} @@ plainto_tsquery('#{SEARCH_CONFIG}', ?)", query)
+        .where('status' => :pending)
         .group('resources.id, addresses.latitude, addresses.longitude')
         .order(sort)
     end

@@ -11,4 +11,12 @@ class Resource < ActiveRecord::Base
   has_many :services
   has_many :ratings
   has_many :change_requests
+
+  accepts_nested_attributes_for :notes
+  accepts_nested_attributes_for :schedule
+
+  before_create do
+    self.status = :pending unless status
+  end
+  
 end

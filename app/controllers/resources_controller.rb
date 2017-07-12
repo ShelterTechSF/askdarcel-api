@@ -4,7 +4,7 @@ class ResourcesController < ApplicationController
   def index
     category_id = params.require :category_id
     relation = resources.joins(:categories).joins(:address)
-                        .where('categories.id' => category_id)
+                        .where('categories.id' => category_id).where('status' => :approved)
                         .order(sort_order)
     render json: ResourcesPresenter.present(relation)
   end
@@ -27,12 +27,6 @@ class ResourcesController < ApplicationController
     else
       Resource.transaction { resources.each(&:save!) }
 
-      puts 'hi!'
-
-      resources.each { |r|
-        puts 'in here'
-      }
-
       render status: :created, json: { resources: resources.map { |r| ResourcesPresenter.present(r) } }
     end
   end
@@ -48,17 +42,16 @@ class ResourcesController < ApplicationController
 
     # Filter out all the attributes that are unsafe for users to set, including
   # all :id keys besides category ids.
-  def permit_resource_params(service_params) # rubocop:disable Metrics/MethodLength
-    service_params.permit(
+  def permit_resource_params(resource_params) # rubocop:disable Metrics/MethodLength
+    resource_params.permit(
       :name,
       :long_description,
       :short_description,
       :website,
       :email,
       :status,
-
-      #schedule: [{ schedule_days: [:day, :opens_at, :closes_at] }],
-      #notes: [:note],
+      schedule: [{ schedule_days: [:day, :opens_at, :closes_at] }],
+      notes: [:note],
       categories: [:id]
     )
   end
@@ -76,7 +69,7 @@ class ResourcesController < ApplicationController
       schedule[:schedule_days_attributes] = schedule.delete(:schedule_days) if schedule.key? :schedule_days
     end
 
-    resource[:note_attributes] = resource.delete(:notes) if resource.key? :notes
+    resource[:notes_attributes] = resource.delete(:notes) if resource.key? :notes
 
     resource.delete(:notes)
 

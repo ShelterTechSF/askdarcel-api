@@ -40,7 +40,7 @@ class ResourcesController < ApplicationController
     resources_params.each { |r| transform_resource_params!(r) }
   end
 
-    # Filter out all the attributes that are unsafe for users to set, including
+  # Filter out all the attributes that are unsafe for users to set, including
   # all :id keys besides category ids.
   def permit_resource_params(resource_params) # rubocop:disable Metrics/MethodLength
     resource_params.permit(
@@ -56,14 +56,12 @@ class ResourcesController < ApplicationController
     )
   end
 
-
   # Transform parameters for creating a single resource in-place.
   #
   #
   # This method transforms all keys representing nested objects into
   # #{key}_attribute.
   def transform_resource_params!(resource)
-
     if resource.key? :schedule
       schedule = resource[:schedule_attributes] = resource.delete(:schedule)
       schedule[:schedule_days_attributes] = schedule.delete(:schedule_days) if schedule.key? :schedule_days
@@ -75,7 +73,7 @@ class ResourcesController < ApplicationController
 
     resource['category_ids'] = resource.delete(:categories).collect { |h| h[:id] } if resource.key? :categories
   end
-  
+
   def resources
     Resource.includes(:address, :phones, :categories, :notes,
                       schedule: :schedule_days,

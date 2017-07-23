@@ -37,7 +37,7 @@ class ChangeRequestsController < ApplicationController
     if !admin_signed_in?
       render status: :unauthorized
     else
-      render json: ChangeRequestsPresenter.present(changerequest.pending)
+      render json: ChangeRequestsWithResourcePresenter.present(changerequest.pending)
     end
   end
 

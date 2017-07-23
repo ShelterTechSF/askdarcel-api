@@ -1,3 +1,5 @@
+require_relative '../presenters/change_requests_presenter'
+
 class ChangeRequestsController < ApplicationController
   def create
     if params[:resource_id]

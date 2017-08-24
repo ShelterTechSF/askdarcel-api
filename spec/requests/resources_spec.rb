@@ -32,6 +32,7 @@ RSpec.describe 'Resources' do
       end
     end
 
+
     context 'with a category_id and latitude/longitude' do
       let(:close) { 10 }
       let(:far) { 50 }

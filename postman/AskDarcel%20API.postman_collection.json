@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "AskDarcel API",
-		"_postman_id": "edec0e7b-afcc-c4a2-9f41-6811b216fa4a",
+		"_postman_id": "29c281cf-ba5d-94a8-2d82-b7e194e5bf5b",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -581,7 +581,7 @@
 			"response": []
 		},
 		{
-			"name": "Submit New Resource Request",
+			"name": "Add Phone to Resource",
 			"event": [
 				{
 					"listen": "test",
@@ -596,7 +596,7 @@
 				}
 			],
 			"request": {
-				"url": "{{base_url}}/resources",
+				"url": "{{base_url}}/change_requests",
 				"method": "POST",
 				"header": [
 					{
@@ -612,7 +612,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"resources\": [\n    {\n      \"name\": \"Foo Resource\",\n      \"long_description\": \"Bar description\",\n      \"schedule\": {\n        \"schedule_days\": [\n          {\n            \"day\": \"Friday\",\n            \"opens_at\": 9,\n            \"closes_at\": 17\n          },\n          {\n            \"day\": \"Thursday\",\n            \"opens_at\": 9,\n            \"closes_at\": 17\n          },\n          {\n            \"day\": \"Wednesday\",\n            \"opens_at\": 9,\n            \"closes_at\": 17\n          },\n          {\n            \"day\": \"Tuesday\",\n            \"opens_at\": 11,\n            \"closes_at\": 19\n          },\n          {\n            \"day\": \"Monday\",\n            \"opens_at\": 11,\n            \"closes_at\": 19\n          }\n        ]\n      },\n      \"notes\": [\n        {\n          \"note\": \"foo\"\n        }\n      ],\n      \"categories\": [\n        {\n          \"id\": 3\n        }\n      ]\n    }\n  ]\n}"
+					"raw": "{  \n\t\"change_request\": {\n\t\t\"number\": \"(415) 555-5555\",\n\t\t\"service_type\": \"general inquiries\"\n\t},\n\t\"type\": \"phones\",\n\t\"parent_resource_id\": 1\n}"
 				},
 				"description": ""
 			},

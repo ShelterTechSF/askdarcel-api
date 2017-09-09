@@ -107,7 +107,20 @@ class ChangeRequestsController < ApplicationController
       resource.update field_change_hash
     elsif change_request.is_a? ScheduleDayChangeRequest
       puts 'ScheduleDayChangeRequest'
-      schedule_day = ScheduleDay.find(change_request.object_id)
+      if change_request.object_id
+        schedule_day = ScheduleDay.find(change_request.object_id)
+      else
+        schedule_id = nil
+        params[:change_request].map do |fc| 
+          puts 'hi:' + fc[0]
+          field_name = fc[0]
+          if field_name == 'schedule_id'
+            schedule_id = fc[0]
+            params[:change_request].remove[fc]
+          end
+        end
+        schedule_day = ScheduleDay.new(schedule_id: schedule_id)
+      end
       schedule_day.update field_change_hash
     elsif change_request.is_a? NoteChangeRequest
       puts 'NoteChangeRequest'

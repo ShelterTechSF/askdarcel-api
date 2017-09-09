@@ -32,6 +32,8 @@ class ChangeRequestsController < ApplicationController
 
     @change_request.field_changes = field_changes
 
+    persist_change (@change_request)
+
     render status: :created, json: ChangeRequestsPresenter.present(@change_request)
   end
 

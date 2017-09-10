@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "AskDarcel API",
-		"_postman_id": "29c281cf-ba5d-94a8-2d82-b7e194e5bf5b",
+		"_postman_id": "36e31da9-19ba-506e-3f76-d07a215be348",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -56,7 +56,22 @@
 				}
 			],
 			"request": {
-				"url": "{{base_url}}/resources?category_id=1",
+				"url": {
+					"raw": "{{base_url}}/resources?category_id=1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"resources"
+					],
+					"query": [
+						{
+							"key": "category_id",
+							"value": "1"
+						}
+					],
+					"variable": []
+				},
 				"method": "GET",
 				"header": [
 					{
@@ -155,7 +170,23 @@
 				}
 			],
 			"request": {
-				"url": "{{base_url}}/resources/search?query=food",
+				"url": {
+					"raw": "{{base_url}}/resources/search?query=food",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"resources",
+						"search"
+					],
+					"query": [
+						{
+							"key": "query",
+							"value": "food"
+						}
+					],
+					"variable": []
+				},
 				"method": "GET",
 				"header": [
 					{
@@ -188,7 +219,30 @@
 				}
 			],
 			"request": {
-				"url": "{{base_url}}/resources?category_id=1&lat=100&long=100",
+				"url": {
+					"raw": "{{base_url}}/resources?category_id=1&lat=100&long=100",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"resources"
+					],
+					"query": [
+						{
+							"key": "category_id",
+							"value": "1"
+						},
+						{
+							"key": "lat",
+							"value": "100"
+						},
+						{
+							"key": "long",
+							"value": "100"
+						}
+					],
+					"variable": []
+				},
 				"method": "GET",
 				"header": [
 					{
@@ -221,7 +275,31 @@
 				}
 			],
 			"request": {
-				"url": "{{base_url}}/resources/search?query=food&lat=100&long=100",
+				"url": {
+					"raw": "{{base_url}}/resources/search?query=food&lat=100&long=100",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"resources",
+						"search"
+					],
+					"query": [
+						{
+							"key": "query",
+							"value": "food"
+						},
+						{
+							"key": "lat",
+							"value": "100"
+						},
+						{
+							"key": "long",
+							"value": "100"
+						}
+					],
+					"variable": []
+				},
 				"method": "GET",
 				"header": [
 					{
@@ -308,7 +386,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{  \n\t\"change_request\" : {\n\t\t\"name\" : \"newname\",\n\t\t\"size\" : \"test\"\n\t}\n}"
+					"raw": "{  \n\t\"change_request\" : {\n\t\t\"name\" : \"newname\"\n\t}\n}"
 				},
 				"description": ""
 			},
@@ -346,7 +424,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{  \n\t\"change_request\" : {\n\t\t\"name\" : \"newname\",\n\t\t\"size\" : \"test\"\n\t}\n}"
+					"raw": "{  \n\t\"change_request\" : {\n\t\t\"opens_at\" : \"1000\"\n\t}\n}"
 				},
 				"description": ""
 			},
@@ -384,7 +462,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{  \n\t\"change_request\" : {\n\t\t\"name\" : \"newname\",\n\t\t\"size\" : \"test\"\n\t}\n}"
+					"raw": "{  \n\t\"change_request\" : {\n\t\t\"note\" : \"newnote\"\n\t}\n}"
 				},
 				"description": ""
 			},
@@ -422,7 +500,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{  \n\t\"change_request\" : {\n\t\t\"name\" : \"newname\",\n\t\t\"size\" : \"test\"\n\t}\n}"
+					"raw": "{  \n\t\"change_request\" : {\n\t\t\"number\" : \"4155555267\"\n\t}\n}"
 				},
 				"description": ""
 			},

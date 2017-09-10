@@ -1,5 +1,4 @@
 class ResourcesController < ApplicationController
-  before_action :cachable
 
   def index
     category_id = params.require :category_id

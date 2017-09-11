@@ -117,7 +117,6 @@ class ChangeRequestsController < ApplicationController
       if change_request.object_id
         schedule_day = ScheduleDay.find(change_request.object_id)
       else
-        puts 'in herexxxxx'
         schedule_day = ScheduleDay.new(schedule_id: params[:schedule_id])
       end
       schedule_day.update field_change_hash

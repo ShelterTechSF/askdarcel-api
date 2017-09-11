@@ -11,8 +11,13 @@ class ChangeRequestsController < ApplicationController
     elsif params[:phone_id] || params[:type] == 'phones'
       resource_id = params[:parent_resource_id] || Phone.find(params[:phone_id]).resource_id
       @change_request = PhoneChangeRequest.create(object_id: params[:phone_id], resource_id: resource_id)
-    elsif params[:schedule_day_id]
-      schedule = Schedule.find(ScheduleDay.find(params[:schedule_day_id]).schedule_id)
+    elsif params[:schedule_day_id] || params[:type] == 'schedule_days'
+      schedule = nil
+      if params[:schedule_day_id]
+        schedule = Schedule.find(ScheduleDay.find(params[:schedule_day_id]).schedule_id)
+      else 
+        schedule = Schedule.find(params[:schedule_id])
+      end
       if (schedule.resource_id)
         @change_request = ScheduleDayChangeRequest.create(object_id: params[:schedule_day_id], resource_id: schedule.resource_id)
       else 
@@ -31,6 +36,8 @@ class ChangeRequestsController < ApplicationController
     end
 
     @change_request.field_changes = field_changes
+
+    persist_change (@change_request)
 
     render status: :created, json: ChangeRequestsPresenter.present(@change_request)
   end
@@ -110,16 +117,8 @@ class ChangeRequestsController < ApplicationController
       if change_request.object_id
         schedule_day = ScheduleDay.find(change_request.object_id)
       else
-        schedule_id = nil
-        params[:change_request].map do |fc| 
-          puts 'hi:' + fc[0]
-          field_name = fc[0]
-          if field_name == 'schedule_id'
-            schedule_id = fc[0]
-            params[:change_request].remove[fc]
-          end
-        end
-        schedule_day = ScheduleDay.new(schedule_id: schedule_id)
+        puts 'in herexxxxx'
+        schedule_day = ScheduleDay.new(schedule_id: params[:schedule_id])
       end
       schedule_day.update field_change_hash
     elsif change_request.is_a? NoteChangeRequest

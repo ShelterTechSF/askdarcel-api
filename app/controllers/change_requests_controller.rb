@@ -150,16 +150,28 @@ class ChangeRequestsController < ApplicationController
     change_request.field_changes.each do |field_change|
       puts field_change.field_name
       puts field_change.field_value
-      field_change_hash[field_change.field_name] = field_change.field_value
+      # HACK: We need a better way to handle array values
+      if field_change.field_name == 'category_ids'
+        value = JSON.parse(field_change.field_value)
+      else
+        value = field_change.field_value
+      end
+      field_change_hash[field_change.field_name] = value
     end
     field_change_hash
   end
 
   def field_changes
-    params[:change_request].map do |fc|
+    params[:change_request].map do |name, value|
       field_change_hash = {}
-      field_change_hash[:field_name] = fc[0]
-      field_change_hash[:field_value] = fc[1]
+      # HACK: We need a better way to handle array values
+      if name == 'categories'
+        field_change_hash[:field_name] = 'category_ids'
+        field_change_hash[:field_value] = value.map { |c| c[:id] }.to_json.to_s
+      else
+        field_change_hash[:field_name] = name
+        field_change_hash[:field_value] = value
+      end
       field_change_hash[:change_request_id] = @change_request.id
       FieldChange.create(field_change_hash)
     end

@@ -1,12 +1,253 @@
 {
-	"variables": [],
 	"info": {
 		"name": "AskDarcel API",
-		"_postman_id": "36e31da9-19ba-506e-3f76-d07a215be348",
-		"description": "",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+		"_postman_id": "0aceffbe-910c-bc5c-a550-d771204cc7f7",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
+		{
+			"name": "Set global variables",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var idSchema = {",
+							"    \"type\": \"integer\",",
+							"    \"minimum\": 1,",
+							"}",
+							"",
+							"var addressSchema = {",
+							"    \"type\": \"object\",",
+							"    \"properties\": {",
+							"        \"address_1\": {\"type\": \"string\"},",
+							"        \"address_2\": {\"type\": [\"string\", \"null\"]},",
+							"        \"address_3\": {\"type\": [\"string\", \"null\"]},",
+							"        \"address_4\": {\"type\": [\"string\", \"null\"]},",
+							"        \"attention\": {\"type\": \"string\"},",
+							"        \"city\": {\"type\": \"string\"},",
+							"        \"country\": {\"type\": \"string\"},",
+							"        \"id\": idSchema,",
+							"        \"latitude\": {\"type\": \"string\"},  // Why is this not a number?",
+							"        \"longitude\": {\"type\": \"string\"},",
+							"        \"postal_code\": {\"type\": \"string\"},",
+							"        \"state_province\": {\"type\": \"string\"},",
+							"    },",
+							"    \"required\": [",
+							"        \"address_1\",",
+							"        \"city\",",
+							"        \"country\",",
+							"        \"id\",",
+							"        \"state_province\",",
+							"    ],",
+							"};",
+							"",
+							"var categorySchema = {",
+							"    \"type\": \"object\",",
+							"    \"properties\": {",
+							"        \"id\": idSchema,",
+							"        \"name\": {\"type\": \"string\"},",
+							"    },",
+							"    \"required\": [\"id\", \"name\"],",
+							"};",
+							"",
+							"var noteSchema = {",
+							"    \"type\": \"object\",",
+							"    \"properties\": {",
+							"        \"id\": idSchema,",
+							"        \"note\": {\"type\": \"string\"},",
+							"    },",
+							"    \"required\": [\"id\", \"note\"],",
+							"};",
+							"",
+							"var phoneSchema = {",
+							"    \"type\": \"object\",",
+							"    \"properties\": {",
+							"        \"country_code\": {\"type\": \"string\"},",
+							"        \"extension\": {\"type\": [\"string\", \"null\"]},",
+							"        \"id\": idSchema,",
+							"        \"number\": {\"type\": \"string\"},",
+							"        \"service_type\": {\"type\": \"string\"},",
+							"    },",
+							"    \"required\": [\"country_code\", \"extension\", \"id\", \"number\", \"service_type\"],",
+							"};",
+							"",
+							"var timeSchema = {",
+							"    \"type\": \"integer\",",
+							"    \"minimum\": 0,",
+							"    \"maximum\": 2400,  // Isn't it bad if midnight has two representations?",
+							"};",
+							"",
+							"var scheduleDaySchema = {",
+							"    \"type\": \"object\",",
+							"    \"properties\": {",
+							"        \"closes_at\": timeSchema,",
+							"        \"day\": {",
+							"            \"enum\": [",
+							"                \"Sunday\",",
+							"                \"Monday\",",
+							"                \"Tuesday\",",
+							"                \"Wednesday\",",
+							"                \"Thursday\",",
+							"                \"Friday\",",
+							"                \"Saturday\",",
+							"            ],",
+							"        },",
+							"        \"id\": idSchema,",
+							"        \"opens_at\": timeSchema,",
+							"    },",
+							"};",
+							"",
+							"var scheduleSchema = {",
+							"    \"type\": \"object\",",
+							"    \"properties\": {",
+							"        \"id\": idSchema,",
+							"        \"schedule_days\": {",
+							"            \"type\": \"array\",",
+							"            \"items\": scheduleDaySchema,",
+							"        },",
+							"    },",
+							"    \"required\": [\"id\", \"schedule_days\"],",
+							"};",
+							"",
+							"var serviceSchema = {",
+							"    \"type\": \"object\",",
+							"    \"properties\": {",
+							"        \"application_process\": {\"type\": [\"string\", \"null\"]},",
+							"        \"categories\": {",
+							"            \"type\": \"array\",",
+							"            \"items\": categorySchema,",
+							"        },",
+							"        \"eligibility\": {\"type\": [\"string\", \"null\"]},",
+							"        \"email\": {\"type\": [\"string\", \"null\"]},",
+							"        \"fee\": {\"type\": [\"string\", \"null\"]},",
+							"        \"id\": idSchema,",
+							"        \"long_description\": {\"type\": \"string\"},",
+							"        \"name\": {\"type\": \"string\"},",
+							"        \"notes\": {",
+							"            \"type\": \"array\",",
+							"            \"items\": noteSchema,",
+							"        },",
+							"        \"required_documents\": {\"type\": [\"string\", \"null\"]},",
+							"        \"schedule\": scheduleSchema,",
+							"        \"verified_at\": {",
+							"            \"type\": [\"string\", \"null\"],",
+							"            \"format\": \"date-time\",",
+							"        },",
+							"    },",
+							"    \"required\": [",
+							"        \"application_process\",",
+							"        \"categories\",",
+							"        \"eligibility\",",
+							"        \"email\",",
+							"        \"fee\",",
+							"        \"id\",",
+							"        \"long_description\",",
+							"        \"name\",",
+							"        \"notes\",",
+							"        \"required_documents\",",
+							"        \"schedule\",",
+							"        \"verified_at\",",
+							"    ],",
+							"};",
+							"",
+							"var resourceSchema = {",
+							"    \"type\": \"object\",",
+							"    \"properties\": {",
+							"        \"address\": addressSchema,",
+							"        \"categories\": {",
+							"            \"type\": \"array\",",
+							"            \"items\": categorySchema,",
+							"        },",
+							"        \"email\": {",
+							"            \"type\": [\"string\", \"null\"],",
+							"        },",
+							"        \"id\": idSchema,",
+							"        \"long_description\": {\"type\": \"string\"},",
+							"        \"name\": {\"type\": \"string\"},",
+							"        \"notes\": {",
+							"            \"type\": \"array\",",
+							"            \"items\": noteSchema,",
+							"        },",
+							"        \"phones\": {",
+							"            \"type\": \"array\",",
+							"            \"items\": phoneSchema,",
+							"        },",
+							"        \"ratings\": {",
+							"            \"type\": \"array\",",
+							"            // What is this? It's always empty",
+							"        },",
+							"        \"schedule\": scheduleSchema,",
+							"        \"services\": {",
+							"            \"type\": \"array\",",
+							"            \"items\": serviceSchema,",
+							"        },",
+							"        \"short_description\": {\"type\": [\"string\", \"null\"]},",
+							"        \"status\": {",
+							"            \"enum\": [\"pending\", \"approved\", \"rejected\"],",
+							"        },",
+							"        \"verified_at\": {",
+							"            \"type\": [\"string\", \"null\"],",
+							"            \"format\": \"date-time\",",
+							"        },",
+							"        \"website\": {\"type\": [\"string\", \"null\"]},",
+							"    },",
+							"    \"required\": [",
+							"        \"address\",",
+							"        \"categories\",",
+							"        \"email\",",
+							"        \"id\",",
+							"        \"long_description\",",
+							"        \"name\",",
+							"        \"notes\",",
+							"        \"phones\",",
+							"        \"ratings\",",
+							"        \"schedule\",",
+							"        \"services\",",
+							"        \"short_description\",",
+							"        \"status\",",
+							"        \"verified_at\",",
+							"        \"website\",",
+							"    ],",
+							"};",
+							"",
+							"postman.setGlobalVariable(\"schemas\", {",
+							"    \"id\": idSchema,",
+							"    \"address\": addressSchema,",
+							"    \"category\": categorySchema,",
+							"    \"note\": noteSchema,",
+							"    \"phone\": phoneSchema,",
+							"    \"time\": timeSchema,",
+							"    \"scheduleDay\": scheduleDaySchema,",
+							"    \"schedule\": scheduleSchema,",
+							"    \"service\": serviceSchema,",
+							"    \"resource\": resourceSchema,",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_url}}/categories",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"categories"
+					]
+				},
+				"description": "This is a dummy request used to set global variables that can be used in later requests. It's a kludge to workaround the fact that Postman doesn't have a way to share code or data between requests.\n\nhttps://github.com/postmanlabs/postman-app-support/issues/882"
+			},
+			"response": []
+		},
 		{
 			"name": "Get all resources",
 			"event": [
@@ -17,26 +258,32 @@
 						"exec": [
 							"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
 							"",
-							"tests[\"Status code is 400\"] = responseCode.code === 400;"
+							"tests[\"Status code is 400\"] = responseCode.code === 400;  // category_id param is required"
 						]
 					}
 				}
 			],
 			"request": {
-				"url": "{{base_url}}/resources",
 				"method": "GET",
 				"header": [
 					{
 						"key": "Accept",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": ""
 				},
-				"description": ""
+				"url": {
+					"raw": "{{base_url}}/resources",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"resources"
+					]
+				}
 			},
 			"response": []
 		},
@@ -50,12 +297,42 @@
 						"exec": [
 							"tests[\"Response time is less than 1500ms\"] = responseTime < 1500;",
 							"",
-							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var schema = {",
+							"    \"type\": \"object\",",
+							"    \"properties\": {",
+							"        \"resources\": {",
+							"            \"type\": \"array\",",
+							"            \"items\": globals.schemas.resource,",
+							"        },",
+							"    },",
+							"    \"required\": [",
+							"        \"resources\",",
+							"    ],",
+							"};",
+							"",
+							"var response = pm.response.json();",
+							"tests['Schema is valid'] = tv4.validate(response, schema);",
+							"if (tv4.error) {",
+							"    console.log(\"Validation failed: \", tv4.error);",
+							"}"
 						]
 					}
 				}
 			],
 			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "{{base_url}}/resources?category_id=1",
 					"host": [
@@ -67,24 +344,11 @@
 					"query": [
 						{
 							"key": "category_id",
-							"value": "1"
+							"value": "1",
+							"equals": true
 						}
-					],
-					"variable": []
-				},
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"description": ""
+					]
+				}
 			},
 			"response": []
 		},
@@ -98,26 +362,49 @@
 						"exec": [
 							"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
 							"",
-							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var schema = {",
+							"    \"type\": \"object\",",
+							"    \"properties\": {",
+							"        \"resource\": globals.schemas.resource,",
+							"    },",
+							"    \"required\": [",
+							"        \"resource\",",
+							"    ],",
+							"};",
+							"",
+							"var response = pm.response.json();",
+							"tests['Schema is valid'] = tv4.validate(response, schema);",
+							"if (tv4.error) {",
+							"    console.log(\"Validation failed: \", tv4.error);",
+							"}"
 						]
 					}
 				}
 			],
 			"request": {
-				"url": "{{base_url}}/resources/1",
 				"method": "GET",
 				"header": [
 					{
 						"key": "Accept",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": ""
 				},
-				"description": ""
+				"url": {
+					"raw": "{{base_url}}/resources/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"resources",
+						"1"
+					]
+				}
 			},
 			"response": []
 		},
@@ -131,26 +418,51 @@
 						"exec": [
 							"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
 							"",
-							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var schema = {",
+							"    \"type\": \"object\",",
+							"    \"properties\": {",
+							"        \"categories\": {",
+							"            \"type\": \"array\",",
+							"            \"items\": globals.category,",
+							"        },",
+							"    },",
+							"    \"required\": [",
+							"        \"categories\",",
+							"    ],",
+							"};",
+							"",
+							"var response = pm.response.json();",
+							"tests['Schema is valid'] = tv4.validate(response, schema);",
+							"if (tv4.error) {",
+							"    console.log(\"Validation failed: \", tv4.error);",
+							"}"
 						]
 					}
 				}
 			],
 			"request": {
-				"url": "{{base_url}}/categories",
 				"method": "GET",
 				"header": [
 					{
 						"key": "Accept",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": ""
 				},
-				"description": ""
+				"url": {
+					"raw": "{{base_url}}/categories",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"categories"
+					]
+				}
 			},
 			"response": []
 		},
@@ -164,12 +476,42 @@
 						"exec": [
 							"tests[\"Response time is less than 1500ms\"] = responseTime < 1500;",
 							"",
-							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var schema = {",
+							"    \"type\": \"object\",",
+							"    \"properties\": {",
+							"        \"resources\": {",
+							"            \"type\": \"array\",",
+							"            \"items\": globals.schemas.resource,",
+							"        },",
+							"    },",
+							"    \"required\": [",
+							"        \"resources\",",
+							"    ],",
+							"};",
+							"",
+							"var response = pm.response.json();",
+							"tests['Schema is valid'] = tv4.validate(response, schema);",
+							"if (tv4.error) {",
+							"    console.log(\"Validation failed: \", tv4.error);",
+							"}"
 						]
 					}
 				}
 			],
 			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "{{base_url}}/resources/search?query=food",
 					"host": [
@@ -182,24 +524,11 @@
 					"query": [
 						{
 							"key": "query",
-							"value": "food"
+							"value": "food",
+							"equals": true
 						}
-					],
-					"variable": []
-				},
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"description": ""
+					]
+				}
 			},
 			"response": []
 		},
@@ -213,12 +542,42 @@
 						"exec": [
 							"tests[\"Response time is less than 1500ms\"] = responseTime < 1500;",
 							"",
-							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var schema = {",
+							"    \"type\": \"object\",",
+							"    \"properties\": {",
+							"        \"resources\": {",
+							"            \"type\": \"array\",",
+							"            \"items\": globals.schemas.resource,",
+							"        },",
+							"    },",
+							"    \"required\": [",
+							"        \"resources\",",
+							"    ],",
+							"};",
+							"",
+							"var response = pm.response.json();",
+							"tests['Schema is valid'] = tv4.validate(response, schema);",
+							"if (tv4.error) {",
+							"    console.log(\"Validation failed: \", tv4.error);",
+							"}"
 						]
 					}
 				}
 			],
 			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "{{base_url}}/resources?category_id=1&lat=100&long=100",
 					"host": [
@@ -230,32 +589,21 @@
 					"query": [
 						{
 							"key": "category_id",
-							"value": "1"
+							"value": "1",
+							"equals": true
 						},
 						{
 							"key": "lat",
-							"value": "100"
+							"value": "100",
+							"equals": true
 						},
 						{
 							"key": "long",
-							"value": "100"
+							"value": "100",
+							"equals": true
 						}
-					],
-					"variable": []
-				},
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"description": ""
+					]
+				}
 			},
 			"response": []
 		},
@@ -269,12 +617,42 @@
 						"exec": [
 							"tests[\"Response time is less than 1500ms\"] = responseTime < 1500;",
 							"",
-							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var schema = {",
+							"    \"type\": \"object\",",
+							"    \"properties\": {",
+							"        \"resources\": {",
+							"            \"type\": \"array\",",
+							"            \"items\": globals.schemas.resource,",
+							"        },",
+							"    },",
+							"    \"required\": [",
+							"        \"resources\",",
+							"    ],",
+							"};",
+							"",
+							"var response = pm.response.json();",
+							"tests['Schema is valid'] = tv4.validate(response, schema);",
+							"if (tv4.error) {",
+							"    console.log(\"Validation failed: \", tv4.error);",
+							"}"
 						]
 					}
 				}
 			],
 			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "{{base_url}}/resources/search?query=food&lat=100&long=100",
 					"host": [
@@ -287,32 +665,21 @@
 					"query": [
 						{
 							"key": "query",
-							"value": "food"
+							"value": "food",
+							"equals": true
 						},
 						{
 							"key": "lat",
-							"value": "100"
+							"value": "100",
+							"equals": true
 						},
 						{
 							"key": "long",
-							"value": "100"
+							"value": "100",
+							"equals": true
 						}
-					],
-					"variable": []
-				},
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"description": ""
+					]
+				}
 			},
 			"response": []
 		},
@@ -332,25 +699,32 @@
 				}
 			],
 			"request": {
-				"url": "{{base_url}}/resources/1/change_requests",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Accept",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					},
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{  \n\t\"change_request\" : {\n\t\t\"website\" : \"www.google.com\"\n\t}\n}"
 				},
-				"description": ""
+				"url": {
+					"raw": "{{base_url}}/resources/1/change_requests",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"resources",
+						"1",
+						"change_requests"
+					]
+				}
 			},
 			"response": []
 		},
@@ -370,25 +744,32 @@
 				}
 			],
 			"request": {
-				"url": "{{base_url}}/services/1/change_requests",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Accept",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					},
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{  \n\t\"change_request\" : {\n\t\t\"name\" : \"newname\"\n\t}\n}"
 				},
-				"description": ""
+				"url": {
+					"raw": "{{base_url}}/services/1/change_requests",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"services",
+						"1",
+						"change_requests"
+					]
+				}
 			},
 			"response": []
 		},
@@ -408,25 +789,32 @@
 				}
 			],
 			"request": {
-				"url": "{{base_url}}/schedule_days/1/change_requests",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Accept",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					},
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{  \n\t\"change_request\" : {\n\t\t\"opens_at\" : \"1000\"\n\t}\n}"
 				},
-				"description": ""
+				"url": {
+					"raw": "{{base_url}}/schedule_days/1/change_requests",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"schedule_days",
+						"1",
+						"change_requests"
+					]
+				}
 			},
 			"response": []
 		},
@@ -446,25 +834,32 @@
 				}
 			],
 			"request": {
-				"url": "{{base_url}}/notes/1/change_requests",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Accept",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					},
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{  \n\t\"change_request\" : {\n\t\t\"note\" : \"newnote\"\n\t}\n}"
 				},
-				"description": ""
+				"url": {
+					"raw": "{{base_url}}/notes/1/change_requests",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"notes",
+						"1",
+						"change_requests"
+					]
+				}
 			},
 			"response": []
 		},
@@ -484,25 +879,32 @@
 				}
 			],
 			"request": {
-				"url": "{{base_url}}/phones/1/change_requests",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Accept",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					},
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{  \n\t\"change_request\" : {\n\t\t\"number\" : \"4155555267\"\n\t}\n}"
 				},
-				"description": ""
+				"url": {
+					"raw": "{{base_url}}/phones/1/change_requests",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"phones",
+						"1",
+						"change_requests"
+					]
+				}
 			},
 			"response": []
 		},
@@ -522,25 +924,32 @@
 				}
 			],
 			"request": {
-				"url": "{{base_url}}/addresses/1/change_requests",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Accept",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					},
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{  \n\t\"change_request\" : {\n\t\t\"city\" : \"Selma\"\n\t}\n}"
 				},
-				"description": ""
+				"url": {
+					"raw": "{{base_url}}/addresses/1/change_requests",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"addresses",
+						"1",
+						"change_requests"
+					]
+				}
 			},
 			"response": []
 		},
@@ -560,25 +969,32 @@
 				}
 			],
 			"request": {
-				"url": "{{base_url}}/resources/1/services",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Accept",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					},
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n  \"services\": [\n    {\n      \"name\": \"Foo Service\",\n      \"long_description\": \"Bar description\",\n      \"eligibility\": \"foo\",\n      \"required_documents\": \"bar\",\n      \"fee\": \"foo\",\n      \"application_process\": \"bar\",\n      \"schedule\": {\n        \"schedule_days\": [\n          {\n            \"day\": \"Friday\",\n            \"opens_at\": 9,\n            \"closes_at\": 17\n          },\n          {\n            \"day\": \"Thursday\",\n            \"opens_at\": 9,\n            \"closes_at\": 17\n          },\n          {\n            \"day\": \"Wednesday\",\n            \"opens_at\": 9,\n            \"closes_at\": 17\n          },\n          {\n            \"day\": \"Tuesday\",\n            \"opens_at\": 11,\n            \"closes_at\": 19\n          },\n          {\n            \"day\": \"Monday\",\n            \"opens_at\": 11,\n            \"closes_at\": 19\n          }\n        ]\n      },\n      \"notes\": [\n        {\n          \"note\": \"foo\"\n        }\n      ],\n      \"categories\": [\n        {\n          \"id\": 3\n        }\n      ]\n    }\n  ]\n}"
 				},
-				"description": ""
+				"url": {
+					"raw": "{{base_url}}/resources/1/services",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"resources",
+						"1",
+						"services"
+					]
+				}
 			},
 			"response": []
 		},
@@ -598,25 +1014,32 @@
 				}
 			],
 			"request": {
-				"url": "{{base_url}}/services/1/notes",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Accept",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					},
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{  \n\t\"note\" : {\n\t\t\"note\" : \"harro\"\n\t}\n}"
 				},
-				"description": ""
+				"url": {
+					"raw": "{{base_url}}/services/1/notes",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"services",
+						"1",
+						"notes"
+					]
+				}
 			},
 			"response": []
 		},
@@ -636,25 +1059,32 @@
 				}
 			],
 			"request": {
-				"url": "{{base_url}}/resources/1/notes",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Accept",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					},
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{  \n\t\"note\" : {\n\t\t\"note\" : \"harro\"\n\t}\n}"
 				},
-				"description": ""
+				"url": {
+					"raw": "{{base_url}}/resources/1/notes",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"resources",
+						"1",
+						"notes"
+					]
+				}
 			},
 			"response": []
 		},
@@ -674,25 +1104,30 @@
 				}
 			],
 			"request": {
-				"url": "{{base_url}}/change_requests",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Accept",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					},
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{  \n\t\"change_request\": {\n\t\t\"number\": \"(415) 555-5555\",\n\t\t\"service_type\": \"general inquiries\"\n\t},\n\t\"type\": \"phones\",\n\t\"parent_resource_id\": 1\n}"
 				},
-				"description": ""
+				"url": {
+					"raw": "{{base_url}}/change_requests",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"change_requests"
+					]
+				}
 			},
 			"response": []
 		},
@@ -712,25 +1147,30 @@
 				}
 			],
 			"request": {
-				"url": "{{base_url}}/change_requests",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Accept",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					},
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{  \n\t\"change_request\": {\n\t\t\"day\": \"Monday\",\n\t\t\"opens_at\" : \"1000\",\n\t\t\"closes_at\" : \"2000\"\n\t},\n\t\"type\": \"schedule_days\",\n\t\"schedule_id\": 1\n}"
 				},
-				"description": ""
+				"url": {
+					"raw": "{{base_url}}/change_requests",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"change_requests"
+					]
+				}
 			},
 			"response": []
 		},
@@ -750,25 +1190,32 @@
 				}
 			],
 			"request": {
-				"url": "{{base_url}}/services/1/change_requests",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Accept",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					},
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n\t\"change_request\": {\n\t\t\"categories\": [\n\t\t\t{\"name\": \"Food\", \"id\": 2},\n\t\t\t{\"name\": \"Health\", \"id\": 3}\n\t\t]\n\t}\n}"
 				},
-				"description": ""
+				"url": {
+					"raw": "{{base_url}}/services/1/change_requests",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"services",
+						"1",
+						"change_requests"
+					]
+				}
 			},
 			"response": []
 		}

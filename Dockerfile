@@ -1,4 +1,4 @@
-FROM ad2games/docker-rails:2.5.0
+FROM ad2games/docker-rails:2.6.2
 
 # ad2games/docker-rails removes files required for dpkg to work. We must
 # recreate those files first before we can install postgresql-client.

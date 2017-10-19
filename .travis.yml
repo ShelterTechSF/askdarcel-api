@@ -11,9 +11,6 @@ rvm:
 cache: bundler
 
 addons:
-  # We should be using a newer version (like the latest, 9.5), but
-  # this is working out-of-the-box on Travis, so we'll go with it in
-  # CI for now.
   postgresql: "9.5"
 
 env:

@@ -18,6 +18,9 @@ gem 'puma'
 gem 'phonelib'
 gem 'faker', '~> 1.6'
 
+# CORS
+gem 'rack-cors'
+
 group :production do
   gem 'activerecord-nulldb-adapter'
 end

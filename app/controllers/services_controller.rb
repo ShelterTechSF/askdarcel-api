@@ -23,9 +23,9 @@ class ServicesController < ApplicationController
   def pending
     pending_services = services.includes(
       resource: [
-        :address, :phones, :categories, :notes, :eligibilities,
+        :address, :phones, :categories, :notes,
         schedule: :schedule_days,
-        services: [:notes, :categories, { schedule: :schedule_days }],
+        services: [:notes, :categories, :eligibilities, { schedule: :schedule_days }],
         ratings: [:review]
       ]
     ).pending

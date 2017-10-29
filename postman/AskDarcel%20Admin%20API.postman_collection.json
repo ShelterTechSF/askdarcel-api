@@ -379,6 +379,54 @@
 			"response": []
 		},
 		{
+			"name": "Get ChangeRequests Counts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Response time is less than 12000ms\"] = responseTime < 12000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{base_url}}/change_requests/pending_count",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "access-token",
+						"value": "{{access-token}}",
+						"description": ""
+					},
+					{
+						"key": "client",
+						"value": "{{client}}",
+						"description": ""
+					},
+					{
+						"key": "uid",
+						"value": "dev-admin@sheltertech.org",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
 			"name": "Admin Sign Out",
 			"event": [
 				{

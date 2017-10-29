@@ -74,6 +74,23 @@ class ChangeRequestsController < ApplicationController
     end
   end
 
+  def pending_count
+    if !admin_signed_in?
+      render status: :unauthorized
+    else
+      render json: {
+                    address: ChangeRequest.all.where('type' => 'AddressChangeRequest').count,
+                    note: ChangeRequest.all.where('type' => 'NoteChangeRequest').count,
+                    phone: ChangeRequest.all.where('type' => 'PhoneChangeRequest').count,
+                    resource: ChangeRequest.all.where('type' => 'ResourceChangeRequest').count,
+                    schedule_day: ChangeRequest.all.where('type' => 'ScheduleDayChangeRequest').count,
+                    service: ChangeRequest.all.where('type' => 'ServiceChangeRequest').count,
+                    new_resources: Resource.all.where('status' => 0).count,
+                    new_services: Service.all.where('status' => 0).count
+                    }
+    end
+  end
+
   def replace_field_changes(change_request)
 
 

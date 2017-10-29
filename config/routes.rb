@@ -42,5 +42,8 @@ Rails.application.routes.draw do
   resources :change_requests do
     post :approve
     post :reject
+    collection do
+      get :pending_count
+    end
   end
 end

@@ -1,7 +1,7 @@
 {
 	"info": {
 		"name": "AskDarcel API",
-		"_postman_id": "0aceffbe-910c-bc5c-a550-d771204cc7f7",
+		"_postman_id": "d431ae05-4663-2ce4-d0f7-1ac698328108",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -135,6 +135,7 @@
 							"            \"type\": [\"string\", \"null\"],",
 							"            \"format\": \"date-time\",",
 							"        },",
+							"        \"eligibilities\": eligibilitySchema,",
 							"    },",
 							"    \"required\": [",
 							"        \"application_process\",",
@@ -149,6 +150,7 @@
 							"        \"required_documents\",",
 							"        \"schedule\",",
 							"        \"verified_at\",",
+							"        \"eligibilities\"",
 							"    ],",
 							"};",
 							"",
@@ -165,7 +167,7 @@
 							"        },",
 							"        \"id\": idSchema,",
 							"        \"long_description\": {\"type\": \"string\"},",
-							"        \"name\": {\"type\": \"string\"},",
+							"        \"name\": {\"type\": \"integer\"},",
 							"        \"notes\": {",
 							"            \"type\": \"array\",",
 							"            \"items\": noteSchema,",
@@ -212,6 +214,15 @@
 							"    ],",
 							"};",
 							"",
+							"var eligibilitySchema = {",
+							"    \"type\": \"object\",",
+							"    \"properties\": {",
+							"        \"id\": idSchema,",
+							"        \"name\": {\"type\": \"string\"},",
+							"    },",
+							"    \"required\": [\"id\", \"name\"],",
+							"};",
+							"",
 							"postman.setGlobalVariable(\"schemas\", {",
 							"    \"id\": idSchema,",
 							"    \"address\": addressSchema,",
@@ -223,6 +234,7 @@
 							"    \"schedule\": scheduleSchema,",
 							"    \"service\": serviceSchema,",
 							"    \"resource\": resourceSchema,",
+							"    \"eligibility\": eligibilitySchema",
 							"});"
 						]
 					}
@@ -360,7 +372,7 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
+							"tests[\"Response time is less than 200ms\"] = responseTime < 1000;",
 							"",
 							"tests[\"Status code is 200\"] = responseCode.code === 200;",
 							"",
@@ -375,6 +387,9 @@
 							"};",
 							"",
 							"var response = pm.response.json();",
+							"console.log(schema);",
+							"console.log(schema.properties);",
+							"console.log(schema.properties.resource);",
 							"tests['Schema is valid'] = tv4.validate(response, schema);",
 							"if (tv4.error) {",
 							"    console.log(\"Validation failed: \", tv4.error);",

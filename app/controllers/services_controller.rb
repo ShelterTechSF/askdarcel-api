@@ -23,7 +23,7 @@ class ServicesController < ApplicationController
   def pending
     pending_services = services.includes(
       resource: [
-        :address, :phones, :categories, :notes,
+        :address, :phones, :categories, :notes, :eligibilities,
         schedule: :schedule_days,
         services: [:notes, :categories, { schedule: :schedule_days }],
         ratings: [:review]
@@ -59,7 +59,7 @@ class ServicesController < ApplicationController
   private
 
   def services
-    Service.includes(:notes, :categories, schedule: :schedule_days)
+    Service.includes(:notes, :categories, :eligibilities, schedule: :schedule_days)
   end
 
   # Clean raw request params for interoperability with Rails APIs.
@@ -82,7 +82,8 @@ class ServicesController < ApplicationController
       :email,
       schedule: [{ schedule_days: [:day, :opens_at, :closes_at] }],
       notes: [:note],
-      categories: [:id]
+      categories: [:id],
+      eligibilities: [:id]
     )
   end
 

@@ -6,6 +6,7 @@ class Service < ActiveRecord::Base
   has_one :schedule, dependent: :destroy
   has_and_belongs_to_many :categories
   has_many :ratings, dependent: :destroy
+  has_and_belongs_to_many :eligibilities, dependant: :destroy
 
   accepts_nested_attributes_for :notes
   accepts_nested_attributes_for :schedule

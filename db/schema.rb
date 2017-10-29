@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170909221914) do
+ActiveRecord::Schema.define(version: 20171029212944) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -84,6 +84,17 @@ ActiveRecord::Schema.define(version: 20170909221914) do
     t.integer  "action",      default: 1
     t.integer  "resource_id"
     t.index ["resource_id"], name: "index_change_requests_on_resource_id", using: :btree
+  end
+
+  create_table "eligibilities", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "eligibilities_services", id: false, force: :cascade do |t|
+    t.integer "service_id",     null: false
+    t.integer "eligibility_id", null: false
   end
 
   create_table "field_changes", force: :cascade do |t|

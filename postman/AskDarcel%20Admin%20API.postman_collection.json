@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "AskDarcel Admin API",
-		"_postman_id": "a44fd75a-f5b2-0158-4221-b4104f32907e",
+		"_postman_id": "d7e838c6-455c-8a81-b8f2-aebbe27445f1",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -300,6 +300,54 @@
 			"request": {
 				"url": "{{base_url}}/services/2/reject",
 				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "access-token",
+						"value": "{{access-token}}",
+						"description": ""
+					},
+					{
+						"key": "client",
+						"value": "{{client}}",
+						"description": ""
+					},
+					{
+						"key": "uid",
+						"value": "dev-admin@sheltertech.org",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get all Categories Counts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Response time is less than 12000ms\"] = responseTime < 12000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{base_url}}/categories/counts",
+				"method": "GET",
 				"header": [
 					{
 						"key": "Accept",

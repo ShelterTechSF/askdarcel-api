@@ -9,4 +9,19 @@ class CategoriesController < ApplicationController
     categories = categories.where(top_level: top_level) unless top_level.nil?
     render json: CategoryPresenter.present(categories)
   end
+
+  # rubocop:disable Metrics/AbcSize
+  def counts
+    if !admin_signed_in?
+      render status: :unauthorized
+    else
+      render status: :ok, json:
+          Category.order(:name).map { |c|
+            { name: c.name,
+              services: Service.joins(:categories).where('categories.id' => c.id).where('status' => 1).count,
+              resources: Resource.joins(:categories).where('categories.id' => c.id).where('status' => 1).count }
+          }
+    end
+  end
+  # rubocop:enable Metrics/AbcSize
 end

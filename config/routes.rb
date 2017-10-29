@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   mount_devise_token_auth_for 'Admin', at: '/admin/auth'
-  resources :categories
+  resources :categories do
+    collection do
+      get :counts
+    end
+  end
   resources :resources do
     resources :notes, only: :create
     collection do

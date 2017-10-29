@@ -167,7 +167,7 @@
 							"        },",
 							"        \"id\": idSchema,",
 							"        \"long_description\": {\"type\": \"string\"},",
-							"        \"name\": {\"type\": \"integer\"},",
+							"        \"name\": {\"type\": \"string\"},",
 							"        \"notes\": {",
 							"            \"type\": \"array\",",
 							"            \"items\": noteSchema,",

@@ -10,7 +10,6 @@ class CategoriesController < ApplicationController
     render json: CategoryPresenter.present(categories)
   end
 
-  # rubocop:disable Metrics/AbcSize
   def counts
     if !admin_signed_in?
       render status: :unauthorized
@@ -18,10 +17,9 @@ class CategoriesController < ApplicationController
       render status: :ok, json:
           Category.order(:name).map { |c|
             { name: c.name,
-              services: Service.joins(:categories).where('categories.id' => c.id).where('status' => 1).count,
-              resources: Resource.joins(:categories).where('categories.id' => c.id).where('status' => 1).count }
+              services: c.services.where('status' => 1).count,
+              resources: c.resources.where('status' => 1).count }
           }
     end
   end
-  # rubocop:enable Metrics/AbcSize
 end

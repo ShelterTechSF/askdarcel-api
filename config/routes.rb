@@ -44,6 +44,7 @@ Rails.application.routes.draw do
     post :reject
     collection do
       get :pending_count
+      get :activity_by_timeframe
     end
   end
 end

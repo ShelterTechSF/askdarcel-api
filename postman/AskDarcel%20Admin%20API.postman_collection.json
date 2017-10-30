@@ -427,6 +427,78 @@
 			"response": []
 		},
 		{
+			"name": "Get ChangeRequests Activity By Timeframe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Response time is less than 12000ms\"] = responseTime < 12000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": {
+					"raw": "{{base_url}}/change_requests/activity_by_timeframe?start_date=2015-06-11T11:34+01:00&end_date=2019-06-11T11:34+01:00",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"change_requests",
+						"activity_by_timeframe"
+					],
+					"query": [
+						{
+							"key": "start_date",
+							"value": "2015-06-11T11:34+01:00",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "end_date",
+							"value": "2019-06-11T11:34+01:00",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "access-token",
+						"value": "{{access-token}}",
+						"description": ""
+					},
+					{
+						"key": "client",
+						"value": "{{client}}",
+						"description": ""
+					},
+					{
+						"key": "uid",
+						"value": "dev-admin@sheltertech.org",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
 			"name": "Admin Sign Out",
 			"event": [
 				{

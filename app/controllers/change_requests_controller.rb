@@ -79,15 +79,46 @@ class ChangeRequestsController < ApplicationController
       render status: :unauthorized
     else
       render json: {
-                    address: ChangeRequest.all.where('type' => 'AddressChangeRequest').count,
-                    note: ChangeRequest.all.where('type' => 'NoteChangeRequest').count,
-                    phone: ChangeRequest.all.where('type' => 'PhoneChangeRequest').count,
-                    resource: ChangeRequest.all.where('type' => 'ResourceChangeRequest').count,
-                    schedule_day: ChangeRequest.all.where('type' => 'ScheduleDayChangeRequest').count,
-                    service: ChangeRequest.all.where('type' => 'ServiceChangeRequest').count,
+                    address_cr: ChangeRequest.all.where('type' => 'AddressChangeRequest').where('status' => 0).count,
+                    note_cr: ChangeRequest.all.where('type' => 'NoteChangeRequest').where('status' => 0).count,
+                    phone_cr: ChangeRequest.all.where('type' => 'PhoneChangeRequest').where('status' => 0).count,
+                    resource_cr: ChangeRequest.all.where('type' => 'ResourceChangeRequest').where('status' => 0).count,
+                    schedule_day_cr: ChangeRequest.all.where('type' => 'ScheduleDayChangeRequest').where('status' => 0).count,
+                    service_cr: ChangeRequest.all.where('type' => 'ServiceChangeRequest').where('status' => 0).count,
                     new_resources: Resource.all.where('status' => 0).count,
                     new_services: Service.all.where('status' => 0).count
                     }
+    end
+  end
+
+  def activity_by_timeframe
+    if !admin_signed_in?
+      render status: :unauthorized
+    else
+      start_date = params[:start_date].to_s
+      end_date = params[:end_date].to_s
+      render json: {
+          new: {
+                address_cr: ChangeRequest.all.where('type' => 'AddressChangeRequest').where("DATE(created_at) > ?", start_date.to_datetime).where("DATE(created_at) < ?", end_date.to_datetime).count,
+                note_cr: ChangeRequest.all.where('type' => 'NoteChangeRequest').where("DATE(created_at) > ?", start_date.to_datetime).where("DATE(created_at) < ?", end_date.to_datetime).count,
+                phone_cr: ChangeRequest.all.where('type' => 'PhoneChangeRequest').where("DATE(created_at) > ?", start_date.to_datetime).where("DATE(created_at) < ?", end_date.to_datetime).count,
+                resource_cr: ChangeRequest.all.where('type' => 'ResourceChangeRequest').where("DATE(created_at) > ?", start_date.to_datetime).where("DATE(created_at) < ?", end_date.to_datetime).count,
+                schedule_day_cr: ChangeRequest.all.where('type' => 'ScheduleDayChangeRequest').where("DATE(created_at) > ?", start_date.to_datetime).where("DATE(created_at) < ?", end_date.to_datetime).count,
+                service_cr: ChangeRequest.all.where('type' => 'ServiceChangeRequest').where("DATE(created_at) > ?", start_date.to_datetime).where("DATE(created_at) < ?", end_date.to_datetime).count,
+                new_resources: Resource.all.where('status' => 0).where("DATE(created_at) > ?", start_date.to_datetime).where("DATE(created_at) < ?", end_date.to_datetime).count,
+                new_services: Service.all.where('status' => 0).where("DATE(created_at) > ?", start_date.to_datetime).where("DATE(created_at) < ?", end_date.to_datetime).count
+          },
+          approved: {
+            address_cr: ChangeRequest.all.where('type' => 'AddressChangeRequest').where("DATE(updated_at) > ?", start_date.to_datetime).where("DATE(updated_at) < ?", end_date.to_datetime).where("status" => 1).count,
+                note_cr: ChangeRequest.all.where('type' => 'NoteChangeRequest').where("DATE(updated_at) > ?", start_date.to_datetime).where("DATE(updated_at) < ?", end_date.to_datetime).where("status" => 1).count,
+                phone_cr: ChangeRequest.all.where('type' => 'PhoneChangeRequest').where("DATE(updated_at) > ?", start_date.to_datetime).where("DATE(updated_at) < ?", end_date.to_datetime).where("status" => 1).count,
+                resource_cr: ChangeRequest.all.where('type' => 'ResourceChangeRequest').where("DATE(updated_at) > ?", start_date.to_datetime).where("DATE(updated_at) < ?", end_date.to_datetime).where("status" => 1).count,
+                schedule_day_cr: ChangeRequest.all.where('type' => 'ScheduleDayChangeRequest').where("DATE(updated_at) > ?", start_date.to_datetime).where("DATE(updated_at) < ?", end_date.to_datetime).where("status" => 1).count,
+                service_cr: ChangeRequest.all.where('type' => 'ServiceChangeRequest').where("DATE(updated_at) > ?", start_date.to_datetime).where("DATE(updated_at) < ?", end_date.to_datetime).where("status" => 1).count,
+                new_resources: Resource.all.where("DATE(updated_at) > ?", start_date.to_datetime).where("DATE(updated_at) < ?", end_date.to_datetime).where("status" => 1).count,
+                new_services: Service.all.where("DATE(updated_at) > ?", start_date.to_datetime).where("DATE(updated_at) < ?", end_date.to_datetime).where("status" => 1).count
+          }
+      }
     end
   end
 

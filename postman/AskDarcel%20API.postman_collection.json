@@ -2,6 +2,7 @@
 	"info": {
 		"name": "AskDarcel API",
 		"_postman_id": "d431ae05-4663-2ce4-d0f7-1ac698328108",
+		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -473,6 +474,47 @@
 					],
 					"path": [
 						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all eligibilities",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_url}}/eligibilities",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"eligibilities"
 					]
 				}
 			},

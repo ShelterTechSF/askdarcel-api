@@ -5,6 +5,7 @@ Rails.application.routes.draw do
       get :counts
     end
   end
+  resources :eligibilities
   resources :resources do
     resources :notes, only: :create
     collection do

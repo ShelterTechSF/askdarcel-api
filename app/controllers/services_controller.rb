@@ -96,6 +96,7 @@ class ServicesController < ApplicationController
   #
   # This method transforms all keys representing nested resources into
   # #{key}_attribute.
+  # rubocop:disable Metrics/AbcSize
   def transform_service_params!(service, resource_id)
     if service.key? :schedule
       schedule = service[:schedule_attributes] = service.delete(:schedule)
@@ -106,7 +107,10 @@ class ServicesController < ApplicationController
     # Unlike other nested resources, don't create new categories; associate
     # with the existing ones.
     service['category_ids'] = service.delete(:categories).collect { |h| h[:id] } if service.key? :categories
+
+    service['eligibility_ids'] = service.delete(:eligibilities).collect { |h| h[:id] } if service.key? :eligibilities
   end
+  # rubocop:enable Metrics/AbcSize
 
   def resource
     @resource ||= Resource.find params[:resource_id] if params[:resource_id]

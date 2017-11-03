@@ -199,11 +199,12 @@ class ChangeRequestsController < ApplicationController
       puts field_change.field_name
       puts field_change.field_value
       # HACK: We need a better way to handle array values
-      if field_change.field_name == 'category_ids'
+      if field_change.field_name == 'category_ids' || field_change.field_name == 'eligibility_ids'
         value = JSON.parse(field_change.field_value)
       else
         value = field_change.field_value
       end
+
       field_change_hash[field_change.field_name] = value
     end
     field_change_hash
@@ -215,6 +216,9 @@ class ChangeRequestsController < ApplicationController
       # HACK: We need a better way to handle array values
       if name == 'categories'
         field_change_hash[:field_name] = 'category_ids'
+        field_change_hash[:field_value] = value.map { |c| c[:id] }.to_json.to_s
+      elsif name == 'eligibiliies'
+        field_change_hash[:field_name] = 'eligibility_ids'
         field_change_hash[:field_value] = value.map { |c| c[:id] }.to_json.to_s
       else
         field_change_hash[:field_name] = name

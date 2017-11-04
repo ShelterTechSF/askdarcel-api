@@ -15,8 +15,5 @@ module AskdarcelApi
         resource '*', headers: :any, methods: [:get, :post, :options]
       end
     end
-    config.after_initialize do
-      ActiveRecord::Migrator.migrate "db/migrate"
-    end
   end
 end

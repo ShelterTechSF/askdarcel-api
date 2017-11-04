@@ -217,7 +217,7 @@ class ChangeRequestsController < ApplicationController
       if name == 'categories'
         field_change_hash[:field_name] = 'category_ids'
         field_change_hash[:field_value] = value.map { |c| c[:id] }.to_json.to_s
-      elsif name == 'eligibiliies'
+      elsif name == 'eligibilities'
         field_change_hash[:field_name] = 'eligibility_ids'
         field_change_hash[:field_value] = value.map { |c| c[:id] }.to_json.to_s
       else

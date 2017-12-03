@@ -1,5 +1,5 @@
 class ServicesController < ApplicationController
-  before_action :require_admin_signed_in!, except: [:create]
+  before_action :require_admin_signed_in!, except: [:create, :destroy]
 
   # wrap_parameters is not useful for nested JSON requests because it does not
   # wrap nested resources. It is unclear if the Rails team considers this to be

@@ -29,6 +29,16 @@ class ResourcesController < ApplicationController
     end
   end
 
+  def destroy
+    resource = Resource.find params[:id]
+    if resource.approved?
+      resource.inactive!
+      render status: :ok
+    else
+      render status: :precondition_failed
+    end
+  end
+
   private
 
   # Clean raw request params for interoperability with Rails APIs.

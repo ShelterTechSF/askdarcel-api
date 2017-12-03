@@ -1,5 +1,5 @@
 class Service < ActiveRecord::Base
-  enum status: { pending: 0, approved: 1, rejected: 2 }
+  enum status: { pending: 0, approved: 1, rejected: 2, inactive: 3 }
 
   belongs_to :resource, required: true
   has_many :notes, dependent: :destroy

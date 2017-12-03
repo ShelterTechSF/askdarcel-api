@@ -56,6 +56,16 @@ class ServicesController < ApplicationController
     end
   end
 
+  def destroy
+    service = Service.find params[:id]
+    if service.approved?
+      service.inactive!
+      render status: :ok
+    else
+      render status: :precondition_failed
+    end
+  end
+
   private
 
   def services

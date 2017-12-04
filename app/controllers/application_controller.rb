@@ -4,8 +4,10 @@ class ApplicationController < ActionController::API
     head :bad_request
   end
 
+  before_action :cachable
+
   def cachable
-    expires_in 5.minute, public: true, must_revalidate: true
+    expires_in 0.second, public: true, must_revalidate: true
   end
 
   private

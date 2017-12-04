@@ -1,6 +1,4 @@
 class CategoriesController < ApplicationController
-  before_action :cachable
-
   def index
     categories = Category.order(:name)
     # Cast:

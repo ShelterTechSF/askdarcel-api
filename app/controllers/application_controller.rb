@@ -7,7 +7,7 @@ class ApplicationController < ActionController::API
   before_action :cachable
 
   def cachable
-    expires_in 0.second, public: true, must_revalidate: false
+    expires_in 1.second, public: true, must_revalidate: false
   end
 
   private

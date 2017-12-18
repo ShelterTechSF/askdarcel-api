@@ -29,6 +29,10 @@ class ResourcesController < ApplicationController
     end
   end
 
+  def certify
+    puts 'harro'
+  end
+
   def destroy
     resource = Resource.find params[:id]
     if resource.approved?

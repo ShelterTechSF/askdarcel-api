@@ -32,10 +32,9 @@ class ResourcesController < ApplicationController
   def certify
     resource = Resource.find params[:resource_id]
 
-    resource.certified=true
+    resource.certified = true
     resource.save!
     render status: :ok
-
   end
 
   def destroy

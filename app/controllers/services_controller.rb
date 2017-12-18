@@ -26,7 +26,6 @@ class ServicesController < ApplicationController
     service.certified = true
     service.save!
     render status: :ok
-
   end
 
   def pending

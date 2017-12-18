@@ -21,7 +21,12 @@ class ServicesController < ApplicationController
   end
 
   def certify
-    puts 'harro'
+    service = Service.find params[:service_id]
+
+    service.certified = true
+    service.save!
+    render status: :ok
+
   end
 
   def pending

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171029212944) do
+ActiveRecord::Schema.define(version: 20171218201826) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -150,15 +150,16 @@ ActiveRecord::Schema.define(version: 20171029212944) do
   end
 
   create_table "resources", force: :cascade do |t|
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
-    t.string   "name",              null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.string   "name",                              null: false
     t.string   "short_description"
     t.text     "long_description"
     t.string   "website"
     t.datetime "verified_at"
     t.string   "email"
     t.integer  "status"
+    t.boolean  "certified",         default: false
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -187,8 +188,8 @@ ActiveRecord::Schema.define(version: 20171029212944) do
   end
 
   create_table "services", force: :cascade do |t|
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
     t.string   "name"
     t.text     "long_description"
     t.string   "eligibility"
@@ -199,6 +200,7 @@ ActiveRecord::Schema.define(version: 20171029212944) do
     t.datetime "verified_at"
     t.string   "email"
     t.integer  "status"
+    t.boolean  "certified",           default: false
     t.index ["resource_id"], name: "index_services_on_resource_id", using: :btree
   end
 

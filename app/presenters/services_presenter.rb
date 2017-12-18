@@ -8,6 +8,7 @@ class ServicesPresenter < Jsonite
   property :application_process
   property :verified_at
   property :email
+  property :certified
   property :schedule, with: SchedulesPresenter
   property :notes, with: NotesPresenter
   property :categories, with: CategoryPresenter

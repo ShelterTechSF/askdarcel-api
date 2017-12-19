@@ -356,14 +356,14 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{base_url}}/services/1/approve",
+					"raw": "{{base_url}}/services/1/certify",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"services",
 						"1",
-						"approve"
+						"certify"
 					]
 				},
 				"description": null

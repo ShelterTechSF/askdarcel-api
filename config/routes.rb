@@ -13,7 +13,6 @@ Rails.application.routes.draw do
     end
 
     post :create
-    delete :inactviate
     post :certify
 
     resources :ratings, only: :create

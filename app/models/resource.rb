@@ -39,9 +39,9 @@ class Resource < ActiveRecord::Base
         end
       end
 
-    add_attribute :notes do
-     notes.map {|n| n.note }
-    end
+      add_attribute :notes do
+        notes.map(&:note)
+      end
 
       add_attribute :categories do
         categories.map(&:name)

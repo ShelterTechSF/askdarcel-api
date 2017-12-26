@@ -5,6 +5,7 @@ Rails.application.routes.draw do
       get :counts
     end
   end
+  resources :eligibilities
   resources :resources do
     resources :notes, only: :create
     collection do
@@ -12,6 +13,7 @@ Rails.application.routes.draw do
     end
 
     post :create
+    post :certify
 
     resources :ratings, only: :create
     resources :change_requests, only: :create
@@ -23,6 +25,7 @@ Rails.application.routes.draw do
     resources :notes, only: :create
     post :approve
     post :reject
+    post :certify
     collection do
       get :pending
     end

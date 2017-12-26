@@ -1,5 +1,5 @@
 class ServicesController < ApplicationController
-  before_action :require_admin_signed_in!, except: [:create]
+  before_action :require_admin_signed_in!, except: [:create, :destroy, :certify]
 
   # wrap_parameters is not useful for nested JSON requests because it does not
   # wrap nested resources. It is unclear if the Rails team considers this to be
@@ -20,12 +20,20 @@ class ServicesController < ApplicationController
     end
   end
 
+  def certify
+    service = Service.find params[:service_id]
+
+    service.certified = true
+    service.save!
+    render status: :ok
+  end
+
   def pending
     pending_services = services.includes(
       resource: [
         :address, :phones, :categories, :notes,
         schedule: :schedule_days,
-        services: [:notes, :categories, { schedule: :schedule_days }],
+        services: [:notes, :categories, :eligibilities, { schedule: :schedule_days }],
         ratings: [:review]
       ]
     ).pending
@@ -56,10 +64,20 @@ class ServicesController < ApplicationController
     end
   end
 
+  def destroy
+    service = Service.find params[:id]
+    if service.approved?
+      service.inactive!
+      render status: :ok
+    else
+      render status: :precondition_failed
+    end
+  end
+
   private
 
   def services
-    Service.includes(:notes, :categories, schedule: :schedule_days)
+    Service.includes(:notes, :categories, :eligibilities, schedule: :schedule_days)
   end
 
   # Clean raw request params for interoperability with Rails APIs.
@@ -82,7 +100,8 @@ class ServicesController < ApplicationController
       :email,
       schedule: [{ schedule_days: [:day, :opens_at, :closes_at] }],
       notes: [:note],
-      categories: [:id]
+      categories: [:id],
+      eligibilities: [:id]
     )
   end
 
@@ -95,6 +114,7 @@ class ServicesController < ApplicationController
   #
   # This method transforms all keys representing nested resources into
   # #{key}_attribute.
+  # rubocop:disable Metrics/AbcSize
   def transform_service_params!(service, resource_id)
     if service.key? :schedule
       schedule = service[:schedule_attributes] = service.delete(:schedule)
@@ -105,7 +125,10 @@ class ServicesController < ApplicationController
     # Unlike other nested resources, don't create new categories; associate
     # with the existing ones.
     service['category_ids'] = service.delete(:categories).collect { |h| h[:id] } if service.key? :categories
+
+    service['eligibility_ids'] = service.delete(:eligibilities).collect { |h| h[:id] } if service.key? :eligibilities
   end
+  # rubocop:enable Metrics/AbcSize
 
   def resource
     @resource ||= Resource.find params[:resource_id] if params[:resource_id]

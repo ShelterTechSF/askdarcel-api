@@ -1,6 +1,39 @@
 # askdarcel-api [![Build Status](https://travis-ci.org/ShelterTechSF/askdarcel-api.svg?branch=master)](https://travis-ci.org/ShelterTechSF/askdarcel-api)
 
-## macOS Set-up Instructions
+This project exposes the API endpoints for supporting the askdarcel-web project, which is built using a Ruby on Rails API Server
+
+## Docker-based Development Set-up Instructions (Recommended)
+
+### Requirements
+
+Docker Engine >= 1.10
+Docker Compose >= 1.6
+
+Follow the [Docker installation instructions](https://www.docker.com/products/overview) for your OS.
+
+### Set up the project
+
+This is not a full guide to Docker and Docker Compose, so please consult other
+guides to learn more about those tools.
+
+```sh
+# Start the database container (in the background with -d)
+$ docker-compose up -d db
+
+# Populate the initial development database
+$ docker-compose run --rm api rake db:create db:schema:load linksf:import
+
+# Alternatively, you can generate random fixtures:
+$ docker-compose run --rm api rake db:setup db:populate
+
+# Start the Rails development server in the api container (in the foreground)
+$ docker-compose up api
+
+# To stop all containers, including background ones
+$ docker-compose stop
+```
+
+## macOS Set-up Instructions Not using Docker
 
 ### Install Dependencies
 
@@ -45,37 +78,6 @@ After cloning the repository and `cd`ing into the workspace:
   - `rails s -b 0.0.0.0`
 6. Do NOT do sudo install -rails
 
-
-## Docker-based Development Set-up Instructions
-
-### Requirements
-
-Docker Engine >= 1.10
-Docker Compose >= 1.6
-
-Follow the [Docker installation instructions](https://www.docker.com/products/overview) for your OS.
-
-### Set up the project
-
-This is not a full guide to Docker and Docker Compose, so please consult other
-guides to learn more about those tools.
-
-```sh
-# Start the database container (in the background with -d)
-$ docker-compose up -d db
-
-# Populate the initial development database
-$ docker-compose run --rm api rake db:create db:schema:load linksf:import
-
-# Alternatively, you can generate random fixtures:
-$ docker-compose run --rm api rake db:setup db:populate
-
-# Start the Rails development server in the api container (in the foreground)
-$ docker-compose up api
-
-# To stop all containers, including background ones
-$ docker-compose stop
-```
 
 ### Running Postman tests from the command line
 

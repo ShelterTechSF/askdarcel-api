@@ -3,7 +3,7 @@ class Resource < ActiveRecord::Base
 
   delegate :latitude, :longitude, to: :address, prefix: true, allow_nil: true
 
-  enum status: { pending: 0, approved: 1, rejected: 2 }
+  enum status: { pending: 0, approved: 1, rejected: 2, inactive: 3 }
 
   has_and_belongs_to_many :categories
   has_and_belongs_to_many :keywords

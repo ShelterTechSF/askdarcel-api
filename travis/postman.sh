@@ -16,5 +16,5 @@ trap "kill $rails_pid" EXIT
 # failure on the first Postman test.
 curl -v http://localhost:3000/resources?category_id=1 >/dev/null
 
-newman run -g postman/globals.postman_globals.json postman/AskDarcel%20API.postman_collection.json
-newman run -g postman/globals.postman_globals.json postman/AskDarcel%20Admin%20API.postman_collection.json
+newman run postman/AskDarcel%20API.postman_collection.json -g postman/globals.postman_globals.json
+newman run postman/AskDarcel%20Admin%20API.postman_collection.json -g postman/globals.postman_globals.json

@@ -36,7 +36,7 @@ script:
 
 after_success:
   - echo 'export DATABASE_URL="'$PRECOMPILE_DATABASE_URL'"' >> .env
-  - docker login -e $DOCKER_EMAIL -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
   - export TAG=`if [[ -n "$TRAVIS_TAG" ]]; then echo "$TRAVIS_TAG"; else if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then echo "pull-request-$TRAVIS_PULL_REQUEST"; else if [ "$SANITIZED_BRANCH" == "master" ]; then echo "latest"; else echo "branch-$SANITIZED_BRANCH"; fi; fi; fi`
   - docker build -f Dockerfile -t $REPO:$COMMIT .
   - echo "Pushing tags for '$COMMIT', '$TAG', and 'travis-$TRAVIS_BUILD_NUMBER'"

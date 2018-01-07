@@ -11,6 +11,7 @@ class ServicesController < ApplicationController
   def create
     services_params = clean_services_params
     services = services_params.map { |s| Service.new(s) }
+    services.each { |s| s.status = :approved }
     if services.any?(&:invalid?)
       render status: :bad_request, json: { services: services.select(&:invalid?).map(&:errors) }
     else

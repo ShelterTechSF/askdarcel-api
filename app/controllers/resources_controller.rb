@@ -20,6 +20,7 @@ class ResourcesController < ApplicationController
   def create
     resources_params = clean_resources_params
     resources = resources_params.map { |r| Resource.new(r) }
+    resources.each { |r| r.status = :approved }
     if resources.any?(&:invalid?)
       render status: :bad_request, json: { resources: resources.select(&:invalid?).map(&:errors) }
     else

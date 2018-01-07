@@ -191,7 +191,26 @@ namespace :db do
       'Technology',
       'Wifi Access',
       'Computer Access',
-      'Smartphones'
+      'Smartphones',
+      'Family Shelters',
+      'Domestic Violence Shelters',
+      'Eviction Defense',
+      'Housing/Tenants Rights',
+      'Youth',
+      'Seniors',
+      'End of Life Care',
+      'Home Delivered Meals',
+      'Senior Centers',
+      'Congregate Meals',
+      'Housing Rights',
+      'Domestic Violence',
+      'Legal Representation',
+      'Prison/Jail Related Services',
+      'Legal Services',
+      'Domestic Violence Hotlines',
+      'Re-entry Services',
+      'Clean Slate',
+      'Probation and Parole'
     ]
     category_names.each { |name| FactoryGirl.create(:category, name: name) }
 
@@ -207,7 +226,11 @@ namespace :db do
       'Education',
       'Work',
       'Legal',
-      'Homelessness Essentials'
+      'Homelessness Essentials',
+      'Youth',
+      'Seniors',
+      'Domestic Violence',
+      'Prison/Jail Related Services'
     ]
     top_level_categories.each do |c|
       Category.find_by_name!(c).update(top_level: true)

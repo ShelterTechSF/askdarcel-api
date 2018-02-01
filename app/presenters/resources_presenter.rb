@@ -8,6 +8,7 @@ class ResourcesPresenter < Jsonite
   property :email
   property :status
   property :certified
+  property :alternate_name
   property(:services) do
     # Filter services in Ruby to avoid ignoring prefetched rows and generating
     # a new query.

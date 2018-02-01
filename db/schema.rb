@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171218201826) do
+ActiveRecord::Schema.define(version: 20180201020437) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -160,6 +160,8 @@ ActiveRecord::Schema.define(version: 20171218201826) do
     t.string   "email"
     t.integer  "status"
     t.boolean  "certified",         default: false
+    t.string   "alternate_name"
+    t.string   "legal_status"
   end
 
   create_table "reviews", force: :cascade do |t|

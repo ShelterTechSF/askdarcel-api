@@ -34,7 +34,7 @@ class ServicesController < ApplicationController
       resource: [
         :address, :phones, :categories, :notes,
         schedule: :schedule_days,
-        services: [:notes, :categories, :eligibilities, { schedule: :schedule_days }],
+        services: [:notes, :categories, :addresses, :eligibilities, { schedule: :schedule_days }],
         ratings: [:review]
       ]
     ).pending
@@ -78,7 +78,7 @@ class ServicesController < ApplicationController
   private
 
   def services
-    Service.includes(:notes, :categories, :eligibilities, schedule: :schedule_days)
+    Service.includes(:notes, :categories, :eligibilities, :addresses, schedule: :schedule_days)
   end
 
   # Clean raw request params for interoperability with Rails APIs.
@@ -102,6 +102,7 @@ class ServicesController < ApplicationController
       schedule: [{ schedule_days: [:day, :opens_at, :closes_at] }],
       notes: [:note],
       categories: [:id],
+      addresses: [:id, :address_1, :city, :state_province, :postal_code, :country],
       eligibilities: [:id]
     )
   end
@@ -121,6 +122,10 @@ class ServicesController < ApplicationController
       schedule = service[:schedule_attributes] = service.delete(:schedule)
       schedule[:schedule_days_attributes] = schedule.delete(:schedule_days) if schedule.key? :schedule_days
     end
+
+    puts 'hi'
+    service[:addresses_attributes] = service.delete(:addresses) if service.key? :addresses
+    puts 'here'
     service[:notes_attributes] = service.delete(:notes) if service.key? :notes
     service[:resource_id] = resource_id
     # Unlike other nested resources, don't create new categories; associate

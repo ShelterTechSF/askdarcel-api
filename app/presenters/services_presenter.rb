@@ -12,5 +12,6 @@ class ServicesPresenter < Jsonite
   property :schedule, with: SchedulesPresenter
   property :notes, with: NotesPresenter
   property :categories, with: CategoryPresenter
+  property :addresses, with: AddressPresenter
   property :eligibilities, with: EligibilityPresenter
 end

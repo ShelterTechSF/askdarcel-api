@@ -7,9 +7,11 @@ class Service < ActiveRecord::Base
   has_and_belongs_to_many :categories
   has_many :ratings, dependent: :destroy
   has_and_belongs_to_many :eligibilities, dependent: :destroy
+  has_and_belongs_to_many :addresses, dependent: :destroy
 
   accepts_nested_attributes_for :notes
   accepts_nested_attributes_for :schedule
+  accepts_nested_attributes_for :addresses
 
   before_create do
     self.status = :pending unless status

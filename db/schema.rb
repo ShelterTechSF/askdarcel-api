@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180201023804) do
+ActiveRecord::Schema.define(version: 20180201050818) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,10 +27,15 @@ ActiveRecord::Schema.define(version: 20180201023804) do
     t.string   "state_province", null: false
     t.string   "postal_code",    null: false
     t.string   "country",        null: false
-    t.integer  "resource_id",    null: false
+    t.integer  "resource_id"
     t.decimal  "latitude"
     t.decimal  "longitude"
     t.index ["resource_id"], name: "index_addresses_on_resource_id", using: :btree
+  end
+
+  create_table "addresses_services", id: false, force: :cascade do |t|
+    t.integer "service_id", null: false
+    t.integer "address_id", null: false
   end
 
   create_table "admins", force: :cascade do |t|
@@ -200,8 +205,8 @@ ActiveRecord::Schema.define(version: 20180201023804) do
   end
 
   create_table "services", force: :cascade do |t|
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
     t.string   "name"
     t.text     "long_description"
     t.string   "eligibility"
@@ -212,8 +217,11 @@ ActiveRecord::Schema.define(version: 20180201023804) do
     t.datetime "verified_at"
     t.string   "email"
     t.integer  "status"
-    t.boolean  "certified",           default: false
+    t.boolean  "certified",               default: false
     t.integer  "program_id"
+    t.string   "interpretation_services"
+    t.string   "url"
+    t.string   "wait_time"
     t.index ["program_id"], name: "index_services_on_program_id", using: :btree
     t.index ["resource_id"], name: "index_services_on_resource_id", using: :btree
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180201020437) do
+ActiveRecord::Schema.define(version: 20180201023804) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -137,6 +137,16 @@ ActiveRecord::Schema.define(version: 20180201020437) do
     t.index ["resource_id"], name: "index_phones_on_resource_id", using: :btree
   end
 
+  create_table "programs", force: :cascade do |t|
+    t.string   "name"
+    t.string   "alternate_name"
+    t.string   "description"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.integer  "resource_id"
+    t.index ["resource_id"], name: "index_programs_on_resource_id", using: :btree
+  end
+
   create_table "ratings", force: :cascade do |t|
     t.decimal "rating"
     t.integer "user_id",     null: false
@@ -203,6 +213,8 @@ ActiveRecord::Schema.define(version: 20180201020437) do
     t.string   "email"
     t.integer  "status"
     t.boolean  "certified",           default: false
+    t.integer  "program_id"
+    t.index ["program_id"], name: "index_services_on_program_id", using: :btree
     t.index ["resource_id"], name: "index_services_on_resource_id", using: :btree
   end
 
@@ -216,6 +228,7 @@ ActiveRecord::Schema.define(version: 20180201020437) do
   add_foreign_key "notes", "resources"
   add_foreign_key "notes", "services"
   add_foreign_key "phones", "resources"
+  add_foreign_key "programs", "resources"
   add_foreign_key "ratings", "resources"
   add_foreign_key "ratings", "services"
   add_foreign_key "ratings", "users"
@@ -223,5 +236,6 @@ ActiveRecord::Schema.define(version: 20180201020437) do
   add_foreign_key "schedule_days", "schedules"
   add_foreign_key "schedules", "resources"
   add_foreign_key "schedules", "services"
+  add_foreign_key "services", "programs"
   add_foreign_key "services", "resources"
 end

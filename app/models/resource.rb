@@ -23,7 +23,9 @@ class Resource < ActiveRecord::Base
   end
 
   if Rails.configuration.x.algolia.enabled
-    algoliasearch per_environment: true do
+    # Note: We can't use the per_environment option because both our production
+    # and staging servers use the same RAILS_ENV.
+    algoliasearch index_name: "#{Rails.configuration.x.algolia.index_prefix}_Resource" do
       geoloc :address_latitude, :address_longitude
 
       add_attribute :address do

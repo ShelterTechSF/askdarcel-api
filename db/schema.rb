@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180204225337) do
+ActiveRecord::Schema.define(version: 20180204225622) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -119,6 +119,12 @@ ActiveRecord::Schema.define(version: 20180204225337) do
     t.index ["change_request_id"], name: "index_field_changes_on_change_request_id", using: :btree
   end
 
+  create_table "fundings", force: :cascade do |t|
+    t.string   "source"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "keywords", force: :cascade do |t|
     t.string "name"
   end
@@ -189,7 +195,9 @@ ActiveRecord::Schema.define(version: 20180204225337) do
     t.string   "alternate_name"
     t.string   "legal_status"
     t.integer  "contact_id"
+    t.integer  "funding_id"
     t.index ["contact_id"], name: "index_resources_on_contact_id", using: :btree
+    t.index ["funding_id"], name: "index_resources_on_funding_id", using: :btree
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -235,10 +243,12 @@ ActiveRecord::Schema.define(version: 20180204225337) do
     t.string   "interpretation_services"
     t.string   "url"
     t.string   "wait_time"
-    t.integer  "service_id"
+    t.integer  "contact_id"
+    t.integer  "funding_id"
+    t.index ["contact_id"], name: "index_services_on_contact_id", using: :btree
+    t.index ["funding_id"], name: "index_services_on_funding_id", using: :btree
     t.index ["program_id"], name: "index_services_on_program_id", using: :btree
     t.index ["resource_id"], name: "index_services_on_resource_id", using: :btree
-    t.index ["service_id"], name: "index_services_on_service_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
@@ -256,11 +266,13 @@ ActiveRecord::Schema.define(version: 20180204225337) do
   add_foreign_key "ratings", "services"
   add_foreign_key "ratings", "users"
   add_foreign_key "resources", "contacts"
+  add_foreign_key "resources", "fundings"
   add_foreign_key "reviews", "ratings"
   add_foreign_key "schedule_days", "schedules"
   add_foreign_key "schedules", "resources"
   add_foreign_key "schedules", "services"
+  add_foreign_key "services", "contacts"
+  add_foreign_key "services", "fundings"
   add_foreign_key "services", "programs"
   add_foreign_key "services", "resources"
-  add_foreign_key "services", "services"
 end

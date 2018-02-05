@@ -3,9 +3,13 @@
 class ResourcesController < ApplicationController
   def index
     category_id = params.require :category_id
-    relation = resources.joins(:categories).joins(:address)
-                        .where('categories.id' => category_id).where(status: Resource.statuses[:approved])
-                        .order(sort_order)
+    # TODO: This can be simplified once we remove categories from resources
+    relation =
+      resources
+      .joins(:address)
+      .where(categories_join_string, category_id, category_id)
+      .where(status: Resource.statuses[:approved])
+      .order(sort_order)
     render json: ResourcesPresenter.present(relation)
   end
 
@@ -119,5 +123,24 @@ class ResourcesController < ApplicationController
   def lat_lng
     return @lat_lng if defined? @lat_lng
     @lat_lng ||= Geokit::LatLng.new(params[:lat], params[:long]) if params[:lat] && params[:long]
+  end
+
+  def categories_join_string
+    <<~'SQL'
+      resources.id IN (
+        (
+          SELECT resources.id
+            FROM resources
+            INNER JOIN categories_resources ON resources.id = categories_resources.resource_id
+            WHERE categories_resources.category_id = ?
+        ) UNION (
+          SELECT resources.id
+            FROM resources
+            INNER JOIN services ON resources.id = services.resource_id
+            INNER JOIN categories_services ON services.id = categories_services.service_id
+            WHERE categories_services.category_id = ?
+        )
+      )
+    SQL
   end
 end

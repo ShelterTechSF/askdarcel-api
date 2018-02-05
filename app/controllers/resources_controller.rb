@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ResourcesController < ApplicationController
   def index
     category_id = params.require :category_id
@@ -69,9 +71,9 @@ class ResourcesController < ApplicationController
       :website,
       :email,
       :status,
-      address: [:address_1, :address_2, :address_3, :address_4, :city, :state_province, :country, :postal_code],
-      schedule: [{ schedule_days: [:day, :opens_at, :closes_at] }],
-      phones: [:number, :service_type],
+      address: %i[address_1 address_2 address_3 address_4 city state_province country postal_code],
+      schedule: [{ schedule_days: %i[day opens_at closes_at] }],
+      phones: %i[number service_type],
       notes: [:note],
       categories: [:id]
     )
@@ -106,22 +108,16 @@ class ResourcesController < ApplicationController
   def resources
     Resource.includes(:address, :phones, :categories, :notes,
                       schedule: :schedule_days,
-                      services: [:notes, :categories, { schedule: :schedule_days }],
+                      services: [:notes, :categories, { schedule: :schedule_days }, :eligibilities],
                       ratings: [:review])
   end
 
   def sort_order
-    @sort_order ||= if lat_lng
-                      Address.distance_sql(lat_lng)
-                    else
-                      :id
-                    end
+    @sort_order ||= lat_lng ? Address.distance_sql(lat_lng) : :id
   end
 
   def lat_lng
     return @lat_lng if defined? @lat_lng
-    @lat_lng = if params[:lat] && params[:long]
-                 Geokit::LatLng.new(params[:lat], params[:long])
-               end
+    @lat_lng ||= Geokit::LatLng.new(params[:lat], params[:long]) if params[:lat] && params[:long]
   end
 end

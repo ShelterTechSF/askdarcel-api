@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ServicesPresenter < Jsonite
   property :id
   property :name

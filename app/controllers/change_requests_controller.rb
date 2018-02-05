@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative '../presenters/change_requests_presenter'
 
 class ChangeRequestsController < ApplicationController

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'sheltertech/random'
 
 FactoryGirl.define do
@@ -5,7 +7,7 @@ FactoryGirl.define do
     resource nil
 
     after(:create) do |schedule|
-      days = %w(Monday Tuesday Wednesday Thursday Friday Saturday Sunday)
+      days = %w[Monday Tuesday Wednesday Thursday Friday Saturday Sunday]
       days.each do |day|
         num_schedule_days = ShelterTech::Random.sample_weighted(
           0 => 1,
@@ -18,7 +20,6 @@ FactoryGirl.define do
         }
 
         case num_schedule_days
-        when 0
         when 1
           schedule_day_factory = ShelterTech::Random.sample_weighted(schedule_day_strategies)
           create(schedule_day_factory, day: day, schedule: schedule)

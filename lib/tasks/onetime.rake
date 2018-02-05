@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Tasks that should be run once to alter data in production.
 
 namespace :onetime do
@@ -37,6 +39,6 @@ namespace :onetime do
       categories.each do |c|
         Category.find_or_create_by(name: c)
       end
-    end # Category.transaction
+    end
   end
 end

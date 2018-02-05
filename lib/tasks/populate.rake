@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :db do
   desc 'Erase and fill a development database'
   task populate: :environment do
@@ -243,9 +245,9 @@ namespace :db do
 
     128.times do
       name = Faker::Company.name
-      short_description = Faker::Lorem.sentence if rand(2) == 0
+      short_description = Faker::Lorem.sentence if rand(2).zero?
       long_description = Faker::ShelterTech.description
-      website = Faker::Internet.url if rand(2) == 0
+      website = Faker::Internet.url if rand(2).zero?
       resource = FactoryGirl.create(:resource,
                                     name: name,
                                     short_description: short_description,
@@ -254,10 +256,12 @@ namespace :db do
                                     categories: top_level_categories.sample(rand(2)) + categories.sample(rand(2)))
       services = []
 
-      (rand(2) + 1).times do
+      rand(1..2).times do
+        service_categories = top_level_categories.sample(rand(2)) + categories.sample(rand(2))
         services << FactoryGirl.create(:service,
                                        resource: resource,
-                                       long_description: Faker::ShelterTech.description)
+                                       long_description: Faker::ShelterTech.description,
+                                       categories: service_categories)
 
         FactoryGirl.create(:change_request,
                            type: 'ResourceChangeRequest',

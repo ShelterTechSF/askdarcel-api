@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Service < ActiveRecord::Base
   enum status: { pending: 0, approved: 1, rejected: 2, inactive: 3 }
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # lib/tasks/linksf.rake
 # invoke on command line from root directory of repo by running
 # `bundle exec rake linksf:import[path/to/linksf-dump.json]`
@@ -14,7 +16,7 @@ namespace :linksf do
     locations = JSON.parse(File.read(File.join(args.dirname, 'locations.json')), symbolize_names: true)
     organizations = JSON.parse(File.read(File.join(args.dirname, 'organizations.json')), symbolize_names: true)
 
-    category_names = %w(Shelter Food Medical Hygiene Technology)
+    category_names = %w[Shelter Food Medical Hygiene Technology]
 
     category_names.each do |name|
       FactoryGirl.create(:category, name: name, top_level: true)

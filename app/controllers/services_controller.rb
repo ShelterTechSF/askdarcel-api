@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class ServicesController < ApplicationController
-  before_action :require_admin_signed_in!, except: [:create, :destroy, :certify]
+  before_action :require_admin_signed_in!, except: %i[create destroy certify]
 
   # wrap_parameters is not useful for nested JSON requests because it does not
   # wrap nested resources. It is unclear if the Rails team considers this to be
@@ -99,7 +101,7 @@ class ServicesController < ApplicationController
       :fee,
       :application_process,
       :email,
-      schedule: [{ schedule_days: [:day, :opens_at, :closes_at] }],
+      schedule: [{ schedule_days: %i[day opens_at closes_at] }],
       notes: [:note],
       categories: [:id],
       eligibilities: [:id]

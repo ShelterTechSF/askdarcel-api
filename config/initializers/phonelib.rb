@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Allow special numbers such as 211 to validate
 Phonelib.parse_special = true
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Resources
   module Search
     def self.perform(query, lat_lng: nil, scope: Resource)
@@ -16,17 +18,17 @@ module Resources
     end
 
     class DatabaseStrategy < SearchStrategy
-      SEARCH_CONFIG = 'english'.freeze
+      SEARCH_CONFIG = 'english'
 
       # SEARCH_COLUMNS maps table names to an array of the columns in
       # that table to search.
       SEARCH_COLUMNS = {
-        resources: %i(
+        resources: %i[
           name
           short_description
           long_description
           website
-        ).freeze,
+        ].freeze,
         services: :long_description,
         notes: :note,
         categories: :name
@@ -42,7 +44,7 @@ module Resources
         sort = lat_lng.blank? ? 'resources.name' : Address.distance_sql(lat_lng)
 
         scope
-          .left_outer_joins(:services)
+          .left_outer_joins(services: [:categories])
           .left_outer_joins(:notes)
           .left_outer_joins(:categories)
           .left_outer_joins(:address)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Resource < ActiveRecord::Base
   include AlgoliaSearch
 
@@ -27,7 +29,7 @@ class Resource < ActiveRecord::Base
   if Rails.configuration.x.algolia.enabled
     # Note: We can't use the per_environment option because both our production
     # and staging servers use the same RAILS_ENV.
-    algoliasearch index_name: "#{Rails.configuration.x.algolia.index_prefix}_Resource" do
+    algoliasearch index_name: "#{Rails.configuration.x.algolia.index_prefix}_Resource" do # rubocop:disable Metrics/BlockLength
       geoloc :address_latitude, :address_longitude
 
       add_attribute :address do

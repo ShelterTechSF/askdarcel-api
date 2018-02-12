@@ -69,6 +69,7 @@ class ResourcesController < ApplicationController
       :website,
       :email,
       :status,
+      address: [:address],
       schedule: [{ schedule_days: [:day, :opens_at, :closes_at] }],
       notes: [:note],
       categories: [:id]
@@ -87,6 +88,11 @@ class ResourcesController < ApplicationController
     end
 
     resource[:notes_attributes] = resource.delete(:notes) if resource.key? :notes
+
+    resource[:address_attributes] = resource.delete(:address) if resource.key? :address
+
+    puts 'foo'
+    puts address_attributes
 
     resource.delete(:notes)
 

@@ -17,6 +17,7 @@ class Resource < ActiveRecord::Base
 
   accepts_nested_attributes_for :notes
   accepts_nested_attributes_for :schedule
+  accepts_nested_attributes_for :address
 
   before_create do
     self.status = :pending unless status

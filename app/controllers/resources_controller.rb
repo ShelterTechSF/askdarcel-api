@@ -69,8 +69,9 @@ class ResourcesController < ApplicationController
       :website,
       :email,
       :status,
-      address: [:address],
+      address: [:address_1, :address_2, :address_3, :address_4, :city, :state_province, :country, :postal_code],
       schedule: [{ schedule_days: [:day, :opens_at, :closes_at] }],
+      phones: [:number, :service_type],
       notes: [:note],
       categories: [:id]
     )
@@ -87,16 +88,19 @@ class ResourcesController < ApplicationController
       schedule[:schedule_days_attributes] = schedule.delete(:schedule_days) if schedule.key? :schedule_days
     end
 
+    resource['category_ids'] = resource.delete(:categories).collect { |h| h[:id] } if resource.key? :categories
+
+    transform_simple_objects resource
+  end
+
+  def transform_simple_objects(resource)
     resource[:notes_attributes] = resource.delete(:notes) if resource.key? :notes
 
     resource[:address_attributes] = resource.delete(:address) if resource.key? :address
 
-    puts 'foo'
-    puts address_attributes
-
     resource.delete(:notes)
 
-    resource['category_ids'] = resource.delete(:categories).collect { |h| h[:id] } if resource.key? :categories
+    resource[:phones_attributes] = resource.delete(:phones) if resource.key? :phones
   end
 
   def resources

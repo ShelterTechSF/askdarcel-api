@@ -14,6 +14,11 @@ class NotesController < ApplicationController
     render status: :created, json: note
   end
 
+  def destroy
+    note = Note.find params[:id]
+    note.delete
+  end
+
   private
 
   def service

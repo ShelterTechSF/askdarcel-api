@@ -131,7 +131,7 @@ class ServicesController < ApplicationController
   end
   # rubocop:enable Metrics/AbcSize
 
-  def transform_nested_objects!(service, resource_id)
+  def transform_nested_objects(service, resource_id)
     service[:addresses_attributes] = service.delete(:addresses) if service.key? :addresses
     service[:notes_attributes] = service.delete(:notes) if service.key? :notes
     service[:resource_id] = resource_id

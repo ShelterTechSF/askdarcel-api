@@ -1,0 +1,5 @@
+class AddVocabularyToCategories < ActiveRecord::Migration[5.0]
+  def change
+    add_column :categories, :vocabulary, :string
+  end
+end

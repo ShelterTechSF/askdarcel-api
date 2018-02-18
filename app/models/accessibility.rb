@@ -1,0 +1,2 @@
+class Accessibility < ApplicationRecord
+end

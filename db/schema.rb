@@ -10,10 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180204230859) do
+ActiveRecord::Schema.define(version: 20180218222002) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "accessibilities", force: :cascade do |t|
+    t.string   "accessibility"
+    t.string   "details"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
 
   create_table "addresses", force: :cascade do |t|
     t.datetime "created_at",     null: false
@@ -32,6 +39,9 @@ ActiveRecord::Schema.define(version: 20180204230859) do
     t.decimal  "longitude"
     t.boolean  "online"
     t.string   "region"
+    t.string   "name"
+    t.text     "description"
+    t.text     "transportation"
     t.index ["resource_id"], name: "index_addresses_on_resource_id", using: :btree
   end
 
@@ -62,6 +72,7 @@ ActiveRecord::Schema.define(version: 20180204230859) do
     t.datetime "updated_at",                 null: false
     t.string   "name",                       null: false
     t.boolean  "top_level",  default: false, null: false
+    t.string   "vocabulary"
     t.index ["name"], name: "index_categories_on_name", unique: true, using: :btree
   end
 
@@ -97,8 +108,12 @@ ActiveRecord::Schema.define(version: 20180204230859) do
     t.string   "name"
     t.string   "title"
     t.string   "email"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "resource_id"
+    t.integer  "service_id"
+    t.index ["resource_id"], name: "index_contacts_on_resource_id", using: :btree
+    t.index ["service_id"], name: "index_contacts_on_service_id", using: :btree
   end
 
   create_table "eligibilities", force: :cascade do |t|
@@ -139,6 +154,12 @@ ActiveRecord::Schema.define(version: 20180204230859) do
     t.integer "keyword_id", null: false
   end
 
+  create_table "languages", force: :cascade do |t|
+    t.string   "language"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "notes", force: :cascade do |t|
     t.text     "note"
     t.integer  "resource_id"
@@ -156,7 +177,13 @@ ActiveRecord::Schema.define(version: 20180204230859) do
     t.string   "service_type", null: false
     t.integer  "resource_id",  null: false
     t.string   "description"
+    t.integer  "service_id"
+    t.integer  "contact_id"
+    t.integer  "language_id"
+    t.index ["contact_id"], name: "index_phones_on_contact_id", using: :btree
+    t.index ["language_id"], name: "index_phones_on_language_id", using: :btree
     t.index ["resource_id"], name: "index_phones_on_resource_id", using: :btree
+    t.index ["service_id"], name: "index_phones_on_service_id", using: :btree
   end
 
   create_table "programs", force: :cascade do |t|
@@ -245,6 +272,7 @@ ActiveRecord::Schema.define(version: 20180204230859) do
     t.string   "wait_time"
     t.integer  "contact_id"
     t.integer  "funding_id"
+    t.string   "alternate_name"
     t.index ["contact_id"], name: "index_services_on_contact_id", using: :btree
     t.index ["funding_id"], name: "index_services_on_funding_id", using: :btree
     t.index ["program_id"], name: "index_services_on_program_id", using: :btree
@@ -256,7 +284,7 @@ ActiveRecord::Schema.define(version: 20180204230859) do
   end
 
   create_table "volunteers", force: :cascade do |t|
-    t.string   "name"
+    t.string   "description"
     t.string   "url"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
@@ -266,10 +294,15 @@ ActiveRecord::Schema.define(version: 20180204230859) do
 
   add_foreign_key "addresses", "resources"
   add_foreign_key "change_requests", "resources"
+  add_foreign_key "contacts", "resources"
+  add_foreign_key "contacts", "services"
   add_foreign_key "field_changes", "change_requests"
   add_foreign_key "notes", "resources"
   add_foreign_key "notes", "services"
+  add_foreign_key "phones", "contacts"
+  add_foreign_key "phones", "languages"
   add_foreign_key "phones", "resources"
+  add_foreign_key "phones", "services"
   add_foreign_key "programs", "resources"
   add_foreign_key "ratings", "resources"
   add_foreign_key "ratings", "services"

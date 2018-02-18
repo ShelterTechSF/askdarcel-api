@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ProgramsPresenter < Jsonite
   property :id
   property :name

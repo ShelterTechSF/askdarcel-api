@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-# rubocop:disable Metrics/ClassLength
 
 class ServicesController < ApplicationController
   before_action :require_admin_signed_in!, except: %i[create destroy certify]
@@ -104,7 +103,7 @@ class ServicesController < ApplicationController
       schedule: [{ schedule_days: %i[day opens_at closes_at] }],
       notes: [:note],
       categories: [:id],
-      addresses: [:id, :address_1, :city, :state_province, :postal_code, :country],
+      addresses: %i[id address_1 city state_province postal_code country],
       eligibilities: [:id]
     )
   end

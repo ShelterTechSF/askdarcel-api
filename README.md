@@ -6,8 +6,8 @@ This project exposes the API endpoints for supporting the askdarcel-web project,
 
 ### Requirements
 
-Docker Engine >= 1.10
-Docker Compose >= 1.6
+Docker Community Edition (CE) >= 17.06
+Docker Compose >= 1.18
 
 Follow the [Docker installation instructions](https://www.docker.com/products/overview) for your OS.
 

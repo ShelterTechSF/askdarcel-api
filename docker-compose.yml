@@ -1,7 +1,9 @@
-version: "2"
+version: "3.5"
 services:
   db:
     image: "postgres:9.5"
+    networks:
+      - askdarcel
 
   api:
     build:
@@ -16,6 +18,8 @@ services:
       ALGOLIA_APPLICATION_ID:
       ALGOLIA_API_KEY:
       ALGOLIA_INDEX_PREFIX:
+    networks:
+      - askdarcel
     ports:
       - "3000:3000"
     volumes:
@@ -28,5 +32,12 @@ services:
     command: bash -c 'sleep 3 && curl -v http://api:3000/resources?category_id=1 >/dev/null && newman run postman/AskDarcel%20API.postman_collection.json -e postman/docker.postman_environment.json -g postman/globals.postman_globals.json && newman run postman/AskDarcel%20Admin%20API.postman_collection.json -e postman/docker.postman_environment.json -g postman/globals.postman_globals.json'
     depends_on:
       - api
+    networks:
+      - askdarcel
     volumes:
       - .:/usr/src/app
+
+networks:
+  # Used to connect to askdarcel-web in a different docker-compose instance
+  askdarcel:
+    name: askdarcel

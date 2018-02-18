@@ -1,9 +1,15 @@
+# frozen_string_literal: true
+
 class ResourcesController < ApplicationController
   def index
     category_id = params.require :category_id
-    relation = resources.joins(:categories).joins(:address)
-                        .where('categories.id' => category_id).where(status: Resource.statuses[:approved])
-                        .order(sort_order)
+    # TODO: This can be simplified once we remove categories from resources
+    relation =
+      resources
+      .joins(:address)
+      .where(categories_join_string, category_id, category_id)
+      .where(status: Resource.statuses[:approved])
+      .order(sort_order)
     render json: ResourcesPresenter.present(relation)
   end
 
@@ -69,7 +75,9 @@ class ResourcesController < ApplicationController
       :website,
       :email,
       :status,
-      schedule: [{ schedule_days: [:day, :opens_at, :closes_at] }],
+      address: %i[address_1 address_2 address_3 address_4 city state_province country postal_code],
+      schedule: [{ schedule_days: %i[day opens_at closes_at] }],
+      phones: %i[number service_type],
       notes: [:note],
       categories: [:id]
     )
@@ -86,32 +94,53 @@ class ResourcesController < ApplicationController
       schedule[:schedule_days_attributes] = schedule.delete(:schedule_days) if schedule.key? :schedule_days
     end
 
+    resource['category_ids'] = resource.delete(:categories).collect { |h| h[:id] } if resource.key? :categories
+
+    transform_simple_objects resource
+  end
+
+  def transform_simple_objects(resource)
     resource[:notes_attributes] = resource.delete(:notes) if resource.key? :notes
+
+    resource[:address_attributes] = resource.delete(:address) if resource.key? :address
 
     resource.delete(:notes)
 
-    resource['category_ids'] = resource.delete(:categories).collect { |h| h[:id] } if resource.key? :categories
+    resource[:phones_attributes] = resource.delete(:phones) if resource.key? :phones
   end
 
   def resources
     Resource.includes(:address, :phones, :categories, :notes,
                       schedule: :schedule_days,
-                      services: [:notes, :categories, { schedule: :schedule_days }],
+                      services: [:notes, :categories, { schedule: :schedule_days }, :eligibilities],
                       ratings: [:review])
   end
 
   def sort_order
-    @sort_order ||= if lat_lng
-                      Address.distance_sql(lat_lng)
-                    else
-                      :id
-                    end
+    @sort_order ||= lat_lng ? Address.distance_sql(lat_lng) : :id
   end
 
   def lat_lng
     return @lat_lng if defined? @lat_lng
-    @lat_lng = if params[:lat] && params[:long]
-                 Geokit::LatLng.new(params[:lat], params[:long])
-               end
+    @lat_lng ||= Geokit::LatLng.new(params[:lat], params[:long]) if params[:lat] && params[:long]
+  end
+
+  def categories_join_string
+    <<~'SQL'
+      resources.id IN (
+        (
+          SELECT resources.id
+            FROM resources
+            INNER JOIN categories_resources ON resources.id = categories_resources.resource_id
+            WHERE categories_resources.category_id = ?
+        ) UNION (
+          SELECT resources.id
+            FROM resources
+            INNER JOIN services ON resources.id = services.resource_id
+            INNER JOIN categories_services ON services.id = categories_services.service_id
+            WHERE categories_services.category_id = ?
+        )
+      )
+    SQL
   end
 end

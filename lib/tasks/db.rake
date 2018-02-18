@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :db do
   namespace :data do
     task :dump, [:filename] => :environment do |_t, args|

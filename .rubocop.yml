@@ -11,5 +11,15 @@ AllCops:
     - app/controllers/change_requests_controller.rb
     - app/controllers/notes_controller.rb
 
+Metrics/ClassLength:
+  Exclude:
+    - 'app/controllers/**/*.rb'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'config/routes.rb'
+    - 'lib/tasks/**/*.rake'
+    - 'spec/**/*.rb'
+
 Documentation:
     Enabled: false

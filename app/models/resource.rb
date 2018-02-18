@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Resource < ActiveRecord::Base
   include AlgoliaSearch
 
@@ -18,13 +20,17 @@ class Resource < ActiveRecord::Base
 
   accepts_nested_attributes_for :notes
   accepts_nested_attributes_for :schedule
+  accepts_nested_attributes_for :address
+  accepts_nested_attributes_for :phones
 
   before_create do
     self.status = :pending unless status
   end
 
   if Rails.configuration.x.algolia.enabled
-    algoliasearch per_environment: true do
+    # Note: We can't use the per_environment option because both our production
+    # and staging servers use the same RAILS_ENV.
+    algoliasearch index_name: "#{Rails.configuration.x.algolia.index_prefix}_Resource" do # rubocop:disable Metrics/BlockLength
       geoloc :address_latitude, :address_longitude
 
       add_attribute :address do

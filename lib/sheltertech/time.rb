@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ShelterTech
   module Time
     ## Convert time from hhmm format to number of minutes since midnight

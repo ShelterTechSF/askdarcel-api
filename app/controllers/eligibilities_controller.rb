@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class EligibilitiesController < ApplicationController
   def index
     eligibilities = Eligibility.order(:name)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PhonesPresenter < Jsonite
   property :id
   property(:number) { Phonelib.parse(number).national }

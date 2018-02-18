@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ScheduleDaysPresenter < Jsonite
   property :id
   property :day

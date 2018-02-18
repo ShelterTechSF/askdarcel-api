@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class NotesController < ApplicationController
   def create
 
@@ -12,6 +13,11 @@ class NotesController < ApplicationController
     end
 
     render status: :created, json: note
+  end
+
+  def destroy
+    note = Note.find params[:id]
+    note.delete
   end
 
   private

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
@@ -13,12 +15,19 @@ module AskdarcelApi
     # Algolia
     config.x.algolia.application_id = ENV['ALGOLIA_APPLICATION_ID']
     config.x.algolia.api_key = ENV['ALGOLIA_API_KEY']
-    config.x.algolia.enabled = config.x.algolia.application_id.present? && config.x.algolia.api_key.present?
+    # Differentiate indexes for different AskDarcel instances.
+    config.x.algolia.index_prefix = ENV['ALGOLIA_INDEX_PREFIX']
+
+    config.x.algolia.enabled = [
+      config.x.algolia.application_id.present?,
+      config.x.algolia.api_key.present?,
+      config.x.algolia.index_prefix.present?
+    ].all?
 
     config.middleware.insert_before 0, "Rack::Cors" do
       allow do
         origins '*'
-        resource '*', headers: :any, methods: [:get, :post, :options]
+        resource '*', headers: :any, methods: %i[get post options]
       end
     end
     config.after_initialize do

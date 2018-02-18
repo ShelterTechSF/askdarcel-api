@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeRequestsPresenter < Jsonite
   property :id
   property :status

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryGirl.define do
   factory :rating do
     rating { Faker::Number.positive(1, 5) }

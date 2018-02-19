@@ -75,7 +75,7 @@ class ResourcesController < ApplicationController
       :website,
       :email,
       :status,
-      address: %i[address_1 address_2 address_3 address_4 city state_province country postal_code],
+      address: %i[address_1 address_2 address_3 address_4 city state_province country postal_code latitude longitude],
       schedule: [{ schedule_days: %i[day opens_at closes_at] }],
       phones: %i[number service_type],
       notes: [:note],

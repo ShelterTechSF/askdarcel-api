@@ -110,10 +110,14 @@ class ResourcesController < ApplicationController
   end
 
   def resources
-    Resource.includes(:address, :phones, :categories, :notes,
-                      schedule: :schedule_days,
-                      services: [:notes, :categories, { schedule: :schedule_days }, :eligibilities],
-                      ratings: [:review])
+    # Note: We *must* use #preload instead of #includes to force Rails to make a
+    # separate query per table. Otherwise, it creates one large query with many
+    # joins, which amplifies the amount of data being sent between Rails and the
+    # DB by several orders of magnitude due to duplication of tuples.
+    Resource.preload(:address, :phones, :categories, :notes,
+                     schedule: :schedule_days,
+                     services: [:notes, :categories, { schedule: :schedule_days }, :eligibilities],
+                     ratings: [:review])
   end
 
   def sort_order

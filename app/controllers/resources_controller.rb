@@ -4,10 +4,12 @@ class ResourcesController < ApplicationController
   def index
     category_id = params.require :category_id
     # TODO: This can be simplified once we remove categories from resources
-    relation = resources.joins(:categories).joins(:address)
-                        .where('categories.id' => category_id).where(status: Resource.statuses[:approved])
-                        .order(sort_order)
-
+    relation =
+      resources
+      .joins(:address)
+      .where(categories_join_string, category_id, category_id)
+      .where(status: Resource.statuses[:approved])
+      .order(sort_order)
     render json: ResourcesPresenter.present(relation)
   end
 

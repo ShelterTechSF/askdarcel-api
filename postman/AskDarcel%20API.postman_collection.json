@@ -1,7 +1,7 @@
 {
 	"info": {
 		"name": "AskDarcel API",
-		"_postman_id": "b3bb7365-5317-12a1-1c8a-daa7e83aa73e",
+		"_postman_id": "c66cc793-854b-c128-35ee-5c563a7a796c",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -162,6 +162,49 @@
 					],
 					"path": [
 						"resources",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get service by id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3b18f5a7-5f3c-44d6-a3c1-a91e515c989a",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Response time is less than 200ms\"] = responseTime < 1000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var response = pm.response.json();"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_url}}/services/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"services",
 						"1"
 					]
 				}

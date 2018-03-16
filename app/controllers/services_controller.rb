@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ServicesController < ApplicationController
-  before_action :require_admin_signed_in!, except: %i[create destroy certify]
+  before_action :require_admin_signed_in!, except: %i[show create destroy certify]
 
   # wrap_parameters is not useful for nested JSON requests because it does not
   # wrap nested resources. It is unclear if the Rails team considers this to be
@@ -10,6 +10,11 @@ class ServicesController < ApplicationController
   # method will reject the wrapped parameter if you don't use it.
 
   wrap_parameters false
+
+  def show
+    service = services.find(params[:id])
+    render json: ServicesWithResourcePresenter.present(service)
+  end
 
   def create
     services_params = clean_services_params

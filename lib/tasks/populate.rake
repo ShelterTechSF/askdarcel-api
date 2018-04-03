@@ -271,5 +271,33 @@ namespace :db do
 
       resource.services = services
     end
+
+    1.times do
+      test_category_names = ['Test_Category_Top_Level']
+      test_category_names.each { |name| FactoryGirl.create(:category, name: name, id: 234) }
+      Category.find_by_name!('Test_Category_Top_Level').update(top_level: true)
+      test_categories = Category.where(name: test_category_names)
+      
+      resource = FactoryGirl.create(:resource,
+                                    name: "A Test Resource",
+                                    short_description: "I am a short description of a resource.",
+                                    long_description: "I am a long description of a resource.",
+                                    website: "www.fakewebsite.org",
+                                    categories: [test_categories[0]])
+      services = []
+
+      1.times do
+        services << FactoryGirl.create(:service,
+                                    name: "A Test Service",
+                                    resource: resource,
+                                    long_description: "I am a long description of a service.",
+                                    categories: [test_categories[0]])
+        FactoryGirl.create(:change_request,
+                           type: 'ResourceChangeRequest',
+                           status: ChangeRequest.statuses[:pending],
+                           object_id: resource.id)
+      end
+      resource.services = services
+    end
   end
 end

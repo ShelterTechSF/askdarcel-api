@@ -288,10 +288,10 @@ namespace :db do
 
       1.times do
         services << FactoryGirl.create(:service,
-                                        name: "A Test Service",
-                                        resource: resource,
-                                        long_description: "I am a long description of a service.",
-                                        categories: [test_categories[0]])
+                                       name: "A Test Service",
+                                       resource: resource,
+                                       long_description: "I am a long description of a service.",
+                                       categories: [test_categories[0]])
         FactoryGirl.create(:change_request,
                            type: 'ResourceChangeRequest',
                            status: ChangeRequest.statuses[:pending],

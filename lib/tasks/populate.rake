@@ -277,7 +277,7 @@ namespace :db do
       test_category_names.each { |name| FactoryGirl.create(:category, name: name, id: 234) }
       Category.find_by_name!('Test_Category_Top_Level').update(top_level: true)
       test_categories = Category.where(name: test_category_names)
-      
+
       resource = FactoryGirl.create(:resource,
                                     name: "A Test Resource",
                                     short_description: "I am a short description of a resource.",
@@ -288,10 +288,10 @@ namespace :db do
 
       1.times do
         services << FactoryGirl.create(:service,
-                                    name: "A Test Service",
-                                    resource: resource,
-                                    long_description: "I am a long description of a service.",
-                                    categories: [test_categories[0]])
+                                        name: "A Test Service",
+                                        resource: resource,
+                                        long_description: "I am a long description of a service.",
+                                        categories: [test_categories[0]])
         FactoryGirl.create(:change_request,
                            type: 'ResourceChangeRequest',
                            status: ChangeRequest.statuses[:pending],

@@ -13,10 +13,10 @@ module AskdarcelApi
     config.api_only = true
 
     # Algolia
-    config.x.algolia.application_id = ENV['ALGOLIA_APPLICATION_ID'] || 'J8TVT53HPZ'
-    config.x.algolia.api_key = ENV['ALGOLIA_API_KEY'] || 'f8a0543e1a8db699f6359eeb11ebcd9d'
+    config.x.algolia.application_id = ENV['ALGOLIA_APPLICATION_ID']
+    config.x.algolia.api_key = ENV['ALGOLIA_API_KEY']
     # Differentiate indexes for different AskDarcel instances.
-    config.x.algolia.index_prefix = ENV['ALGOLIA_INDEX_PREFIX'] || 'development_service'
+    config.x.algolia.index_prefix = ENV['ALGOLIA_INDEX_PREFIX']
 
     config.x.algolia.enabled = [
       config.x.algolia.application_id.present?,

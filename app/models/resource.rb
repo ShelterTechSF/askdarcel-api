@@ -30,7 +30,9 @@ class Resource < ActiveRecord::Base
   if Rails.configuration.x.algolia.enabled
     # Note: We can't use the per_environment option because both our production
     # and staging servers use the same RAILS_ENV.
-    algoliasearch index_name: "#{Rails.configuration.x.algolia.index_prefix}_Resource" do # rubocop:disable Metrics/BlockLength
+
+    # Important: Use Resource.reindex! and Service.reindex!  to reindex
+    algoliasearch index_name: "#{Rails.configuration.x.algolia.index_prefix}_Resource", id: :algolia_id do # rubocop:disable Metrics/BlockLength
       geoloc :address_latitude, :address_longitude
 
       add_attribute :address do
@@ -39,12 +41,25 @@ class Resource < ActiveRecord::Base
             city: address.city,
             state_province: address.state_province,
             postal_code: address.postal_code,
-            country: address.country
+            country: address.country,
+            address_1: address.address_1
           }
         else
           {}
         end
+      end 
+
+      add_attribute :schedule do
+        unless schedule.nil?
+          schedule.schedule_days.map do |s|
+            { opens_at: s.opens_at, closes_at: s.closes_at, day: s.day }
+          end
+        end
       end
+
+      add_attribute :resource_id
+
+      add_attribute :type
 
       add_attribute :notes do
         notes.map(&:note)
@@ -65,4 +80,18 @@ class Resource < ActiveRecord::Base
       end
     end
   end
+
+  def resource_id
+    id
+  end
+
+  def type
+    "resource"
+  end
+  
+  private
+  def algolia_id
+    "resource_#{id}" # ensure the teacher & student IDs are not conflicting
+  end
+
 end

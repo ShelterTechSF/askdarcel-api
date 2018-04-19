@@ -32,6 +32,7 @@ class Resource < ActiveRecord::Base
     # and staging servers use the same RAILS_ENV.
 
     # Important: Use Resource.reindex! and Service.reindex!  to reindex
+    
     algoliasearch index_name: "#{Rails.configuration.x.algolia.index_prefix}_Resource", id: :algolia_id do # rubocop:disable Metrics/BlockLength
       geoloc :address_latitude, :address_longitude
 

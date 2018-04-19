@@ -2,4 +2,5 @@
 
 class ServicesWithResourcePresenter < ServicesPresenter
   property :resource, with: ResourcesPresenter
+  property :program, with: ProgramsPresenter
 end

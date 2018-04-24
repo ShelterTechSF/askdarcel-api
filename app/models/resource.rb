@@ -31,9 +31,9 @@ class Resource < ActiveRecord::Base
     # Note: We can't use the per_environment option because both our production
     # and staging servers use the same RAILS_ENV.
 
-    # Important: Use Resource.reindex! and Service.reindex!  to reindex
+    # Important: Use Resource.reindex! and Service.reindex! to reindex/create your index
     
-    algoliasearch index_name: "#{Rails.configuration.x.algolia.index_prefix}_Resource", id: :algolia_id do # rubocop:disable Metrics/BlockLength
+    algoliasearch index_name: "#{Rails.configuration.x.algolia.index_prefix}_services_search", id: :algolia_id do # rubocop:disable Metrics/BlockLength
       geoloc :address_latitude, :address_longitude
 
       add_attribute :address do

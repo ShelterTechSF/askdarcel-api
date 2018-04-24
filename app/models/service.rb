@@ -25,7 +25,7 @@ class Service < ActiveRecord::Base
   if Rails.configuration.x.algolia.enabled
     # Note: We can't use the per_environment option because both our production
     # and staging servers use the same RAILS_ENV.
-    algoliasearch index_name: "#{Rails.configuration.x.algolia.index_prefix}_Resource", id: :algolia_id do # rubocop:disable Metrics/BlockLength
+    algoliasearch index_name: "#{Rails.configuration.x.algolia.index_prefix}_services_search", id: :algolia_id do # rubocop:disable Metrics/BlockLength
       add_attribute :_geoloc do
         if addresses.any?
           addresses.map do |a|

@@ -32,8 +32,7 @@ class Resource < ActiveRecord::Base
     # and staging servers use the same RAILS_ENV.
 
     # Important: Use Resource.reindex! and Service.reindex! to reindex/create your index
-    
-    algoliasearch index_name: "#{Rails.configuration.x.algolia.index_prefix}_services_search", id: :algolia_id do # rubocop:disable Metrics/BlockLength
+    algoliasearch index_name: "#{Rails.configuration.x.algolia.index_prefix}_services_search", id: :algolia_id do # rubocop:disable Metrics/BlockLength,Metrics/LineLength
       geoloc :address_latitude, :address_longitude
 
       add_attribute :address do
@@ -48,10 +47,10 @@ class Resource < ActiveRecord::Base
         else
           {}
         end
-      end 
+      end
 
       add_attribute :schedule do
-        unless schedule.nil?
+        unless schedule.nil? # rubocop:disable Style/SafeNavigation
           schedule.schedule_days.map do |s|
             { opens_at: s.opens_at, closes_at: s.closes_at, day: s.day }
           end
@@ -89,10 +88,10 @@ class Resource < ActiveRecord::Base
   def type
     "resource"
   end
-  
+
   private
+
   def algolia_id
     "resource_#{id}" # ensure the teacher & student IDs are not conflicting
   end
-
 end

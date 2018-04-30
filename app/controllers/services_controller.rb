@@ -98,13 +98,17 @@ class ServicesController < ApplicationController
   # all :id keys besides category ids and Service's :status.
   def permit_service_params(service_params) # rubocop:disable Metrics/MethodLength
     service_params.permit(
-      :name,
-      :long_description,
-      :eligibility,
-      :required_documents,
-      :fee,
+      :alternate_name,
       :application_process,
+      :eligibility,
       :email,
+      :fee,
+      :interpretation_services,
+      :long_description,
+      :name,
+      :required_documents,
+      :url,
+      :wait_time,
       schedule: [{ schedule_days: %i[day opens_at closes_at] }],
       notes: [:note],
       categories: [:id],

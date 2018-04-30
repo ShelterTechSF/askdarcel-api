@@ -1,16 +1,17 @@
 # frozen_string_literal: true
 
 class ResourcesPresenter < Jsonite
+  property :alternate_name
+  property :certified
+  property :email
   property :id
+  property :legal_status
+  property :long_description
   property :name
   property :short_description
-  property :long_description
-  property :website
-  property :verified_at
-  property :email
   property :status
-  property :certified
-  property :alternate_name
+  property :verified_at
+  property :website
   property(:services) do
     # Filter services in Ruby to avoid ignoring prefetched rows and generating
     # a new query.

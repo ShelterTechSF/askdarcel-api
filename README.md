@@ -11,6 +11,19 @@ Docker Compose >= 1.18
 
 Download and install the version of [Docker for your OS](https://www.docker.com/community-edition#/download).
 
+#### Creating the `.env` file
+
+The `.env` file is a de facto file format that allows you to specify environment
+variables that can be read by an application. It makes it easier to pass
+environment variables to an application without manually having to set them in
+the environment. It is supported by:
+- [Docker](https://code.visualstudio.com/docs/python/environments) (built in)
+- [NodeJS](https://www.npmjs.com/package/dotenv) (as a library)
+- [Ruby](https://github.com/bkeepers/dotenv) (as a library)
+
+Create a file named `.env` with the credentials listed in [this
+document](https://sheltertech.quip.com/2ft5Ax19Kc6h).
+
 ### Set up the project
 
 This is not a full guide to Docker and Docker Compose, so please consult other
@@ -32,14 +45,6 @@ $ docker-compose up api
 # Stop all containers, including background ones
 $ docker-compose stop
 ```
-
-Set up the Algolia search index
-  - Create a .env file in the root of your askdarcel-api directory
-  - Populate that file with the backend environment variables found [here](https://sheltertech.quip.com/2ft5Ax19Kc6h)
-  - Enter the `rails console` 
-  ``` $ docker-compose run --rm api rails console ```
-  - Run `Resource.reindex!` and `Service.reindex!` in the `rails console`
-  - *Note*: ensure the DB is populated before you add the environment varables
 
 
 ### Running Postman tests from the command line
@@ -94,19 +99,17 @@ After cloning the repository and `cd`ing into the workspace:
   If encounter "command not found" error, run
   -`source ~/.bash_profile`
 
-4. Set up the development database and load dummy data.
+4. Set up the Algolia credentials
+    - Create a .env file in the root of your askdarcel-api directory
+    - Populate that file with the backend environment variables found [here](https://sheltertech.quip.com/2ft5Ax19Kc6h)
+
+5. Set up the development database and load dummy data.
   - `rake db:create:all`
   - `rake db:migrate`
   - `rake linksf:import`
 
   Alternatively, you can generate random fixtures:
   - `rake db:setup db:populate`
-
-5. Set up the Algolia search index
-    - Create a .env file in the root of your askdarcel-api directory
-    - Populate that file with the backend environment variables found [here](https://sheltertech.quip.com/2ft5Ax19Kc6h)
-    - Run `Resource.reindex!` and `Service.reindex!` in the `rails console`
-    - *Note*: ensure the DB is populated before you add the environment varables
 
 6. Run the development server.
   - `rails s -b 0.0.0.0`

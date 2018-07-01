@@ -91,6 +91,8 @@ class Service < ActiveRecord::Base
         categories.map(&:name)
       end
 
+      add_attribute :is_mohcd_funded
+
       # add_attribute :keywords do
       #   keywords.map(&:name)
       # end
@@ -103,6 +105,10 @@ class Service < ActiveRecord::Base
 
   def service_id
     id
+  end
+
+  def is_mohcd_funded # rubocop:disable Naming/PredicateName
+    categories.any? { |category| category['name'] == 'MOHCD Funded Services' }
   end
 
   def type

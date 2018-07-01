@@ -27,10 +27,10 @@ Rails.application.routes.draw do
     resources :notes, only: :create
     post :approve
     post :reject
-    post :certify  
+    post :certify
     collection do
       get :pending
-      get :count 
+      get :count
     end
   end
   resources :notes do

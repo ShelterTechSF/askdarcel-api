@@ -58,7 +58,7 @@ module ShelterTech
           Category.find_by_name!(c).update(top_level: true)
         end
         Constants::FEATURED_CATEGORY_NAMES.each do |c|
-          Category.find_by_name!(c).update(featured: true)  
+          Category.find_by_name!(c).update(featured: true)
         end
       end
 
@@ -349,7 +349,7 @@ module ShelterTech
         'Re-entry Services',
         'Clean Slate',
         'Probation and Parole',
-        'MOHCD Funded Services'        
+        'MOHCD Funded Services'
       ].freeze
 
       TOP_LEVEL_CATEGORY_NAMES = [
@@ -377,7 +377,6 @@ module ShelterTech
         'Eviction Defense',
         'Temporary Shelter'
       ].freeze
-
     end
   end
 end

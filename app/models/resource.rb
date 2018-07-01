@@ -82,6 +82,8 @@ class Resource < ActiveRecord::Base
         keywords.map(&:name)
       end
 
+      add_attribute :is_mohcd_funded
+
       add_attribute :services do
         services.map do |s|
           { name: s.name }
@@ -98,9 +100,13 @@ class Resource < ActiveRecord::Base
     "resource"
   end
 
+  def is_mohcd_funded
+    categories.any?{ |category| category['name'] === 'MOHCD Funded Services'}
+  end
+
   private
 
   def algolia_id
-    "resource_#{id}" # ensure the teacher & student IDs are not conflicting
+    "resource_#{id}" # ensure the resource & service IDs are not conflicting
   end
 end

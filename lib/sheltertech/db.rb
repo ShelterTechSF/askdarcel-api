@@ -57,6 +57,9 @@ module ShelterTech
         Constants::TOP_LEVEL_CATEGORY_NAMES.each do |c|
           Category.find_by_name!(c).update(top_level: true)
         end
+        Constants::FEATURED_CATEGORY_NAMES.each do |c|
+          Category.find_by_name!(c).update(featured: true)
+        end
       end
 
       def create_users
@@ -345,7 +348,8 @@ module ShelterTech
         'Domestic Violence Hotlines',
         'Re-entry Services',
         'Clean Slate',
-        'Probation and Parole'
+        'Probation and Parole',
+        'MOHCD Funded Services'
       ].freeze
 
       TOP_LEVEL_CATEGORY_NAMES = [
@@ -364,7 +368,14 @@ module ShelterTech
         'Youth',
         'Seniors',
         'Domestic Violence',
-        'Prison/Jail Related Services'
+        'Prison/Jail Related Services',
+        'MOHCD Funded Services'
+      ].freeze
+
+      FEATURED_CATEGORY_NAMES = [
+        'MOHCD Funded Services',
+        'Eviction Defense',
+        'Temporary Shelter'
       ].freeze
     end
   end

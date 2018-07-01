@@ -30,6 +30,7 @@ Rails.application.routes.draw do
     post :certify
     collection do
       get :pending
+      get :count
     end
   end
   resources :notes do

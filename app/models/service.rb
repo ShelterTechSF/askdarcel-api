@@ -26,6 +26,10 @@ class Service < ActiveRecord::Base
     # Note: We can't use the per_environment option because both our production
     # and staging servers use the same RAILS_ENV.
     algoliasearch index_name: "#{Rails.configuration.x.algolia.index_prefix}_services_search", id: :algolia_id do # rubocop:disable Metrics/BlockLength,Metrics/LineLength
+      # specify the list of attributes available for faceting
+      attributesForFaceting [:categories]
+
+      # Define attributes used to build an Algolia record
       add_attribute :status
       add_attribute :_geoloc do
         if addresses.any?
@@ -87,6 +91,8 @@ class Service < ActiveRecord::Base
         categories.map(&:name)
       end
 
+      add_attribute :is_mohcd_funded
+
       # add_attribute :keywords do
       #   keywords.map(&:name)
       # end
@@ -99,6 +105,10 @@ class Service < ActiveRecord::Base
 
   def service_id
     id
+  end
+
+  def is_mohcd_funded # rubocop:disable Naming/PredicateName
+    categories.any? { |category| category['name'] == 'MOHCD Funded Services' }
   end
 
   def type

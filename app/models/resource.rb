@@ -33,6 +33,9 @@ class Resource < ActiveRecord::Base
 
     # Important: Use Resource.reindex! and Service.reindex! to reindex/create your index
     algoliasearch index_name: "#{Rails.configuration.x.algolia.index_prefix}_services_search", id: :algolia_id do # rubocop:disable Metrics/BlockLength,Metrics/LineLength
+      # specify the list of attributes available for faceting
+      attributesForFaceting [:categories]
+      # Define attributes used to build an Algolia record
       add_attribute :_geoloc do
         { lat: address_latitude.to_f, lng: address_longitude.to_f }
       end
@@ -77,6 +80,8 @@ class Resource < ActiveRecord::Base
         keywords.map(&:name)
       end
 
+      add_attribute :is_mohcd_funded
+
       add_attribute :services do
         services.map do |s|
           { name: s.name }
@@ -93,9 +98,13 @@ class Resource < ActiveRecord::Base
     "resource"
   end
 
+  def is_mohcd_funded # rubocop:disable Naming/PredicateName
+    categories.any? { |category| category['name'] == 'MOHCD Funded' }
+  end
+
   private
 
   def algolia_id
-    "resource_#{id}" # ensure the teacher & student IDs are not conflicting
+    "resource_#{id}" # ensure the resource & service IDs are not conflicting
   end
 end

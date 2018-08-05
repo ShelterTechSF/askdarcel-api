@@ -369,7 +369,9 @@ module ShelterTech
         'Seniors',
         'Domestic Violence',
         'Prison/Jail Related Services',
-        'MOHCD Funded Services'
+        'MOHCD Funded Services',
+        'Eviction Defense',
+        'Temporary Shelter'
       ].freeze
 
       FEATURED_CATEGORY_NAMES = [

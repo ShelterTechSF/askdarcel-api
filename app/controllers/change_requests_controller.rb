@@ -188,6 +188,9 @@ class ChangeRequestsController < ApplicationController
       puts 'AddressChangeRequest'
       address = Address.find(change_request.object_id)
       address.update field_change_hash
+      a = Geokit::Geocoders::GoogleGeocoder.geocode address.address_1 + ',' + address.city + ',' + address.state_province
+      address.latitude = a.latitude
+      address.longitude = a.longitude
     else
       puts 'invalid request'
     end

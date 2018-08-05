@@ -28,12 +28,11 @@ class ResourcesController < ApplicationController
   def create
     resources_params = clean_resources_params
     resources = resources_params.map { |r| Resource.new(r) }
-    resources.each { |r| r.status = :approved }
+    fix_resources(resources)
     if resources.any?(&:invalid?)
       render status: :bad_request, json: { resources: resources.select(&:invalid?).map(&:errors) }
     else
       Resource.transaction { resources.each(&:save!) }
-
       render status: :created, json: { resources: resources.map { |r| ResourcesPresenter.present(r) } }
     end
   end
@@ -64,6 +63,19 @@ class ResourcesController < ApplicationController
     resources_params = params.require(:resources).map { |r| permit_resource_params(r) }
 
     resources_params.each { |r| transform_resource_params!(r) }
+  end
+
+  def fix_resources(resources)
+    resources.each do |r|
+      r.status = :approved
+      fix_lat_and_long(r.address)
+    end
+  end
+
+  def fix_lat_and_long(address)
+    a = Geokit::Geocoders::GoogleGeocoder.geocode address.address_1 + ',' + address.city + ',' + address.state_province
+    address.latitude = a.latitude
+    address.longitude = a.longitude
   end
 
   # Filter out all the attributes that are unsafe for users to set, including

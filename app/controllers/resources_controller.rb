@@ -42,6 +42,7 @@ class ResourcesController < ApplicationController
     resource = Resource.find params[:resource_id]
 
     resource.certified = true
+    resource.certified_at = Time.now
     resource.save!
     render status: :ok
   end

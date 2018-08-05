@@ -31,6 +31,7 @@ class ServicesController < ApplicationController
   def certify
     service = Service.find params[:service_id]
     service.certified = true
+    service.certified_at = Time.now
     service.save!
     render status: :ok
   end

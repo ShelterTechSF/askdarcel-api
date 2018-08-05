@@ -15,6 +15,7 @@ class ServicesPresenter < Jsonite
   property :url
   property :verified_at
   property :wait_time
+  property :certified_at
   property :schedule, with: SchedulesPresenter
   property :notes, with: NotesPresenter
   property :categories, with: CategoryPresenter

@@ -1,8 +1,7 @@
 {
 	"info": {
+		"_postman_id": "2b5a5078-9637-4ee2-83e5-5727261921cd",
 		"name": "AskDarcel API",
-		"_postman_id": "c66cc793-854b-c128-35ee-5c563a7a796c",
-		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -102,8 +101,7 @@
 					"query": [
 						{
 							"key": "category_id",
-							"value": "1",
-							"equals": true
+							"value": "1"
 						}
 					]
 				}
@@ -206,6 +204,48 @@
 					"path": [
 						"services",
 						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get service count",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_url}}/services/count",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"services",
+						"count"
 					]
 				}
 			},
@@ -369,8 +409,7 @@
 					"query": [
 						{
 							"key": "query",
-							"value": "food",
-							"equals": true
+							"value": "food"
 						}
 					]
 				}
@@ -434,18 +473,15 @@
 					"query": [
 						{
 							"key": "category_id",
-							"value": "1",
-							"equals": true
+							"value": "1"
 						},
 						{
 							"key": "lat",
-							"value": "100",
-							"equals": true
+							"value": "100"
 						},
 						{
 							"key": "long",
-							"value": "100",
-							"equals": true
+							"value": "100"
 						}
 					]
 				}
@@ -510,18 +546,15 @@
 					"query": [
 						{
 							"key": "query",
-							"value": "food",
-							"equals": true
+							"value": "food"
 						},
 						{
 							"key": "lat",
-							"value": "100",
-							"equals": true
+							"value": "100"
 						},
 						{
 							"key": "long",
-							"value": "100",
-							"equals": true
+							"value": "100"
 						}
 					]
 				}
@@ -782,7 +815,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{  \n\t\"change_request\" : {\n\t\t\"city\" : \"Selma\"\n\t}\n}"
+					"raw": "{  \n\t\"change_request\" : {\n\t\t\"city\" : \"San Francisco\",\n\t\t\"state_province\" : \"CA\",\n\t\t\"address_1\" : \"140 Market Street\"\n\t}\n}"
 				},
 				"url": {
 					"raw": "{{base_url}}/addresses/1/change_requests",
@@ -872,7 +905,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"resources\":[{\"name\":\"Test new\",\"address\":{\"address_1\":\"Test address\",\"city\":\"Test city\",\"state_province\":\"CA\",\"country\":\"USA\",\"postal_code\":\"49032\"},\"long_description\":\"test\",\"email\":\"test@test.com\",\"website\":\"test.com\",\"notes\":[],\"schedule\":{\"schedule_days\":[{\"day\":\"Monday\",\"opens_at\":0,\"closes_at\":2359},{\"day\":\"Tuesday\",\"opens_at\":109,\"closes_at\":1753},{\"day\":\"Wednesday\",\"opens_at\":null,\"closes_at\":null},{\"day\":\"Thursday\",\"opens_at\":null,\"closes_at\":null},{\"day\":\"Friday\",\"opens_at\":null,\"closes_at\":null},{\"day\":\"Saturday\",\"opens_at\":null,\"closes_at\":null},{\"day\":\"Sunday\",\"opens_at\":null,\"closes_at\":null}]},\"phones\":[{\"number\":\"4155555555\",\"service_type\":\"English\"}]\n}]}"
+					"raw": "{\"resources\":[{\"name\":\"Test new\",\"address\":{\"address_1\":\"601 4th Street\",\"city\":\"San Francisco\",\"state_province\":\"CA\",\"country\":\"USA\",\"postal_code\":\"49032\"},\"long_description\":\"test\",\"email\":\"test@test.com\",\"website\":\"test.com\",\"notes\":[],\"schedule\":{\"schedule_days\":[{\"day\":\"Monday\",\"opens_at\":0,\"closes_at\":2359},{\"day\":\"Tuesday\",\"opens_at\":109,\"closes_at\":1753},{\"day\":\"Wednesday\",\"opens_at\":null,\"closes_at\":null},{\"day\":\"Thursday\",\"opens_at\":null,\"closes_at\":null},{\"day\":\"Friday\",\"opens_at\":null,\"closes_at\":null},{\"day\":\"Saturday\",\"opens_at\":null,\"closes_at\":null},{\"day\":\"Sunday\",\"opens_at\":null,\"closes_at\":null}]},\"phones\":[{\"number\":\"4155555555\",\"service_type\":\"English\"}]\n}]}"
 				},
 				"url": {
 					"raw": "{{base_url}}/resources",

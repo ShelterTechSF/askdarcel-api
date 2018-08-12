@@ -28,6 +28,8 @@ class Service < ActiveRecord::Base
     algoliasearch index_name: "#{Rails.configuration.x.algolia.index_prefix}_services_search", id: :algolia_id do # rubocop:disable Metrics/BlockLength,Metrics/LineLength
       # specify the list of attributes available for faceting
       attributesForFaceting [:categories]
+
+      # Define attributes used to build an Algolia record
       add_attribute :status
       add_attribute :_geoloc do
         if addresses.any?
@@ -90,6 +92,8 @@ class Service < ActiveRecord::Base
       add_attribute :categories do
         categories.map(&:name)
       end
+
+      add_attribute :is_mohcd_funded
 
       # add_attribute :keywords do
       #   keywords.map(&:name)

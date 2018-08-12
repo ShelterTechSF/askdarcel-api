@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ServicesController < ApplicationController
-  before_action :require_admin_signed_in!, except: %i[show create destroy certify]
+  before_action :require_admin_signed_in!, except: %i[show create destroy certify count]
 
   # wrap_parameters is not useful for nested JSON requests because it does not
   # wrap nested resources. It is unclear if the Rails team considers this to be
@@ -79,6 +79,10 @@ class ServicesController < ApplicationController
     else
       render status: :precondition_failed
     end
+  end
+
+  def count
+    render json: Service.all.count
   end
 
   private

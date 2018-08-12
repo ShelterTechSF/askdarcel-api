@@ -99,9 +99,7 @@ class Resource < ActiveRecord::Base
   end
 
   def is_mohcd_funded # rubocop:disable Naming/PredicateName
-
     categories.any? { |category| category['name'] == 'MOHCD Funded' }
-
   end
 
   private

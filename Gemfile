@@ -24,6 +24,9 @@ gem 'algoliasearch-rails', '~> 1.19.1'
 # CORS
 gem 'rack-cors'
 
+# Error handling
+gem 'sentry-raven'
+
 group :production do
   gem 'activerecord-nulldb-adapter'
 end

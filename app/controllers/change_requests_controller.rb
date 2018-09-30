@@ -148,7 +148,7 @@ class ChangeRequestsController < ApplicationController
 
   private
 
-  def persist_change(change_request)
+  def persist_change(change_request)  
     object_id = change_request.object_id
     puts object_id
     field_change_hash = get_field_change_hash change_request
@@ -187,9 +187,15 @@ class ChangeRequestsController < ApplicationController
     elsif change_request.is_a? AddressChangeRequest
       puts 'AddressChangeRequest'
       address = Address.find(change_request.object_id)
-      a = Geokit::Geocoders::GoogleGeocoder.geocode address.address_1 + ',' + address.city + ',' + address.state_province
-      field_change_hash['latitude'] = a.latitude
-      field_change_hash['longitude'] = a.longitude
+
+      begin
+        a = Geokit::Geocoders::GoogleGeocoder.geocode address.address_1 + ',' + address.city + ',' + address.state_province
+        field_change_hash['latitude'] = a.latitude
+        field_change_hash['longitude'] = a.longitude
+      rescue => error
+        puts 'google geocoding failed for address ' + address.id.to_s + ': ' + error.message
+      end
+
       address.update field_change_hash
     else
       puts 'invalid request'

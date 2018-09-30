@@ -72,6 +72,12 @@ class ResourcesController < ApplicationController
   end
 
   def fix_lat_and_long(address)
+    geo_code(address)
+  rescue StandardError => error
+    puts 'google geocoding failed for new address ' + address.address_1 + ': ' + error.message
+  end
+
+  def geo_code(address)
     a = Geokit::Geocoders::GoogleGeocoder.geocode address.address_1 + ',' + address.city + ',' + address.state_province
     address.latitude = a.latitude
     address.longitude = a.longitude

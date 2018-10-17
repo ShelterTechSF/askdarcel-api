@@ -49,12 +49,12 @@ RSpec.describe 'Resources' do
       it 'returns the close resource before the far resource and before the further resource' do
         get "/resources?category_id=#{category.id}&lat=#{close}&long=#{close}"
         returned_address = response_json['resources'].map { |r| r['address'] }
-        expect(returned_address[0]['latitude']).to eq(close.to_f.to_s('F'))
-        expect(returned_address[0]['longitude']).to eq(0.to_f.to_s('F'))
-        expect(returned_address[1]['latitude']).to eq(far.to_f.to_s('F'))
-        expect(returned_address[1]['longitude']).to eq(0.to_f.to_s('F'))
-        expect(returned_address[2]['latitude']).to eq(further.to_f.to_s('F'))
-        expect(returned_address[2]['longitude']).to eq(0.to_f.to_s('F'))
+        expect(returned_address[0]['latitude']).to eq(close.to_f.to_s)
+        expect(returned_address[0]['longitude']).to eq(0.to_f.to_s)
+        expect(returned_address[1]['latitude']).to eq(far.to_f.to_s)
+        expect(returned_address[1]['longitude']).to eq(0.to_f.to_s)
+        expect(returned_address[2]['latitude']).to eq(further.to_f.to_s)
+        expect(returned_address[2]['longitude']).to eq(0.to_f.to_s)
       end
     end
   end

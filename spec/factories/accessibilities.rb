@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :accessibility do
-    accessibility "MyString"
-    details "MyString"
+    accessibility { "MyString" }
+    details { "MyString" }
   end
 end

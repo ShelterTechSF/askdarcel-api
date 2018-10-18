@@ -1,12 +1,12 @@
 source 'https://rubygems.org'
 
 # Rails/Framework
-gem 'rails', '~> 5.0.0'
-gem 'jsonite', '0.0.3'
+gem 'rails'
+gem 'jsonite'
 gem 'geokit-rails'
 
 # Persistence
-gem 'pg', '~> 0.15'
+gem 'pg'
 
 # Auth
 gem 'devise_token_auth'
@@ -16,10 +16,10 @@ gem 'omniauth'
 gem 'puma'
 
 gem 'phonelib'
-gem 'faker', '~> 1.6'
+gem 'faker'
 
 # Search Provider
-gem 'algoliasearch-rails', '~> 1.19.1'
+gem 'algoliasearch-rails'
 
 # CORS
 gem 'rack-cors'
@@ -37,12 +37,12 @@ group :development, :test do
   gem 'byebug'
   gem 'bullet'
   gem 'dotenv-rails'
-  gem 'factory_girl_rails', '~> 4.7'
-  gem 'rspec-rails', '~> 3.4'
+  gem 'factory_bot_rails'
+  gem 'rspec-rails'
   gem 'spring'
-  gem 'rubocop', '~> 0.52.1', require: false
+  gem 'rubocop'
 end
 
 group :test do
-  gem 'rspec-collection_matchers', '~> 1.1'
+  gem 'rspec-collection_matchers'
 end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rubygems'
-require 'factory_girl_rails'
+require 'factory_bot_rails'
 require 'active_record'
 require 'bullet'
 
@@ -17,7 +17,7 @@ end
 
 RSpec.configure do |config|
   config.include RequestSpecHelpers, type: :request
-  config.include FactoryGirl::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
 
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest

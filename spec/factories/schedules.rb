@@ -2,9 +2,9 @@
 
 require 'sheltertech/random'
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :schedule do
-    resource nil
+    resource { nil }
 
     after(:create) do |schedule|
       days = %w[Monday Tuesday Wednesday Thursday Friday Saturday Sunday]

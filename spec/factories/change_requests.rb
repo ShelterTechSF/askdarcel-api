@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :change_request do
     after :create do |change_request|
       create(:field_change, field_name: 'name', field_value: Faker::Company.name, change_request: change_request)

@@ -19,7 +19,7 @@ namespace :linksf do
     category_names = %w[Shelter Food Medical Hygiene Technology]
 
     category_names.each do |name|
-      FactoryGirl.create(:category, name: name, top_level: true)
+      FactoryBot.create(:category, name: name, top_level: true)
     end
 
     admin = Admin.new

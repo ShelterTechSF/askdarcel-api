@@ -53,7 +53,7 @@ module ShelterTech
       end
 
       def create_categories
-        Constants::CATEGORY_NAMES.each { |name| FactoryGirl.create(:category, name: name) }
+        Constants::CATEGORY_NAMES.each { |name| FactoryBot.create(:category, name: name) }
         Constants::TOP_LEVEL_CATEGORY_NAMES.each do |c|
           Category.find_by_name!(c).update(top_level: true)
         end
@@ -63,7 +63,7 @@ module ShelterTech
       end
 
       def create_users
-        FactoryGirl.create(:admin)
+        FactoryBot.create(:admin)
       end
 
       def create_resources
@@ -80,12 +80,12 @@ module ShelterTech
       end
 
       def create_random_resource
-        resource = FactoryGirl.create(:resource,
-                                      name: Faker::Company.name,
-                                      short_description: random_short_description,
-                                      long_description: Faker::ShelterTech.description,
-                                      website: random_website,
-                                      categories: @top_level_categories.sample(rand(2)) + @categories.sample(rand(2)))
+        resource = FactoryBot.create(:resource,
+                                     name: Faker::Company.name,
+                                     short_description: random_short_description,
+                                     long_description: Faker::ShelterTech.description,
+                                     website: random_website,
+                                     categories: @top_level_categories.sample(rand(2)) + @categories.sample(rand(2)))
 
         resource.services = create_random_services(resource)
       end
@@ -100,15 +100,15 @@ module ShelterTech
 
       def create_random_service(resource)
         service_categories = @top_level_categories.sample(rand(2)) + @categories.sample(rand(2))
-        service = FactoryGirl.create(:service,
-                                     resource: resource,
-                                     long_description: Faker::ShelterTech.description,
-                                     categories: service_categories)
+        service = FactoryBot.create(:service,
+                                    resource: resource,
+                                    long_description: Faker::ShelterTech.description,
+                                    categories: service_categories)
 
-        FactoryGirl.create(:change_request,
-                           type: 'ResourceChangeRequest',
-                           status: ChangeRequest.statuses[:pending],
-                           object_id: resource.id)
+        FactoryBot.create(:change_request,
+                          type: 'ResourceChangeRequest',
+                          status: ChangeRequest.statuses[:pending],
+                          object_id: resource.id)
         service
       end
 
@@ -127,31 +127,31 @@ module ShelterTech
 
       def self.create_test_category
         # The TestCafe tests expect ID 234 to have these properties.
-        FactoryGirl.create(:category, name: 'Test_Category_Top_Level', id: 234, top_level: true)
+        FactoryBot.create(:category, name: 'Test_Category_Top_Level', id: 234, top_level: true)
       end
 
       def self.create_resource(test_category)
-        FactoryGirl.create(:resource,
-                           name: "A Test Resource",
-                           short_description: "I am a short description of a resource.",
-                           long_description: "I am a long description of a resource.",
-                           website: "www.fakewebsite.org",
-                           categories: [test_category])
+        FactoryBot.create(:resource,
+                          name: "A Test Resource",
+                          short_description: "I am a short description of a resource.",
+                          long_description: "I am a long description of a resource.",
+                          website: "www.fakewebsite.org",
+                          categories: [test_category])
       end
 
       def self.create_service(resource, test_category)
-        FactoryGirl.create(:service,
-                           name: "A Test Service",
-                           resource: resource,
-                           long_description: "I am a long description of a service.",
-                           categories: [test_category])
+        FactoryBot.create(:service,
+                          name: "A Test Service",
+                          resource: resource,
+                          long_description: "I am a long description of a service.",
+                          categories: [test_category])
       end
 
       def self.create_change_request(resource)
-        FactoryGirl.create(:change_request,
-                           type: 'ResourceChangeRequest',
-                           status: ChangeRequest.statuses[:pending],
-                           object_id: resource.id)
+        FactoryBot.create(:change_request,
+                          type: 'ResourceChangeRequest',
+                          status: ChangeRequest.statuses[:pending],
+                          object_id: resource.id)
       end
     end
 

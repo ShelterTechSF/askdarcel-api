@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :funding do
-    source "MyString"
+    source { "MyString" }
   end
 end

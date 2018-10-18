@@ -71,10 +71,10 @@ GEM
       dotenv (= 2.5.0)
       railties (>= 3.2, < 6.0)
     erubis (2.7.0)
-    factory_girl (4.9.0)
+    factory_bot (4.11.1)
       activesupport (>= 3.0.0)
-    factory_girl_rails (4.9.0)
-      factory_girl (~> 4.9.0)
+    factory_bot_rails (4.11.1)
+      factory_bot (~> 4.11.1)
       railties (>= 3.0.0)
     faker (1.9.1)
       i18n (>= 0.7)
@@ -204,24 +204,24 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord-nulldb-adapter
-  algoliasearch-rails (~> 1.19.1)
+  algoliasearch-rails
   bullet
   byebug
   devise_token_auth
   dotenv-rails
-  factory_girl_rails (~> 4.7)
-  faker (~> 1.6)
+  factory_bot_rails
+  faker
   geokit-rails
-  jsonite (= 0.0.3)
+  jsonite
   omniauth
-  pg (~> 0.15)
+  pg
   phonelib
   puma
   rack-cors
-  rails (~> 5.0.0)
-  rspec-collection_matchers (~> 1.1)
-  rspec-rails (~> 3.4)
-  rubocop (~> 0.52.1)
+  rails
+  rspec-collection_matchers
+  rspec-rails
+  rubocop
   sentry-raven
   spring
 

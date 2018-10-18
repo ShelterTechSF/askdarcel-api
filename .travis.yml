@@ -6,7 +6,7 @@ services:
   - docker
 
 rvm:
-- 2.3.0
+- 2.5.0
 
 cache: bundler
 

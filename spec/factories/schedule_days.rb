@@ -2,12 +2,12 @@
 
 require 'sheltertech/random'
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :schedule_day do
-    day nil
+    day { nil }
     opens_at { ShelterTech::Random.time(600, 1000) }
     closes_at { ShelterTech::Random.time(1400, 2400) }
-    schedule nil
+    schedule { nil }
 
     factory :late_schedule_day do
       opens_at { ShelterTech::Random.time(1400, 2300) }

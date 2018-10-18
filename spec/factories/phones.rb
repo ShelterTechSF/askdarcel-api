@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :phone do
     number do
       # There is a 0.5% chance that Faker will generate an invalid number, so
@@ -12,7 +12,7 @@ FactoryGirl.define do
       end
       num.full_e164
     end
-    service_type "Business"
-    resource nil
+    service_type { "Business" }
+    resource { nil }
   end
 end

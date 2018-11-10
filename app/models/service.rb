@@ -77,6 +77,14 @@ class Service < ActiveRecord::Base
         end
       end
 
+      add_attribute :resource_schedule do
+        if resource.schedule.present?
+            resource.schedule.schedule_days.map do |s|
+              { opens_at: s.opens_at, closes_at: s.closes_at, day: s.day }
+            end          
+        end
+      end
+
       add_attribute :service_of
 
       add_attribute :type
@@ -93,7 +101,7 @@ class Service < ActiveRecord::Base
         categories.map(&:name)
       end
 
-      add_attribute :is_mohcd_funded
+      add_attribute :use_resource_schedule
 
       # add_attribute :keywords do
       #   keywords.map(&:name)
@@ -115,6 +123,13 @@ class Service < ActiveRecord::Base
 
   def type
     "service"
+  end
+
+  def use_resource_schedule
+    if schedule.nil?
+      return true
+    end
+    return schedule.schedule_days.size == 0
   end
 
   private

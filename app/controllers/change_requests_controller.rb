@@ -227,7 +227,7 @@ class ChangeRequestsController < ApplicationController
   end
 
   def field_changes
-    params[:change_request].map do |name, value|
+    params[:change_request].to_unsafe_h.map do |name, value|
       field_change_hash = {}
       # HACK: We need a better way to handle array values
       if name == 'categories'

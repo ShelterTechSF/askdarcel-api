@@ -143,7 +143,6 @@ class ServicesController < ApplicationController
     service['category_ids'] = service.delete(:categories).collect { |h| h[:id] } if service.key? :categories
     service['eligibility_ids'] = service.delete(:eligibilities).collect { |h| h[:id] } if service.key? :eligibilities
   end
-  # rubocop:enable Metrics/AbcSize
 
   def transform_nested_objects(service, resource_id)
     service[:addresses_attributes] = service.delete(:addresses) if service.key? :addresses

@@ -12,7 +12,7 @@ RSpec.describe 'Resource Ratings' do
 
   context 'when not authorized' do
     it 'returns not authorized' do
-      post "/resources/#{resource.id}/ratings", rating: rating_body
+      post "/resources/#{resource.id}/ratings", params: { rating: rating_body }
       expect(resource.ratings).to be_empty
       expect(response).to be_unauthorized
     end
@@ -22,8 +22,7 @@ RSpec.describe 'Resource Ratings' do
     let(:user) { create :user }
 
     it 'creates a rating' do
-      post "/resources/#{resource.id}/ratings", { rating: rating_body },
-           'Authorization' => user.id
+      post "/resources/#{resource.id}/ratings", params: { rating: rating_body }, headers: { 'Authorization' => user.id }
       expect(resource.ratings).to have(1).item
       expect(response_json).to match(
         'rating' => {
@@ -46,8 +45,7 @@ RSpec.describe 'Resource Ratings' do
       end
 
       it 'creates a rating and a review' do
-        post "/resources/#{resource.id}/ratings", { rating: rating_body },
-             'Authorization' => user.id
+        post "/resources/#{resource.id}/ratings", params: { rating: rating_body }, headers: { 'Authorization' => user.id }
         expect(resource.ratings).to have(1).item
         expect(resource.ratings.first.review).to be_present
         expect(response_json).to match(

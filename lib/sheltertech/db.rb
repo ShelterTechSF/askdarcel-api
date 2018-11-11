@@ -27,7 +27,6 @@ module ShelterTech
 
       def populate
         Rails.application.eager_load! # Load all models
-        reset_db
         create_users
         create_categories
         create_resources

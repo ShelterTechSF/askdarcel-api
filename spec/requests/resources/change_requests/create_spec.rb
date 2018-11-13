@@ -7,12 +7,12 @@ RSpec.describe 'Resource Change Requests' do
   let(:params) do
     {
       name: 'New Name',
-      long_description: 'New Long Description',
+      long_description: 'New Long Description'
     }
   end
 
   it 'creates a change request and associated field changes' do
-    post "/resources/#{resource.id}/change_requests", { change_request: params }
+    post "/resources/#{resource.id}/change_requests", change_request: params
 
     expect(resource.reload.name).to eq(params[:name])
     expect(resource.long_description).to eq(params[:long_description])
@@ -26,7 +26,7 @@ RSpec.describe 'Resource Change Requests' do
     expect(field_changes.map(&:field_name)).to eq(%w[long_description name])
     expected_field_values = [
       params[:long_description],
-      params[:name],
+      params[:name]
     ]
     expect(field_changes.map(&:field_value)).to eq(expected_field_values)
 
@@ -38,7 +38,7 @@ RSpec.describe 'Resource Change Requests' do
         'object_id' => change_request.object_id,
         'field_changes' => [
           { 'field_name' => 'name', 'field_value' => params[:name] },
-          { 'field_name' => 'long_description', 'field_value' => params[:long_description] },
+          { 'field_name' => 'long_description', 'field_value' => params[:long_description] }
         ]
       }
     )
@@ -50,14 +50,14 @@ RSpec.describe 'Resource Change Requests' do
     end
 
     it 'rolls back changes and returns bad request status with error message' do
-      post "/resources/#{resource.id}/change_requests", { change_request: params }
+      post "/resources/#{resource.id}/change_requests", change_request: params
 
       expect(resource.change_requests).to be_empty
       expect(FieldChange.all).to be_empty
 
       expect(response).to be_bad_request
       expected_response = {
-        'error' => 'Unknown attribute in request: "not_a_real_field_name"',
+        'error' => 'Unknown attribute in request: "not_a_real_field_name"'
       }
       expect(response_json).to match(expected_response)
     end

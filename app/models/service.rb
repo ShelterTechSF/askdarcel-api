@@ -79,9 +79,9 @@ class Service < ActiveRecord::Base
 
       add_attribute :resource_schedule do
         if resource.schedule.present?
-            resource.schedule.schedule_days.map do |s|
-              { opens_at: s.opens_at, closes_at: s.closes_at, day: s.day }
-            end          
+          resource.schedule.schedule_days.map do |s|
+            { opens_at: s.opens_at, closes_at: s.closes_at, day: s.day }
+          end
         end
       end
 
@@ -126,10 +126,9 @@ class Service < ActiveRecord::Base
   end
 
   def use_resource_schedule
-    if schedule.nil?
-      return true
-    end
-    return schedule.schedule_days.size == 0
+    return true if schedule.nil?
+
+    schedule.schedule_days.empty?
   end
 
   private

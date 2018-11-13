@@ -3,6 +3,16 @@ require_relative '../presenters/change_requests_presenter'
 
 class ChangeRequestsController < ApplicationController
   def create
+    ApplicationRecord.transaction do
+      create_change_request
+    end
+  rescue ActiveRecord::UnknownAttributeError => e
+    render status: :bad_request, json: unknown_attribute_error_json(e)
+  rescue ActiveRecord::RecordInvalid => e
+    render status: :bad_request, json: record_invalid_error_json(e)
+  end
+
+  def create_change_request
     if params[:resource_id]
       @change_request = ResourceChangeRequest.create(object_id: params[:resource_id], resource_id: params[:resource_id])
     elsif params[:service_id]
@@ -16,14 +26,14 @@ class ChangeRequestsController < ApplicationController
       schedule = nil
       if params[:schedule_day_id]
         schedule = Schedule.find(ScheduleDay.find(params[:schedule_day_id]).schedule_id)
-      else 
+      else
         schedule = Schedule.find(params[:schedule_id])
       end
       if (schedule.resource_id)
         @change_request = ScheduleDayChangeRequest.create(object_id: params[:schedule_day_id], resource_id: schedule.resource_id)
-      else 
+      else
         @change_request = ScheduleDayChangeRequest.create(object_id: params[:schedule_day_id], resource_id: Service.find(schedule.service_id).resource_id)
-      end         
+      end
     elsif params[:note_id]
       note = Note.find(params[:note_id])
       if (note.resource_id)
@@ -148,7 +158,7 @@ class ChangeRequestsController < ApplicationController
 
   private
 
-  def persist_change(change_request)  
+  def persist_change(change_request)
     object_id = change_request.object_id
     puts object_id
     field_change_hash = get_field_change_hash change_request
@@ -262,5 +272,20 @@ class ChangeRequestsController < ApplicationController
                              schedule: :schedule_days,
                              services: [:notes, :categories, { schedule: :schedule_days }],
                              ratings: [:review]])
+  end
+
+  # Given an ActiveRecord::UnknownAttributeError, returns a hash that would be
+  # safe to return in a JSON API response.
+  def unknown_attribute_error_json(error)
+    { error: "Unknown attribute in request: \"#{error.attribute}\"" }
+  end
+
+  # Given an ActiveRecord::RecordInvalid error, returns a hash that would be
+  # safe to return in a JSON API response.
+  def record_invalid_error_json(error)
+    msgs = error.record.errors.messages.map do |field, validation_error|
+      "#{field} #{validation_error}"
+    end
+    { error: "Validation errors: #{msgs.join(', ')}" }
   end
 end

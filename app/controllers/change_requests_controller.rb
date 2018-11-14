@@ -200,6 +200,12 @@ class ChangeRequestsController < ApplicationController
     else
       puts 'invalid request'
     end
+
+    if Rails.configuration.x.algolia.enabled
+      # Update Algolia index for both the resource and all its services
+      change_request.resource&.index!
+      change_request.resource&.services.each &:index!
+    end
   end
 
   def get_field_change_hash(change_request)

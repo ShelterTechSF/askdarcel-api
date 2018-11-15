@@ -77,6 +77,14 @@ class Service < ActiveRecord::Base
         end
       end
 
+      add_attribute :open_times do
+        if schedule.nil?
+          resource.schedule&.algolia_open_times
+        else
+          schedule.algolia_open_times
+        end
+      end
+
       add_attribute :resource_schedule do
         if resource.schedule.present?
           resource.schedule.schedule_days.map do |s|

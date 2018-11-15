@@ -64,6 +64,10 @@ class Resource < ActiveRecord::Base
         end
       end
 
+      add_attribute :open_times do
+        schedule&.algolia_open_times
+      end
+
       add_attribute :resource_id
 
       add_attribute :type

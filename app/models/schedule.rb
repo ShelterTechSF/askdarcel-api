@@ -17,7 +17,7 @@ class Schedule < ActiveRecord::Base
       closes_at_minutes = ShelterTech::Time.hhmm_to_minutes(day.closes_at)
       opens_at = round_time(opens_at_minutes, block_size, :down)
       closes_at = round_time(closes_at_minutes, block_size, :up)
-      (opens_at..closes_at).step(block_size).map do |time|
+      (opens_at...closes_at).step(block_size).map do |time|
         format_algolia_open_time(day.day, time)
       end
     end
@@ -30,9 +30,9 @@ class Schedule < ActiveRecord::Base
   # simplicity.
   def round_time(minutes, block_size, direction)
     case direction
-    when :up
-      minutes / block_size * block_size
     when :down
+      minutes / block_size * block_size
+    when :up
       ((minutes - 1) / block_size + 1) * block_size
     else
       raise ArgumentError, "Invalid rounding direction: #{direction}"

@@ -4,7 +4,7 @@ module ShelterTech
   module Time
     ## Convert time from hhmm format to number of minutes since midnight
     def self.hhmm_to_minutes(time)
-      (time / 100) * 60 + time % 60
+      (time / 100) * 60 + time % 100
     end
 
     ## Convert time from number of minutes since midnight to hhmm

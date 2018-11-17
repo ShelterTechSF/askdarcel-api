@@ -78,7 +78,7 @@ class Service < ActiveRecord::Base
       end
 
       add_attribute :open_times do
-        if schedule.nil?
+        if use_resource_schedule
           resource.schedule&.algolia_open_times
         else
           schedule.algolia_open_times

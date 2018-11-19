@@ -59,5 +59,14 @@ RSpec.describe Schedule, type: :model do
                                                            Th-13:30
                                                          ])
     end
+
+    it "handles nil times properly" do
+      schedule = build(:schedule, schedule_days: [
+                         build(:schedule_day, day: 'Thursday', opens_at: nil, closes_at: 1400),
+                         build(:schedule_day, day: 'Wednesday', opens_at: 945, closes_at: nil),
+                         build(:schedule_day, day: 'Friday', opens_at: 900, closes_at: 930)
+                       ])
+      expect(schedule.algolia_open_times).to match_array(%w[F-9:00])
+    end
   end
 end

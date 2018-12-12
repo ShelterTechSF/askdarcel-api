@@ -1,5 +1,9 @@
 source 'https://rubygems.org'
 
+# adds a Swagger to API
+gem 'rswag'
+
+
 # Rails/Framework
 gem 'rails'
 gem 'jsonite'

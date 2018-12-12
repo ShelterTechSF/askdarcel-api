@@ -2,6 +2,7 @@
 
 class ResourcesController < ApplicationController
   def index
+    # byebug
     category_id = params.require :category_id
     # TODO: This can be simplified once we remove categories from resources
     relation =
@@ -26,6 +27,7 @@ class ResourcesController < ApplicationController
   end
 
   def create
+    # byebug
     resources_params = clean_resources_params
     resources = resources_params.map { |r| Resource.new(r) }
     fix_resources(resources)

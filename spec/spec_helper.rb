@@ -6,7 +6,7 @@ require 'active_record'
 require 'bullet'
 
 ENV['RAILS_ENV'] = 'test'
-require File.expand_path("../../config/environment", __FILE__)
+require File.expand_path('../config/environment', __dir__)
 require 'rails_helper'
 
 module RequestSpecHelpers

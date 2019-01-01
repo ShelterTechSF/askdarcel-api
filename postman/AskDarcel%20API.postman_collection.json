@@ -1229,6 +1229,59 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Get Resources Counts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Response time is less than 12000ms\"] = responseTime < 12000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "access-token",
+						"value": "{{access-token}}"
+					},
+					{
+						"key": "client",
+						"value": "{{client}}"
+					},
+					{
+						"key": "uid",
+						"value": "dev-admin@sheltertech.org"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_url}}/resources/count",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"resources",
+						"count"
+					]
+				},
+				"description": null
+			},
+			"response": []
 		}
 	],
 	"event": [

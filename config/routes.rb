@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     resources :notes, only: :create
     collection do
       get :search
+      get :count
     end
 
     post :create

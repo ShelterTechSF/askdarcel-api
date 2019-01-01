@@ -57,6 +57,11 @@ class ResourcesController < ApplicationController
     end
   end
 
+  # Return the total number of active (i.e., approved) resources
+  def count
+    render status: :ok, json: Resource.approved.count
+  end
+
   private
 
   # Clean raw request params for interoperability with Rails APIs.

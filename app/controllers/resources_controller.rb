@@ -147,6 +147,7 @@ class ResourcesController < ApplicationController
 
   def lat_lng
     return @lat_lng if defined? @lat_lng
+
     @lat_lng ||= Geokit::LatLng.new(params[:lat], params[:long]) if params[:lat] && params[:long]
   end
 

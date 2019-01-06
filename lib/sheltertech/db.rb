@@ -38,6 +38,7 @@ module ShelterTech
           ActiveRecord::Base.descendants.each do |model|
             next if model.to_s == 'ApplicationRecord'
             next if model.to_s.starts_with? 'ActiveRecord::'
+
             model.destroy_all
             ActiveRecord::Base.connection.reset_pk_sequence!(model.table_name)
           end

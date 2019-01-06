@@ -3,7 +3,7 @@
 # spec/integration/categories_spec.rb
 require 'swagger_helper'
 
-describe 'sheltertech API', type: :request, swagger_doc: 'v1/swagger.json' do
+RSpec.describe 'sheltertech API', type: :request, swagger_doc: 'v1/swagger.json' do
   path '/categories/{id}' do
     get 'Retrieves a category' do
       tags 'Categories'

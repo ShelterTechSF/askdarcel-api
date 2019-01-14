@@ -16,5 +16,4 @@ RUN mkdir -p /var/lib/dpkg/alternatives /var/lib/dpkg/info /var/lib/dpkg/parts /
   apt-get update && \
   apt-get install -y libglib2.0-dev && \
   apt-get install -y postgresql-client-9.5 && \
-  rm -rf /var/lib/apt/lists/* && \
-  rake rswag:specs:swaggerize
+  rm -rf /var/lib/apt/lists/*

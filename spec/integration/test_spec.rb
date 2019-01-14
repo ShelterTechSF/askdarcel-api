@@ -3,33 +3,28 @@
 # spec/integration/categories_spec.rb
 require 'swagger_helper'
 
-RSpec.describe 'sheltertech API', type: :request, swagger_doc: 'v1/swagger.json' do
-  path '/categories/{id}' do
-    get 'Retrieves a category' do
+RSpec.describe 'Sheltertech API', type: :request, swagger_doc: 'v1/swagger.json' do
+  path '/categories' do
+    get 'Retrieves all categories' do
       tags 'Categories'
-      produces 'application/json', 'application/xml'
-      parameter name: :id, in: :path, type: :string
+      produces 'application/json'
 
-      response '200', 'category found' do
+      response '200', 'categories found' do
         schema type: :object,
                properties: {
-                 id: { type: :integer },
-                 name: { type: :string },
-                 vocabulary: { type: :string }
+                 categories: {
+                   type: :array,
+                   properties: {
+                     id: { type: :integer },
+                     name: { type: :string },
+                     top_level: { type: :string },
+                     featured: { type: :boolean }
+                   },
+                   required: %w[id name top_level featured]
+                 }
                },
-               required: %w[id name vocabulary]
-
+               required: %w[categories]
         let(:id) { Category.create(name: 'foo', vocabulary: 'bar').id }
-        run_test!
-      end
-
-      response '404', 'category not found' do
-        let(:id) { 'invalid' }
-        run_test!
-      end
-
-      response '406', 'unsupported accept header' do
-        let(:Accept) { 'application/foo' }
         run_test!
       end
     end

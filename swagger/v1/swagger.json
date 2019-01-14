@@ -1,9 +1,56 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "API V1",
+    "title": "sheltertech API",
     "version": "v1"
   },
   "paths": {
+    "/categories": {
+      "get": {
+        "summary": "Retrieves all categories",
+        "tags": [
+          "Categories"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "categories found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "categories": {
+                  "type": "array",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "top_level": {
+                      "type": "string"
+                    },
+                    "featured": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "name",
+                    "top_level",
+                    "featured"
+                  ]
+                }
+              },
+              "required": [
+                "categories"
+              ]
+            }
+          }
+        }
+      }
+    }
   }
 }

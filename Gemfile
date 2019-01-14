@@ -40,6 +40,8 @@ gem 'daemons'
 gem 'delayed_job_active_record'
 gem 'whenever', require: false
 
+gem 'rspec-rails'
+
 group :production do
   gem 'activerecord-nulldb-adapter'
 end
@@ -51,7 +53,6 @@ group :development, :test do
   gem 'bullet'
   gem 'dotenv-rails'
   gem 'factory_bot_rails'
-  gem 'rspec-rails'
   gem 'spring'
   gem 'rubocop'
 end

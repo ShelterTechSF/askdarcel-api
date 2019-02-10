@@ -111,6 +111,10 @@ class Service < ActiveRecord::Base
 
       add_attribute :use_resource_schedule
 
+      add_attribute :eligibilities do
+        eligibilities.map(&:name)
+      end
+
       # add_attribute :keywords do
       #   keywords.map(&:name)
       # end

@@ -20,3 +20,6 @@ spec/examples.txt
 /tmp
 *.iml
 .idea
+
+# Ignore common OS metadata files
+.DS_Store

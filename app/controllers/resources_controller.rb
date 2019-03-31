@@ -118,7 +118,7 @@ class ResourcesController < ApplicationController
       :email,
       :status,
       address: %i[address_1 address_2 address_3 address_4 city state_province country postal_code latitude longitude],
-      schedule: [{ schedule_days: %i[day opens_at closes_at] }],
+      schedule: [{ schedule_days: %i[day opens_at closes_at open_day open_time close_day close_time] }],
       phones: %i[number service_type],
       notes: [:note],
       categories: [:id]

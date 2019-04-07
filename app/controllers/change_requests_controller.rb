@@ -134,9 +134,6 @@ class ChangeRequestsController < ApplicationController
   end
 
   def replace_field_changes(change_request)
-
-
-
     return change_request
   end
 
@@ -173,12 +170,7 @@ class ChangeRequestsController < ApplicationController
       resource.update field_change_hash
     elsif change_request.is_a? ScheduleDayChangeRequest
       puts 'ScheduleDayChangeRequest'
-      if change_request.object_id
-        schedule_day = ScheduleDay.find(change_request.object_id)
-      else
-        schedule_day = ScheduleDay.new(schedule_id: params[:schedule_id])
-      end
-      schedule_day.update field_change_hash
+      ScheduleDayChangeRequest.modify_schedule_day_hours(field_change_hash, params[:schedule_id], change_request.object_id)
     elsif change_request.is_a? NoteChangeRequest
       puts 'NoteChangeRequest'
       note = Note.find(change_request.object_id)
@@ -220,7 +212,6 @@ class ChangeRequestsController < ApplicationController
 
   def get_field_change_hash(change_request)
     field_change_hash = {}
-
     change_request.field_changes.each do |field_change|
       puts field_change.field_name
       puts field_change.field_value

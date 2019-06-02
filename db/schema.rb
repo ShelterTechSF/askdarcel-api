@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190505235754) do
+ActiveRecord::Schema.define(version: 20190602224219) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -233,22 +233,23 @@ ActiveRecord::Schema.define(version: 20190505235754) do
   end
 
   create_table "resources", force: :cascade do |t|
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
-    t.string   "name",                              null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.string   "name",                               null: false
     t.string   "short_description"
     t.text     "long_description"
     t.string   "website"
     t.datetime "verified_at"
     t.string   "email"
     t.integer  "status"
-    t.boolean  "certified",         default: false
+    t.boolean  "certified",          default: false
     t.string   "alternate_name"
     t.string   "legal_status"
     t.integer  "contact_id"
     t.integer  "funding_id"
     t.datetime "certified_at"
     t.boolean  "featured"
+    t.integer  "source_attribution", default: 0
     t.index ["contact_id"], name: "index_resources_on_contact_id", using: :btree
     t.index ["funding_id"], name: "index_resources_on_funding_id", using: :btree
   end
@@ -305,6 +306,7 @@ ActiveRecord::Schema.define(version: 20190505235754) do
     t.string   "alternate_name"
     t.datetime "certified_at"
     t.boolean  "featured"
+    t.integer  "source_attribution",      default: 0
     t.index ["contact_id"], name: "index_services_on_contact_id", using: :btree
     t.index ["funding_id"], name: "index_services_on_funding_id", using: :btree
     t.index ["program_id"], name: "index_services_on_program_id", using: :btree

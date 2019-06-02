@@ -14,6 +14,7 @@ class ResourcesPresenter < Jsonite
   property :website
   property :certified_at
   property :featured
+  property :source_attribution
   property(:services) do
     # Filter services in Ruby to avoid ignoring prefetched rows and generating
     # a new query.

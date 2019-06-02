@@ -7,6 +7,8 @@ class Resource < ActiveRecord::Base
 
   enum status: { pending: 0, approved: 1, rejected: 2, inactive: 3 }
 
+  enum source_attribution: { ask_darcel: 0, service_net: 1 }
+
   has_and_belongs_to_many :categories
   has_and_belongs_to_many :keywords
   has_one :address, dependent: :destroy

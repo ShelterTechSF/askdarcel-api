@@ -62,4 +62,5 @@ Rails.application.routes.draw do
       get :activity_by_timeframe
     end
   end
+  get 'reindex' => "algolia#reindex"
 end

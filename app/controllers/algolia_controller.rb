@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AlgoliaController < ApplicationController
   def reindex
     AlgoliaReindexJob.new.perform

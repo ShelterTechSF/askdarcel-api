@@ -34,7 +34,7 @@ module AskdarcelApi
     end
     config.after_initialize do
       Rails.env.production? do
-        ActiveRecord::Migrator.migrate "db/migrate"
+        ActiveRecord::Migrator.migrate ::Rails.root.to_s + "/db/migrate"
       end
     end
 

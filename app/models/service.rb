@@ -5,6 +5,8 @@ class Service < ActiveRecord::Base
 
   enum status: { pending: 0, approved: 1, rejected: 2, inactive: 3 }
 
+  enum source_attribution: { ask_darcel: 0, service_net: 1 }
+
   belongs_to :resource, required: true, touch: true
   belongs_to :program
   has_many :notes, dependent: :destroy
@@ -27,7 +29,7 @@ class Service < ActiveRecord::Base
     # and staging servers use the same RAILS_ENV.
     algoliasearch index_name: "#{Rails.configuration.x.algolia.index_prefix}_services_search", id: :algolia_id do # rubocop:disable Metrics/BlockLength,Metrics/LineLength
       # specify the list of attributes available for faceting
-      attributesForFaceting %i[categories open_times]
+      attributesForFaceting %i[categories open_times eligibilities]
 
       # Define attributes used to build an Algolia record
       add_attribute :status
@@ -110,6 +112,10 @@ class Service < ActiveRecord::Base
       end
 
       add_attribute :use_resource_schedule
+
+      add_attribute :eligibilities do
+        eligibilities.map(&:name)
+      end
 
       # add_attribute :keywords do
       #   keywords.map(&:name)

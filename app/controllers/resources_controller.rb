@@ -2,14 +2,10 @@
 
 class ResourcesController < ApplicationController
   def index
+    # byebug
     category_id = params.require :category_id
-    # TODO: This can be simplified once we remove categories from resources
-    relation =
-      resources
-      .joins(:address)
-      .where(categories_join_string, category_id, category_id)
-      .where(status: Resource.statuses[:approved])
-      .order(sort_order)
+
+    relation = get_all_resources(category_id)
     render json: ResourcesPresenter.present(relation)
   end
 
@@ -26,6 +22,7 @@ class ResourcesController < ApplicationController
   end
 
   def create
+    # byebug
     resources_params = clean_resources_params
     resources = resources_params.map { |r| Resource.new(r) }
     fix_resources(resources)
@@ -57,7 +54,26 @@ class ResourcesController < ApplicationController
     end
   end
 
+  # Return the total number of active (i.e., approved) resources
+  def count
+    render status: :ok, json: Resource.approved.count
+  end
+
   private
+
+  def get_all_resources(category_id)
+    relation = if category_id == "all"
+                 resources.where(status: Resource.statuses[:approved])
+               else
+                 # TODO: This can be simplified once we remove categories from resources
+                 resources
+                   .joins(:address)
+                   .where(categories_join_string, category_id, category_id)
+                   .where(status: Resource.statuses[:approved])
+                   .order(sort_order)
+               end
+    relation
+  end
 
   # Clean raw request params for interoperability with Rails APIs.
   def clean_resources_params
@@ -102,7 +118,7 @@ class ResourcesController < ApplicationController
       :email,
       :status,
       address: %i[address_1 address_2 address_3 address_4 city state_province country postal_code latitude longitude],
-      schedule: [{ schedule_days: %i[day opens_at closes_at] }],
+      schedule: [{ schedule_days: %i[day opens_at closes_at open_day open_time close_day close_time] }],
       phones: %i[number service_type],
       notes: [:note],
       categories: [:id]

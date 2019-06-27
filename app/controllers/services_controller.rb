@@ -14,6 +14,20 @@ class ServicesController < ApplicationController
     render json: ServicesWithResourcePresenter.present(service)
   end
 
+  def featured
+    category_id = params[:category_id]
+    featured_services = services.includes(
+      resource: [
+        :address, :phones, :categories, :notes,
+        schedule: :schedule_days,
+        services: [:notes, :categories, :addresses, :eligibilities, { schedule: :schedule_days }],
+        ratings: [:review]
+      ]
+    ).where(featured_by_category_join_string, category_id)
+
+    render json: ServicesWithResourcePresenter.present(featured_services)
+  end
+
   def create
     services_params = clean_services_params
     services = services_params.map { |s| Service.new(s) }
@@ -119,7 +133,7 @@ class ServicesController < ApplicationController
       :required_documents,
       :url,
       :wait_time,
-      schedule: [{ schedule_days: %i[day opens_at closes_at] }],
+      schedule: [{ schedule_days: %i[day opens_at closes_at open_time open_day close_time close_day] }],
       notes: [:note],
       categories: [:id],
       addresses: %i[id address_1 city state_province postal_code country],
@@ -157,5 +171,20 @@ class ServicesController < ApplicationController
 
   def resource
     @resource ||= Resource.find params[:resource_id] if params[:resource_id]
+  end
+
+  def featured_by_category_join_string
+    <<~'SQL'
+      services.id IN (
+        (
+          SELECT services.id
+            FROM services
+            INNER JOIN categories_services ON services.id = categories_services.service_id
+            WHERE categories_services.category_id = ?
+            AND categories_services.feature_rank > 0
+            ORDER BY categories_services.feature_rank
+        )
+      )
+    SQL
   end
 end

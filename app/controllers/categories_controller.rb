@@ -24,4 +24,9 @@ class CategoriesController < ApplicationController
           }
     end
   end
+
+  def featured
+    categories = Category.where(featured: true)
+    render json: CategoryPresenter.present(categories)
+  end
 end

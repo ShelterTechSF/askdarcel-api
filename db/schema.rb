@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181127163326) do
+ActiveRecord::Schema.define(version: 20190602224219) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,8 +92,9 @@ ActiveRecord::Schema.define(version: 20181127163326) do
   end
 
   create_table "categories_services", id: false, force: :cascade do |t|
-    t.integer "service_id",  null: false
-    t.integer "category_id", null: false
+    t.integer "service_id",   null: false
+    t.integer "category_id",  null: false
+    t.integer "feature_rank"
   end
 
   create_table "change_requests", force: :cascade do |t|
@@ -136,13 +137,18 @@ ActiveRecord::Schema.define(version: 20181127163326) do
 
   create_table "eligibilities", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.integer  "feature_rank"
+    t.index ["feature_rank"], name: "index_eligibilities_on_feature_rank", using: :btree
+    t.index ["name"], name: "index_eligibilities_on_name", unique: true, using: :btree
   end
 
   create_table "eligibilities_services", id: false, force: :cascade do |t|
     t.integer "service_id",     null: false
     t.integer "eligibility_id", null: false
+    t.index ["eligibility_id"], name: "index_eligibilities_services_on_eligibility_id", using: :btree
+    t.index ["service_id"], name: "index_eligibilities_services_on_service_id", using: :btree
   end
 
   create_table "field_changes", force: :cascade do |t|
@@ -227,21 +233,23 @@ ActiveRecord::Schema.define(version: 20181127163326) do
   end
 
   create_table "resources", force: :cascade do |t|
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
-    t.string   "name",                              null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.string   "name",                               null: false
     t.string   "short_description"
     t.text     "long_description"
     t.string   "website"
     t.datetime "verified_at"
     t.string   "email"
     t.integer  "status"
-    t.boolean  "certified",         default: false
+    t.boolean  "certified",          default: false
     t.string   "alternate_name"
     t.string   "legal_status"
     t.integer  "contact_id"
     t.integer  "funding_id"
     t.datetime "certified_at"
+    t.boolean  "featured"
+    t.integer  "source_attribution", default: 0
     t.index ["contact_id"], name: "index_resources_on_contact_id", using: :btree
     t.index ["funding_id"], name: "index_resources_on_funding_id", using: :btree
   end
@@ -259,6 +267,10 @@ ActiveRecord::Schema.define(version: 20181127163326) do
     t.integer  "opens_at"
     t.integer  "closes_at"
     t.integer  "schedule_id", null: false
+    t.time     "open_time"
+    t.string   "open_day"
+    t.time     "close_time"
+    t.string   "close_day"
     t.index ["schedule_id"], name: "index_schedule_days_on_schedule_id", using: :btree
   end
 
@@ -293,6 +305,8 @@ ActiveRecord::Schema.define(version: 20181127163326) do
     t.integer  "funding_id"
     t.string   "alternate_name"
     t.datetime "certified_at"
+    t.boolean  "featured"
+    t.integer  "source_attribution",      default: 0
     t.index ["contact_id"], name: "index_services_on_contact_id", using: :btree
     t.index ["funding_id"], name: "index_services_on_funding_id", using: :btree
     t.index ["program_id"], name: "index_services_on_program_id", using: :btree

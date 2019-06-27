@@ -2,6 +2,9 @@
 
 This project exposes the API endpoints for supporting the askdarcel-web project, which is built using a Ruby on Rails API Server
 
+## Onboarding information
+https://sheltertech.quip.com/oSdpAVfvDbPq/ShelterTech-AskDarcel-Developer-Engineer
+
 ## Docker-based Development Environment (Recommended)
 
 ### Requirements
@@ -21,7 +24,7 @@ the environment. It is supported by:
 - [NodeJS](https://www.npmjs.com/package/dotenv) (as a library)
 - [Ruby](https://github.com/bkeepers/dotenv) (as a library)
 
-Create a file named `.env` with the credentials listed in [this
+In the root of the repo cloned to your local machine, create a file named `.env` with the credentials listed in [this
 document](https://sheltertech.quip.com/2ft5Ax19Kc6h).
 
 ### Set up the project
@@ -36,7 +39,7 @@ $ docker-compose build
 # Start the database container (in the background with -d)
 $ docker-compose up -d db
 
-# Start the worker container (in the background with -d)
+# (Optional) start the background worker container (in the background with -d)
 $ docker-compose up -d worker
 
 # Generate random database fixtures
@@ -65,6 +68,11 @@ $ docker-compose run --rm postman
 ```sh
 # Populate the database with an old dump of the database (circa mid-2017)
 $ docker-compose run --rm api rake db:create db:schema:load linksf:import
+
+# Populate the database with a direct copy of the live staging database.
+# - Ask technical team for the staging database password.
+$ docker-compose run -e STAGING_DB_PASSWORD=<...> --rm api rake db:setup db:import_staging
+
 ```
 
 ## macOS-based Development Environment Not Using Docker

@@ -2,8 +2,8 @@
 
 namespace :algolia do
   task reindex: :environment do
-    print "Reindexing resource/service index... "
+    puts '[algolia:reindex] Reindexing resource/service index...'
     AlgoliaReindexJob.new.perform
-    puts "success."
+    puts '[algolia:reindex] Success.'
   end
 end

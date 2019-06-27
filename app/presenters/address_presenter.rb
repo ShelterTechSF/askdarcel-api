@@ -3,6 +3,7 @@
 class AddressPresenter < Jsonite
   property :id
   property :attention
+  property :name
   property :address_1
   property :address_2
   property :address_3

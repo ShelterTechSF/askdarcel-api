@@ -8,8 +8,15 @@ Rails.application.configure do
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
 
+  ## COMMENTED OUT
   # Do not eager load code on boot.
-  config.eager_load = false
+  # config.eager_load = false
+  ## COMMENTED OUT
+
+  # Actually do eager load code on boot to workaround a concurrency/deadlocking
+  # issue in Puma.
+  # https://github.com/puma/puma/issues/1184
+  config.eager_load = true
 
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true

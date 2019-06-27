@@ -1,17 +1,25 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  mount Rswag::Ui::Engine => '/api-docs'
+  mount Rswag::Api::Engine => '/api-docs'
   mount_devise_token_auth_for 'Admin', at: '/admin/auth'
   resources :categories do
     collection do
       get :counts
+      get :featured
     end
   end
-  resources :eligibilities
+  resources :eligibilities, only: %i[index show update] do
+    collection do
+      get :featured
+    end
+  end
   resources :resources do
     resources :notes, only: :create
     collection do
       get :search
+      get :count
     end
 
     post :create
@@ -29,6 +37,7 @@ Rails.application.routes.draw do
     post :reject
     post :certify
     collection do
+      get :featured
       get :pending
       get :count
     end
@@ -53,4 +62,5 @@ Rails.application.routes.draw do
       get :activity_by_timeframe
     end
   end
+  get 'reindex' => "algolia#reindex"
 end

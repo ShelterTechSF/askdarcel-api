@@ -4,7 +4,7 @@ require 'sheltertech/random'
 
 FactoryBot.define do
   factory :schedule_day do
-    day { nil }
+    day { "Monday" }
     opens_at { ShelterTech::Random.time(600, 1000) }
     closes_at { ShelterTech::Random.time(1400, 2400) }
     schedule { nil }

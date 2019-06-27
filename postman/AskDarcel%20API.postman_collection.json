@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "2b5a5078-9637-4ee2-83e5-5727261921cd",
+		"_postman_id": "51a454ce-81c3-49cb-9467-96abbcd9e4c1",
 		"name": "AskDarcel API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -11,11 +11,10 @@
 				{
 					"listen": "test",
 					"script": {
+						"id": "6fc54ef1-1409-44a3-bc1e-6012a857e7dc",
 						"type": "text/javascript",
 						"exec": [
-							"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
-							"",
-							"tests[\"Status code is 400\"] = responseCode.code === 400;  // category_id param is required"
+							"tests[\"Status code is 200\"] = responseCode.code === 200;  "
 						]
 					}
 				}
@@ -33,12 +32,18 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{base_url}}/resources",
+					"raw": "{{base_url}}/resources?category_id=all",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"resources"
+					],
+					"query": [
+						{
+							"key": "category_id",
+							"value": "all"
+						}
 					]
 				}
 			},
@@ -210,6 +215,54 @@
 			"response": []
 		},
 		{
+			"name": "Get featured services by category id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1403ee77-8baa-486c-aff1-5d081b1b2b2f",
+						"exec": [
+							"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_url}}/services/featured?category_id=1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"services",
+						"featured"
+					],
+					"query": [
+						{
+							"key": "category_id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get service count",
 			"event": [
 				{
@@ -311,6 +364,65 @@
 			"response": []
 		},
 		{
+			"name": "Get featured categories",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1403ee77-8baa-486c-aff1-5d081b1b2b2f",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var schema = {",
+							"    \"type\": \"object\",",
+							"    \"properties\": {",
+							"        \"categories\": {",
+							"            \"type\": \"array\",",
+							"            \"items\": pm.globals.get('schemas').category,",
+							"        },",
+							"    },",
+							"    \"required\": [",
+							"        \"categories\",",
+							"    ],",
+							"};",
+							"",
+							"var response = pm.response.json();",
+							"tests['Schema is valid'] = tv4.validate(response, schema);",
+							"if (tv4.error) {",
+							"    console.log(\"Validation failed: \", tv4.error);",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_url}}/categories",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get all eligibilities",
 			"event": [
 				{
@@ -322,7 +434,12 @@
 							"",
 							"tests[\"Status code is 200\"] = responseCode.code === 200;",
 							"",
-							""
+							"pm.test(\"Eligibilities are correctly sorted\", function () {",
+							"  var jsonData = pm.response.json();",
+							"  pm.expect(jsonData.eligibilities.length).to.eql(10);",
+							"  pm.expect(jsonData.eligibilities[0].name).to.eql('Alzheimers');",
+							"  pm.expect(jsonData.eligibilities[9].name).to.eql('Veterans');",
+							"});"
 						]
 					}
 				}
@@ -346,6 +463,161 @@
 					],
 					"path": [
 						"eligibilities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get featured eligibilities",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "76d9f301-73fd-4fc4-870d-47060c278e49",
+						"exec": [
+							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"pm.test(\"Featured eligibilities are correctly sorted by feature_rank\", function () {",
+							"  var jsonData = pm.response.json();",
+							"  pm.expect(jsonData.eligibilities.length).to.eql(6);",
+							"  pm.expect(jsonData.eligibilities[0].name).to.eql('Seniors');",
+							"  pm.expect(jsonData.eligibilities[0].feature_rank).to.eql(1);",
+							"  pm.expect(jsonData.eligibilities[0].resource_count).to.eql(24);",
+							"  pm.expect(jsonData.eligibilities[0].service_count).to.eql(24);",
+							"  pm.expect(jsonData.eligibilities[5].name).to.eql('Immigrants');",
+							"  pm.expect(jsonData.eligibilities[5].feature_rank).to.eql(6);",
+							"  pm.expect(jsonData.eligibilities[5].resource_count).to.eql(8);",
+							"  pm.expect(jsonData.eligibilities[5].service_count).to.eql(8);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_url}}/eligibilities/featured",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"eligibilities",
+						"featured"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update eligibility feature_rank, 1 of 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5c9b01e5-fe7c-48aa-88d8-2240f871bd05",
+						"exec": [
+							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"pm.test(\"Eligibility feature_rank now 2\", function () {",
+							"  var jsonData = pm.response.json();",
+							"  pm.expect(jsonData.eligibility.name).to.eql(\"Seniors\");",
+							"  pm.expect(jsonData.eligibility.feature_rank).to.eql(2);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"feature_rank\": 2\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/eligibilities/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"eligibilities",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update eligibility feature_rank, 2 of 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5c9b01e5-fe7c-48aa-88d8-2240f871bd05",
+						"exec": [
+							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"pm.test(\"Eligibility feature_rank now back to 1\", function () {",
+							"  var jsonData = pm.response.json();",
+							"  pm.expect(jsonData.eligibility.name).to.eql(\"Seniors\");",
+							"  pm.expect(jsonData.eligibility.feature_rank).to.eql(1);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"feature_rank\": 1\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/eligibilities/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"eligibilities",
+						"1"
 					]
 				}
 			},
@@ -837,12 +1109,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"type": "text/javascript",
+						"id": "a90c9522-8402-448b-bc6b-d2348fc3890b",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
-						]
+						],
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -860,7 +1133,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"services\": [\n    {\n      \"name\": \"Foo Service\",\n      \"long_description\": \"Bar description\",\n      \"eligibility\": \"foo\",\n      \"required_documents\": \"bar\",\n      \"fee\": \"foo\",\n      \"application_process\": \"bar\",\n      \"schedule\": {\n        \"schedule_days\": [\n          {\n            \"day\": \"Friday\",\n            \"opens_at\": 9,\n            \"closes_at\": 17\n          },\n          {\n            \"day\": \"Thursday\",\n            \"opens_at\": 9,\n            \"closes_at\": 17\n          },\n          {\n            \"day\": \"Wednesday\",\n            \"opens_at\": 9,\n            \"closes_at\": 17\n          },\n          {\n            \"day\": \"Tuesday\",\n            \"opens_at\": 11,\n            \"closes_at\": 19\n          },\n          {\n            \"day\": \"Monday\",\n            \"opens_at\": 11,\n            \"closes_at\": 19\n          }\n        ]\n      },\n      \"notes\": [\n        {\n          \"note\": \"foo\"\n        }\n      ],\n      \"categories\": [\n        {\n          \"id\": 3\n        }\n      ]\n    }\n  ]\n}"
+					"raw": "{\n  \"services\": [\n    {\n      \"name\": \"Foo Service\",\n      \"long_description\": \"Bar description\",\n      \"eligibility\": \"foo\",\n      \"required_documents\": \"bar\",\n      \"fee\": \"foo\",\n      \"application_process\": \"bar\",\n      \"schedule\": {\n        \"schedule_days\": [\n          {\n            \"day\": \"Friday\",\n            \"opens_at\": 9,\n            \"closes_at\": 17,\n            \"open_day\": \"Friday\",\n            \"open_time\": \"9:00:00\",\n            \"close_day\": \"Friday\",\n            \"close_time\": \"17:00:00\"\n          },\n          {\n            \"day\": \"Thursday\",\n            \"opens_at\": 9,\n            \"closes_at\": 17,\n            \"open_day\": \"Thursday\",\n            \"open_time\": \"9:00:00\",\n            \"close_day\": \"Thursday\",\n            \"close_time\": \"17:00:00\"\n          },\n          {\n            \"day\": \"Wednesday\",\n            \"opens_at\": 9,\n            \"closes_at\": 17,\n            \"open_day\": \"Wednesday\",\n            \"open_time\": \"9:00:00\",\n            \"close_day\": \"Wednesday\",\n            \"close_time\": \"17:00:00\"            \n          },\n          {\n            \"day\": \"Tuesday\",\n            \"opens_at\": 11,\n            \"closes_at\": 19,\n            \"open_day\": \"Tuesday\",\n            \"open_time\": \"9:00:00\",\n            \"close_day\": \"Tuesday\",\n            \"close_time\": \"17:00:00\"  \n          },\n          {\n            \"day\": \"Monday\",\n            \"opens_at\": 11,\n            \"closes_at\": 19,\n            \"open_day\": \"Monday\",\n            \"open_time\": \"9:00:00\",\n            \"close_day\": \"Monday\",\n            \"close_time\": \"17:00:00\"  \n          }\n        ]\n      },\n      \"notes\": [\n        {\n          \"note\": \"foo\"\n        }\n      ],\n      \"categories\": [\n        {\n          \"id\": 3\n        }\n      ]\n    }\n  ]\n}"
 				},
 				"url": {
 					"raw": "{{base_url}}/resources/1/services",
@@ -882,12 +1155,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"type": "text/javascript",
+						"id": "1ebb6056-c993-4807-a34d-fa47edd4fee3",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
-						]
+						],
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -905,7 +1179,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"resources\":[{\"name\":\"Test new\",\"address\":{\"address_1\":\"601 4th Street\",\"city\":\"San Francisco\",\"state_province\":\"CA\",\"country\":\"USA\",\"postal_code\":\"49032\"},\"long_description\":\"test\",\"email\":\"test@test.com\",\"website\":\"test.com\",\"notes\":[],\"schedule\":{\"schedule_days\":[{\"day\":\"Monday\",\"opens_at\":0,\"closes_at\":2359},{\"day\":\"Tuesday\",\"opens_at\":109,\"closes_at\":1753},{\"day\":\"Wednesday\",\"opens_at\":null,\"closes_at\":null},{\"day\":\"Thursday\",\"opens_at\":null,\"closes_at\":null},{\"day\":\"Friday\",\"opens_at\":null,\"closes_at\":null},{\"day\":\"Saturday\",\"opens_at\":null,\"closes_at\":null},{\"day\":\"Sunday\",\"opens_at\":null,\"closes_at\":null}]},\"phones\":[{\"number\":\"4155555555\",\"service_type\":\"English\"}]\n}]}"
+					"raw": "{\"resources\":[{\"name\":\"Test new\",\"address\":{\"address_1\":\"601 4th Street\",\"city\":\"San Francisco\",\"state_province\":\"CA\",\"country\":\"USA\",\"postal_code\":\"49032\"},\"long_description\":\"test\",\"email\":\"test@test.com\",\"website\":\"test.com\",\"notes\":[],\"schedule\":{\"schedule_days\":[{\"day\":\"Monday\",\"opens_at\":900,\"closes_at\":1000,\"open_time\":\"09:00:00\",\"open_day\":\"Monday\",\"close_time\":\"10:00:00\",\"close_day\":\"Monday\"},{\"day\":\"Tuesday\",\"opens_at\":100,\"closes_at\":1000,\"open_time\":\"09:00:00\",\"open_day\":\"Tuesday\",\"close_time\":\"10:00:00\",\"close_day\":\"Tuesday\"}]},\"phones\":[{\"number\":\"4155555555\",\"service_type\":\"English\"}]\n}]}"
 				},
 				"url": {
 					"raw": "{{base_url}}/resources",
@@ -1225,6 +1499,58 @@
 						"services",
 						"1",
 						"change_requests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Resources Counts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Response time is less than 12000ms\"] = responseTime < 12000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "access-token",
+						"value": "{{access-token}}"
+					},
+					{
+						"key": "client",
+						"value": "{{client}}"
+					},
+					{
+						"key": "uid",
+						"value": "dev-admin@sheltertech.org"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_url}}/resources/count",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"resources",
+						"count"
 					]
 				}
 			},

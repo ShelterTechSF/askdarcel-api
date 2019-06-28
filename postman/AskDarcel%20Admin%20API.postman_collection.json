@@ -7,49 +7,6 @@
 	},
 	"item": [
 		{
-			"name": "Admin Sign In",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"tests[\"Status code is 200\"] = responseCode.code === 200;",
-							"",
-							"postman.setGlobalVariable(\"access-token\", postman.getResponseHeader(\"access-token\"));",
-							"postman.setGlobalVariable(\"client\", postman.getResponseHeader(\"client\"));"
-						]
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{  \n   \"email\":\"dev-admin@sheltertech.org\",\n   \"password\":\"dev-test-01\"\n}"
-				},
-				"url": {
-					"raw": "{{base_url}}/admin/auth/sign_in",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"admin",
-						"auth",
-						"sign_in"
-					]
-				},
-				"description": null
-			},
-			"response": []
-		},
-		{
 			"name": "Get all ChangeRequests",
 			"event": [
 				{
@@ -757,59 +714,5 @@
 			},
 			"response": []
 		},
-		{
-			"name": "Admin Sign Out",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
-							"",
-							"tests[\"Status code is 200\"] = responseCode.code === 200;"
-						]
-					}
-				}
-			],
-			"request": {
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "access-token",
-						"value": "{{access-token}}"
-					},
-					{
-						"key": "client",
-						"value": "{{client}}"
-					},
-					{
-						"key": "uid",
-						"value": "dev-admin@sheltertech.org"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{base_url}}/admin/auth/sign_out",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"admin",
-						"auth",
-						"sign_out"
-					]
-				},
-				"description": null
-			},
-			"response": []
-		}
 	]
 }

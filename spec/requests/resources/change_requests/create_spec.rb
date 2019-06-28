@@ -12,7 +12,7 @@ RSpec.describe 'Resource Change Requests' do
   end
 
   it 'creates a change request and associated field changes' do
-    post "/resources/#{resource.id}/change_requests", params: { change_request: params}
+    post "/resources/#{resource.id}/change_requests", params: { change_request: params }
 
     expect(resource.reload.name).to eq(params[:name])
     expect(resource.long_description).to eq(params[:long_description])

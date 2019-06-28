@@ -11,10 +11,6 @@ gem 'geokit-rails'
 # Persistence
 gem 'pg'
 
-# Auth
-gem 'devise_token_auth'
-gem 'omniauth'
-
 # Use Puma as the app server
 gem 'puma'
 
@@ -38,10 +34,6 @@ gem 'prometheus-client'
 gem 'daemons'
 gem 'delayed_job_active_record'
 gem 'whenever', require: false
-
-group :production do
-  gem 'activerecord-nulldb-adapter'
-end
 
 gem 'rspec-rails'
 

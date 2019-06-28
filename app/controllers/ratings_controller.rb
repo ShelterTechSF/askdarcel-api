@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class RatingsController < ApplicationController
-  before_action :require_authorization!
-
   def create
     if params[:resource_id]
       rating = resource.ratings.create!(rating_params)

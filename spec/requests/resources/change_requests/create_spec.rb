@@ -12,7 +12,7 @@ RSpec.describe 'Resource Change Requests' do
   end
 
   it 'creates a change request and associated field changes' do
-    post "/resources/#{resource.id}/change_requests", change_request: params
+    post "/resources/#{resource.id}/change_requests", params: { change_request: params}
 
     expect(resource.reload.name).to eq(params[:name])
     expect(resource.long_description).to eq(params[:long_description])
@@ -50,7 +50,7 @@ RSpec.describe 'Resource Change Requests' do
     end
 
     it 'rolls back changes and returns bad request status with error message' do
-      post "/resources/#{resource.id}/change_requests", change_request: params
+      post "/resources/#{resource.id}/change_requests", params: { change_request: params }
 
       expect(resource.change_requests).to be_empty
       expect(FieldChange.all).to be_empty

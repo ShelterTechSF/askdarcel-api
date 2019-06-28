@@ -98,9 +98,11 @@ module ShelterTech
       def self.log_record_stats(table_description, record_number, records_count, stats)
         stats[:total_save_count] += 1
         return unless (record_number % 250).zero?
+
         log_progress("#{table_description} - Saved #{record_number}/#{records_count} for table, "\
                      "#{stats[:total_save_count]}/#{stats[:total_records]} overall")
         return unless (record_number % 5000).zero?
+
         log_progress("Expected time left: #{time_left!(stats)}")
       end
 
@@ -121,6 +123,7 @@ module ShelterTech
           next if model_name.starts_with? 'ActiveRecord::'
           # Leave out `DelayedJob` table
           next if model_name.starts_with? 'Delayed::'
+
           ret << model.table_name
         end
         ret.uniq
@@ -133,6 +136,7 @@ module ShelterTech
         table_names.each do |table_name|
           id_sequence = lookup_id_sequence_name(table_name)
           next unless id_sequence.present?
+
           ActiveRecord::Base.connection.execute("SELECT setval('#{id_sequence}', MAX(id)) FROM #{table_name}")
         end
       end
@@ -140,6 +144,7 @@ module ShelterTech
       def self.lookup_id_sequence_name(table_name)
         result = ActiveRecord::Base.connection.execute("select pg_get_serial_sequence('#{table_name}', 'id')").to_a.first
         return nil unless result.present?
+
         result['pg_get_serial_sequence'].gsub('public.', '')
       rescue ActiveRecord::StatementInvalid
         nil
@@ -148,6 +153,7 @@ module ShelterTech
       def self.time_left!(stats)
         seconds = update_time_left!(stats)
         return '0 seconds' if seconds.zero?
+
         ret = []
         if seconds >= 60
           minutes = seconds / 60

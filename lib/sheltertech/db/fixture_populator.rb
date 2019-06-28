@@ -27,7 +27,6 @@ module ShelterTech
 
       def populate
         Rails.application.eager_load! # Load all models
-        create_users
         create_categories
         create_resources
         create_eligibilities
@@ -65,10 +64,6 @@ module ShelterTech
         Constants::FEATURED_CATEGORY_NAMES.each do |c|
           Category.find_by_name!(c).update(featured: true)
         end
-      end
-
-      def create_users
-        FactoryBot.create(:admin)
       end
 
       def create_resources

@@ -61,7 +61,7 @@ module Resources
                else
                  {
                    aroundLatLng: "#{lat_lng.lat}, #{lat_lng.lng}",
-                   aroundRadius: 20_000, # Meters
+                   aroundRadius: 20_000 # Meters
                  }
                end
         scope.algolia_search(query, opts)

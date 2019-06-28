@@ -97,8 +97,8 @@ class ResourcesController < ApplicationController
 
   def fix_lat_and_long(address)
     geo_code(address)
-  rescue StandardError => error
-    puts 'google geocoding failed for new address ' + address.address_1 + ': ' + error.message
+  rescue StandardError => e
+    puts 'google geocoding failed for new address ' + address.address_1 + ': ' + e.message
   end
 
   def geo_code(address)

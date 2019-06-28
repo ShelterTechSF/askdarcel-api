@@ -60,9 +60,6 @@ class ChangeRequestsController < ApplicationController
   def approve
       change_request = ChangeRequest.find params[:change_request_id]
       if change_request.pending?
-
-        FieldChange.delete_all(["change_request_id = ?", change_request.id])
-
         change_request.field_changes = field_changes_approve change_request.id
 
         change_request.save!

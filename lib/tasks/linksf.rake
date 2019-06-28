@@ -22,11 +22,6 @@ namespace :linksf do
       FactoryBot.create(:category, name: name, top_level: true)
     end
 
-    admin = Admin.new
-    admin.email = 'dev-admin@sheltertech.org'
-    admin.password = 'dev-test-01'
-    admin.save
-
     # locations is an object with IDs as the keys, which we don't need
     locations.each_value do |location|
       # One of the locations has no services.

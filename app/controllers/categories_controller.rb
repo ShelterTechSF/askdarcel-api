@@ -13,16 +13,12 @@ class CategoriesController < ApplicationController
   end
 
   def counts
-    if !admin_signed_in?
-      render status: :unauthorized
-    else
-      render status: :ok, json:
-          Category.order(:name).map { |c|
-            { name: c.name,
-              services: c.services.where('status' => 1).count,
-              resources: c.resources.where('status' => 1).count }
-          }
-    end
+    render status: :ok, json:
+        Category.order(:name).map { |c|
+          { name: c.name,
+            services: c.services.where('status' => 1).count,
+            resources: c.resources.where('status' => 1).count }
+        }
   end
 
   def featured

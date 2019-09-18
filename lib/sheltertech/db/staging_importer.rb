@@ -25,7 +25,7 @@ module ShelterTech
         local_db_config = ActiveRecord::Base.connection_config
 
         staging_config = local_db_config.clone
-        staging_config[:host] = 'staging-database.askdarcel.org'
+        staging_config[:host] = 'staging-db.askdarcel.org'
         staging_config[:database] = 'askdarcel'
         staging_config[:username] = 'master'
         staging_config[:password] = password

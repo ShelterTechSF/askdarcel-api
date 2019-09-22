@@ -85,14 +85,10 @@ class ServicesController < ApplicationController
   end
 
   def destroy
-    service = Service.find params[:id]
-    if service.approved?
-      service.inactive!
-      remove_from_algolia(service)
-      render status: :ok
-    else
-      render status: :precondition_failed
-    end
+    Services::Services.deactivate params[:id]
+    render status: :ok
+  rescue Errors::PreconditionFailed
+    render status: :precondition_failed
   end
 
   def count
@@ -100,12 +96,6 @@ class ServicesController < ApplicationController
   end
 
   private
-
-  def remove_from_algolia(service)
-    service.remove_from_index!
-  rescue StandardError
-    puts 'failed to remove rservice ' + service.id.to_s + ' from algolia index'
-  end
 
   def services
     Service.includes(:notes, :categories, :eligibilities, :addresses, schedule: :schedule_days)

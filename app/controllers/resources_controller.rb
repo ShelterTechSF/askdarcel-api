@@ -44,14 +44,11 @@ class ResourcesController < ApplicationController
   end
 
   def destroy
-    resource = Resource.find params[:id]
-    if resource.approved?
-      resource.inactive!
-      remove_from_algolia(resource)
-      render status: :ok
-    else
-      render status: :precondition_failed
-    end
+    puts params[:id]
+    Services::Resources.deactivate params[:id]
+    render status: :ok
+  rescue Errors::PreconditionFailed
+    render status: :precondition_failed
   end
 
   # Return the total number of active (i.e., approved) resources

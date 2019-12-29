@@ -18,7 +18,7 @@ class ServicesController < ApplicationController
     category_id = params[:category_id]
     featured_services = services.includes(
       resource: [
-        :address, :phones, :categories, :notes,
+        :addresses, :phones, :categories, :notes,
         schedule: :schedule_days,
         services: [:notes, :categories, :addresses, :eligibilities, { schedule: :schedule_days }],
         ratings: [:review]
@@ -51,7 +51,7 @@ class ServicesController < ApplicationController
   def pending
     pending_services = services.includes(
       resource: [
-        :address, :phones, :categories, :notes,
+        :addresses, :phones, :categories, :notes,
         schedule: :schedule_days,
         services: [:notes, :categories, :addresses, :eligibilities, { schedule: :schedule_days }],
         ratings: [:review]

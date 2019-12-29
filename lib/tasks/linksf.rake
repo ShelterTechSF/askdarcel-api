@@ -70,7 +70,7 @@ namespace :linksf do
 
       address.latitude = location[:latitude]
       address.longitude = location[:longitude]
-      resource.address = address
+      resource.addresses = [address]
 
       location[:services].each_value do |json_service|
         service = resource.services.build

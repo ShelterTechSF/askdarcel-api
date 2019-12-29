@@ -3,7 +3,7 @@
 class Resource < ActiveRecord::Base
   include AlgoliaSearch
 
-  delegate :latitude, :longitude, to: :address, prefix: true, allow_nil: true
+  delegate :latitude, :longitude, to: :addresses, prefix: true, allow_nil: true
 
   enum status: { pending: 0, approved: 1, rejected: 2, inactive: 3 }
 
@@ -38,23 +38,24 @@ class Resource < ActiveRecord::Base
       # specify the list of attributes available for faceting
       attributesForFaceting %i[categories open_times]
       # Define attributes used to build an Algolia record
-      add_attribute :_geoloc do
-        { lat: address_latitude.to_f, lng: address_longitude.to_f }
-      end
 
       add_attribute :status
 
       add_attribute :addresses do
         if addresses.present?
-          [{
-            city: address.city,
-            state_province: address.state_province,
-            postal_code: address.postal_code,
-            country: address.country,
-            address_1: address.address_1
-          }]
+          addresses.map { |a|
+            {
+              city: a.city,
+              state_province: a.state_province,
+              postal_code: a.postal_code,
+              country: a.country,
+              address_1: a.address_1,
+              latitude: a.latitude.to_f,
+              longitude: a.longitude.to_f,
+            }
+          }
         else
-          {}
+          []
         end
       end
 

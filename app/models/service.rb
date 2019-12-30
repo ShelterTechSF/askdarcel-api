@@ -44,7 +44,7 @@ class Service < ActiveRecord::Base
               country: a.country,
               address_1: a.address_1,
               latitude: a.latitude.to_f || nil,
-              longitude: a.longitude.to_f || nil,
+              longitude: a.longitude.to_f || nil
             }
           end
         elsif resource.addresses.present?
@@ -56,7 +56,7 @@ class Service < ActiveRecord::Base
               country: a.country,
               address_1: a.address_1,
               latitude: a.latitude.to_f || nil,
-              longitude: a.longitude.to_f || nil,
+              longitude: a.longitude.to_f || nil
             }
           end
         end

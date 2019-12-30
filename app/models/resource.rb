@@ -43,17 +43,17 @@ class Resource < ActiveRecord::Base
 
       add_attribute :addresses do
         if addresses.present?
-          addresses.map { |a|
+          addresses.map do |a|
             {
               city: a.city,
               state_province: a.state_province,
               postal_code: a.postal_code,
               country: a.country,
               address_1: a.address_1,
-              latitude: a.latitude.to_f,
-              longitude: a.longitude.to_f,
+              latitude: a.latitude.to_f || nil,
+              longitude: a.longitude.to_f || nil
             }
-          }
+          end
         else
           []
         end

@@ -33,6 +33,16 @@ class Service < ActiveRecord::Base
 
       # Define attributes used to build an Algolia record
       add_attribute :status
+      add_attribute :_geoloc do
+        if addresses.any?
+          addresses.map do |a|
+            { lat: a.address_latitude.to_f, lng: a.address_longitude.to_f } \
+              if a.address_latitude.present? & a.address_longitude.present?
+          end
+        elsif resource.addresses.present? & resource.addresses[0].latitude.present? & resource.addresses[0].longitude.present?
+          { lat: resource.addresses[0].latitude.to_f, lng: resource.addresses[0].longitude.to_f }
+        end
+      end
 
       add_attribute :addresses do
         if addresses.any?

@@ -24,6 +24,8 @@ module AskdarcelApi
       config.x.algolia.index_prefix.present?
     ].all?
 
+    config.x.airtable.api_key = ENV['AIRTABLE_API_KEY']
+
     config.x.google.api_key = ENV['GOOGLE_API_KEY']
 
     config.middleware.insert_before 0, Rack::Cors do

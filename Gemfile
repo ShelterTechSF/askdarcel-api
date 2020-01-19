@@ -20,6 +20,9 @@ gem 'faker'
 # Search Provider
 gem 'algoliasearch-rails'
 
+# AirTable API, visually view DB updates & Datathon feedback at airtable.com/tbl0DbgzCMib5WlMA/
+gem 'airrecord'
+
 # CORS
 gem 'rack-cors'
 

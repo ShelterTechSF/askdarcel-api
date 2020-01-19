@@ -192,6 +192,12 @@ class ChangeRequestsController < ApplicationController
       resource.index!
       resource.services.to_a.each &:index!
     end
+
+    if Rails.configuration.x.airtable.api_key
+      # Update AirTable with this resource's 'name', 'status' & 'updated_at'
+      # Create new AirTable record if one wasn't there already
+      update_in_airtable(resource)
+    end
   end
 
   def get_field_change_hash(change_request)

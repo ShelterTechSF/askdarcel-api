@@ -64,6 +64,19 @@ module ShelterTech
         Constants::FEATURED_CATEGORY_NAMES.each do |c|
           Category.find_by_name!(c).update(featured: true)
         end
+
+        create_category_children
+      end
+
+      def create_category_children
+        parent = Category.find_by_name('Legal')
+        Constants::CHILD_CATEGORY_NAMES.each do |c|
+          child = Category.find_by_name(c)
+          relationship = CategoryRelationship.new
+          relationship.parent = parent
+          relationship.child = child
+          relationship.save
+        end
       end
 
       def create_resources
@@ -436,6 +449,12 @@ module ShelterTech
         'Health & Medical',
         'Employment',
         'Legal'
+      ].freeze
+
+      CHILD_CATEGORY_NAMES = [
+        'Legal Representation',
+        'Legal Services',
+        'Probation and Parole'
       ].freeze
 
       ELIGIBILITY_NAMES = [

@@ -8,6 +8,10 @@ RSpec.describe 'Algolia Reindex Job' do
     expect(Resource).to receive(:where).with(status: :approved).and_return(resource_query)
     expect(resource_query).to receive(:reindex)
 
+    resource_index = double
+    expect(Resource).to receive(:index).and_return(resource_index)
+    expect(resource_index).to receive(:batch_synonyms)
+
     service_query = double
     expect(Service).to receive(:where).with(status: :approved).and_return(service_query)
     expect(service_query).to receive(:reindex!)

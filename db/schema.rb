@@ -10,19 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_11_225329) do
+ActiveRecord::Schema.define(version: 2019_11_19_150125) do
+
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "accessibilities", id: :serial, force: :cascade do |t|
+  create_table "accessibilities", force: :cascade do |t|
     t.string "accessibility"
     t.string "details"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "addresses", id: :serial, force: :cascade do |t|
+  create_table "addresses", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "attention"
@@ -52,7 +53,7 @@ ActiveRecord::Schema.define(version: 2019_08_11_225329) do
     t.index ["service_id", "address_id"], name: "index_addresses_services_on_service_id_and_address_id"
   end
 
-  create_table "admins", id: :serial, force: :cascade do |t|
+  create_table "admins", force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -69,7 +70,7 @@ ActiveRecord::Schema.define(version: 2019_08_11_225329) do
     t.index ["uid", "provider"], name: "index_admins_on_uid_and_provider", unique: true
   end
 
-  create_table "bookmarks", id: :serial, force: :cascade do |t|
+  create_table "bookmarks", force: :cascade do |t|
     t.string "identifier"
     t.datetime "date_value"
     t.integer "id_value"
@@ -78,7 +79,7 @@ ActiveRecord::Schema.define(version: 2019_08_11_225329) do
     t.index ["identifier"], name: "index_bookmarks_on_identifier", unique: true
   end
 
-  create_table "categories", id: :serial, force: :cascade do |t|
+  create_table "categories", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name", null: false
@@ -106,7 +107,12 @@ ActiveRecord::Schema.define(version: 2019_08_11_225329) do
     t.integer "feature_rank"
   end
 
-  create_table "change_requests", id: :serial, force: :cascade do |t|
+  create_table "category_relationships", id: false, force: :cascade do |t|
+    t.integer "parent_id", null: false
+    t.integer "child_id", null: false
+  end
+
+  create_table "change_requests", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "type"
@@ -117,7 +123,7 @@ ActiveRecord::Schema.define(version: 2019_08_11_225329) do
     t.index ["resource_id"], name: "index_change_requests_on_resource_id"
   end
 
-  create_table "contacts", id: :serial, force: :cascade do |t|
+  create_table "contacts", force: :cascade do |t|
     t.string "name"
     t.string "title"
     t.string "email"
@@ -129,7 +135,22 @@ ActiveRecord::Schema.define(version: 2019_08_11_225329) do
     t.index ["service_id"], name: "index_contacts_on_service_id"
   end
 
-  create_table "eligibilities", id: :serial, force: :cascade do |t|
+  create_table "delayed_jobs", id: :serial, force: :cascade do |t|
+    t.integer "priority", default: 0, null: false
+    t.integer "attempts", default: 0, null: false
+    t.text "handler", null: false
+    t.text "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string "locked_by"
+    t.string "queue"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["priority", "run_at"], name: "delayed_jobs_priority"
+  end
+
+  create_table "eligibilities", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -145,20 +166,20 @@ ActiveRecord::Schema.define(version: 2019_08_11_225329) do
     t.index ["service_id"], name: "index_eligibilities_services_on_service_id"
   end
 
-  create_table "field_changes", id: :serial, force: :cascade do |t|
+  create_table "field_changes", force: :cascade do |t|
     t.string "field_name"
     t.string "field_value"
     t.integer "change_request_id", null: false
     t.index ["change_request_id"], name: "index_field_changes_on_change_request_id"
   end
 
-  create_table "fundings", id: :serial, force: :cascade do |t|
+  create_table "fundings", force: :cascade do |t|
     t.string "source"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "keywords", id: :serial, force: :cascade do |t|
+  create_table "keywords", force: :cascade do |t|
     t.string "name"
   end
 
@@ -172,13 +193,13 @@ ActiveRecord::Schema.define(version: 2019_08_11_225329) do
     t.integer "keyword_id", null: false
   end
 
-  create_table "languages", id: :serial, force: :cascade do |t|
+  create_table "languages", force: :cascade do |t|
     t.string "language"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "notes", id: :serial, force: :cascade do |t|
+  create_table "notes", force: :cascade do |t|
     t.text "note"
     t.integer "resource_id"
     t.integer "service_id"
@@ -188,7 +209,7 @@ ActiveRecord::Schema.define(version: 2019_08_11_225329) do
     t.index ["service_id"], name: "index_notes_on_service_id"
   end
 
-  create_table "phones", id: :serial, force: :cascade do |t|
+  create_table "phones", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "number", null: false
@@ -204,7 +225,7 @@ ActiveRecord::Schema.define(version: 2019_08_11_225329) do
     t.index ["service_id"], name: "index_phones_on_service_id"
   end
 
-  create_table "programs", id: :serial, force: :cascade do |t|
+  create_table "programs", force: :cascade do |t|
     t.string "name"
     t.string "alternate_name"
     t.string "description"
@@ -214,7 +235,7 @@ ActiveRecord::Schema.define(version: 2019_08_11_225329) do
     t.index ["resource_id"], name: "index_programs_on_resource_id"
   end
 
-  create_table "ratings", id: :serial, force: :cascade do |t|
+  create_table "ratings", force: :cascade do |t|
     t.decimal "rating"
     t.integer "user_id", null: false
     t.integer "resource_id"
@@ -226,7 +247,7 @@ ActiveRecord::Schema.define(version: 2019_08_11_225329) do
     t.index ["user_id", "service_id"], name: "index_ratings_on_user_id_and_service_id", unique: true
   end
 
-  create_table "resources", id: :serial, force: :cascade do |t|
+  create_table "resources", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name", null: false
@@ -249,13 +270,13 @@ ActiveRecord::Schema.define(version: 2019_08_11_225329) do
     t.index ["updated_at", "id"], name: "index_resources_on_updated_at_and_id"
   end
 
-  create_table "reviews", id: :serial, force: :cascade do |t|
+  create_table "reviews", force: :cascade do |t|
     t.text "review"
     t.integer "rating_id", null: false
     t.index ["rating_id"], name: "index_reviews_on_rating_id", unique: true
   end
 
-  create_table "schedule_days", id: :serial, force: :cascade do |t|
+  create_table "schedule_days", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "day", null: false
@@ -269,7 +290,7 @@ ActiveRecord::Schema.define(version: 2019_08_11_225329) do
     t.index ["schedule_id"], name: "index_schedule_days_on_schedule_id"
   end
 
-  create_table "schedules", id: :serial, force: :cascade do |t|
+  create_table "schedules", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "resource_id"
@@ -279,7 +300,7 @@ ActiveRecord::Schema.define(version: 2019_08_11_225329) do
     t.index ["service_id"], name: "index_schedules_on_service_id"
   end
 
-  create_table "services", id: :serial, force: :cascade do |t|
+  create_table "services", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name"
@@ -309,11 +330,27 @@ ActiveRecord::Schema.define(version: 2019_08_11_225329) do
     t.index ["resource_id"], name: "index_services_on_resource_id"
   end
 
+  create_table "synonym_groups", force: :cascade do |t|
+    t.integer "group_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_type"], name: "index_synonym_groups_on_group_type"
+  end
+
+  create_table "synonyms", force: :cascade do |t|
+    t.string "word"
+    t.bigint "synonym_group_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["synonym_group_id"], name: "index_synonyms_on_synonym_group_id"
+    t.index ["word"], name: "index_synonyms_on_word"
+  end
+
   create_table "users", id: :serial, force: :cascade do |t|
     t.string "name"
   end
 
-  create_table "volunteers", id: :serial, force: :cascade do |t|
+  create_table "volunteers", force: :cascade do |t|
     t.string "description"
     t.string "url"
     t.datetime "created_at", null: false
@@ -347,5 +384,6 @@ ActiveRecord::Schema.define(version: 2019_08_11_225329) do
   add_foreign_key "services", "fundings"
   add_foreign_key "services", "programs"
   add_foreign_key "services", "resources"
+  add_foreign_key "synonyms", "synonym_groups"
   add_foreign_key "volunteers", "resources"
 end

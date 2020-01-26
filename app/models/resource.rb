@@ -39,7 +39,11 @@ class Resource < ActiveRecord::Base
       attributesForFaceting %i[categories open_times]
       # Define attributes used to build an Algolia record
       add_attribute :_geoloc do
-        { lat: addresses[0].latitude.to_f, lng: addresses[0].longitude.to_f }
+        if addresses.blank?
+          nil
+        else
+          { lat: addresses[0].latitude.to_f, lng: addresses[0].longitude.to_f }
+        end
       end
 
       add_attribute :status

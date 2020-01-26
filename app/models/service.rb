@@ -37,9 +37,9 @@ class Service < ActiveRecord::Base
         if addresses.any?
           addresses.map do |a|
             { lat: a.address_latitude.to_f, lng: a.address_longitude.to_f } \
-              if a.address_latitude.present? & a.address_longitude.present?
+              if a.address_latitude.present? && a.address_longitude.present?
           end
-        elsif resource.addresses.present? & resource.addresses[0].latitude.present? & resource.addresses[0].longitude.present?
+        elsif !addresses.blank? && resource.addresses[0].latitude.present? && resource.addresses[0].longitude.present?
           { lat: resource.addresses[0].latitude.to_f, lng: resource.addresses[0].longitude.to_f }
         end
       end

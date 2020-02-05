@@ -41,6 +41,6 @@ script:
 
 after_success:
   - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-  - export TAG=`if [[ -n "$TRAVIS_TAG" ]]; then echo "$TRAVIS_TAG"; else if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then echo "pull-request-$TRAVIS_PULL_REQUEST"; else if [ "$SANITIZED_BRANCH" == "master" ]; then echo "latest"; else echo "branch-$SANITIZED_BRANCH"; fi; fi; fi`
+  - export TAG=`if [[ -n "$TRAVIS_TAG" ]]; then echo "$TRAVIS_TAG"; else if [ "$SANITIZED_BRANCH" == "master" ]; then echo "latest"; fi; fi`
   - docker build -f Dockerfile -t $REPO:$TAG .
   - docker push $REPO

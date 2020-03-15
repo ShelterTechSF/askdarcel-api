@@ -40,7 +40,11 @@ script:
   - ./travis/postman.sh
 
 after_success:
-  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
   - export TAG=`if [[ -n "$TRAVIS_TAG" ]]; then echo "$TRAVIS_TAG"; else if [ "$SANITIZED_BRANCH" == "master" ]; then echo "latest"; fi; fi`
-  - docker build -f Dockerfile -t $REPO:$TAG .
-  - docker push $REPO
+  - docker build -f Dockerfile -t "$REPO:$TAG" .
+  - |
+    set -euo pipefail
+    if [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then
+      docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+      docker push "$REPO"
+    fi

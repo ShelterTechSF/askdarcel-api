@@ -40,11 +40,13 @@ script:
   - ./travis/postman.sh
 
 after_success:
-  - export TAG=`if [[ -n "$TRAVIS_TAG" ]]; then echo "$TRAVIS_TAG"; else if [ "$SANITIZED_BRANCH" == "master" ]; then echo "latest"; fi; fi`
-  - docker build -f Dockerfile -t "$REPO:$TAG" .
+  - docker build -f Dockerfile -t localimage .
   - |
+    echo Pushing Docker image to Docker Hub
     set -eo pipefail
-    if [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then
+    if [[ -n "$TRAVIS_TAG" || "$SANITIZED_BRANCH" == "master" ]]; then
+      DOCKER_IMAGE="$REPO:${TRAVIS_TAG:-latest}"
+      docker tag localimage "$DOCKER_IMAGE"
       docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-      docker push "$REPO"
+      docker push "$DOCKER_IMAGE"
     fi

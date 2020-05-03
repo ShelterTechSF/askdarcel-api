@@ -1,4 +1,5 @@
-FROM node:6.10
+FROM node:12-alpine
 
+RUN apk add --no-cache curl
 RUN npm install -g newman
 WORKDIR /usr/src/app

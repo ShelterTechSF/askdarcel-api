@@ -20,8 +20,8 @@ env:
     - REPO=sheltertechsf/askdarcel-api
 
 before_install:
-  - nvm install 6
-  - nvm use 6
+  - nvm install 12
+  - nvm use 12
   # Update bundler because of breaking change
   # https://bundler.io/blog/2019/01/04/an-update-on-the-bundler-2-release.html
   - gem install bundler -v '1.17.1'

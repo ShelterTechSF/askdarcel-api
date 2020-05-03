@@ -36,7 +36,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev.postman
-    command: bash -c 'sleep 3 && curl -v http://api:3000/resources?category_id=1 >/dev/null && newman run postman/AskDarcel%20API.postman_collection.json -e postman/docker.postman_environment.json -g postman/globals.postman_globals.json && newman run postman/AskDarcel%20Admin%20API.postman_collection.json -e postman/docker.postman_environment.json -g postman/globals.postman_globals.json'
+    command: sh -c 'sleep 3 && curl -v http://api:3000/resources?category_id=1 >/dev/null && newman run postman/AskDarcel%20API.postman_collection.json -e postman/docker.postman_environment.json -g postman/globals.postman_globals.json && newman run postman/AskDarcel%20Admin%20API.postman_collection.json -e postman/docker.postman_environment.json -g postman/globals.postman_globals.json'
     depends_on:
       - api
     networks:

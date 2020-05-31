@@ -124,6 +124,20 @@ class Service < ActiveRecord::Base
         eligibilities.map(&:name)
       end
 
+      add_attribute :phones do
+        # Currently there's no relationship between Services -> Phones, only
+        # Resources <-> Phones. Even though the DB schema currently has a
+        # foreign key between Phone and Service, the has_many association hasn't
+        # been declared, and we don't have a user-facing edit page which exposes
+        # this anyway, so we'd have to re-vet the data to fill in this
+        # information anyway.
+        #
+        # Therefore, this just grabs the resource's phone numbers.
+        resource.phones.map do |p|
+          { number: p.number, service_type: p.service_type }
+        end
+      end
+
       # add_attribute :keywords do
       #   keywords.map(&:name)
       # end

@@ -102,6 +102,12 @@ class Resource < ActiveRecord::Base
           { name: s.name }
         end
       end
+
+      add_attribute :phones do
+        phones.map do |p|
+          { number: p.number, service_type: p.service_type }
+        end
+      end
     end
     # rubocop:enable Metrics/BlockLength
   end

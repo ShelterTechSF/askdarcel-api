@@ -40,7 +40,7 @@ class Service < ActiveRecord::Base
             { lat: a.latitude.to_f, lng: a.longitude.to_f } \
               if a.latitude.present? && a.longitude.present?
           end
-        elsif !addresses.blank? && resource.addresses[0].latitude.present? && resource.addresses[0].longitude.present?
+        elsif !resource.addresses.blank? && resource.addresses[0].latitude.present? && resource.addresses[0].longitude.present?
           { lat: resource.addresses[0].latitude.to_f, lng: resource.addresses[0].longitude.to_f }
         end
       end

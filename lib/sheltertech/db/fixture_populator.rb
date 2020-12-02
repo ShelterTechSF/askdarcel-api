@@ -126,7 +126,7 @@ module ShelterTech
                                                       'Hygiene kits', 'Showers', 'Laundry', 'Clothing', 'Diaper Bank'])
         create_new_pathway_categories_by_subcategory('Covid-finance', 1_000_003, ['Emergency Financial Assistance',
                                                                                   'Financial Assistance for Living Expenses',
-                                                                                  'Unemployment Insurance-based Benefit Payments', 'Job Assistance'])
+                                                                                  'Unemployment Insurance-based Benefit Payments'])
         create_new_pathway_categories_by_subcategory('Covid-housing', 1_000_004, ['I Received a Written Eviction Notice from my Landlord',
                                                                                   'I Received a Non-Written Eviction Notice from my Landlord and I Want to Know My Rights',
                                                                                   'I Missed the Last Rent Payment and I Need Help Paying It',
@@ -141,6 +141,7 @@ module ShelterTech
         create_new_pathway_categories_by_subcategory('Covid-internet', 1_000_007, ['Computer and Internet Access', 'Computer Classes', 'Cell phone Services'])
         create_new_pathway_categories_by_subcategory('Covid-lgbtqa', 1_000_008, ['Housing Assistance', 'Legal Assistance ',
                                                                                  'Youth Services', 'Counseling Assistance', 'General Help'])
+        create_new_pathway_categories_by_subcategory('Covid-jobs', 1_000_009, ['Job Placement Support', 'Vocational Training Programs', 'Job Boards'])
         create_new_pathway_categories_by_subcategory('Covid-shelter', 1_000_010, ['We are a family and we need shelter',
                                                                                   'I am someone between 18-24 years old in need of shelter',
                                                                                   'I am a single adult and I need shelter'])
@@ -498,6 +499,8 @@ module ShelterTech
         'Basic Needs & Shelter',
         'Health & Medical',
         'Employment',
+        'Covid Jobs',
+        'Covid Finances',
         'sffamilies',
         'Covid Shelter'
       ].freeze
@@ -522,6 +525,8 @@ module ShelterTech
         'MOHCD Funded Services',
         'Eviction Defense',
         'Temporary Shelter',
+        'Covid Jobs',
+        'Covid Finances',
         'sffamilies',
         'Covid Shelter'
       ].freeze

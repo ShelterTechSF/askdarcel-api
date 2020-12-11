@@ -1,6 +1,7 @@
 class TextingsController < ApplicationController
 
   def create
+    # Make a request to Textellent API. If request successful we update our DB
     response = post_textellent(get_db_data)
 
     if response['status'] == 'success'
@@ -44,9 +45,9 @@ class TextingsController < ApplicationController
     end
   end
 
-
   private
 
+  # Generate a data object to send to Textellent API
   def get_db_data
     recipient_name = texting_params[:recipient_name]
     phone_number = texting_params[:phone_number]
@@ -90,7 +91,6 @@ class TextingsController < ApplicationController
 
   # handling the post request to Textellent API.
   def post_textellent(data)
-
     header = {
       'Content-Type' => 'application/json',
       'authCode' => ENV['TEXTELLENT_AUTH_CODE'],
@@ -104,6 +104,5 @@ class TextingsController < ApplicationController
     res = client.post 'https://client.textellent.com/api/v1/engagement/create.json', query
 
     JSON.parse(res.body)
-
   end
 end

@@ -20,6 +20,8 @@ class Service < ActiveRecord::Base
   accepts_nested_attributes_for :schedule
   accepts_nested_attributes_for :addresses
 
+  has_many :textings
+
   before_create do
     self.status = :pending unless status
   end

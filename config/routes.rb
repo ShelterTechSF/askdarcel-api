@@ -53,6 +53,7 @@ Rails.application.routes.draw do
   resources :phones do
     resources :change_requests, only: :create
   end
+  resources :textings, only: [:create, :destroy]
   resources :change_requests do
     post :approve
     post :reject

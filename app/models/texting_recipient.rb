@@ -1,0 +1,2 @@
+class TextingRecipient < ApplicationRecord
+end

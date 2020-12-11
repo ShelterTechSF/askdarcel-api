@@ -1,0 +1,2 @@
+class Texting < ApplicationRecord
+end

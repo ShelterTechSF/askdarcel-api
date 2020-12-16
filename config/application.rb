@@ -28,6 +28,8 @@ module AskdarcelApi
 
     config.x.google.api_key = ENV['GOOGLE_API_KEY']
 
+    config.x.textellent.api_key = ENV['TEXTELLENT_AUTH_CODE']
+
     # rubocop:disable Metrics/LineLength
     # This is the public cert PEM for the JWT issuer
     # TODO this should be pulled dynamically once on startup

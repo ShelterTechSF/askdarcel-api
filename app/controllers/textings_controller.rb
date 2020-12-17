@@ -1,9 +1,9 @@
+# frozen_string_literal: true
+
 class TextingsController < ApplicationController
-
   def create
-
     recipient_name = texting_params[:recipient_name]
-    phone_number = parse_phone_number()
+    phone_number = parse_phone_number
     service_id = texting_params[:service_id]
 
     # Make a request to Textellent API. If request successful we update our DB
@@ -18,14 +18,14 @@ class TextingsController < ApplicationController
 
     recipient = TextingRecipient.find_by(phone_number: phone_number)
 
-    unless recipient
-      recipient = create_new_recipient(recipient_name, phone_number)
-    else
+    if recipient
       update_recipient(recipient, recipient_name)
+    else
+      recipient = create_new_recipient(recipient_name, phone_number)
     end
 
     create_new_texting(recipient, service_id)
-    render status: :ok, json: { message:'Message sent' }
+    render status: :ok, json: { message: 'Message sent' }
   end
 
   private
@@ -34,7 +34,7 @@ class TextingsController < ApplicationController
     TextingRecipient.create(
       recipient_name: recipient_name,
       phone_number: phone_number
-      )
+    )
   end
 
   def update_recipient(recipient, recipient_name)
@@ -45,29 +45,26 @@ class TextingsController < ApplicationController
     Texting.create(
       texting_recipient_id: recipient.id,
       service_id: service_id
-      )
+    )
   end
 
   def texting_params
     params.require(:data).permit(:recipient_name, :phone_number, :service_id)
   end
 
-  def parse_phone_number()
+  def parse_phone_number
     Phonelib.parse(texting_params[:phone_number], 'US').national(false)
   end
 
   # Generate a data object to send to Textellent API
   def get_db_data(recipient_name, phone_number, service_id)
-
     service = Service.includes(:categories).find(service_id)
-    categories = service.categories.map { |c| c.name }
+    categories = service.categories.map(&:name)
     resource = Resource.find(service.resource_id)
     address = resource.addresses
 
     phone = ''
-    if resource.phones.any?
-      phone = resource.phones[0].number
-    end
+    phone = resource.phones[0].number if resource.phones.any?
 
     address_1 = ''
     address_2 = ''
@@ -79,7 +76,7 @@ class TextingsController < ApplicationController
       address_1 = address[0].address_1
       address_2 = address[0].address_2 || ''
       city = address[0].city
-      state_province =  address[0].state_province
+      state_province = address[0].state_province
       postal_code = address[0].postal_code
     end
 
@@ -93,14 +90,14 @@ class TextingsController < ApplicationController
       "tags" => categories,
       "engagementType" => "Resource Info",
       "engagementInfo" => {
-          "Org_Name" => service.name,
-          "Org_Address1" => address_1,
-          "Org_Address2" => address_2,
-          "City" => city,
-          "State" => state_province,
-          "Zip" => postal_code,
-          "Org_Phone" => phone
-        }
+        "Org_Name" => service.name,
+        "Org_Address1" => address_1,
+        "Org_Address2" => address_2,
+        "City" => city,
+        "State" => state_province,
+        "Zip" => postal_code,
+        "Org_Phone" => phone
+      }
     }
 
     data

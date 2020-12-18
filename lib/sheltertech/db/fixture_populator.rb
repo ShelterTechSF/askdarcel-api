@@ -33,6 +33,7 @@ module ShelterTech
         create_categories
         create_resources
         create_eligibilities
+        create_sites
         NewPathwaysCategoryCreator.create_all_new_pathway_categories
       end
 
@@ -115,6 +116,16 @@ module ShelterTech
 
       def create_eligibilities
         EligibilityCreator.create
+      end
+
+      def create_sites
+        sfsg = Site.new
+        sfsg.site_code = "sfsg"
+        sfsg.save!
+
+        sff = Site.new
+        sff.site_code = "sffamilies"
+        sff.save!
       end
     end
 

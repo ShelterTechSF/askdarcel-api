@@ -79,6 +79,11 @@ class ResourcesController < ApplicationController
       r.addresses.each do |a|
         fix_lat_and_long(a)
       end
+
+      if r.sites.length.zero?
+        sfsg = Site.find_by site_code: "sfsg"
+        r.sites = [sfsg]
+      end
     end
   end
 
@@ -118,7 +123,8 @@ class ResourcesController < ApplicationController
       schedule: [{ schedule_days: %i[day opens_at closes_at open_day open_time close_day close_time] }],
       phones: %i[number service_type],
       notes: [:note],
-      categories: [:id]
+      categories: [:id],
+      sites: [:id]
     )
   end
 
@@ -134,6 +140,8 @@ class ResourcesController < ApplicationController
     end
 
     resource['category_ids'] = resource.delete(:categories).collect { |h| h[:id] } if resource.key? :categories
+
+    resource['site_ids'] = resource.delete(:sites).collect { |h| h[:id] } if resource.key? :sites
 
     transform_simple_objects resource
   end
@@ -153,7 +161,7 @@ class ResourcesController < ApplicationController
     # separate query per table. Otherwise, it creates one large query with many
     # joins, which amplifies the amount of data being sent between Rails and the
     # DB by several orders of magnitude due to duplication of tuples.
-    Resource.preload(:addresses, :phones, :categories, :notes,
+    Resource.preload(:addresses, :phones, :categories, :notes, :sites,
                      schedule: :schedule_days,
                      services: [:notes, :categories, { schedule: :schedule_days }, :eligibilities],
                      ratings: [:review])

@@ -4,52 +4,1591 @@
     "title": "sheltertech API",
     "version": "v1"
   },
+  "definitions": {
+  },
   "paths": {
     "/categories": {
       "get": {
-        "summary": "Retrieves all categories",
-        "tags": [
-          "Categories"
-        ],
-        "produces": [
-          "application/json"
-        ],
         "responses": {
           "200": {
-            "description": "categories found",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "categories": {
-                  "type": "array",
-                  "properties": {
-                    "id": {
-                      "type": "integer"
+            "examples": {
+              "application/json": {
+                "categories": [
+
+                ]
+              }
+            },
+            "description": "categories found"
+          }
+        },
+        "tags": [
+          "categories"
+        ],
+        "summary": "Retrieves all categories",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/categories/featured": {
+      "get": {
+        "responses": {
+          "200": {
+            "examples": {
+              "application/json": {
+                "categories": [
+
+                ]
+              }
+            },
+            "description": "categories found"
+          }
+        },
+        "tags": [
+          "categories"
+        ],
+        "summary": "Gets featured categories",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/resources": {
+      "get": {
+        "responses": {
+          "200": {
+            "examples": {
+              "application/json": {
+                "resources": [
+                  {
+                    "alternate_name": null,
+                    "certified": false,
+                    "email": null,
+                    "id": 68,
+                    "legal_status": null,
+                    "long_description": null,
+                    "name": "Mosciski-Bode",
+                    "short_description": null,
+                    "status": "approved",
+                    "verified_at": null,
+                    "website": null,
+                    "certified_at": null,
+                    "featured": null,
+                    "source_attribution": "ask_darcel",
+                    "services": [
+
+                    ],
+                    "schedule": {
+                      "id": 88,
+                      "schedule_days": [
+                        {
+                          "id": 593,
+                          "day": "Monday",
+                          "opens_at": 200,
+                          "closes_at": 1015,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 594,
+                          "day": "Monday",
+                          "opens_at": 1415,
+                          "closes_at": 1830,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 595,
+                          "day": "Tuesday",
+                          "opens_at": 930,
+                          "closes_at": 1630,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 596,
+                          "day": "Wednesday",
+                          "opens_at": 800,
+                          "closes_at": 2330,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 597,
+                          "day": "Thursday",
+                          "opens_at": 615,
+                          "closes_at": 1745,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 598,
+                          "day": "Sunday",
+                          "opens_at": 800,
+                          "closes_at": 2330,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        }
+                      ],
+                      "hours_known": true
                     },
-                    "name": {
-                      "type": "string"
-                    },
-                    "top_level": {
-                      "type": "string"
-                    },
-                    "featured": {
-                      "type": "boolean"
-                    }
+                    "phones": [
+                      {
+                        "id": 68,
+                        "number": "(828) 801-2533",
+                        "extension": "0870",
+                        "service_type": "Business",
+                        "country_code": "US"
+                      }
+                    ],
+                    "addresses": [
+                      {
+                        "id": 83,
+                        "attention": "Elton Muller",
+                        "name": null,
+                        "address_1": "36319 Clint Inlet",
+                        "address_2": "Apt. 976",
+                        "address_3": null,
+                        "address_4": null,
+                        "city": "Emmerichview",
+                        "state_province": "Minnesota",
+                        "postal_code": "87948-5982",
+                        "country": "USA",
+                        "latitude": "10.0",
+                        "longitude": "0.0"
+                      },
+                      {
+                        "id": 84,
+                        "attention": "Kanesha Dach",
+                        "name": null,
+                        "address_1": "15629 Hoeger Terrace",
+                        "address_2": "Apt. 681",
+                        "address_3": null,
+                        "address_4": null,
+                        "city": "East Susannaland",
+                        "state_province": "Louisiana",
+                        "postal_code": "64555",
+                        "country": "USA",
+                        "latitude": "37.7939551128281",
+                        "longitude": "-122.398791241568"
+                      }
+                    ],
+                    "notes": [
+                      {
+                        "id": 88,
+                        "note": "Rem qui quae. Nihil in et. Doloremque reprehenderit esse."
+                      }
+                    ],
+                    "categories": [
+                      {
+                        "name": "Turner, Douglas and Batz",
+                        "id": 6,
+                        "top_level": false,
+                        "featured": false
+                      }
+                    ],
+                    "ratings": [
+
+                    ]
                   },
-                  "required": [
-                    "id",
-                    "name",
-                    "top_level",
-                    "featured"
+                  {
+                    "alternate_name": null,
+                    "certified": false,
+                    "email": null,
+                    "id": 69,
+                    "legal_status": null,
+                    "long_description": null,
+                    "name": "Olson LLC",
+                    "short_description": null,
+                    "status": "approved",
+                    "verified_at": null,
+                    "website": null,
+                    "certified_at": null,
+                    "featured": null,
+                    "source_attribution": "ask_darcel",
+                    "services": [
+
+                    ],
+                    "schedule": {
+                      "id": 89,
+                      "schedule_days": [
+                        {
+                          "id": 599,
+                          "day": "Monday",
+                          "opens_at": 330,
+                          "closes_at": 830,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 600,
+                          "day": "Monday",
+                          "opens_at": 900,
+                          "closes_at": 1400,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 601,
+                          "day": "Wednesday",
+                          "opens_at": 645,
+                          "closes_at": 1630,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 602,
+                          "day": "Thursday",
+                          "opens_at": 700,
+                          "closes_at": 1945,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 603,
+                          "day": "Friday",
+                          "opens_at": 830,
+                          "closes_at": 1600,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 604,
+                          "day": "Saturday",
+                          "opens_at": 1300,
+                          "closes_at": 1315,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 605,
+                          "day": "Saturday",
+                          "opens_at": 1345,
+                          "closes_at": 1830,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 606,
+                          "day": "Sunday",
+                          "opens_at": 645,
+                          "closes_at": 1730,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        }
+                      ],
+                      "hours_known": true
+                    },
+                    "phones": [
+                      {
+                        "id": 69,
+                        "number": "(786) 339-7823",
+                        "extension": null,
+                        "service_type": "Business",
+                        "country_code": "US"
+                      }
+                    ],
+                    "addresses": [
+                      {
+                        "id": 85,
+                        "attention": "Gayle Kilback",
+                        "name": null,
+                        "address_1": "78696 Jaskolski Pike",
+                        "address_2": "Apt. 542",
+                        "address_3": null,
+                        "address_4": null,
+                        "city": "Smithbury",
+                        "state_province": "New York",
+                        "postal_code": "63689",
+                        "country": "USA",
+                        "latitude": "50.0",
+                        "longitude": "0.0"
+                      },
+                      {
+                        "id": 86,
+                        "attention": "Christel Ruecker",
+                        "name": null,
+                        "address_1": "2087 Cary Roads",
+                        "address_2": "Suite 206",
+                        "address_3": null,
+                        "address_4": null,
+                        "city": "West Constance",
+                        "state_province": "Kentucky",
+                        "postal_code": "99993-4076",
+                        "country": "USA",
+                        "latitude": "37.7862827701339",
+                        "longitude": "-122.402572127798"
+                      }
+                    ],
+                    "notes": [
+                      {
+                        "id": 89,
+                        "note": "Rem est et. Libero est sapiente. Et numquam eligendi."
+                      }
+                    ],
+                    "categories": [
+                      {
+                        "name": "Turner, Douglas and Batz",
+                        "id": 6,
+                        "top_level": false,
+                        "featured": false
+                      }
+                    ],
+                    "ratings": [
+
+                    ]
+                  },
+                  {
+                    "alternate_name": null,
+                    "certified": false,
+                    "email": null,
+                    "id": 70,
+                    "legal_status": null,
+                    "long_description": null,
+                    "name": "Daniel and Sons",
+                    "short_description": null,
+                    "status": "approved",
+                    "verified_at": null,
+                    "website": null,
+                    "certified_at": null,
+                    "featured": null,
+                    "source_attribution": "ask_darcel",
+                    "services": [
+
+                    ],
+                    "schedule": {
+                      "id": 90,
+                      "schedule_days": [
+                        {
+                          "id": 607,
+                          "day": "Monday",
+                          "opens_at": 815,
+                          "closes_at": 2045,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 608,
+                          "day": "Tuesday",
+                          "opens_at": 1730,
+                          "closes_at": 315,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 609,
+                          "day": "Wednesday",
+                          "opens_at": 1630,
+                          "closes_at": 315,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 610,
+                          "day": "Thursday",
+                          "opens_at": 115,
+                          "closes_at": 1630,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 611,
+                          "day": "Thursday",
+                          "opens_at": 2015,
+                          "closes_at": 2230,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 612,
+                          "day": "Friday",
+                          "opens_at": 915,
+                          "closes_at": 1500,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 613,
+                          "day": "Saturday",
+                          "opens_at": 645,
+                          "closes_at": 1945,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 614,
+                          "day": "Sunday",
+                          "opens_at": 700,
+                          "closes_at": 2330,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        }
+                      ],
+                      "hours_known": true
+                    },
+                    "phones": [
+                      {
+                        "id": 70,
+                        "number": "(815) 646-0672",
+                        "extension": null,
+                        "service_type": "Business",
+                        "country_code": "US"
+                      }
+                    ],
+                    "addresses": [
+                      {
+                        "id": 87,
+                        "attention": "Murray Olson",
+                        "name": null,
+                        "address_1": "92386 Sheryl Key",
+                        "address_2": "Apt. 723",
+                        "address_3": null,
+                        "address_4": null,
+                        "city": "Gibsonberg",
+                        "state_province": "Connecticut",
+                        "postal_code": "76477",
+                        "country": "USA",
+                        "latitude": "100.0",
+                        "longitude": "0.0"
+                      },
+                      {
+                        "id": 88,
+                        "attention": "Jamey Christiansen",
+                        "name": null,
+                        "address_1": "750 Altagracia Ford",
+                        "address_2": "Apt. 829",
+                        "address_3": null,
+                        "address_4": null,
+                        "city": "Cheryllhaven",
+                        "state_province": "Montana",
+                        "postal_code": "86290-8565",
+                        "country": "USA",
+                        "latitude": "37.7899677464599",
+                        "longitude": "-122.408812707382"
+                      }
+                    ],
+                    "notes": [
+                      {
+                        "id": 90,
+                        "note": "Ex ea magnam. Quisquam vel voluptatem. Labore eaque et."
+                      }
+                    ],
+                    "categories": [
+                      {
+                        "name": "Turner, Douglas and Batz",
+                        "id": 6,
+                        "top_level": false,
+                        "featured": false
+                      }
+                    ],
+                    "ratings": [
+
+                    ]
+                  },
+                  {
+                    "alternate_name": null,
+                    "certified": false,
+                    "email": null,
+                    "id": 68,
+                    "legal_status": null,
+                    "long_description": null,
+                    "name": "Mosciski-Bode",
+                    "short_description": null,
+                    "status": "approved",
+                    "verified_at": null,
+                    "website": null,
+                    "certified_at": null,
+                    "featured": null,
+                    "source_attribution": "ask_darcel",
+                    "services": [
+
+                    ],
+                    "schedule": {
+                      "id": 88,
+                      "schedule_days": [
+                        {
+                          "id": 593,
+                          "day": "Monday",
+                          "opens_at": 200,
+                          "closes_at": 1015,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 594,
+                          "day": "Monday",
+                          "opens_at": 1415,
+                          "closes_at": 1830,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 595,
+                          "day": "Tuesday",
+                          "opens_at": 930,
+                          "closes_at": 1630,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 596,
+                          "day": "Wednesday",
+                          "opens_at": 800,
+                          "closes_at": 2330,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 597,
+                          "day": "Thursday",
+                          "opens_at": 615,
+                          "closes_at": 1745,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 598,
+                          "day": "Sunday",
+                          "opens_at": 800,
+                          "closes_at": 2330,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        }
+                      ],
+                      "hours_known": true
+                    },
+                    "phones": [
+                      {
+                        "id": 68,
+                        "number": "(828) 801-2533",
+                        "extension": "0870",
+                        "service_type": "Business",
+                        "country_code": "US"
+                      }
+                    ],
+                    "addresses": [
+                      {
+                        "id": 84,
+                        "attention": "Kanesha Dach",
+                        "name": null,
+                        "address_1": "15629 Hoeger Terrace",
+                        "address_2": "Apt. 681",
+                        "address_3": null,
+                        "address_4": null,
+                        "city": "East Susannaland",
+                        "state_province": "Louisiana",
+                        "postal_code": "64555",
+                        "country": "USA",
+                        "latitude": "37.7939551128281",
+                        "longitude": "-122.398791241568"
+                      },
+                      {
+                        "id": 83,
+                        "attention": "Elton Muller",
+                        "name": null,
+                        "address_1": "36319 Clint Inlet",
+                        "address_2": "Apt. 976",
+                        "address_3": null,
+                        "address_4": null,
+                        "city": "Emmerichview",
+                        "state_province": "Minnesota",
+                        "postal_code": "87948-5982",
+                        "country": "USA",
+                        "latitude": "10.0",
+                        "longitude": "0.0"
+                      }
+                    ],
+                    "notes": [
+                      {
+                        "id": 88,
+                        "note": "Rem qui quae. Nihil in et. Doloremque reprehenderit esse."
+                      }
+                    ],
+                    "categories": [
+                      {
+                        "name": "Turner, Douglas and Batz",
+                        "id": 6,
+                        "top_level": false,
+                        "featured": false
+                      }
+                    ],
+                    "ratings": [
+
+                    ]
+                  },
+                  {
+                    "alternate_name": null,
+                    "certified": false,
+                    "email": null,
+                    "id": 69,
+                    "legal_status": null,
+                    "long_description": null,
+                    "name": "Olson LLC",
+                    "short_description": null,
+                    "status": "approved",
+                    "verified_at": null,
+                    "website": null,
+                    "certified_at": null,
+                    "featured": null,
+                    "source_attribution": "ask_darcel",
+                    "services": [
+
+                    ],
+                    "schedule": {
+                      "id": 89,
+                      "schedule_days": [
+                        {
+                          "id": 599,
+                          "day": "Monday",
+                          "opens_at": 330,
+                          "closes_at": 830,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 600,
+                          "day": "Monday",
+                          "opens_at": 900,
+                          "closes_at": 1400,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 601,
+                          "day": "Wednesday",
+                          "opens_at": 645,
+                          "closes_at": 1630,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 602,
+                          "day": "Thursday",
+                          "opens_at": 700,
+                          "closes_at": 1945,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 603,
+                          "day": "Friday",
+                          "opens_at": 830,
+                          "closes_at": 1600,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 604,
+                          "day": "Saturday",
+                          "opens_at": 1300,
+                          "closes_at": 1315,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 605,
+                          "day": "Saturday",
+                          "opens_at": 1345,
+                          "closes_at": 1830,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 606,
+                          "day": "Sunday",
+                          "opens_at": 645,
+                          "closes_at": 1730,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        }
+                      ],
+                      "hours_known": true
+                    },
+                    "phones": [
+                      {
+                        "id": 69,
+                        "number": "(786) 339-7823",
+                        "extension": null,
+                        "service_type": "Business",
+                        "country_code": "US"
+                      }
+                    ],
+                    "addresses": [
+                      {
+                        "id": 86,
+                        "attention": "Christel Ruecker",
+                        "name": null,
+                        "address_1": "2087 Cary Roads",
+                        "address_2": "Suite 206",
+                        "address_3": null,
+                        "address_4": null,
+                        "city": "West Constance",
+                        "state_province": "Kentucky",
+                        "postal_code": "99993-4076",
+                        "country": "USA",
+                        "latitude": "37.7862827701339",
+                        "longitude": "-122.402572127798"
+                      },
+                      {
+                        "id": 85,
+                        "attention": "Gayle Kilback",
+                        "name": null,
+                        "address_1": "78696 Jaskolski Pike",
+                        "address_2": "Apt. 542",
+                        "address_3": null,
+                        "address_4": null,
+                        "city": "Smithbury",
+                        "state_province": "New York",
+                        "postal_code": "63689",
+                        "country": "USA",
+                        "latitude": "50.0",
+                        "longitude": "0.0"
+                      }
+                    ],
+                    "notes": [
+                      {
+                        "id": 89,
+                        "note": "Rem est et. Libero est sapiente. Et numquam eligendi."
+                      }
+                    ],
+                    "categories": [
+                      {
+                        "name": "Turner, Douglas and Batz",
+                        "id": 6,
+                        "top_level": false,
+                        "featured": false
+                      }
+                    ],
+                    "ratings": [
+
+                    ]
+                  },
+                  {
+                    "alternate_name": null,
+                    "certified": false,
+                    "email": null,
+                    "id": 70,
+                    "legal_status": null,
+                    "long_description": null,
+                    "name": "Daniel and Sons",
+                    "short_description": null,
+                    "status": "approved",
+                    "verified_at": null,
+                    "website": null,
+                    "certified_at": null,
+                    "featured": null,
+                    "source_attribution": "ask_darcel",
+                    "services": [
+
+                    ],
+                    "schedule": {
+                      "id": 90,
+                      "schedule_days": [
+                        {
+                          "id": 607,
+                          "day": "Monday",
+                          "opens_at": 815,
+                          "closes_at": 2045,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 608,
+                          "day": "Tuesday",
+                          "opens_at": 1730,
+                          "closes_at": 315,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 609,
+                          "day": "Wednesday",
+                          "opens_at": 1630,
+                          "closes_at": 315,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 610,
+                          "day": "Thursday",
+                          "opens_at": 115,
+                          "closes_at": 1630,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 611,
+                          "day": "Thursday",
+                          "opens_at": 2015,
+                          "closes_at": 2230,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 612,
+                          "day": "Friday",
+                          "opens_at": 915,
+                          "closes_at": 1500,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 613,
+                          "day": "Saturday",
+                          "opens_at": 645,
+                          "closes_at": 1945,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 614,
+                          "day": "Sunday",
+                          "opens_at": 700,
+                          "closes_at": 2330,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        }
+                      ],
+                      "hours_known": true
+                    },
+                    "phones": [
+                      {
+                        "id": 70,
+                        "number": "(815) 646-0672",
+                        "extension": null,
+                        "service_type": "Business",
+                        "country_code": "US"
+                      }
+                    ],
+                    "addresses": [
+                      {
+                        "id": 88,
+                        "attention": "Jamey Christiansen",
+                        "name": null,
+                        "address_1": "750 Altagracia Ford",
+                        "address_2": "Apt. 829",
+                        "address_3": null,
+                        "address_4": null,
+                        "city": "Cheryllhaven",
+                        "state_province": "Montana",
+                        "postal_code": "86290-8565",
+                        "country": "USA",
+                        "latitude": "37.7899677464599",
+                        "longitude": "-122.408812707382"
+                      },
+                      {
+                        "id": 87,
+                        "attention": "Murray Olson",
+                        "name": null,
+                        "address_1": "92386 Sheryl Key",
+                        "address_2": "Apt. 723",
+                        "address_3": null,
+                        "address_4": null,
+                        "city": "Gibsonberg",
+                        "state_province": "Connecticut",
+                        "postal_code": "76477",
+                        "country": "USA",
+                        "latitude": "100.0",
+                        "longitude": "0.0"
+                      }
+                    ],
+                    "notes": [
+                      {
+                        "id": 90,
+                        "note": "Ex ea magnam. Quisquam vel voluptatem. Labore eaque et."
+                      }
+                    ],
+                    "categories": [
+                      {
+                        "name": "Turner, Douglas and Batz",
+                        "id": 6,
+                        "top_level": false,
+                        "featured": false
+                      }
+                    ],
+                    "ratings": [
+
+                    ]
+                  }
+                ]
+              }
+            },
+            "description": "resources found"
+          }
+        },
+        "parameters": [
+          {
+            "name": "category_id",
+            "in": "query",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "name": "lat",
+            "in": "query",
+            "type": "number",
+            "required": false
+          },
+          {
+            "name": "long",
+            "in": "query",
+            "type": "number",
+            "required": false
+          }
+        ],
+        "tags": [
+          "resources"
+        ],
+        "summary": "Retrieves resources by category_id and lat/long",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/resources/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "examples": {
+              "application/json": {
+                "resource": {
+                  "alternate_name": null,
+                  "certified": false,
+                  "email": null,
+                  "id": 94,
+                  "legal_status": null,
+                  "long_description": null,
+                  "name": "b",
+                  "short_description": null,
+                  "status": "approved",
+                  "verified_at": null,
+                  "website": null,
+                  "certified_at": null,
+                  "featured": null,
+                  "source_attribution": "ask_darcel",
+                  "services": [
+
+                  ],
+                  "schedule": {
+                    "id": 121,
+                    "schedule_days": [
+                      {
+                        "id": 834,
+                        "day": "Monday",
+                        "opens_at": 1400,
+                        "closes_at": 1630,
+                        "open_time": null,
+                        "open_day": null,
+                        "close_time": null,
+                        "close_day": null
+                      },
+                      {
+                        "id": 835,
+                        "day": "Monday",
+                        "opens_at": 2130,
+                        "closes_at": 2330,
+                        "open_time": null,
+                        "open_day": null,
+                        "close_time": null,
+                        "close_day": null
+                      },
+                      {
+                        "id": 836,
+                        "day": "Tuesday",
+                        "opens_at": 1000,
+                        "closes_at": 2045,
+                        "open_time": null,
+                        "open_day": null,
+                        "close_time": null,
+                        "close_day": null
+                      },
+                      {
+                        "id": 837,
+                        "day": "Wednesday",
+                        "opens_at": 1515,
+                        "closes_at": 345,
+                        "open_time": null,
+                        "open_day": null,
+                        "close_time": null,
+                        "close_day": null
+                      },
+                      {
+                        "id": 838,
+                        "day": "Thursday",
+                        "opens_at": 915,
+                        "closes_at": 2015,
+                        "open_time": null,
+                        "open_day": null,
+                        "close_time": null,
+                        "close_day": null
+                      },
+                      {
+                        "id": 839,
+                        "day": "Friday",
+                        "opens_at": 630,
+                        "closes_at": 1515,
+                        "open_time": null,
+                        "open_day": null,
+                        "close_time": null,
+                        "close_day": null
+                      }
+                    ],
+                    "hours_known": true
+                  },
+                  "phones": [
+                    {
+                      "id": 94,
+                      "number": "(404) 410-2765",
+                      "extension": "7408",
+                      "service_type": "Business",
+                      "country_code": "US"
+                    }
+                  ],
+                  "addresses": [
+                    {
+                      "id": 112,
+                      "attention": "Cleotilde Bernhard",
+                      "name": null,
+                      "address_1": "35637 Orlando Tunnel",
+                      "address_2": "Suite 933",
+                      "address_3": null,
+                      "address_4": null,
+                      "city": "Lynchport",
+                      "state_province": "Nevada",
+                      "postal_code": "70467",
+                      "country": "USA",
+                      "latitude": "37.7902926511052",
+                      "longitude": "-122.403759992731"
+                    }
+                  ],
+                  "notes": [
+                    {
+                      "id": 121,
+                      "note": "Voluptas tempora ipsa. Labore non dignissimos. Assumenda laboriosam est."
+                    }
+                  ],
+                  "categories": [
+
+                  ],
+                  "ratings": [
+
                   ]
                 }
-              },
-              "required": [
-                "categories"
-              ]
-            }
+              }
+            },
+            "description": "resource not found"
           }
-        }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "description": "Resource ID",
+            "required": true
+          }
+        ],
+        "tags": [
+          "resources"
+        ],
+        "summary": "Retrieves resources by id",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/services/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "examples": {
+              "application/json": {
+                "service": {
+                  "alternate_name": null,
+                  "application_process": null,
+                  "certified": false,
+                  "eligibility": null,
+                  "email": null,
+                  "fee": null,
+                  "id": 30,
+                  "interpretation_services": null,
+                  "long_description": null,
+                  "name": "Erdman-Schimmel",
+                  "required_documents": null,
+                  "url": null,
+                  "verified_at": null,
+                  "wait_time": null,
+                  "certified_at": null,
+                  "featured": null,
+                  "source_attribution": "ask_darcel",
+                  "schedule": {
+                    "id": 126,
+                    "schedule_days": [
+                      {
+                        "id": 870,
+                        "day": "Monday",
+                        "opens_at": 1500,
+                        "closes_at": 400,
+                        "open_time": null,
+                        "open_day": null,
+                        "close_time": null,
+                        "close_day": null
+                      },
+                      {
+                        "id": 871,
+                        "day": "Tuesday",
+                        "opens_at": 715,
+                        "closes_at": 1530,
+                        "open_time": null,
+                        "open_day": null,
+                        "close_time": null,
+                        "close_day": null
+                      },
+                      {
+                        "id": 872,
+                        "day": "Wednesday",
+                        "opens_at": 630,
+                        "closes_at": 1300,
+                        "open_time": null,
+                        "open_day": null,
+                        "close_time": null,
+                        "close_day": null
+                      },
+                      {
+                        "id": 873,
+                        "day": "Wednesday",
+                        "opens_at": 2345,
+                        "closes_at": 2400,
+                        "open_time": null,
+                        "open_day": null,
+                        "close_time": null,
+                        "close_day": null
+                      },
+                      {
+                        "id": 874,
+                        "day": "Thursday",
+                        "opens_at": 1100,
+                        "closes_at": 1545,
+                        "open_time": null,
+                        "open_day": null,
+                        "close_time": null,
+                        "close_day": null
+                      },
+                      {
+                        "id": 875,
+                        "day": "Thursday",
+                        "opens_at": 1900,
+                        "closes_at": 2330,
+                        "open_time": null,
+                        "open_day": null,
+                        "close_time": null,
+                        "close_day": null
+                      },
+                      {
+                        "id": 876,
+                        "day": "Friday",
+                        "opens_at": 730,
+                        "closes_at": 1900,
+                        "open_time": null,
+                        "open_day": null,
+                        "close_time": null,
+                        "close_day": null
+                      }
+                    ],
+                    "hours_known": true
+                  },
+                  "notes": [
+                    {
+                      "id": 126,
+                      "note": "Ad architecto nihil. Hic iure quis. Autem ut assumenda."
+                    }
+                  ],
+                  "categories": [
+
+                  ],
+                  "eligibilities": [
+
+                  ],
+                  "resource": {
+                    "alternate_name": null,
+                    "certified": false,
+                    "email": null,
+                    "id": 96,
+                    "legal_status": null,
+                    "long_description": null,
+                    "name": "a",
+                    "short_description": null,
+                    "status": "approved",
+                    "verified_at": null,
+                    "website": null,
+                    "certified_at": null,
+                    "featured": null,
+                    "source_attribution": "ask_darcel",
+                    "services": [
+                      {
+                        "alternate_name": null,
+                        "application_process": null,
+                        "certified": false,
+                        "eligibility": null,
+                        "email": null,
+                        "fee": null,
+                        "id": 30,
+                        "interpretation_services": null,
+                        "long_description": null,
+                        "name": "Erdman-Schimmel",
+                        "required_documents": null,
+                        "url": null,
+                        "verified_at": null,
+                        "wait_time": null,
+                        "certified_at": null,
+                        "featured": null,
+                        "source_attribution": "ask_darcel",
+                        "schedule": {
+                          "id": 126,
+                          "schedule_days": [
+                            {
+                              "id": 870,
+                              "day": "Monday",
+                              "opens_at": 1500,
+                              "closes_at": 400,
+                              "open_time": null,
+                              "open_day": null,
+                              "close_time": null,
+                              "close_day": null
+                            },
+                            {
+                              "id": 871,
+                              "day": "Tuesday",
+                              "opens_at": 715,
+                              "closes_at": 1530,
+                              "open_time": null,
+                              "open_day": null,
+                              "close_time": null,
+                              "close_day": null
+                            },
+                            {
+                              "id": 872,
+                              "day": "Wednesday",
+                              "opens_at": 630,
+                              "closes_at": 1300,
+                              "open_time": null,
+                              "open_day": null,
+                              "close_time": null,
+                              "close_day": null
+                            },
+                            {
+                              "id": 873,
+                              "day": "Wednesday",
+                              "opens_at": 2345,
+                              "closes_at": 2400,
+                              "open_time": null,
+                              "open_day": null,
+                              "close_time": null,
+                              "close_day": null
+                            },
+                            {
+                              "id": 874,
+                              "day": "Thursday",
+                              "opens_at": 1100,
+                              "closes_at": 1545,
+                              "open_time": null,
+                              "open_day": null,
+                              "close_time": null,
+                              "close_day": null
+                            },
+                            {
+                              "id": 875,
+                              "day": "Thursday",
+                              "opens_at": 1900,
+                              "closes_at": 2330,
+                              "open_time": null,
+                              "open_day": null,
+                              "close_time": null,
+                              "close_day": null
+                            },
+                            {
+                              "id": 876,
+                              "day": "Friday",
+                              "opens_at": 730,
+                              "closes_at": 1900,
+                              "open_time": null,
+                              "open_day": null,
+                              "close_time": null,
+                              "close_day": null
+                            }
+                          ],
+                          "hours_known": true
+                        },
+                        "notes": [
+                          {
+                            "id": 126,
+                            "note": "Ad architecto nihil. Hic iure quis. Autem ut assumenda."
+                          }
+                        ],
+                        "categories": [
+
+                        ],
+                        "eligibilities": [
+
+                        ]
+                      }
+                    ],
+                    "schedule": {
+                      "id": 125,
+                      "schedule_days": [
+                        {
+                          "id": 860,
+                          "day": "Monday",
+                          "opens_at": 945,
+                          "closes_at": 2230,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 861,
+                          "day": "Tuesday",
+                          "opens_at": 430,
+                          "closes_at": 1130,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 862,
+                          "day": "Tuesday",
+                          "opens_at": 1230,
+                          "closes_at": 1245,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 863,
+                          "day": "Wednesday",
+                          "opens_at": 1130,
+                          "closes_at": 1500,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 864,
+                          "day": "Wednesday",
+                          "opens_at": 1645,
+                          "closes_at": 1915,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 865,
+                          "day": "Thursday",
+                          "opens_at": 930,
+                          "closes_at": 1545,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 866,
+                          "day": "Friday",
+                          "opens_at": 15,
+                          "closes_at": 630,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 867,
+                          "day": "Friday",
+                          "opens_at": 1030,
+                          "closes_at": 2230,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 868,
+                          "day": "Saturday",
+                          "opens_at": 1730,
+                          "closes_at": 215,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        },
+                        {
+                          "id": 869,
+                          "day": "Sunday",
+                          "opens_at": 945,
+                          "closes_at": 2015,
+                          "open_time": null,
+                          "open_day": null,
+                          "close_time": null,
+                          "close_day": null
+                        }
+                      ],
+                      "hours_known": true
+                    },
+                    "phones": [
+                      {
+                        "id": 96,
+                        "number": "(248) 316-1794",
+                        "extension": "6023",
+                        "service_type": "Business",
+                        "country_code": "US"
+                      }
+                    ],
+                    "addresses": [
+                      {
+                        "id": 114,
+                        "attention": "Dr. Darrell Crist",
+                        "name": null,
+                        "address_1": "273 Dylan Estates",
+                        "address_2": "Apt. 405",
+                        "address_3": null,
+                        "address_4": null,
+                        "city": "Jennyfurt",
+                        "state_province": "Wyoming",
+                        "postal_code": "23937",
+                        "country": "USA",
+                        "latitude": "37.7942260443316",
+                        "longitude": "-122.408389183987"
+                      }
+                    ],
+                    "notes": [
+                      {
+                        "id": 125,
+                        "note": "Ea dolores eaque. Sed rerum nisi. Voluptatem dignissimos culpa."
+                      }
+                    ],
+                    "categories": [
+
+                    ],
+                    "ratings": [
+
+                    ]
+                  },
+                  "program": null
+                }
+              }
+            },
+            "description": "service found"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "description": "Service ID",
+            "required": true
+          }
+        ],
+        "tags": [
+          "services"
+        ],
+        "summary": "Retrieves a service by id",
+        "produces": [
+          "application/json"
+        ]
       }
     }
   }

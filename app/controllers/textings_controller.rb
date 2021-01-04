@@ -115,6 +115,7 @@ class TextingsController < ApplicationController
     }
 
     client = HTTPClient.new default_header: header
+    client.ssl_config.set_default_paths
     res = client.post 'https://client.textellent.com/api/v1/engagement/create.json', query
 
     JSON.parse(res.body)

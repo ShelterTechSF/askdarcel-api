@@ -103,7 +103,6 @@ class TextingsController < ApplicationController
     }
     data
   end
-  # rubocop:enable Metrics/MethodLength
 
   def get_db_data(recipient_name, phone_number, service_id)
     service = Service.includes(:categories).find(service_id)
@@ -131,8 +130,10 @@ class TextingsController < ApplicationController
     }
 
     client = HTTPClient.new default_header: header
+    client.ssl_config.set_default_paths
     res = client.post 'https://client.textellent.com/api/v1/engagement/create.json', query
 
     JSON.parse(res.body)
   end
+  # rubocop:enable Metrics/MethodLength
 end

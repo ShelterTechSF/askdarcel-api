@@ -1746,7 +1746,7 @@
 							"    const responseJson = pm.response.json();",
 							"    pm.response.to.have.status(400);",
 							"    pm.response.to.have.jsonBody(\"error\");",
-							"    pm.expect(responseJson.error).to.eql(\"Message not sent\");",
+							"    pm.expect(responseJson.error).to.eql(\"failure\");",
 							"});"
 						],
 						"type": "text/javascript"

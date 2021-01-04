@@ -5,17 +5,20 @@ class TextingsController < ApplicationController
     recipient_name = texting_params[:recipient_name]
     phone_number = parse_phone_number
     service_id = texting_params[:service_id]
-
-    # Make a request to Textellent API. If request successful we update our DB
     data = get_db_data(recipient_name, phone_number, service_id)
+    # Make a request to Textellent API. If request successful we update our DB
     response = post_textellent(data)
 
     if response['status'] != 'success'
-      puts response['message']
-      render status: :bad_request, json: { error: 'Message not sent' }
+      render status: :bad_request, json: { error: 'failure' }
       return
     end
+    update_db(recipient_name, phone_number, service_id)
+  end
 
+  private
+
+  def update_db(recipient_name, phone_number, service_id)
     recipient = TextingRecipient.find_by(phone_number: phone_number)
 
     if recipient
@@ -25,10 +28,8 @@ class TextingsController < ApplicationController
     end
 
     create_new_texting(recipient, service_id)
-    render status: :ok, json: { message: 'Message sent' }
+    render status: :ok, json: { message: 'success' }
   end
-
-  private
 
   def create_new_recipient(recipient_name, phone_number)
     TextingRecipient.create(
@@ -48,38 +49,39 @@ class TextingsController < ApplicationController
     )
   end
 
-  def texting_params
-    params.require(:data).permit(:recipient_name, :phone_number, :service_id)
-  end
-
   def parse_phone_number
     Phonelib.parse(texting_params[:phone_number], 'US').national(false)
   end
 
-  # Generate a data object to send to Textellent API
-  def get_db_data(recipient_name, phone_number, service_id)
-    service = Service.includes(:categories).find(service_id)
-    categories = service.categories.map(&:name)
-    resource = Resource.find(service.resource_id)
-    address = resource.addresses
+  def get_ressource_phone(resource)
+    return resource.phones[0].number if resource.phones.any?
 
-    phone = ''
-    phone = resource.phones[0].number if resource.phones.any?
+    ''
+  end
 
-    address_1 = ''
-    address_2 = ''
-    city = ''
-    state_province = ''
-    postal_code = ''
-
-    if address.any?
-      address_1 = address[0].address_1
-      address_2 = address[0].address_2 || ''
-      city = address[0].city
-      state_province = address[0].state_province
-      postal_code = address[0].postal_code
+  # rubocop:disable Metrics/MethodLength
+  def get_resource_address(resource_address, phone)
+    if resource_address.any?
+      return {
+        address1: resource_address[0].address_1,
+        address2: resource_address[0].address_2,
+        city: resource_address[0].city,
+        state_province: resource_address[0].state_province,
+        postal_code: resource_address[0].postal_code,
+        phone: phone
+      }
     end
+    {
+      address1: '',
+      address2: '',
+      city: '',
+      state_province: '',
+      postal_code: '',
+      phone: phone
+    }
+  end
 
+  def generate_data(recipient_name, phone_number, categories, service_name, address)
     data = {
       "firstName" => recipient_name,
       "lastName" => "",
@@ -90,17 +92,31 @@ class TextingsController < ApplicationController
       "tags" => categories,
       "engagementType" => "Resource Info",
       "engagementInfo" => {
-        "Org_Name" => service.name,
-        "Org_Address1" => address_1,
-        "Org_Address2" => address_2,
-        "City" => city,
-        "State" => state_province,
-        "Zip" => postal_code,
-        "Org_Phone" => phone
+        "Org_Name" => service_name,
+        "Org_Address1" => address[:address1],
+        "Org_Address2" => address[:address2],
+        "City" => address[:city],
+        "State" => address[:state_province],
+        "Zip" => address[:postal_code],
+        "Org_Phone" => address[:phone]
       }
     }
-
     data
+  end
+  # rubocop:enable Metrics/MethodLength
+
+  def get_db_data(recipient_name, phone_number, service_id)
+    service = Service.includes(:categories).find(service_id)
+    categories = service.categories.map(&:name)
+    resource = Resource.find(service.resource_id)
+    phone = get_ressource_phone(resource)
+    address = get_resource_address(resource.addresses, phone)
+
+    generate_data(recipient_name, phone_number, categories, service.name, address)
+  end
+
+  def texting_params
+    params.require(:data).permit(:recipient_name, :phone_number, :service_id)
   end
 
   # handling the post request to Textellent API.

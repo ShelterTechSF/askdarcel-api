@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class TextingsController < ApplicationController
   def create
     recipient_name = texting_params[:recipient_name]

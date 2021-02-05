@@ -8,7 +8,7 @@ class TextingsController < ApplicationController
     data = get_db_data(recipient_name, phone_number, service_id)
     # Make a request to Textellent API. If request successful we update our DB
     response = post_textellent(data)
-
+    puts response
     if response['status'] != 'success'
       render status: :bad_request, json: { error: 'failure' }
       return
@@ -120,6 +120,7 @@ class TextingsController < ApplicationController
 
   # handling the post request to Textellent API.
   def post_textellent(data)
+    puts Rails.configuration.x.textellent.url
     header = {
       'Content-Type' => 'application/json',
       'authCode' => Rails.configuration.x.textellent.api_key
@@ -131,7 +132,7 @@ class TextingsController < ApplicationController
 
     client = HTTPClient.new default_header: header
     client.ssl_config.set_default_paths
-    res = client.post 'https://client.textellent.com/api/v1/engagement/create.json', query
+    res = client.post Rails.configuration.x.textellent.url, query
 
     JSON.parse(res.body)
   end

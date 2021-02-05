@@ -30,6 +30,8 @@ module AskdarcelApi
 
     config.x.textellent.api_key = ENV['TEXTELLENT_AUTH_CODE']
 
+    config.x.textellent.url = 'https://client.textellent.com/api/v1/engagement/create.json'
+
     # rubocop:disable Metrics/LineLength
     # This is the public cert PEM for the JWT issuer
     # TODO this should be pulled dynamically once on startup

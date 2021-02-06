@@ -6,12 +6,13 @@ values (1400006, '13-JAN-21', '13-JAN-21', 'Computer Classes', 'f', null, 'f');
 insert into categories (id, created_at, updated_at, name, top_level, vocabulary, featured)
 values (1400007, '13-JAN-21', '13-JAN-21', 'Cell Phone Services', 'f', null, 'f');
 
+-- Modifying this. You selected subcategories 1400001, 1400002, 1400003 instead of the ones above.
 insert into category_relationships (parent_id, child_id)
-values (1000007, 1400001);
+values (1000007, 1400005);
 insert into category_relationships (parent_id, child_id)
-values (1000007, 1400002);
+values (1000007, 1400006);
 insert into category_relationships (parent_id, child_id)
-values (1000007, 1400003);
+values (1000007, 1400007);
 
 insert into categories_services (category_id, service_id)
 values (1000007, 106);

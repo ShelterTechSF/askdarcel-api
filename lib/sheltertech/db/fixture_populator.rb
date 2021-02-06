@@ -131,25 +131,45 @@ module ShelterTech
 
     class NewPathwaysCategoryCreator
       def self.create_all_new_pathway_categories
-        create_new_pathway_categories('Covid-food', 1_000_001, ['Disabled', 'Seniors (55+ years old)', 'Families', 'Homeless'])
-        create_new_pathway_categories_by_subcategory('Covid-hygiene', 1_000_002,
-                                                     ['Portable Toilets and Hand-Washing Stations',
-                                                      'Hygiene kits', 'Showers', 'Laundry', 'Clothing', 'Diaper Bank'])
+        create_new_pathway_categories('Covid-food', 1_000_001, ['Food pantries',
+                                                                'Daily free meals for all',
+                                                                'Food for children',
+                                                                'Home-delivered groceries and home-delivered meals',
+                                                                'Congregate meals for seniors and people with disabilities',
+                                                                'Food benefits'])
+        create_new_pathway_categories_by_subcategory('Covid-hygiene', 1_000_002, ['Showers',
+                                                                                  'Laundry',
+                                                                                  'Clothing',
+                                                                                  'Diaper Bank',
+                                                                                  'Hygiene kits',
+                                                                                  'Portable Toilets and Hand-Washing Stations'])
         create_new_pathway_categories_by_subcategory('Covid-finance', 1_000_003, ['Emergency Financial Assistance',
                                                                                   'Financial Assistance for Living Expenses',
-                                                                                  'Unemployment Insurance-based Benefit Payments', 'Job Assistance'])
+                                                                                  'Unemployment Insurance-based Benefit Payments'])
         create_new_pathway_categories_by_subcategory('Covid-housing', 1_000_004, ['My landlord gave me an eviction notice and I need legal help',
                                                                                   'My landlord told me I would get evicted and I need advice',
                                                                                   'I have not been able to pay my rent and I do not know what to do',
                                                                                   'I am not getting along with my neighbor(s) and /or my landlord and I need advice'])
-        create_new_pathway_categories_by_subcategory('Covid-health', 1_000_005, ['Coronavirus (COVID-19) Testing', 'Coronavirus-Related Urgent Care',
-                                                                                 'Other Medical Services', 'Mental Health Urgent Care', 'Other Mental Health Services'])
+        create_new_pathway_categories_by_subcategory('Covid-health', 1_000_005, ['Coronavirus (COVID-19) Testing',
+                                                                                 'Coronavirus-Related Urgent Care',
+                                                                                 'Other Medical Services',
+                                                                                 'Mental Health Urgent Care',
+                                                                                 'Other Mental Health Services'])
         create_new_pathway_categories_by_subcategory('Covid-domesticviolence', 1_000_006, ['Temporary Shelter for Women',
                                                                                            'Transitional Housing for Women',
-                                                                                           'Legal Assistance', 'Domestic Violence Counseling'])
-        create_new_pathway_categories_by_subcategory('Covid-internet', 1_000_007, ['Computer and Internet Access', 'Computer Classes', 'Cell phone Services'])
-        create_new_pathway_categories_by_subcategory('Covid-lgbtqa', 1_000_008, ['Housing Assistance', 'Legal Assistance ',
-                                                                                 'Youth Services', 'Counseling Assistance', 'General Help'])
+                                                                                           'Legal Assistance',
+                                                                                           'Domestic Violence Counseling'])
+        create_new_pathway_categories_by_subcategory('Covid-internet', 1_000_007, ['Computer and Internet Access',
+                                                                                   'Computer Classes',
+                                                                                   'Cell phone Services'])
+        create_new_pathway_categories_by_subcategory('Covid-lgbtqa', 1_000_008, ['Housing Assistance',
+                                                                                 'Legal Assistance ',
+                                                                                 'Youth Services',
+                                                                                 'Counseling Assistance',
+                                                                                 'General Help'])
+        create_new_pathway_categories_by_subcategory('Covid-jobs', 1_000_009, ['Job Placement Support',
+                                                                               'Vocational Training Programs',
+                                                                               'Job Board'])
         create_new_pathway_categories_by_subcategory('Covid-shelter', 1_000_010, ['We are a family and we need shelter',
                                                                                   'I am someone between 18-24 years old in need of shelter',
                                                                                   'I am a single adult and I need shelter'])

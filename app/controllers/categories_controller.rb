@@ -12,11 +12,17 @@ class CategoriesController < ApplicationController
   end
 
   def index
-    categories = Category.order(:name)
+    # categories = Category.order(:name)
     # Cast:
     #   nil and '' -> nil
     #   '0', 'false', 'False', 'f', etc. -> false
     #   Almost everything else -> true
+    categories = if params[:site_id]
+                   Site.find(params[:site_id]).categories
+                 else
+                   Site.find(0).categories #sfsg
+                 end
+
     top_level = ActiveRecord::Type::Boolean.new.cast(params[:top_level])
     categories = categories.where(top_level: top_level) unless top_level.nil?
     render json: CategoryPresenter.present(categories)

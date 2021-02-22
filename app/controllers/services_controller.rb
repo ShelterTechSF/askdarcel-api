@@ -9,36 +9,45 @@ class ServicesController < ApplicationController
 
   wrap_parameters false
 
+  before_action :read_site_id_string, only: [:index]
+
   def index
+    # use SFSG as default site
+    # TODO: be able to parse both categories and eligibilities at once
     if params[:category_id]
-      all_services = find_by_category(params[:category_id])
+      all_services = find_by_category(params[:category_id], @site_id_string)
     elsif params[:eligibility_id]
-      all_services = find_by_eligibility(params[:eligibility_id])
+      all_services = find_by_eligibility(params[:eligibility_id], @site_id_string)
     end
 
-    render json: ServicesWithResourcePresenter.present(all_services)
+    render json: ServicesWithResourceLitePresenter.present(all_services)
   end
 
-  def find_by_category(category_id_string)
+  def read_site_id_string
+    @site_id_string = params[:site_id] || Site.find_by(site_code: 'sfsg').id.to_s
+  end
+
+  # Include services if they:
+  # - are part of a resource matching the requested site
+  # - have any of the requested tags
+  def find_by_category(category_id_string, site_id)
     services.includes(
       resource: [
         :addresses, :phones, :categories, :notes,
         schedule: :schedule_days,
-        services: [:notes, :categories, :addresses, :eligibilities, { schedule: :schedule_days }],
         ratings: [:review]
       ]
-    ).where(by_category_join_string, (category_id_string.split ","))
+    ).where(by_category_join_string, (category_id_string.split ","), site_id)
   end
 
-  def find_by_eligibility(eligibility_id_string)
+  def find_by_eligibility(eligibility_id_string, site_id)
     services.includes(
       resource: [
         :addresses, :phones, :categories, :notes,
         schedule: :schedule_days,
-        services: [:notes, :categories, :addresses, :eligibilities, { schedule: :schedule_days }],
         ratings: [:review]
       ]
-    ).where(by_eligibility_join_string, (eligibility_id_string.split ","))
+    ).where(by_eligibility_join_string, (eligibility_id_string.split ","), site_id)
   end
 
   def show
@@ -227,7 +236,8 @@ class ServicesController < ApplicationController
           SELECT services.id
             FROM services
             INNER JOIN categories_services ON services.id = categories_services.service_id
-            WHERE categories_services.category_id in (?)
+            INNER JOIN resources_sites ON services.resource_id = resources_sites.resource_id
+            WHERE categories_services.category_id in (?) AND resources_sites.site_id = (?)
         )
       )
     SQL
@@ -240,7 +250,8 @@ class ServicesController < ApplicationController
           SELECT services.id
             FROM services
             INNER JOIN eligibilities_services ON services.id = eligibilities_services.service_id
-            WHERE eligibilities_services.eligibility_id in (?)
+            INNER JOIN resources_sites ON services.resource_id = resources_sites.resource_id
+            WHERE eligibilities_services.eligibility_id in (?) AND resources_sites.site_id = (?)
         )
       )
     SQL

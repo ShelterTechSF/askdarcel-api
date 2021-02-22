@@ -2,6 +2,9 @@
 
 # Tasks that should be run once to alter data in production.
 
+require_relative "../../app/models/application_record.rb"
+require_relative "../../app/models/category_site.rb"
+
 namespace :onetime do
   # Add new categories.
   #
@@ -9,7 +12,6 @@ namespace :onetime do
   task add_new_categories: :environment do
     Category.transaction do
       categories = [
-        'Family Shelters',
         'Domestic Violence Shelters',
         'Advocacy & Legal Aid',
         'Eviction Defense',
@@ -115,8 +117,9 @@ namespace :onetime do
       'Support Network' => 'Counseling',
       'Supplies for School' => 'Books',
       'More Education' => 'Help Find School',
-      'Job Placement' => 'Skills Assessment',
-      'Help Find Work' => 'Skills Assessment',
+      'Skills Assessment' => 'Job Placement',
+      'Job Placement & Skills Assessment' => 'Job Placement',
+      'Help Find Work' => 'Job Placement',
       'End of Life Care' => 'End-of-Life Care',
       'Hospice' => 'End-of-Life Care',
       'Retirement Benefits' => 'Government Benefits',
@@ -125,8 +128,6 @@ namespace :onetime do
       'Help Find Housing' => 'Housing Counseling',
       'Help Find School' => 'Education',
       'One-on-One Support' => 'Individual Counseling',
-      'Skills & Training' => 'Job Training',
-      'Vocational Training' => 'Job Training',
       'Home Delivered Meals' => 'Food Delivery',
       'Free Meals' => 'Food',
       'Help Pay for Food' => 'Food Benefits',
@@ -239,22 +240,26 @@ namespace :onetime do
         'Financial Aid & Loans' => 'Finances & Benefits',
         'Help Pay for School' => 'Education Financial Assistance',
         'Transportation for School' => 'School Transportation',
-        'Skills Assessment' => 'Job Placement & Skill Assessment',
+        'Skills Assessment' => 'Job Placement',
         'Help Pay for Work Expenses' => 'Work Expenses',
         'Immediate Safety' => 'Physical Safety',
-        'Help Pay for Utilities' => 'Utilities Financial Assistance',
+        'Help Pay for Utilities' => 'Discount Utilities',
+        'Utilities Financial Assistance' => 'Discount Utilities',
         'Housing Vouchers' => 'Housing Financial Assistance',
         'Safe Housing' => 'Domestic Violence Shelter',
         'Bus Passes' => 'Transportation Financial Assistance',
         'Adoption' => 'Adoption & Foster Care',
         'At Imminent Risk of Eviction' => 'Eviction Prevention & Defense',
-        'Disaster Assistance' => 'Disaster Response',
+        'Disaster Assistance' => 'Disaster Relief/Support',
+        'Disaster Response' => 'Disaster Relief/Support',
         'Early Childhood Education' => 'Early Childhood Care',
         'Case Management' => 'Case Manager',
         'Help Pay for Healthcare' => 'Healthcare Financial Assistance',
         'Homelessness Essentials' => 'Basic Needs',
         'Subsidized Housing' => 'Low-income Housing',
-        'Employment' => 'Employment & Jobs'
+        'Employment' => 'Employment & Jobs',
+        'Drop-In Center' => 'Drop-In Clinic',
+        'Understand Mental Health' => 'Mental Health Services'
       }
       renames.each do |old, new|
         Category.find_by(name: old)&.update(name: new)
@@ -266,20 +271,15 @@ namespace :onetime do
   desc 'HIERARCHY WORK STEP 4: Add missing categories'
   task add_new_categories_hierarchical: :environment do
     Category.transaction do
-      categories = [
+      sfsg_categories = [
         'Residential Care',
-        'English as a Second Language',
         'Residential Treatment',
-        'Criminal Justice Involvement',
-        'Hot Meals',
         'Personal Safety Items',
-        'Detox',
         'Computer or Internet Access',
         'Utilities & Insurance Assistance',
         'Transition Age Youth',
         'Medication Management',
         'Haircut',
-        'Mental Health Medication',
         'Health',
         'Language',
         'ADA Transit',
@@ -287,25 +287,218 @@ namespace :onetime do
         'Traumatic Brain Injury',
         'Loans',
         'Domestic Violence Hotline',
-        'STD/STI Treatment & Prevention',
         'Animal Welfare',
         'Online Only',
         'Safety Education',
-        'Drop-In Center',
+        'Drop-In Clinics',
         'Supported Employment',
-        'Fitness & Exercise',
         'Medications',
-        'Addiction Medicine',
         'Sexual & Reproductive Health',
         'Probation & Parole',
         'Disability',
-        'Domestic Violence Counseling',
         'Online',
         'School Care'
       ]
-      categories.each do |c|
-        Category.find_or_create_by(name: c)
+      sffamilies_exclusive = [
+        'Beacon Community School',
+        'SEL (Social Emotional Learning)',
+        'Self-esteem',
+        'Trauma Informed',
+        'Coding',
+        'Academic',
+        'ELA (English Language Arts)',
+        'Social Justice',
+        'Arts and Creative Expression',
+        'Creative Writing',
+        'Dance',
+        'Digital Arts',
+        'Music',
+        'Performing Arts',
+        'Photography and Film',
+        'Spoken Word',
+        'Storytelling',
+        'Visual Arts',
+        'Theater',
+        'Food Benefits',
+        'Food Delivery',
+        'Food Pantry',
+        'Hot Meals',
+        'Bullying',
+        'Depression',
+        'Mindfulness',
+        'Stress',
+        'Suicide',
+        'Trauma',
+        'Leadership',
+        'Nature & Gardening',
+        'Internships',
+        'Culinary Arts',
+        'Hospitality',
+        'Health Careers',
+        'Job Readiness',
+        'Job Placement',
+        'Crisis',
+        'Programs Integrated into School Day',
+        'Year-Round',
+        'Sports',
+        'Summer Programs',
+        'Afterschool Programs',
+        'Literacy Supports',
+        'Educational Supports',
+        'Youth Leadership',
+        'Youth-Led Philanthropy',
+        'Skill Building',
+        'College Prep',
+        'Alternative Education',
+        'School Attendance',
+        'STEM',
+        'Culture & Identity',
+        'Parent Education',
+        'Support Services',
+        'Family Resource Centers',
+        'Family Legal Services',
+        'Youth Jobs',
+        'Basketball'
+      ]
+      sffamilies_inclusive = [
+        'Basic Literacy',
+        'English as a Second Language',
+        'Computer Class',
+        'Foreign Languages',
+        'GED/High School Equivalency',
+        'Preschool',
+        'School Supplies',
+        'School Transportation',
+        'Special Education',
+        'Tutoring',
+        '12-Step',
+        'Addiction Medicine',
+        'Birth Control',
+        'Dental Care',
+        'Detox',
+        'Discounted Healthcare',
+        'Disease Screening',
+        'Substance Abuse Counseling',
+        'Drug Testing',
+        'Family Counseling',
+        'Fitness & Exercise',
+        'Free Health Clinics',
+        'Group Therapy',
+        'Health Insurance',
+        'Hoarding',
+        'Individual Counseling',
+        'Maternity Care',
+        'Mental Health Evaluation',
+        'Mental Health Medication',
+        'Mental Health Services',
+        'Peer Support',
+        'Physical Therapy',
+        'Postnatal Care',
+        'Pregnancy Tests',
+        'Prescription Assistance',
+        'Psychiatric Emergency Services',
+        'Family Planning',
+        'Fertility',
+        'Sex Education',
+        'Sober Living',
+        'Specialized Therapy',
+        'Specialized Training',
+        'Spiritual Support',
+        'STD/STI Treatment & Prevention',
+        'Support Groups',
+        'Adoption & Foster Care',
+        'Caregiver Relief',
+        'Childcare',
+        'Diaper Bank',
+        'Discount Utilities',
+        'Family Shelters',
+        'Group Home',
+        'Guardianship',
+        'Parenting Education',
+        'Unemployment Benefits',
+        'Vaccinations',
+        'Vocational Training',
+        'Financial Education',
+        'Daily Life Skills',
+        'Mentoring',
+        'Transition Age Youth',
+        'Cheer',
+        'Football',
+        'Outdoors',
+        'Soccer',
+        'Swimming',
+        'Surfing',
+        'Rec Teams',
+        'Running',
+        'Yoga',
+        'Ultimate Frisbee',
+        'Disability Benefits',
+        'Disability Screening',
+        'In-Home Support',
+        'Interview Training',
+        'Resume Development',
+        'Resume Writing',
+        'Discrimination & Civil Rights',
+        'Re-entry Services',
+        'LGBTQ',
+        'Domestic Violence Counseling',
+        'Domestic Violence Hotline',
+        'Domestic Violence Shelter',
+        'Domestic Violence Shelters',
+        'Help Hotlines',
+        'Haircut',
+        'Hygiene Supplies',
+        'Laundry',
+        'Scholarship',
+        'Shower',
+        'Toilet',
+        'Wifi Access',
+        'Food',
+        'SFUSD Wellness Centers',
+        'Clothing',
+        'Job Training',
+        'Career Awareness',
+        'Criminal Justice Involvement'
+      ]
+      # create, then associate each category with a site
+      sfsg_categories.each do |c|
+        create_category_with_sites(c, ["sfsg"])
       end
+      sffamilies_exclusive.each do |c|
+        create_category_with_sites(c, ["sffamilies"])
+      end
+      sffamilies_inclusive.each do |c|
+        create_category_with_sites(c, %w[sfsg sffamilies])
+      end
+      # for any category that doesn't have a site,
+      # associate it with 'sfsg'
+      Category.all do |cat_obj|
+        site_obj = Site.find_by(site_code: "sfsg")
+        CategoriesSites.find_or_create_by(
+          category_id: cat_obj.id,
+          site_id: site_obj.id
+        )
+      end
+    end
+  end
+
+  def create_category_with_sites(category, sites)
+    Category.find_or_create_by(name: category)
+    process_category_site(category, sites)
+  end
+
+  def process_category_site(category, sites)
+    cat_obj = Category.find_by(name: category)
+    ## this shouldn't happen; data above is already vetted to exist in db
+    puts "Category " + category + " does not exist" if cat_obj.nil?
+    sites&.each do |site|
+      site_obj = Site.find_by(site_code: site)
+      puts "Site " + site + " does not exist" if site_obj.nil?
+      # associate the category with the appropriate site or sites
+      CategoriesSites.find_or_create_by(
+        category_id: cat_obj.id,
+        site_id: site_obj.id
+      )
     end
   end
 
@@ -340,7 +533,9 @@ namespace :onetime do
             'Shower' => nil,
             'Toilet' => nil,
             'Haircut' => nil,
-            'Dental Care' => nil
+            'Dental Care' => nil,
+            'Diaper Bank' => nil,
+            'Laundry' => nil
           }
         },
         'Care' => {
@@ -352,8 +547,11 @@ namespace :onetime do
           'In-Home Support' => nil,
           'Independent Living' => nil,
           'Senior Centers' => nil,
+          'Family Resource Centers' => nil,
+          'Support Services' => nil,
           'Adoption & Foster Care' => {
-            'Transition Age Youth' => nil
+            'Transition Age Youth' => nil,
+            'Group Home' => nil
           },
           'Counseling & Support' => {
             'Anger Management' => nil,
@@ -370,7 +568,7 @@ namespace :onetime do
             'Substance Abuse Counseling' => nil,
             'Understand Disability' => nil,
             'Understand Government Programs' => nil,
-            'Understand Mental Health' => nil,
+            'Mental Health Services' => nil,
             'Domestic Violence Counseling' => nil,
             'Case Manager' => {
               'Form & Paperwork Assistance' => nil
@@ -387,7 +585,9 @@ namespace :onetime do
             },
             'Virtual Support' => {
               'Online' => nil
-            }
+            },
+            'Bullying' => nil,
+            'Mindfulness' => nil
           },
           'Daytime Care' => {
             'Adult Daycare' => nil,
@@ -406,8 +606,19 @@ namespace :onetime do
             'Spiritual Support' => nil
           },
           'Recreation' => {
+            'Sports' => nil,
             'Fitness & Exercise' => nil,
-            'Rec Teams' => nil
+            'Rec Teams' => nil,
+            'Cheer' => nil,
+            'Football' => nil,
+            'Basketball' => nil,
+            'Outdoors' => nil,
+            'Soccer' => nil,
+            'Swimming' => nil,
+            'Surfing' => nil,
+            'Running' => nil,
+            'Yoga' => nil,
+            'Ultimate Frisbee' => nil
           },
           'Residential Care' => {
             'Assisted Living' => nil,
@@ -439,7 +650,10 @@ namespace :onetime do
         'Education' => {
           'School Care' => nil,
           'Alternative Education' => nil,
-          'Education Financial Assistance' => nil,
+          'Education Financial Assistance' => {
+            'Scholarship' => nil
+          },
+          'College Prep' => nil,
           'Financial Education' => nil,
           'Preschool' => nil,
           'School Supplies' => nil,
@@ -455,10 +669,11 @@ namespace :onetime do
             'Safety Education' => nil,
             'Sex Education' => nil,
             'Understand Disability' => nil,
-            'Understand Mental Health' => nil,
+            'Mental Health Services' => nil,
             'Disease Management' => {
               'HIV Treatment' => nil
-            }
+            },
+            'Nature & Gardening' => nil
           },
           'Job Training' => {
             'Basic Literacy' => nil,
@@ -466,25 +681,61 @@ namespace :onetime do
             'GED/High-School Equivalency' => nil,
             'Interview Training' => nil,
             'Resume Development' => nil,
-            'Specialized Training' => nil
+            'Resume Writing' => nil,
+            'Specialized Training' => nil,
+            'Vocational Training' => nil,
+            'Leadership' => nil,
+            'Internships' => nil,
+            'Culinary Arts' => nil,
+            'Hospitality' => nil,
+            'Health Careers' => nil,
+            'Job Readiness' => nil
           },
           'Language' => {
             'English as a Second Language' => nil,
             'Foreign Languages' => nil
-          }
+          },
+          'Academic' => {
+            'ELA (English Language Arts)' => nil,
+            'Literacy Supports' => nil,
+            'Educational Supports' => nil,
+            'Math' => nil,
+            'STEM' => nil
+          },
+          'Social Justice' => nil,
+          'Culture & Identity' => nil,
+          'Programs Integrated into School Day' => nil,
+          'Year-Round' => nil,
+          'Summer Programs' => nil,
+          'Afterschool Programs' => nil,
+          'School Attendance' => nil,
+          'Parent Education' => nil
+        },
+        'Arts and Creative Expression' => {
+          'Creative Writing' => nil,
+          'Dance' => nil,
+          'Digital Arts' => nil,
+          'Music' => nil,
+          'Performing Arts' => nil,
+          'Photography and Film' => nil,
+          'Spoken Word' => nil,
+          'Storytelling' => nil,
+          'Visual Arts' => nil,
+          'Theater' => nil
         },
         'Emergency' => {
-          'Drop-In Center' => nil,
+          'Drop-In Clinic' => nil,
           'Eviction Prevention & Defense' => nil,
           'Physical Safety' => {
-            'Disaster Response' => nil,
+            'Disaster Relief/Support' => nil,
             'Domestic Violence Hotline' => nil,
             'Domestic Violence Shelters' => nil,
             'Personal Safety Items' => nil
-          }
+          },
+          'Crisis' => nil
         },
         'Employment & Jobs' => {
-          'Job Placement & Skill Assessment' => nil,
+          'Job Placement' => nil,
           'Supported Employment' => nil,
           'Work Expenses' => nil,
           'Workplace Rights' => nil,
@@ -495,7 +746,12 @@ namespace :onetime do
             'Interview Training' => nil,
             'Resume Development' => nil,
             'Specialized Training' => nil
-          }
+          },
+          'Youth Leadership' => nil,
+          'Youth-Led Philanthropy' => nil,
+          'Youth Jobs' => nil,
+          'Career Awareness' => nil,
+          'Skill Building' => nil
         },
         'Finances & Benefits' => {
           'Childcare Financial Assistance' => nil,
@@ -514,13 +770,14 @@ namespace :onetime do
             'Unemployment Benefits' => nil
           },
           'Healthcare Financial Assistance' => {
+            'Free Health Clinics' => nil,
             'Disability Benefits' => nil,
             'Discounted Healthcare' => nil,
             'Health Insurance' => nil,
             'Prescription Assistance' => nil
           },
           'Housing Financial Assistance' => {
-            'Utilities Financial Assistance' => nil,
+            'Discount Utilities' => nil,
             'Home & Renters Insurance' => nil
           },
           'Insurance' => {
@@ -530,13 +787,14 @@ namespace :onetime do
         },
         'Health' => {
           'Dental Care' => nil,
-          'Drop-In Center' => nil,
+          'Drop-In Clinic' => nil,
           'Healthcare Transportation' => nil,
           'Health Insurance' => nil,
           'Hearing Tests' => nil,
           'Medical Supplies' => nil,
           'Traumatic Brain Injury' => nil,
           'Vision Care' => nil,
+          'SFUSD Wellness Centers' => nil,
           'Addiction & Recovery' => {
             '12-Step' => nil,
             'Detox' => nil,
@@ -563,7 +821,7 @@ namespace :onetime do
             'Safety Education' => nil,
             'Sex Education' => nil,
             'Understand Disability' => nil,
-            'Understand Mental Health' => nil,
+            'Mental Health Services' => nil,
             'Disease Management' => {
               'HIV Treatment' => nil
             }
@@ -592,6 +850,7 @@ namespace :onetime do
           },
           'Mental Health Care' => {
             'Anger Management' => nil,
+            'Depression' => nil,
             'Family Counseling' => nil,
             'Group Therapy' => nil,
             'Guardianship' => nil,
@@ -601,8 +860,11 @@ namespace :onetime do
             'Mental Health Medication' => nil,
             'Psychiatric Emergency Services' => nil,
             'Residential Treatment' => nil,
+            'Stress' => nil,
             'Substance Abuse Counseling' => nil,
-            'Understand Mental Health' => nil
+            'Suicide' => nil,
+            'Trauma' => nil,
+            'Mental Health Services' => nil
           },
           'Sexual & Reproductive Health' => {
             'Birth Control' => nil,
@@ -666,7 +928,8 @@ namespace :onetime do
           },
           'Translation & Interpretation' => {
             'English as a Second Language' => nil
-          }
+          },
+          'Family Legal Services' => nil
         },
         'LGBTQ' => nil,
         'MOHCD Funded' => nil,
@@ -678,7 +941,8 @@ namespace :onetime do
           },
           'Virtual Support' => {
             'Online' => nil
-          }
+          },
+          'Coding' => nil
         },
         'Transit' => {
           'ADA Transit' => nil,
@@ -716,5 +980,77 @@ namespace :onetime do
       parent_id: parent_id,
       child_id: child_id
     )
+  end
+
+  # STEP 6: Rename eligibilities to new names
+  desc 'ELIGIBILITY CLEANUP STEP 1: Rename eligibilities to new names'
+  task rename_eligibilities: :environment do
+    Eligibility.transaction do
+      renames = {
+        'Adults (31-54 years old)' => 'Adults',
+        'All Disabilities' => 'Disabled',
+        'Children (2-12 years old)' => 'Children (0-13 years old)',
+        'Families with Babies' => 'Families with Children',
+        'Infants (0-1 years old)' => 'Infants (0-2 years old)',
+        'Latino' => 'Latinx',
+        'Retirement' => 'Retired',
+        'Runaways' => 'Homeless Youth',
+        'San Francisco Residency' => 'San Francisco Residents',
+        'Seniors (55+ years old)' => 'Seniors',
+        'Students' => 'High School Students',
+        'Teens (13-19 years old)' => 'Teens (13-18 years old)',
+        'Transgender' => 'Transgender and Gender Non-Conforming',
+        'Transition Aged Youth' => 'Transition Aged Youth (18-24)',
+        'Men' => 'Male',
+        'Women' => 'Female'
+      }
+      renames.each do |old, new|
+        Eligibility.find_by(name: old)&.update(name: new)
+      end
+    end
+  end
+
+  # STEP 7: Add new eligibilities
+  desc 'ELIGIBILITY CLEANUP STEP 2: Add new eligibilities'
+  task add_new_eligibilities: :environment do
+    Eligibility.transaction do
+      eligibilities = [
+        'College Students',
+        'Continuing Education Students',
+        # SFFamilies eligibilities
+        'API (Asian/Pacific Islander)',
+        'Chinese',
+        'Filipino/a',
+        'Samoan',
+        'Pacific Islander',
+        'CIP (Children of Incarcerated Parents)',
+        'ESL/ELL (English Language Learner)',
+        'Special Needs/Disabilities',
+        'Middle School Students'
+      ]
+      eligibilities.each do |c|
+        Eligibility.find_or_create_by(name: c)
+      end
+    end
+  end
+
+  # Services should always have a corresponding schedule objects, even if they inherit from resource
+  # This task backfills missing schedule objects for some services
+  desc 'Add schedule objects to services that are missing them'
+  task add_missing_schedule_objects: :environment do
+    Schedule.transaction do
+      # Get services with no schedule objects
+      rogue_services = Service.joins('LEFT JOIN schedules '\
+          'ON services.id = schedules.service_id '\
+          'WHERE schedules.id is NULL')
+      rogue_services.each do |service|
+        puts format(
+          'Creating schedule object for service %<service_id>i',
+          service_id: service.service_id
+        )
+        Schedule.create(resource_id: nil, service_id: service.id)
+      end
+      puts format('Created %<num>i missing schedules', num: rogue_services.length)
+    end
   end
 end

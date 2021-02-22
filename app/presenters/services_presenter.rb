@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class ServicesPresenter < Jsonite
+  property :updated_at
   property :alternate_name
   property :application_process
   property :certified

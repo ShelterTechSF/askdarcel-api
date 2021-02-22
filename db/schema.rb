@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_11_012256) do
+ActiveRecord::Schema.define(version: 2021_02_14_012211) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,6 +104,8 @@ ActiveRecord::Schema.define(version: 2020_12_11_012256) do
     t.integer "service_id", null: false
     t.integer "category_id", null: false
     t.integer "feature_rank"
+    t.index ["category_id"], name: "index_categories_services_on_category_id"
+    t.index ["service_id"], name: "index_categories_services_on_service_id"
   end
 
   create_table "categories_sites", id: false, force: :cascade do |t|

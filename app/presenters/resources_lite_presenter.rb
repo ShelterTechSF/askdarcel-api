@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-class ResourcesPresenter < Jsonite
-  property :updated_at
+# Omit some redundant information while presenting subojects
+# e.g. services.
+class ResourcesLitePresenter < Jsonite
   property :alternate_name
   property :certified
   property :email
@@ -16,17 +17,8 @@ class ResourcesPresenter < Jsonite
   property :certified_at
   property :featured
   property :source_attribution
-  property(:services) do
-    # Filter services in Ruby to avoid ignoring prefetched rows and generating
-    # a new query.
-    approved_services = services.select(&:approved?)
-    ServicesPresenter.present(approved_services)
-  end
   property :schedule, with: SchedulesPresenter
   property :phones, with: PhonesPresenter
   property :addresses, with: AddressPresenter
   property :notes, with: NotesPresenter
-  property :categories, with: CategoryPresenter
-  property :ratings, with: RatingPresenter
-  # property :programs, with: ProgramsPresenter
 end

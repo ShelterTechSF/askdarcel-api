@@ -6,7 +6,7 @@ services:
   - docker
 
 rvm:
-- 2.5.0
+- 2.7.2
 
 cache: bundler
 
@@ -24,7 +24,7 @@ before_install:
   - nvm use 12
   # Update bundler because of breaking change
   # https://bundler.io/blog/2019/01/04/an-update-on-the-bundler-2-release.html
-  - gem install bundler -v '1.17.1'
+  - gem install bundler -v '2.2.15'
 
 install:
   # bundle install command copied from Travis's default install.bundler

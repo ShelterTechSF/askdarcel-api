@@ -44,7 +44,7 @@ after_success:
   - |
     echo Pushing Docker image to Docker Hub
     set -eo pipefail
-    if [[ -n "$TRAVIS_TAG" || "$SANITIZED_BRANCH" == "master" ]]; then
+    if [[ -n "$TRAVIS_TAG" || "$SANITIZED_BRANCH" == "master" && "$TRAVIS_PULL_REQUEST" == "false" ]]; then
       DOCKER_IMAGE="$REPO:${TRAVIS_TAG:-latest}"
       docker tag localimage "$DOCKER_IMAGE"
       docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"

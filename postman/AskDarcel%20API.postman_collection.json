@@ -1,8 +1,8 @@
 {
 	"info": {
-		"_postman_id": "1f00be4c-4f11-4604-be5c-9548c7b31ab4",
+		"_postman_id": "82560b98-a655-4d4e-9b11-b784f4de9583",
 		"name": "AskDarcel API",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
 	"item": [
 		{
@@ -124,16 +124,7 @@
 						"value": "application/json"
 					}
 				],
-				"url": {
-					"raw": "{{base_url}}/resources/1",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"resources",
-						"1"
-					]
-				}
+				"url": "{{base_url}}/resources/1"
 			},
 			"response": []
 		},
@@ -162,16 +153,7 @@
 						"value": "application/json"
 					}
 				],
-				"url": {
-					"raw": "{{base_url}}/services/1",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"services",
-						"1"
-					]
-				}
+				"url": "{{base_url}}/services/1"
 			},
 			"response": []
 		},
@@ -181,7 +163,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "27b25cdd-5e05-4709-9fac-94a0e15c53a7",
 						"exec": [
 							"tests[\"Response time is less than 200ms\"] = responseTime < 2000;",
 							"",
@@ -201,16 +182,7 @@
 						"value": "application/json"
 					}
 				],
-				"url": {
-					"raw": "{{base_url}}/services/1",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"services",
-						"1"
-					]
-				}
+				"url": "{{base_url}}/services/1"
 			},
 			"response": []
 		},
@@ -220,7 +192,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "3097519a-6085-408d-8250-08e3f2185fee",
 						"exec": [
 							"tests[\"Response time is less than 200ms\"] = responseTime < 2000;",
 							"",
@@ -240,16 +211,7 @@
 						"value": "application/json"
 					}
 				],
-				"url": {
-					"raw": "{{base_url}}/services/1",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"services",
-						"1"
-					]
-				}
+				"url": "{{base_url}}/services/1"
 			},
 			"response": []
 		},
@@ -259,7 +221,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "9f97aeb5-5a84-43a7-bc36-c995f4147e17",
 						"exec": [
 							"tests[\"Response time is less than 200ms\"] = responseTime < 2000;",
 							"",
@@ -279,16 +240,7 @@
 						"value": "application/json"
 					}
 				],
-				"url": {
-					"raw": "{{base_url}}/services/1",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"services",
-						"1"
-					]
-				}
+				"url": "{{base_url}}/services/1"
 			},
 			"response": []
 		},
@@ -298,7 +250,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "d7cfa5be-cc21-4c19-8201-033c721da8f2",
 						"exec": [
 							"tests[\"Response time is less than 200ms\"] = responseTime < 2000;",
 							"",
@@ -318,16 +269,7 @@
 						"value": "application/json"
 					}
 				],
-				"url": {
-					"raw": "{{base_url}}/services/1",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"services",
-						"1"
-					]
-				}
+				"url": "{{base_url}}/services/1"
 			},
 			"response": []
 		},
@@ -356,16 +298,7 @@
 						"value": "application/json"
 					}
 				],
-				"url": {
-					"raw": "{{base_url}}/services/1",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"services",
-						"1"
-					]
-				}
+				"url": "{{base_url}}/services/1"
 			},
 			"response": []
 		},
@@ -394,16 +327,7 @@
 						"value": "application/json"
 					}
 				],
-				"url": {
-					"raw": "{{base_url}}/services/1",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"services",
-						"1"
-					]
-				}
+				"url": "{{base_url}}/services/1"
 			},
 			"response": []
 		},
@@ -475,16 +399,7 @@
 						"value": "application/json"
 					}
 				],
-				"url": {
-					"raw": "{{base_url}}/services/count",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"services",
-						"count"
-					]
-				}
+				"url": "{{base_url}}/services/count"
 			},
 			"response": []
 		},
@@ -530,15 +445,7 @@
 						"value": "application/json"
 					}
 				],
-				"url": {
-					"raw": "{{base_url}}/categories",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"categories"
-					]
-				}
+				"url": "{{base_url}}/categories"
 			},
 			"response": []
 		},
@@ -584,15 +491,7 @@
 						"value": "application/json"
 					}
 				],
-				"url": {
-					"raw": "{{base_url}}/categories",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"categories"
-					]
-				}
+				"url": "{{base_url}}/categories"
 			},
 			"response": []
 		},
@@ -626,15 +525,7 @@
 						"value": "application/json"
 					}
 				],
-				"url": {
-					"raw": "{{base_url}}/eligibilities",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"eligibilities"
-					]
-				}
+				"url": "{{base_url}}/eligibilities"
 			},
 			"response": []
 		},
@@ -715,16 +606,7 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": {
-					"raw": "{{base_url}}/eligibilities/featured",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"eligibilities",
-						"featured"
-					]
-				}
+				"url": "{{base_url}}/eligibilities/featured"
 			},
 			"response": []
 		},
@@ -767,16 +649,7 @@
 					"mode": "raw",
 					"raw": "{\n\t\"feature_rank\": 2\n}"
 				},
-				"url": {
-					"raw": "{{base_url}}/eligibilities/1",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"eligibilities",
-						"1"
-					]
-				}
+				"url": "{{base_url}}/eligibilities/1"
 			},
 			"response": []
 		},
@@ -819,16 +692,7 @@
 					"mode": "raw",
 					"raw": "{\n\t\"feature_rank\": 1\n}"
 				},
-				"url": {
-					"raw": "{{base_url}}/eligibilities/1",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"eligibilities",
-						"1"
-					]
-				}
+				"url": "{{base_url}}/eligibilities/1"
 			},
 			"response": []
 		},
@@ -930,17 +794,7 @@
 					"mode": "raw",
 					"raw": "{  \n\t\"change_request\" : {\n\t\t\"website\" : \"www.google.com\"\n\t}\n}"
 				},
-				"url": {
-					"raw": "{{base_url}}/resources/1/change_requests",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"resources",
-						"1",
-						"change_requests"
-					]
-				}
+				"url": "{{base_url}}/resources/1/change_requests"
 			},
 			"response": []
 		},
@@ -975,17 +829,7 @@
 					"mode": "raw",
 					"raw": "{  \n\t\"change_request\" : {\n\t\t\"name\" : \"newname\"\n\t}\n}"
 				},
-				"url": {
-					"raw": "{{base_url}}/services/1/change_requests",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"services",
-						"1",
-						"change_requests"
-					]
-				}
+				"url": "{{base_url}}/services/1/change_requests"
 			},
 			"response": []
 		},
@@ -1020,17 +864,7 @@
 					"mode": "raw",
 					"raw": "{  \n\t\"change_request\" : {\n\t\t\"opens_at\" : \"1000\"\n\t}\n}"
 				},
-				"url": {
-					"raw": "{{base_url}}/schedule_days/1/change_requests",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"schedule_days",
-						"1",
-						"change_requests"
-					]
-				}
+				"url": "{{base_url}}/schedule_days/1/change_requests"
 			},
 			"response": []
 		},
@@ -1065,17 +899,7 @@
 					"mode": "raw",
 					"raw": "{  \n\t\"change_request\" : {\n\t\t\"note\" : \"newnote\"\n\t}\n}"
 				},
-				"url": {
-					"raw": "{{base_url}}/notes/1/change_requests",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"notes",
-						"1",
-						"change_requests"
-					]
-				}
+				"url": "{{base_url}}/notes/1/change_requests"
 			},
 			"response": []
 		},
@@ -1110,17 +934,7 @@
 					"mode": "raw",
 					"raw": "{  \n\t\"change_request\" : {\n\t\t\"number\" : \"4155555267\"\n\t}\n}"
 				},
-				"url": {
-					"raw": "{{base_url}}/phones/1/change_requests",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"phones",
-						"1",
-						"change_requests"
-					]
-				}
+				"url": "{{base_url}}/phones/1/change_requests"
 			},
 			"response": []
 		},
@@ -1155,17 +969,7 @@
 					"mode": "raw",
 					"raw": "{  \n\t\"change_request\" : {\n\t\t\"city\" : \"San Francisco\",\n\t\t\"state_province\" : \"CA\",\n\t\t\"address_1\" : \"140 Market Street\"\n\t}\n}"
 				},
-				"url": {
-					"raw": "{{base_url}}/addresses/1/change_requests",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"addresses",
-						"1",
-						"change_requests"
-					]
-				}
+				"url": "{{base_url}}/addresses/1/change_requests"
 			},
 			"response": []
 		},
@@ -1200,17 +1004,7 @@
 					"mode": "raw",
 					"raw": "{\n  \"services\": [\n    {\n      \"name\": \"Foo Service\",\n      \"long_description\": \"Bar description\",\n      \"eligibility\": \"foo\",\n      \"required_documents\": \"bar\",\n      \"fee\": \"foo\",\n      \"application_process\": \"bar\",\n      \"schedule\": {\n        \"schedule_days\": [\n          {\n            \"day\": \"Friday\",\n            \"opens_at\": 9,\n            \"closes_at\": 17,\n            \"open_day\": \"Friday\",\n            \"open_time\": \"9:00:00\",\n            \"close_day\": \"Friday\",\n            \"close_time\": \"17:00:00\"\n          },\n          {\n            \"day\": \"Thursday\",\n            \"opens_at\": 9,\n            \"closes_at\": 17,\n            \"open_day\": \"Thursday\",\n            \"open_time\": \"9:00:00\",\n            \"close_day\": \"Thursday\",\n            \"close_time\": \"17:00:00\"\n          },\n          {\n            \"day\": \"Wednesday\",\n            \"opens_at\": 9,\n            \"closes_at\": 17,\n            \"open_day\": \"Wednesday\",\n            \"open_time\": \"9:00:00\",\n            \"close_day\": \"Wednesday\",\n            \"close_time\": \"17:00:00\"            \n          },\n          {\n            \"day\": \"Tuesday\",\n            \"opens_at\": 11,\n            \"closes_at\": 19,\n            \"open_day\": \"Tuesday\",\n            \"open_time\": \"9:00:00\",\n            \"close_day\": \"Tuesday\",\n            \"close_time\": \"17:00:00\"  \n          },\n          {\n            \"day\": \"Monday\",\n            \"opens_at\": 11,\n            \"closes_at\": 19,\n            \"open_day\": \"Monday\",\n            \"open_time\": \"9:00:00\",\n            \"close_day\": \"Monday\",\n            \"close_time\": \"17:00:00\"  \n          }\n        ]\n      },\n      \"notes\": [\n        {\n          \"note\": \"foo\"\n        }\n      ],\n      \"categories\": [\n        {\n          \"id\": 3\n        }\n      ]\n    }\n  ]\n}"
 				},
-				"url": {
-					"raw": "{{base_url}}/resources/1/services",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"resources",
-						"1",
-						"services"
-					]
-				}
+				"url": "{{base_url}}/resources/1/services"
 			},
 			"response": []
 		},
@@ -1245,15 +1039,7 @@
 					"mode": "raw",
 					"raw": "{\"resources\":[{\"name\":\"Test new\",\"addresses\":[{\"address_1\":\"601 4th Street\",\"city\":\"San Francisco\",\"state_province\":\"CA\",\"country\":\"USA\",\"postal_code\":\"49032\"}],\"long_description\":\"test\",\"email\":\"test@test.com\",\"website\":\"test.com\",\"notes\":[],\"schedule\":{\"schedule_days\":[{\"day\":\"Monday\",\"opens_at\":900,\"closes_at\":1000,\"open_time\":\"09:00:00\",\"open_day\":\"Monday\",\"close_time\":\"10:00:00\",\"close_day\":\"Monday\"},{\"day\":\"Tuesday\",\"opens_at\":100,\"closes_at\":1000,\"open_time\":\"09:00:00\",\"open_day\":\"Tuesday\",\"close_time\":\"10:00:00\",\"close_day\":\"Tuesday\"}]},\"phones\":[{\"number\":\"4155555555\",\"service_type\":\"English\"}],\"sites\":[{\"id\":2}]\n}]}"
 				},
-				"url": {
-					"raw": "{{base_url}}/resources",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"resources"
-					]
-				}
+				"url": "{{base_url}}/resources"
 			},
 			"response": []
 		},
@@ -1288,15 +1074,7 @@
 					"mode": "raw",
 					"raw": "{\"resources\":[{\"name\":\"Test new\",\"addresses\":[{\"address_1\":\"601 4th Street\",\"city\":\"San Francisco\",\"state_province\":\"CA\",\"country\":\"USA\",\"postal_code\":\"49032\"}],\"long_description\":\"test\",\"email\":\"test@test.com\",\"website\":\"test.com\",\"notes\":[],\"schedule\":{\"schedule_days\":[{\"day\":\"Monday\",\"opens_at\":900,\"closes_at\":1000,\"open_time\":\"09:00:00\",\"open_day\":\"Monday\",\"close_time\":\"10:00:00\",\"close_day\":\"Monday\"},{\"day\":\"Tuesday\",\"opens_at\":100,\"closes_at\":1000,\"open_time\":\"09:00:00\",\"open_day\":\"Tuesday\",\"close_time\":\"10:00:00\",\"close_day\":\"Tuesday\"}]},\"phones\":[{\"number\":\"4155555555\",\"service_type\":\"English\"}]\n}]}"
 				},
-				"url": {
-					"raw": "{{base_url}}/resources",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"resources"
-					]
-				}
+				"url": "{{base_url}}/resources"
 			},
 			"response": []
 		},
@@ -1331,15 +1109,7 @@
 					"mode": "raw",
 					"raw": "{\"resources\":[{\"name\":\"Test new\",\"addresses\":[{\"address_1\":\"601 4th Street\",\"city\":\"San Francisco\",\"state_province\":\"CA\",\"country\":\"USA\",\"postal_code\":\"49032\"},{\"address_1\":\"636 4th Street\",\"city\":\"San Francisco\",\"state_province\":\"CA\",\"country\":\"USA\",\"postal_code\":\"49032\"}],\"long_description\":\"test\",\"email\":\"test@test.com\",\"website\":\"test.com\",\"notes\":[],\"schedule\":{\"schedule_days\":[{\"day\":\"Monday\",\"opens_at\":900,\"closes_at\":1000,\"open_time\":\"09:00:00\",\"open_day\":\"Monday\",\"close_time\":\"10:00:00\",\"close_day\":\"Monday\"},{\"day\":\"Tuesday\",\"opens_at\":100,\"closes_at\":1000,\"open_time\":\"09:00:00\",\"open_day\":\"Tuesday\",\"close_time\":\"10:00:00\",\"close_day\":\"Tuesday\"}]},\"phones\":[{\"number\":\"4155555555\",\"service_type\":\"English\"}]\n}]}"
 				},
-				"url": {
-					"raw": "{{base_url}}/resources",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"resources"
-					]
-				}
+				"url": "{{base_url}}/resources"
 			},
 			"response": []
 		},
@@ -1374,17 +1144,7 @@
 					"mode": "raw",
 					"raw": "{  \n\t\"note\" : {\n\t\t\"note\" : \"harro\"\n\t}\n}"
 				},
-				"url": {
-					"raw": "{{base_url}}/services/1/notes",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"services",
-						"1",
-						"notes"
-					]
-				}
+				"url": "{{base_url}}/services/1/notes"
 			},
 			"response": []
 		},
@@ -1419,17 +1179,7 @@
 					"mode": "raw",
 					"raw": "{  \n\t\"note\" : {\n\t\t\"note\" : \"harro\"\n\t}\n}"
 				},
-				"url": {
-					"raw": "{{base_url}}/resources/1/notes",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"resources",
-						"1",
-						"notes"
-					]
-				}
+				"url": "{{base_url}}/resources/1/notes"
 			},
 			"response": []
 		},
@@ -1464,16 +1214,7 @@
 					"mode": "raw",
 					"raw": ""
 				},
-				"url": {
-					"raw": "{{base_url}}/notes/1",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"notes",
-						"1"
-					]
-				}
+				"url": "{{base_url}}/notes/1"
 			},
 			"response": []
 		},
@@ -1508,16 +1249,42 @@
 					"mode": "raw",
 					"raw": ""
 				},
-				"url": {
-					"raw": "{{base_url}}/phones/1",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"phones",
-						"1"
-					]
+				"url": "{{base_url}}/phones/1"
+			},
+			"response": []
+		},
+		{
+			"name": "Remove Existing Address",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
+							"",
+							"tests[\"Status code is 201\"] = responseCode.code === 201;"
+						],
+						"type": "text/javascript"
+					}
 				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \n\t\"change_request\": {\n        \"action\": \"remove\"\n\t}\n}"
+				},
+				"url": "{{base_url}}/addresses/1/change_requests"
 			},
 			"response": []
 		},
@@ -1552,15 +1319,7 @@
 					"mode": "raw",
 					"raw": "{  \n    \"change_request\": {\n        \"action\": \"insert\",\n        \"field_changes\": {\n            \"number\": \"(415) 555-5555\",\n            \"service_type\": \"general inquiries\"\n        }\n    },\n    \"type\": \"phones\",\n    \"parent_resource_id\": 1\n}"
 				},
-				"url": {
-					"raw": "{{base_url}}/change_requests",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"change_requests"
-					]
-				}
+				"url": "{{base_url}}/change_requests"
 			},
 			"response": []
 		},
@@ -1595,58 +1354,7 @@
 					"mode": "raw",
 					"raw": "{  \n\t\"change_request\": {\n        \"action\": \"insert\",\n        \"field_changes\": {\n            \"address_1\":\"601 4th Street\",\n            \"city\":\"San Francisco\",\n            \"state_province\":\"CA\",\n            \"country\":\"USA\",\n            \"postal_code\":\"49032\"\n        }\n\t},\n\t\"type\": \"addresses\",\n\t\"parent_resource_id\": 1\n}"
 				},
-				"url": {
-					"raw": "{{base_url}}/change_requests",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"change_requests"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Add Address to Resource",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
-							"",
-							"tests[\"Status code is 201\"] = responseCode.code === 201;"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{  \n\t\"change_request\": {\n        \"action\": \"insert\",\n        \"field_changes\": {\n            \"address_1\":\"601 4th Street\",\n            \"city\":\"San Francisco\",\n            \"state_province\":\"CA\",\n            \"country\":\"USA\",\n            \"postal_code\":\"49032\"\n        }\n\t},\n\t\"type\": \"addresses\",\n\t\"parent_resource_id\": 1\n}"
-				},
-				"url": {
-					"raw": "{{base_url}}/change_requests",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"change_requests"
-					]
-				}
+				"url": "{{base_url}}/change_requests"
 			},
 			"response": []
 		},
@@ -1681,15 +1389,7 @@
 					"mode": "raw",
 					"raw": "{  \n\t\"change_request\": {\n\t\t\"day\": \"Monday\",\n\t\t\"opens_at\" : \"1000\",\n\t\t\"closes_at\" : \"2000\"\n\t},\n\t\"type\": \"schedule_days\",\n\t\"schedule_id\": 1\n}"
 				},
-				"url": {
-					"raw": "{{base_url}}/change_requests",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"change_requests"
-					]
-				}
+				"url": "{{base_url}}/change_requests"
 			},
 			"response": []
 		},
@@ -1724,17 +1424,7 @@
 					"mode": "raw",
 					"raw": "{\n\t\"change_request\": {\n\t\t\"categories\": [\n\t\t\t{\"name\": \"Food\", \"id\": 2},\n\t\t\t{\"name\": \"Health\", \"id\": 3}\n\t\t]\n\t}\n}"
 				},
-				"url": {
-					"raw": "{{base_url}}/services/1/change_requests",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"services",
-						"1",
-						"change_requests"
-					]
-				}
+				"url": "{{base_url}}/services/1/change_requests"
 			},
 			"response": []
 		},
@@ -1773,16 +1463,7 @@
 						"value": "dev-admin@sheltertech.org"
 					}
 				],
-				"url": {
-					"raw": "{{base_url}}/resources/count",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"resources",
-						"count"
-					]
-				}
+				"url": "{{base_url}}/resources/count"
 			},
 			"response": []
 		},
@@ -1792,7 +1473,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "9fee45c6-9d64-40ba-83b3-68d78c4ac757",
 						"exec": [
 							"pm.test(\"Sending Empty Phone Number\", function () {",
 							"    const responseJson = pm.response.json();",
@@ -1817,15 +1497,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "{{base_url}}/textings",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"textings"
-					]
-				}
+				"url": "{{base_url}}/textings"
 			},
 			"response": []
 		},
@@ -1835,7 +1507,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "8d75a5ae-4603-41e9-99d7-728b58a1001d",
 						"exec": [
 							"pm.test(\"Sending with a phone number\", function () {",
 							"    pm.response.to.have.status(200);",
@@ -1857,15 +1528,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "{{base_url}}/textings",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"textings"
-					]
-				}
+				"url": "{{base_url}}/textings"
 			},
 			"response": []
 		}
@@ -2114,6 +1777,5 @@
 				]
 			}
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }

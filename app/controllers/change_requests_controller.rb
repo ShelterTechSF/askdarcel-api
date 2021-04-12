@@ -230,7 +230,6 @@ class ChangeRequestsController < ApplicationController
     object_id = change_request.object_id
     puts object_id
     field_change_hash = get_field_change_hash change_request
-
     if change_request.is_a? ServiceChangeRequest
       puts "ServiceChangeRequest"
       service = Service.find(change_request.object_id)
@@ -256,14 +255,19 @@ class ChangeRequestsController < ApplicationController
     elsif change_request.is_a? AddressChangeRequest
       puts "AddressChangeRequest"
       address = Address.find(change_request.object_id)
-      
-      a = geocode_address address
-      unless a.nil?
-        field_change_hash["latitude"] = a.latitude
+      if address && field_change_hash["action"] == "remove"
+        address.delete
+      else
+        a = geocode_address address
+        unless a.nil?
+          field_change_hash["latitude"] = a.latitude
+          field_change_hash["longitude"] = a.longitude 
         field_change_hash["longitude"] = a.longitude 
-      end
+          field_change_hash["longitude"] = a.longitude 
+        end
 
-      address.update field_change_hash
+        address.update field_change_hash
+      end
     else
       puts "invalid request"
     end

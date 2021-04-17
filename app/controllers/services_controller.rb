@@ -128,15 +128,11 @@ class ServicesController < ApplicationController
   end
 
   def addresses
-    if params[:service_id] && params[:address_id]
-      service = Service.find params[:service_id]
-      address = Address.find params[:address_id]
-      service.addresses << address
-      service.save!
-      render status: :created, json: { addresses: service.addresses}
-    else
-      render status: :precondition_failed
-    end
+    service = Service.find params[:service_id]
+    address = Address.find params[:address_id]
+    service.addresses << address
+    service.save!
+    render status: :created, json: { addresses: service.addresses }
   end
 
   private

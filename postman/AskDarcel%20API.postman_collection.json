@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "a56e7560-851f-4625-8c26-9bf74f761095",
+		"_postman_id": "04d60024-7618-4f3a-9257-15c0b6ff3958",
 		"name": "AskDarcel API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -1379,6 +1379,57 @@
 						"services",
 						"1",
 						"notes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Address to Service",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
+							"",
+							"tests[\"Status code is 201\"] = responseCode.code === 201;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_url}}/services/1/addresses?address_id=1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"services",
+						"1",
+						"addresses"
+					],
+					"query": [
+						{
+							"key": "address_id",
+							"value": "1"
+						}
 					]
 				}
 			},

@@ -127,6 +127,18 @@ class ServicesController < ApplicationController
     render json: Service.all.count
   end
 
+  def addresses
+    if params[:service_id] && params[:address_id]
+      service = Service.find params[:service_id]
+      address = Address.find params[:address_id]
+      service.addresses << address
+      service.save!
+      render status: :created, json: { addresses: service.addresses}
+    else
+      render status: :precondition_failed
+    end
+  end
+
   private
 
   def remove_from_algolia(service)

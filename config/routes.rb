@@ -47,7 +47,7 @@ Rails.application.routes.draw do
     resources :change_requests, only: :create
   end
   resources :addresses do
-    resources :change_requests, only: %i[create destroy]
+    resources :change_requests, only: :create
   end
   resources :schedule_days do
     resources :change_requests, only: :create

@@ -18,7 +18,12 @@ class ChangeRequestsController < ApplicationController
     elsif params[:service_id]
       @change_request = ServiceChangeRequest.create(object_id: params[:service_id], resource_id: Service.find(params[:service_id]).resource_id)
     elsif params[:address_id]
-      @change_request = AddressChangeRequest.create(object_id: params[:address_id], resource_id: Address.find(params[:address_id]).resource_id)
+      if params[:change_request][:action]
+        action_code = params[:change_request][:action] !~ /\D/ ? params[:change_request][:action].to_i : params[:change_request][:action]
+        @change_request = AddressChangeRequest.create(action: action_code, object_id: params[:address_id], resource_id: Address.find(params[:address_id]).resource_id)
+      else
+        @change_request = AddressChangeRequest.create(object_id: params[:address_id], resource_id: Address.find(params[:address_id]).resource_id)
+      end
     elsif params[:phone_id]
       resource_id = Phone.find(params[:phone_id]).resource_id
       @change_request = PhoneChangeRequest.create(object_id: params[:phone_id], resource_id: resource_id)
@@ -255,17 +260,14 @@ class ChangeRequestsController < ApplicationController
     elsif change_request.is_a? AddressChangeRequest
       puts "AddressChangeRequest"
       address = Address.find(change_request.object_id)
-      if address && field_change_hash["action"] == "remove"
+      if change_request.remove?
         address.delete
       else
         a = geocode_address address
         unless a.nil?
           field_change_hash["latitude"] = a.latitude
           field_change_hash["longitude"] = a.longitude 
-        field_change_hash["longitude"] = a.longitude 
-          field_change_hash["longitude"] = a.longitude 
         end
-
         address.update field_change_hash
       end
     else
@@ -324,6 +326,9 @@ class ChangeRequestsController < ApplicationController
       elsif name == "eligibilities"
         field_change_hash[:field_name] = "eligibility_ids"
         field_change_hash[:field_value] = value.map { |c| c[:id] }.to_json.to_s
+      elsif name == "action"
+        field_change_hash[:field_name] = name
+        field_change_hash[:field_value] = @change_request.action
       else
         field_change_hash[:field_name] = name
         field_change_hash[:field_value] = value

@@ -1,8 +1,8 @@
 {
 	"info": {
-		"_postman_id": "82560b98-a655-4d4e-9b11-b784f4de9583",
+		"_postman_id": "1be9f563-d4a7-45cd-bad1-7cd7d584cc41",
 		"name": "AskDarcel API",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -124,7 +124,16 @@
 						"value": "application/json"
 					}
 				],
-				"url": "{{base_url}}/resources/1"
+				"url": {
+					"raw": "{{base_url}}/resources/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"resources",
+						"1"
+					]
+				}
 			},
 			"response": []
 		},
@@ -153,7 +162,16 @@
 						"value": "application/json"
 					}
 				],
-				"url": "{{base_url}}/services/1"
+				"url": {
+					"raw": "{{base_url}}/services/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"services",
+						"1"
+					]
+				}
 			},
 			"response": []
 		},
@@ -182,7 +200,16 @@
 						"value": "application/json"
 					}
 				],
-				"url": "{{base_url}}/services/1"
+				"url": {
+					"raw": "{{base_url}}/services/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"services",
+						"1"
+					]
+				}
 			},
 			"response": []
 		},
@@ -211,7 +238,16 @@
 						"value": "application/json"
 					}
 				],
-				"url": "{{base_url}}/services/1"
+				"url": {
+					"raw": "{{base_url}}/services/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"services",
+						"1"
+					]
+				}
 			},
 			"response": []
 		},
@@ -240,7 +276,16 @@
 						"value": "application/json"
 					}
 				],
-				"url": "{{base_url}}/services/1"
+				"url": {
+					"raw": "{{base_url}}/services/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"services",
+						"1"
+					]
+				}
 			},
 			"response": []
 		},
@@ -269,7 +314,16 @@
 						"value": "application/json"
 					}
 				],
-				"url": "{{base_url}}/services/1"
+				"url": {
+					"raw": "{{base_url}}/services/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"services",
+						"1"
+					]
+				}
 			},
 			"response": []
 		},
@@ -298,7 +352,16 @@
 						"value": "application/json"
 					}
 				],
-				"url": "{{base_url}}/services/1"
+				"url": {
+					"raw": "{{base_url}}/services/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"services",
+						"1"
+					]
+				}
 			},
 			"response": []
 		},
@@ -327,7 +390,16 @@
 						"value": "application/json"
 					}
 				],
-				"url": "{{base_url}}/services/1"
+				"url": {
+					"raw": "{{base_url}}/services/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"services",
+						"1"
+					]
+				}
 			},
 			"response": []
 		},
@@ -399,7 +471,16 @@
 						"value": "application/json"
 					}
 				],
-				"url": "{{base_url}}/services/count"
+				"url": {
+					"raw": "{{base_url}}/services/count",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"services",
+						"count"
+					]
+				}
 			},
 			"response": []
 		},
@@ -445,7 +526,15 @@
 						"value": "application/json"
 					}
 				],
-				"url": "{{base_url}}/categories"
+				"url": {
+					"raw": "{{base_url}}/categories",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"categories"
+					]
+				}
 			},
 			"response": []
 		},
@@ -491,7 +580,15 @@
 						"value": "application/json"
 					}
 				],
-				"url": "{{base_url}}/categories"
+				"url": {
+					"raw": "{{base_url}}/categories",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"categories"
+					]
+				}
 			},
 			"response": []
 		},
@@ -525,7 +622,15 @@
 						"value": "application/json"
 					}
 				],
-				"url": "{{base_url}}/eligibilities"
+				"url": {
+					"raw": "{{base_url}}/eligibilities",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"eligibilities"
+					]
+				}
 			},
 			"response": []
 		},
@@ -606,7 +711,16 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "{{base_url}}/eligibilities/featured"
+				"url": {
+					"raw": "{{base_url}}/eligibilities/featured",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"eligibilities",
+						"featured"
+					]
+				}
 			},
 			"response": []
 		},
@@ -649,7 +763,16 @@
 					"mode": "raw",
 					"raw": "{\n\t\"feature_rank\": 2\n}"
 				},
-				"url": "{{base_url}}/eligibilities/1"
+				"url": {
+					"raw": "{{base_url}}/eligibilities/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"eligibilities",
+						"1"
+					]
+				}
 			},
 			"response": []
 		},
@@ -692,7 +815,16 @@
 					"mode": "raw",
 					"raw": "{\n\t\"feature_rank\": 1\n}"
 				},
-				"url": "{{base_url}}/eligibilities/1"
+				"url": {
+					"raw": "{{base_url}}/eligibilities/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"eligibilities",
+						"1"
+					]
+				}
 			},
 			"response": []
 		},
@@ -794,7 +926,17 @@
 					"mode": "raw",
 					"raw": "{  \n\t\"change_request\" : {\n\t\t\"website\" : \"www.google.com\"\n\t}\n}"
 				},
-				"url": "{{base_url}}/resources/1/change_requests"
+				"url": {
+					"raw": "{{base_url}}/resources/1/change_requests",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"resources",
+						"1",
+						"change_requests"
+					]
+				}
 			},
 			"response": []
 		},
@@ -829,7 +971,17 @@
 					"mode": "raw",
 					"raw": "{  \n\t\"change_request\" : {\n\t\t\"name\" : \"newname\"\n\t}\n}"
 				},
-				"url": "{{base_url}}/services/1/change_requests"
+				"url": {
+					"raw": "{{base_url}}/services/1/change_requests",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"services",
+						"1",
+						"change_requests"
+					]
+				}
 			},
 			"response": []
 		},
@@ -864,7 +1016,17 @@
 					"mode": "raw",
 					"raw": "{  \n\t\"change_request\" : {\n\t\t\"opens_at\" : \"1000\"\n\t}\n}"
 				},
-				"url": "{{base_url}}/schedule_days/1/change_requests"
+				"url": {
+					"raw": "{{base_url}}/schedule_days/1/change_requests",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"schedule_days",
+						"1",
+						"change_requests"
+					]
+				}
 			},
 			"response": []
 		},
@@ -899,7 +1061,17 @@
 					"mode": "raw",
 					"raw": "{  \n\t\"change_request\" : {\n\t\t\"note\" : \"newnote\"\n\t}\n}"
 				},
-				"url": "{{base_url}}/notes/1/change_requests"
+				"url": {
+					"raw": "{{base_url}}/notes/1/change_requests",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"notes",
+						"1",
+						"change_requests"
+					]
+				}
 			},
 			"response": []
 		},
@@ -934,7 +1106,17 @@
 					"mode": "raw",
 					"raw": "{  \n\t\"change_request\" : {\n\t\t\"number\" : \"4155555267\"\n\t}\n}"
 				},
-				"url": "{{base_url}}/phones/1/change_requests"
+				"url": {
+					"raw": "{{base_url}}/phones/1/change_requests",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"phones",
+						"1",
+						"change_requests"
+					]
+				}
 			},
 			"response": []
 		},
@@ -969,7 +1151,17 @@
 					"mode": "raw",
 					"raw": "{  \n\t\"change_request\" : {\n\t\t\"city\" : \"San Francisco\",\n\t\t\"state_province\" : \"CA\",\n\t\t\"address_1\" : \"140 Market Street\"\n\t}\n}"
 				},
-				"url": "{{base_url}}/addresses/1/change_requests"
+				"url": {
+					"raw": "{{base_url}}/addresses/1/change_requests",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"addresses",
+						"1",
+						"change_requests"
+					]
+				}
 			},
 			"response": []
 		},
@@ -1004,7 +1196,17 @@
 					"mode": "raw",
 					"raw": "{\n  \"services\": [\n    {\n      \"name\": \"Foo Service\",\n      \"long_description\": \"Bar description\",\n      \"eligibility\": \"foo\",\n      \"required_documents\": \"bar\",\n      \"fee\": \"foo\",\n      \"application_process\": \"bar\",\n      \"schedule\": {\n        \"schedule_days\": [\n          {\n            \"day\": \"Friday\",\n            \"opens_at\": 9,\n            \"closes_at\": 17,\n            \"open_day\": \"Friday\",\n            \"open_time\": \"9:00:00\",\n            \"close_day\": \"Friday\",\n            \"close_time\": \"17:00:00\"\n          },\n          {\n            \"day\": \"Thursday\",\n            \"opens_at\": 9,\n            \"closes_at\": 17,\n            \"open_day\": \"Thursday\",\n            \"open_time\": \"9:00:00\",\n            \"close_day\": \"Thursday\",\n            \"close_time\": \"17:00:00\"\n          },\n          {\n            \"day\": \"Wednesday\",\n            \"opens_at\": 9,\n            \"closes_at\": 17,\n            \"open_day\": \"Wednesday\",\n            \"open_time\": \"9:00:00\",\n            \"close_day\": \"Wednesday\",\n            \"close_time\": \"17:00:00\"            \n          },\n          {\n            \"day\": \"Tuesday\",\n            \"opens_at\": 11,\n            \"closes_at\": 19,\n            \"open_day\": \"Tuesday\",\n            \"open_time\": \"9:00:00\",\n            \"close_day\": \"Tuesday\",\n            \"close_time\": \"17:00:00\"  \n          },\n          {\n            \"day\": \"Monday\",\n            \"opens_at\": 11,\n            \"closes_at\": 19,\n            \"open_day\": \"Monday\",\n            \"open_time\": \"9:00:00\",\n            \"close_day\": \"Monday\",\n            \"close_time\": \"17:00:00\"  \n          }\n        ]\n      },\n      \"notes\": [\n        {\n          \"note\": \"foo\"\n        }\n      ],\n      \"categories\": [\n        {\n          \"id\": 3\n        }\n      ]\n    }\n  ]\n}"
 				},
-				"url": "{{base_url}}/resources/1/services"
+				"url": {
+					"raw": "{{base_url}}/resources/1/services",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"resources",
+						"1",
+						"services"
+					]
+				}
 			},
 			"response": []
 		},
@@ -1039,7 +1241,15 @@
 					"mode": "raw",
 					"raw": "{\"resources\":[{\"name\":\"Test new\",\"addresses\":[{\"address_1\":\"601 4th Street\",\"city\":\"San Francisco\",\"state_province\":\"CA\",\"country\":\"USA\",\"postal_code\":\"49032\"}],\"long_description\":\"test\",\"email\":\"test@test.com\",\"website\":\"test.com\",\"notes\":[],\"schedule\":{\"schedule_days\":[{\"day\":\"Monday\",\"opens_at\":900,\"closes_at\":1000,\"open_time\":\"09:00:00\",\"open_day\":\"Monday\",\"close_time\":\"10:00:00\",\"close_day\":\"Monday\"},{\"day\":\"Tuesday\",\"opens_at\":100,\"closes_at\":1000,\"open_time\":\"09:00:00\",\"open_day\":\"Tuesday\",\"close_time\":\"10:00:00\",\"close_day\":\"Tuesday\"}]},\"phones\":[{\"number\":\"4155555555\",\"service_type\":\"English\"}],\"sites\":[{\"id\":2}]\n}]}"
 				},
-				"url": "{{base_url}}/resources"
+				"url": {
+					"raw": "{{base_url}}/resources",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"resources"
+					]
+				}
 			},
 			"response": []
 		},
@@ -1074,7 +1284,15 @@
 					"mode": "raw",
 					"raw": "{\"resources\":[{\"name\":\"Test new\",\"addresses\":[{\"address_1\":\"601 4th Street\",\"city\":\"San Francisco\",\"state_province\":\"CA\",\"country\":\"USA\",\"postal_code\":\"49032\"}],\"long_description\":\"test\",\"email\":\"test@test.com\",\"website\":\"test.com\",\"notes\":[],\"schedule\":{\"schedule_days\":[{\"day\":\"Monday\",\"opens_at\":900,\"closes_at\":1000,\"open_time\":\"09:00:00\",\"open_day\":\"Monday\",\"close_time\":\"10:00:00\",\"close_day\":\"Monday\"},{\"day\":\"Tuesday\",\"opens_at\":100,\"closes_at\":1000,\"open_time\":\"09:00:00\",\"open_day\":\"Tuesday\",\"close_time\":\"10:00:00\",\"close_day\":\"Tuesday\"}]},\"phones\":[{\"number\":\"4155555555\",\"service_type\":\"English\"}]\n}]}"
 				},
-				"url": "{{base_url}}/resources"
+				"url": {
+					"raw": "{{base_url}}/resources",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"resources"
+					]
+				}
 			},
 			"response": []
 		},
@@ -1109,7 +1327,15 @@
 					"mode": "raw",
 					"raw": "{\"resources\":[{\"name\":\"Test new\",\"addresses\":[{\"address_1\":\"601 4th Street\",\"city\":\"San Francisco\",\"state_province\":\"CA\",\"country\":\"USA\",\"postal_code\":\"49032\"},{\"address_1\":\"636 4th Street\",\"city\":\"San Francisco\",\"state_province\":\"CA\",\"country\":\"USA\",\"postal_code\":\"49032\"}],\"long_description\":\"test\",\"email\":\"test@test.com\",\"website\":\"test.com\",\"notes\":[],\"schedule\":{\"schedule_days\":[{\"day\":\"Monday\",\"opens_at\":900,\"closes_at\":1000,\"open_time\":\"09:00:00\",\"open_day\":\"Monday\",\"close_time\":\"10:00:00\",\"close_day\":\"Monday\"},{\"day\":\"Tuesday\",\"opens_at\":100,\"closes_at\":1000,\"open_time\":\"09:00:00\",\"open_day\":\"Tuesday\",\"close_time\":\"10:00:00\",\"close_day\":\"Tuesday\"}]},\"phones\":[{\"number\":\"4155555555\",\"service_type\":\"English\"}]\n}]}"
 				},
-				"url": "{{base_url}}/resources"
+				"url": {
+					"raw": "{{base_url}}/resources",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"resources"
+					]
+				}
 			},
 			"response": []
 		},
@@ -1144,7 +1370,17 @@
 					"mode": "raw",
 					"raw": "{  \n\t\"note\" : {\n\t\t\"note\" : \"harro\"\n\t}\n}"
 				},
-				"url": "{{base_url}}/services/1/notes"
+				"url": {
+					"raw": "{{base_url}}/services/1/notes",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"services",
+						"1",
+						"notes"
+					]
+				}
 			},
 			"response": []
 		},
@@ -1179,7 +1415,17 @@
 					"mode": "raw",
 					"raw": "{  \n\t\"note\" : {\n\t\t\"note\" : \"harro\"\n\t}\n}"
 				},
-				"url": "{{base_url}}/resources/1/notes"
+				"url": {
+					"raw": "{{base_url}}/resources/1/notes",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"resources",
+						"1",
+						"notes"
+					]
+				}
 			},
 			"response": []
 		},
@@ -1214,7 +1460,16 @@
 					"mode": "raw",
 					"raw": ""
 				},
-				"url": "{{base_url}}/notes/1"
+				"url": {
+					"raw": "{{base_url}}/notes/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"notes",
+						"1"
+					]
+				}
 			},
 			"response": []
 		},
@@ -1249,12 +1504,21 @@
 					"mode": "raw",
 					"raw": ""
 				},
-				"url": "{{base_url}}/phones/1"
+				"url": {
+					"raw": "{{base_url}}/phones/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"phones",
+						"1"
+					]
+				}
 			},
 			"response": []
 		},
 		{
-			"name": "Remove Existing Address",
+			"name": "Delete Address",
 			"event": [
 				{
 					"listen": "test",
@@ -1282,9 +1546,19 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{  \n\t\"change_request\": {\n        \"action\": \"remove\"\n\t}\n}"
+					"raw": "{  \n\t\"action\": \"2\"\n}"
 				},
-				"url": "{{base_url}}/addresses/1/change_requests"
+				"url": {
+					"raw": "{{base_url}}/addresses/10/change_requests",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"addresses",
+						"10",
+						"change_requests"
+					]
+				}
 			},
 			"response": []
 		},
@@ -1319,7 +1593,15 @@
 					"mode": "raw",
 					"raw": "{  \n    \"change_request\": {\n        \"action\": \"insert\",\n        \"field_changes\": {\n            \"number\": \"(415) 555-5555\",\n            \"service_type\": \"general inquiries\"\n        }\n    },\n    \"type\": \"phones\",\n    \"parent_resource_id\": 1\n}"
 				},
-				"url": "{{base_url}}/change_requests"
+				"url": {
+					"raw": "{{base_url}}/change_requests",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"change_requests"
+					]
+				}
 			},
 			"response": []
 		},
@@ -1354,7 +1636,15 @@
 					"mode": "raw",
 					"raw": "{  \n\t\"change_request\": {\n        \"action\": \"insert\",\n        \"field_changes\": {\n            \"address_1\":\"601 4th Street\",\n            \"city\":\"San Francisco\",\n            \"state_province\":\"CA\",\n            \"country\":\"USA\",\n            \"postal_code\":\"49032\"\n        }\n\t},\n\t\"type\": \"addresses\",\n\t\"parent_resource_id\": 1\n}"
 				},
-				"url": "{{base_url}}/change_requests"
+				"url": {
+					"raw": "{{base_url}}/change_requests",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"change_requests"
+					]
+				}
 			},
 			"response": []
 		},
@@ -1389,7 +1679,15 @@
 					"mode": "raw",
 					"raw": "{  \n\t\"change_request\": {\n\t\t\"day\": \"Monday\",\n\t\t\"opens_at\" : \"1000\",\n\t\t\"closes_at\" : \"2000\"\n\t},\n\t\"type\": \"schedule_days\",\n\t\"schedule_id\": 1\n}"
 				},
-				"url": "{{base_url}}/change_requests"
+				"url": {
+					"raw": "{{base_url}}/change_requests",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"change_requests"
+					]
+				}
 			},
 			"response": []
 		},
@@ -1424,7 +1722,17 @@
 					"mode": "raw",
 					"raw": "{\n\t\"change_request\": {\n\t\t\"categories\": [\n\t\t\t{\"name\": \"Food\", \"id\": 2},\n\t\t\t{\"name\": \"Health\", \"id\": 3}\n\t\t]\n\t}\n}"
 				},
-				"url": "{{base_url}}/services/1/change_requests"
+				"url": {
+					"raw": "{{base_url}}/services/1/change_requests",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"services",
+						"1",
+						"change_requests"
+					]
+				}
 			},
 			"response": []
 		},
@@ -1463,7 +1771,16 @@
 						"value": "dev-admin@sheltertech.org"
 					}
 				],
-				"url": "{{base_url}}/resources/count"
+				"url": {
+					"raw": "{{base_url}}/resources/count",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"resources",
+						"count"
+					]
+				}
 			},
 			"response": []
 		},
@@ -1497,7 +1814,15 @@
 						}
 					}
 				},
-				"url": "{{base_url}}/textings"
+				"url": {
+					"raw": "{{base_url}}/textings",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"textings"
+					]
+				}
 			},
 			"response": []
 		},
@@ -1528,7 +1853,15 @@
 						}
 					}
 				},
-				"url": "{{base_url}}/textings"
+				"url": {
+					"raw": "{{base_url}}/textings",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"textings"
+					]
+				}
 			},
 			"response": []
 		}

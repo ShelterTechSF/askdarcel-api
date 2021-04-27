@@ -142,8 +142,7 @@ module ShelterTech
                                                                                   'My landlord told me I would get evicted and I need advice',
                                                                                   'I have not been able to pay my rent and I do not know what to do',
                                                                                   'I am not getting along with my neighbor(s) and /or my landlord and I need advice'])
-        create_new_pathway_categories_by_subcategory('Covid-health', 1_000_005, ['Coronavirus (COVID-19) Testing', 'Coronavirus-Related Urgent Care',
-                                                                                 'Other Medical Services', 'Mental Health Urgent Care', 'Other Mental Health Services'])
+        create_new_pathway_categories_by_subcategory('Covid-health', 1_000_005, ['Other Medical Services', 'Mental Health Urgent Care', 'Other Mental Health Services'])
         create_new_pathway_categories_by_subcategory('Covid-domesticviolence', 1_000_006, ['Temporary Shelter for Women',
                                                                                            'Transitional Housing for Women',
                                                                                            'Legal Assistance', 'Domestic Violence Counseling'])

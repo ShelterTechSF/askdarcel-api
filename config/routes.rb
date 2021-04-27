@@ -28,12 +28,12 @@ Rails.application.routes.draw do
 
     resources :change_requests, only: :create
     resources :services, only: :create
-    resources :feebacks, only: %i[create index]
+    resources :feedbacks, only: %i[create index]
   end
   resources :services do
     resources :change_requests, only: :create
     resources :notes, only: :create
-    resources :feedback, only: %i[create index]
+    resources :feedbacks, only: %i[create index]
     post :approve
     post :reject
     post :certify

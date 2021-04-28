@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "1be9f563-d4a7-45cd-bad1-7cd7d584cc41",
+		"_postman_id": "a56e7560-851f-4625-8c26-9bf74f761095",
 		"name": "AskDarcel API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -1546,7 +1546,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{  \n\t\"action\": \"2\"\n}"
+					"raw": "{  \n\t\"action\": \"remove\"\n}"
 				},
 				"url": {
 					"raw": "{{base_url}}/addresses/10/change_requests",

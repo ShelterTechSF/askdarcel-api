@@ -19,8 +19,13 @@ class ChangeRequestsController < ApplicationController
       @change_request = ServiceChangeRequest.create(object_id: params[:service_id], resource_id: Service.find(params[:service_id]).resource_id)
     elsif params[:address_id]
       if params[:change_request][:action]
-        action_code = params[:change_request][:action] !~ /\D/ ? params[:change_request][:action].to_i : params[:change_request][:action]
-        @change_request = AddressChangeRequest.create(action: action_code, object_id: params[:address_id], resource_id: Address.find(params[:address_id]).resource_id)
+        action_code = params[:change_request][:action]
+        if ['remove'].include?(action_code)
+          @change_request = AddressChangeRequest.create(action: action_code, object_id: params[:address_id], resource_id: Address.find(params[:address_id]).resource_id)
+        else
+          render status: :bad_request
+          return
+        end
       else
         @change_request = AddressChangeRequest.create(object_id: params[:address_id], resource_id: Address.find(params[:address_id]).resource_id)
       end

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "04d60024-7618-4f3a-9257-15c0b6ff3958",
+		"_postman_id": "b0fc3937-a87a-4eb4-a177-657622f497a5",
 		"name": "AskDarcel API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -1400,7 +1400,7 @@
 				}
 			],
 			"request": {
-				"method": "POST",
+				"method": "PUT",
 				"header": [
 					{
 						"key": "Accept",
@@ -1416,20 +1416,15 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{base_url}}/services/1/addresses?address_id=1",
+					"raw": "{{base_url}}/services/15/addresses/11",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"services",
-						"1",
-						"addresses"
-					],
-					"query": [
-						{
-							"key": "address_id",
-							"value": "1"
-						}
+						"15",
+						"addresses",
+						"11"
 					]
 				}
 			},

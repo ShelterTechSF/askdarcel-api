@@ -127,14 +127,6 @@ class ServicesController < ApplicationController
     render json: Service.all.count
   end
 
-  def addresses
-    service = Service.find params[:service_id]
-    address = Address.find params[:address_id]
-    service.addresses << address
-    service.save!
-    render status: :created, json: { addresses: service.addresses }
-  end
-
   private
 
   def remove_from_algolia(service)

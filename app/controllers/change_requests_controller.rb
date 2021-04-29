@@ -20,7 +20,7 @@ class ChangeRequestsController < ApplicationController
     elsif params[:address_id]
       if params[:change_request][:action]
         action_code = params[:change_request][:action]
-        if ['remove'].include?(action_code)
+        if action_code == 'remove'
           @change_request = AddressChangeRequest.create(action: action_code, object_id: params[:address_id], resource_id: Address.find(params[:address_id]).resource_id)
         else
           render status: :bad_request
@@ -266,7 +266,7 @@ class ChangeRequestsController < ApplicationController
       puts "AddressChangeRequest"
       address = Address.find(change_request.object_id)
       if change_request.remove?
-        address.delete
+        address.destroy
       else
         a = geocode_address address
         unless a.nil?

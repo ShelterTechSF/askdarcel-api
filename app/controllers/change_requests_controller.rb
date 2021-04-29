@@ -18,7 +18,17 @@ class ChangeRequestsController < ApplicationController
     elsif params[:service_id]
       @change_request = ServiceChangeRequest.create(object_id: params[:service_id], resource_id: Service.find(params[:service_id]).resource_id)
     elsif params[:address_id]
-      @change_request = AddressChangeRequest.create(object_id: params[:address_id], resource_id: Address.find(params[:address_id]).resource_id)
+      if params[:change_request][:action]
+        action_code = params[:change_request][:action]
+        if action_code == 'remove'
+          @change_request = AddressChangeRequest.create(action: action_code, object_id: params[:address_id], resource_id: Address.find(params[:address_id]).resource_id)
+        else
+          render status: :bad_request
+          return
+        end
+      else
+        @change_request = AddressChangeRequest.create(object_id: params[:address_id], resource_id: Address.find(params[:address_id]).resource_id)
+      end
     elsif params[:phone_id]
       resource_id = Phone.find(params[:phone_id]).resource_id
       @change_request = PhoneChangeRequest.create(object_id: params[:phone_id], resource_id: resource_id)
@@ -230,7 +240,6 @@ class ChangeRequestsController < ApplicationController
     object_id = change_request.object_id
     puts object_id
     field_change_hash = get_field_change_hash change_request
-
     if change_request.is_a? ServiceChangeRequest
       puts "ServiceChangeRequest"
       service = Service.find(change_request.object_id)
@@ -256,14 +265,16 @@ class ChangeRequestsController < ApplicationController
     elsif change_request.is_a? AddressChangeRequest
       puts "AddressChangeRequest"
       address = Address.find(change_request.object_id)
-      
-      a = geocode_address address
-      unless a.nil?
-        field_change_hash["latitude"] = a.latitude
-        field_change_hash["longitude"] = a.longitude 
+      if change_request.remove?
+        address.destroy
+      else
+        a = geocode_address address
+        unless a.nil?
+          field_change_hash["latitude"] = a.latitude
+          field_change_hash["longitude"] = a.longitude 
+        end
+        address.update field_change_hash
       end
-
-      address.update field_change_hash
     else
       puts "invalid request"
     end
@@ -320,6 +331,9 @@ class ChangeRequestsController < ApplicationController
       elsif name == "eligibilities"
         field_change_hash[:field_name] = "eligibility_ids"
         field_change_hash[:field_value] = value.map { |c| c[:id] }.to_json.to_s
+      elsif name == "action"
+        field_change_hash[:field_name] = name
+        field_change_hash[:field_value] = @change_request.action
       else
         field_change_hash[:field_name] = name
         field_change_hash[:field_value] = value

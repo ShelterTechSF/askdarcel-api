@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "1f00be4c-4f11-4604-be5c-9548c7b31ab4",
+		"_postman_id": "a56e7560-851f-4625-8c26-9bf74f761095",
 		"name": "AskDarcel API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -181,7 +181,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "27b25cdd-5e05-4709-9fac-94a0e15c53a7",
 						"exec": [
 							"tests[\"Response time is less than 200ms\"] = responseTime < 2000;",
 							"",
@@ -220,7 +219,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "3097519a-6085-408d-8250-08e3f2185fee",
 						"exec": [
 							"tests[\"Response time is less than 200ms\"] = responseTime < 2000;",
 							"",
@@ -259,7 +257,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "9f97aeb5-5a84-43a7-bc36-c995f4147e17",
 						"exec": [
 							"tests[\"Response time is less than 200ms\"] = responseTime < 2000;",
 							"",
@@ -298,7 +295,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "d7cfa5be-cc21-4c19-8201-033c721da8f2",
 						"exec": [
 							"tests[\"Response time is less than 200ms\"] = responseTime < 2000;",
 							"",
@@ -1522,6 +1518,51 @@
 			"response": []
 		},
 		{
+			"name": "Delete Address",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
+							"",
+							"tests[\"Status code is 201\"] = responseCode.code === 201;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \n\t\"action\": \"remove\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/addresses/10/change_requests",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"addresses",
+						"10",
+						"change_requests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Add Phone to Resource",
 			"event": [
 				{
@@ -1551,49 +1592,6 @@
 				"body": {
 					"mode": "raw",
 					"raw": "{  \n    \"change_request\": {\n        \"action\": \"insert\",\n        \"field_changes\": {\n            \"number\": \"(415) 555-5555\",\n            \"service_type\": \"general inquiries\"\n        }\n    },\n    \"type\": \"phones\",\n    \"parent_resource_id\": 1\n}"
-				},
-				"url": {
-					"raw": "{{base_url}}/change_requests",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"change_requests"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Add Address to Resource",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
-							"",
-							"tests[\"Status code is 201\"] = responseCode.code === 201;"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{  \n\t\"change_request\": {\n        \"action\": \"insert\",\n        \"field_changes\": {\n            \"address_1\":\"601 4th Street\",\n            \"city\":\"San Francisco\",\n            \"state_province\":\"CA\",\n            \"country\":\"USA\",\n            \"postal_code\":\"49032\"\n        }\n\t},\n\t\"type\": \"addresses\",\n\t\"parent_resource_id\": 1\n}"
 				},
 				"url": {
 					"raw": "{{base_url}}/change_requests",
@@ -1792,7 +1790,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "9fee45c6-9d64-40ba-83b3-68d78c4ac757",
 						"exec": [
 							"pm.test(\"Sending Empty Phone Number\", function () {",
 							"    const responseJson = pm.response.json();",
@@ -1835,7 +1832,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "8d75a5ae-4603-41e9-99d7-728b58a1001d",
 						"exec": [
 							"pm.test(\"Sending with a phone number\", function () {",
 							"    pm.response.to.have.status(200);",
@@ -2114,6 +2110,5 @@
 				]
 			}
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }

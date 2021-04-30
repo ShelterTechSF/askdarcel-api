@@ -34,6 +34,7 @@ Rails.application.routes.draw do
     resources :change_requests, only: :create
     resources :notes, only: :create
     resources :feedbacks, only: %i[create index]
+    resources :addresses, only: :update
     post :approve
     post :reject
     post :certify

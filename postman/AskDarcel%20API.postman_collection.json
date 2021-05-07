@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "b0fc3937-a87a-4eb4-a177-657622f497a5",
+		"_postman_id": "f002431c-1890-41c6-a302-80b93abb86db",
 		"name": "AskDarcel API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -1401,6 +1401,52 @@
 			],
 			"request": {
 				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_url}}/services/15/addresses/11",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"services",
+						"15",
+						"addresses",
+						"11"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove Address From Service",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
+							"",
+							"tests[\"Status code is 204\"] = responseCode.code === 204;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
 				"header": [
 					{
 						"key": "Accept",

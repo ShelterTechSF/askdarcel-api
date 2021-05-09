@@ -13,18 +13,28 @@ class ServicesController < ApplicationController
 
   def index
     # use SFSG as default site
-    # TODO: be able to parse both categories and eligibilities at once
-    if params[:category_id]
-      all_services = find_by_category(params[:category_id], @site_id_string)
-    elsif params[:eligibility_id]
-      all_services = find_by_eligibility(params[:eligibility_id], @site_id_string)
-    end
+    matching_services = find_services(
+      params[:category_id],
+      params[:eligibility_id],
+      @site_id_string
+    )
 
-    render json: ServicesWithResourceLitePresenter.present(all_services)
+    render json: ServicesWithResourceLitePresenter.present(matching_services)
   end
 
   def read_site_id_string
     @site_id_string = params[:site_id] || Site.find_by(site_code: 'sfsg').id.to_s
+  end
+
+  def find_services(category_id, eligibility_id, site_id)
+    # TODO: be able to parse both categories and eligibilities at once
+    if category_id
+      find_by_category(category_id, site_id)
+    elsif eligibility_id
+      find_by_eligibility(eligibility_id, site_id)
+    else
+      find_all(site_id)
+    end
   end
 
   # Include services if they:
@@ -257,5 +267,14 @@ class ServicesController < ApplicationController
       .joins("INNER JOIN (#{tag_counts_sanitized_sql})"\
              " AS n_tags_per_service ON services.id = n_tags_per_service.service_id")
       .order("n_tags_per_service.n_tags DESC, services.name ASC")
+  end
+
+  def find_all(user_input_site_id)
+    find_services_eager_load_resources
+      .joins("INNER JOIN resources_sites ON services.resource_id = resources_sites.resource_id")
+      .where(
+        "resources_sites.site_id = (?)",
+        user_input_site_id
+      )
   end
 end

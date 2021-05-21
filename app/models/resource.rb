@@ -111,6 +111,10 @@ class Resource < ActiveRecord::Base
           { number: p.number, service_type: p.service_type }
         end
       end
+
+      add_attribute :associated_sites do
+        sites.map(&:site_code)
+      end
     end
     # rubocop:enable Metrics/BlockLength
   end

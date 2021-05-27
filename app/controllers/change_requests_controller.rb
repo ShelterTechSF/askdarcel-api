@@ -89,7 +89,6 @@ class ChangeRequestsController < ApplicationController
         :city,
         :state_province,
         :postal_code,
-        :country,
         :online,
         :region,
         :name,
@@ -100,8 +99,7 @@ class ChangeRequestsController < ApplicationController
         :address_1, 
         :city, 
         :state_province, 
-        :postal_code, 
-        :country
+        :postal_code
       ]
       change_request_params = change_request.require(:field_changes).permit(permitted_fields)
       change_request_params.require(required_fields)

@@ -66,7 +66,6 @@ namespace :linksf do
       address.address_1 = location[:physical_address][:address_1]
       address.state_province = 'CA'
       address.postal_code = ''
-      address.country = 'USA'
 
       address.latitude = location[:latitude]
       address.longitude = location[:longitude]

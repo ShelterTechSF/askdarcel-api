@@ -164,7 +164,7 @@ class ServicesController < ApplicationController
       schedule: [{ schedule_days: %i[day opens_at closes_at open_time open_day close_time close_day] }],
       notes: [:note],
       categories: [:id],
-      addresses: %i[id address_1 city state_province postal_code country],
+      addresses: %i[id address_1 city state_province postal_code],
       eligibilities: [:id]
     )
   end

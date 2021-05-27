@@ -221,8 +221,7 @@ class ServicesController < ApplicationController
       .includes(
         resource: [
           :addresses, :phones, :categories, :notes,
-          schedule: :schedule_days,
-          ratings: [:review]
+          schedule: :schedule_days
         ]
       )
   end

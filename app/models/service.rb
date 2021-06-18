@@ -54,7 +54,7 @@ class Service < ActiveRecord::Base
               city: a.city,
               state_province: a.state_province,
               postal_code: a.postal_code,
-              country: a.country,
+              country: 'USA',
               address_1: a.address_1,
               latitude: a.latitude.to_f || nil,
               longitude: a.longitude.to_f || nil
@@ -66,7 +66,7 @@ class Service < ActiveRecord::Base
               city: a.city,
               state_province: a.state_province,
               postal_code: a.postal_code,
-              country: a.country,
+              country: 'USA',
               address_1: a.address_1,
               latitude: a.latitude.to_f || nil,
               longitude: a.longitude.to_f || nil

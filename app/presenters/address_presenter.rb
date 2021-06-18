@@ -11,7 +11,6 @@ class AddressPresenter < Jsonite
   property :city
   property :state_province
   property :postal_code
-  property :country
   property :latitude
   property :longitude
 end

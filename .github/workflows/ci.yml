@@ -25,6 +25,10 @@ jobs:
 
   test_unit:
     runs-on: ubuntu-latest
+    services:
+      db:
+        image: postgres:9.5
+        ports: ['5432:5432']
     steps:
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1

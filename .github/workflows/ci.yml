@@ -25,10 +25,14 @@ jobs:
 
   test_unit:
     runs-on: ubuntu-latest
+    env:
+      RAILS_ENV: test
     services:
       db:
         image: postgres:9.5
-        ports: [ 5432/tcp ]
+        ports: [ 5432:5432 ]
+        env:
+          POSTGRES_HOST_AUTH_METHOD: trust
     steps:
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1

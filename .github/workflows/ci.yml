@@ -11,6 +11,7 @@ on:
 
 env:
   RUBY_VERSION: 2.7
+  NODE_VERSION: 10.x
   RAILS_ENV: test
 
 jobs:

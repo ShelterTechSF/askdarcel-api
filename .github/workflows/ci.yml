@@ -61,4 +61,4 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       - run: yarn global add newman
-      - run: ./postman.sh
+      - run: ./travis/postman.sh

@@ -11,6 +11,7 @@ on:
 
 env:
   RUBY_VERSION: 2.7
+  RAILS_ENV: test
 
 jobs:
   lint:
@@ -25,8 +26,6 @@ jobs:
 
   test_unit:
     runs-on: ubuntu-latest
-    env:
-      RAILS_ENV: test
     services:
       db:
         image: postgres:9.5

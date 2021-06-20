@@ -13,6 +13,7 @@ env:
   RUBY_VERSION: 2.7
   NODE_VERSION: 10.x
   RAILS_ENV: test
+  TEXTELLENT_AUTH_CODE: ${{ secrets.TEXTELLENT_AUTH_CODE }}
 
 jobs:
   lint:

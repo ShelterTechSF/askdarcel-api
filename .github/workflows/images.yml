@@ -2,8 +2,14 @@
 name: build
 
 on:
+  workflow_run:
+    workflows: [testsuite]
+    types: [completed]
   push:
     branches: [ github-actions ]
+
+env:
+  DOCKER_REPO: lexholden
 
 jobs:
   build:
@@ -19,5 +25,5 @@ jobs:
       - uses: docker/build-push-action@v2
         with:
           push: true
-          tags: lexholden/askdarcel-api:latest
+          tags: ${{ env.DOCKER_REPO }}/askdarcel-api:latest
       - run: echo ${{ steps.docker_build.outputs.digest }}

@@ -5,11 +5,9 @@ on:
   workflow_run:
     workflows: [testsuite]
     types: [completed]
-  push:
-    branches: [ github-actions ]
 
 env:
-  DOCKER_REPO: lexholden
+  DOCKER_REPO: sheltertechsf
 
 jobs:
   build:

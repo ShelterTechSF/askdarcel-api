@@ -1,0 +1,63 @@
+# This workflow will do a clean install of node dependencies, and run linting and testing checks on the current branch
+name: testsuite
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  RUBY_VERSION: 2.7
+  NODE_VERSION: 10.x
+  RAILS_ENV: test
+  TEXTELLENT_AUTH_CODE: ${{ secrets.TEXTELLENT_AUTH_CODE }}
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+          bundler-cache: true
+      - run: bundle exec rake rubocop
+
+  test_unit:
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: postgres:9.5
+        ports: [ '5432:5432' ]
+        env:
+          POSTGRES_HOST_AUTH_METHOD: trust
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+          bundler-cache: true
+      - run: bundle exec rake db:create db:schema:load
+      - run: bundle exec rails swagger
+      - run: bundle exec rake spec
+
+  test_postman:
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: postgres:9.5
+        ports: [ '5432:5432' ]
+        env:
+          POSTGRES_HOST_AUTH_METHOD: trust
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+          bundler-cache: true
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - run: yarn global add newman
+      - run: ./travis/postman.sh

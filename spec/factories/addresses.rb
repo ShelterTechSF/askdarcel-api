@@ -13,6 +13,5 @@ FactoryBot.define do
     postal_code { Faker::Address.postcode }
     latitude { Faker::Number.between(37.78, 37.80) }
     longitude { Faker::Number.between(-122.41, -122.39) }
-    country { "USA" }
   end
 end

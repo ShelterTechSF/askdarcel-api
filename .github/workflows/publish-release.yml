@@ -19,7 +19,7 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: |
-            askdarcel-api
+            ${{ env.DOCKER_REPO }}/askdarcel-api
           tags: |
             type=semver,pattern={{version}}
       - uses: docker/setup-qemu-action@v1

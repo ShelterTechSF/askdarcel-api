@@ -140,6 +140,10 @@ class Service < ActiveRecord::Base
         end
       end
 
+      add_attribute :associated_sites do
+        resource.sites.map(&:site_code)
+      end
+
       # add_attribute :keywords do
       #   keywords.map(&:name)
       # end

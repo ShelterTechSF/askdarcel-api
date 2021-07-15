@@ -182,11 +182,23 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"tests[\"Response time is less than 200ms\"] = responseTime < 2000;",
+							"tests[\"Response time is less than 5000ms\"] = responseTime < 5000;",
 							"",
 							"tests[\"Status code is 200\"] = responseCode.code === 200;",
 							"",
-							"var response = pm.response.json();"
+							"var response = pm.response.json();",
+							"",
+							"pm.test(\"Services returned with proper schema\", function() {",
+							"    pm.expect(response.services.length).to.be.greaterThan(0);",
+							"    pm.expect(response.services[0]).to.include.all.keys('name','long_description','schedule','resource');",
+							"});",
+							"",
+							"pm.test(\"Services have at least one of the requested categories\", function () {",
+							"  var requestedCategories = pm.request.url.query.get('category_id').split(',').map(id_str => Number(id_str));",
+							"  response.services.forEach((service) => {",
+							"      pm.expect(service.categories.some(category => requestedCategories.includes(category.id))).to.be.true;",
+							"  });",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -194,60 +206,29 @@
 			],
 			"request": {
 				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json"
-					}
-				],
+				"header": [],
 				"url": {
-					"raw": "{{base_url}}/services/1",
+					"raw": "{{base_url}}/services?category_id=1,2&site_id=2",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"services",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get services by category",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"tests[\"Response time is less than 200ms\"] = responseTime < 2000;",
-							"",
-							"tests[\"Status code is 200\"] = responseCode.code === 200;",
-							"",
-							"var response = pm.response.json();"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json"
-					}
-				],
-				"url": {
-					"raw": "{{base_url}}/services/1",
-					"host": [
-						"{{base_url}}"
+						"services"
 					],
-					"path": [
-						"services",
-						"1"
+					"query": [
+						{
+							"key": "category_id",
+							"value": "1,2",
+							"description": "Comma-separated list of ids of categories (retrieve numeric ids from /categories)"
+						},
+						{
+							"key": "site_id",
+							"value": "2",
+							"description": "Site code id (1 for SFSG, 2 for SFFamilies) (defaults to SFSG)"
+						}
 					]
-				}
+				},
+				"description": "This retrieves all of the services with _any_ of the categories specified in the `category_id` comma-separated list.\n\nReturns a JSON object containing an array of `service`s, i.e.\n```\n{ \"services\": [ /* services here */ ] }\n```"
 			},
 			"response": []
 		},
@@ -258,11 +239,23 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"tests[\"Response time is less than 200ms\"] = responseTime < 2000;",
+							"tests[\"Response time is less than 5000ms\"] = responseTime < 5000;",
 							"",
 							"tests[\"Status code is 200\"] = responseCode.code === 200;",
 							"",
-							"var response = pm.response.json();"
+							"var response = pm.response.json();",
+							"",
+							"pm.test(\"Services returned with proper schema\", function() {",
+							"    pm.expect(response.services.length).to.be.greaterThan(0);",
+							"    pm.expect(response.services[0]).to.include.all.keys('name','long_description','schedule','resource');",
+							"});",
+							"",
+							"pm.test(\"Services have at least one of the requested eligibilities\", function () {",
+							"  var requestedEligibilities = pm.request.url.query.get('eligibility_id').split(',').map(id_str => Number(id_str));",
+							"  response.services.forEach((service) => {",
+							"      pm.expect(service.eligibilities.some(eligibility => requestedEligibilities.includes(eligibility.id))).to.be.true;",
+							"  });",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -270,37 +263,49 @@
 			],
 			"request": {
 				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json"
-					}
-				],
+				"header": [],
 				"url": {
-					"raw": "{{base_url}}/services/1",
+					"raw": "{{base_url}}/services?eligibility_id=1&site_id=1",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"services",
-						"1"
+						"services"
+					],
+					"query": [
+						{
+							"key": "eligibility_id",
+							"value": "1",
+							"description": "Comma-separated list of ids of eligibilities (retrieve numeric ids from /eligibilities)"
+						},
+						{
+							"key": "site_id",
+							"value": "1",
+							"description": "Site code id (1 for SFSG, 2 for SFFamilies) (defaults to SFSG)"
+						}
 					]
-				}
+				},
+				"description": "This retrieves all of the services with _any_ of the eligibilities specified in the `eligibility_id` comma-separated list.\n\nReturns a JSON object containing an array of `service`s, i.e.\n```\n{ \"services\": [ /* services here */ ] }\n```"
 			},
 			"response": []
 		},
 		{
-			"name": "Get services by eligibility",
+			"name": "Get services by site",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"tests[\"Response time is less than 200ms\"] = responseTime < 2000;",
+							"tests[\"Response time is less than 5000ms\"] = responseTime < 5000;",
 							"",
 							"tests[\"Status code is 200\"] = responseCode.code === 200;",
 							"",
-							"var response = pm.response.json();"
+							"var response = pm.response.json();",
+							"",
+							"pm.test(\"Services by site returned with proper schema\", function() {",
+							"    pm.expect(response.services.length).to.be.greaterThan(0);",
+							"    pm.expect(response.services[0]).to.include.all.keys('name','long_description','schedule','resource');",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -308,22 +313,24 @@
 			],
 			"request": {
 				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json"
-					}
-				],
+				"header": [],
 				"url": {
-					"raw": "{{base_url}}/services/1",
+					"raw": "{{base_url}}/services?site_id=1",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"services",
-						"1"
+						"services"
+					],
+					"query": [
+						{
+							"key": "site_id",
+							"value": "1",
+							"description": "Site code id (1 for SFSG, 2 for SFFamilies) (defaults to SFSG)"
+						}
 					]
-				}
+				},
+				"description": "This retrieves all of the services associated with the requested site.\n\nReturns a JSON object containing an array of `service`s, i.e.\n```\n{ \"services\": [ /* services here */ ] }\n```"
 			},
 			"response": []
 		},

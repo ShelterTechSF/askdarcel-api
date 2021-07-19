@@ -1590,6 +1590,40 @@
           "application/json"
         ]
       }
+    },
+    "/phones/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "examples": {
+              "application/json": {
+                    "id": "string",
+                    "number": "string",
+                    "extension": "string",
+                    "service_type": "string",
+                    "country_code": "string"
+              }
+            },
+            "description": "Phone Response"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "description": "Phone ID",
+            "required": true
+          }
+        ],
+        "tags": [
+          "phones"
+        ],
+        "summary": "Retrieves phone numbers by id",
+        "produces" : [
+          "application/json"
+        ]
+      }
     }
   }
 }

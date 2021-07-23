@@ -74,13 +74,11 @@ namespace :pitstops do
     note_h.note = ''
 
     geodata[:features].each do |location|
-      # individual address
       address = Address.new
       address.city = 'San Francisco'
       address.address_1 = location[:properties][:Name]
       address.state_province = 'CA'
       address.postal_code = ''
-      address.country = 'USA'
       address.latitude = location[:properties][:Latitude]
       address.longitude = location[:properties][:Longitude]
 

@@ -59,7 +59,7 @@ class Resource < ActiveRecord::Base
               city: a.city,
               state_province: a.state_province,
               postal_code: a.postal_code,
-              country: a.country,
+              country: 'USA',
               address_1: a.address_1,
               latitude: a.latitude.to_f || nil,
               longitude: a.longitude.to_f || nil
@@ -110,6 +110,10 @@ class Resource < ActiveRecord::Base
         phones.map do |p|
           { number: p.number, service_type: p.service_type }
         end
+      end
+
+      add_attribute :associated_sites do
+        sites.map(&:site_code)
       end
     end
     # rubocop:enable Metrics/BlockLength

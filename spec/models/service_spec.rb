@@ -3,6 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Service, type: :model do
+  # show the updated_at time
   it 'after each update, touches the updated_at time of the associated resource' do
     # In other words, confirm that relationship between service and resource
     # has `touch: true` set. Thus, whenever a service is changed, the

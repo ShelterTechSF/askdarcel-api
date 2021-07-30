@@ -119,13 +119,7 @@ module ShelterTech
       end
 
       def create_sites
-        sfsg = Site.new
-        sfsg.site_code = "sfsg"
-        sfsg.save!
-
-        sff = Site.new
-        sff.site_code = "sffamilies"
-        sff.save!
+        SiteCreator.create
       end
     end
 
@@ -306,6 +300,31 @@ module ShelterTech
         resources = Resource.all.sample(resource_count)
         resources.each do |resource|
           eligibility.services << resource.services.sample
+        end
+      end
+    end
+
+    # Creates the sfsg and sffamilies sites, then associates all resources with one or both.
+    module SiteCreator
+      def self.create
+        sfsg = Site.new
+        sfsg.site_code = "sfsg"
+        sfsg.save!
+
+        sff = Site.new
+        sff.site_code = "sffamilies"
+        sff.save!
+
+        associate_sites_with_resources([sfsg, sff])
+      end
+
+      def self.associate_sites_with_resources(sites)
+        Resource.all.each do |resource|
+          r = rand(sites.length + 1)
+          sites.each_with_index do |site, index|
+            # treat r == 0 as membership in all sites
+            site.resources << resource if r.zero? || r == index + 1
+          end
         end
       end
     end

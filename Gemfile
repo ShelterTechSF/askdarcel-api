@@ -1,7 +1,8 @@
 source 'https://rubygems.org'
 
 # adds a Swagger to API
-gem 'rswag'
+gem 'rswag-api'
+gem 'rswag-ui'
 
 # Rails/Framework
 gem 'rails'

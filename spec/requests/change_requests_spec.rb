@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'swagger_helper'
 
 RSpec.describe 'change_requests', type: :request do
-
   path '/resources/{resource_id}/change_requests' do
     # You'll want to customize the parameter types...
     parameter 'resource_id', in: :path, type: :string

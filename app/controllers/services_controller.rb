@@ -137,6 +137,31 @@ class ServicesController < ApplicationController
     render json: Service.all.count
   end
 
+  def site_code
+    params[:site_id] ? Site.find_by(id: params[:site_id]).site_code : "sfsg"
+  end
+
+  def eligibility_name
+    params[:eligibility_id] ? Eligibility.find_by(id: params[:eligibility_id].to_i).name : ""
+  end
+
+  def filter_string
+    if eligibility_name != ""
+      return format("associated_sites:'%<site_code>s' AND eligibilities:'%<eligibility_name>s' AND type: 'service'",
+                    site_code: site_code, eligibility_name: eligibility_name)
+    end
+
+    format("associated_sites:'%<site_code>s' AND type: 'service'", site_code: site_code)
+  end
+
+  # Use algolia search to get results.
+  def search
+    algolia_search_result = Service.index.search('', filters: filter_string, hitsPerPage: 1000)
+    matching_service_ids = algolia_search_result['hits'].map { |x| x['id'] }
+    matching_services = Service.where(id: matching_service_ids)
+    render json: ServicesWithResourceLitePresenter.present(matching_services)
+  end
+
   private
 
   def remove_from_algolia(service)

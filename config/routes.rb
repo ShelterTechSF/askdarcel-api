@@ -42,6 +42,7 @@ Rails.application.routes.draw do
       get :featured
       get :pending
       get :count
+      get :search
     end
   end
   resources :notes do

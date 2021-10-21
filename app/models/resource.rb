@@ -40,7 +40,7 @@ class Resource < ActiveRecord::Base
     # rubocop:disable Metrics/BlockLength
     algoliasearch index_name: "#{Rails.configuration.x.algolia.index_prefix}_services_search", id: :algolia_id do
       # specify the list of attributes available for faceting
-      attributesForFaceting %i[categories open_times eligibilities]
+      attributesForFaceting %i[categories open_times eligibilities associated_sites type]
       # Define attributes used to build an Algolia record
       add_attribute :_geoloc do
         if addresses.blank?

@@ -141,22 +141,34 @@ class ServicesController < ApplicationController
     params[:site_id] ? Site.find_by(id: params[:site_id]).site_code : "sfsg"
   end
 
-  def eligibility_name
-    params[:eligibility_id] ? Eligibility.find_by(id: params[:eligibility_id].to_i).name : ""
+  def eligibility_names
+    eligibilities = params[:eligibility_id].split(",")
+    Eligibility.where(["id in (?)", eligibilities]).map(&:name)
+  end
+
+  def category_names
+    categories = params[:category_id].split(",")
+    Category.where(["id in (?)", categories]).map(&:name)
+  end
+
+  def eligibilities_filter
+    eligibility_names.map { |name| "eligibilities:'" + name + "'<score=1>" }.join(" OR ")
+  end
+
+  def categories_filter
+    category_names.map { |name| "categories:'" + name + "'<score=1>" }.join(" OR ")
   end
 
   def filter_string
-    if eligibility_name != ""
-      return format("associated_sites:'%<site_code>s' AND eligibilities:'%<eligibility_name>s' AND type: 'service'",
-                    site_code: site_code, eligibility_name: eligibility_name)
-    end
-
-    format("associated_sites:'%<site_code>s' AND type: 'service'", site_code: site_code)
+    sites_service_string = format("associated_sites:'%<site_code>s' AND type: 'service'", site_code: site_code)
+    eligibility_string = params[:eligibility_id] ? (" AND (" + eligibilities_filter + ")") : ""
+    category_string = params[:category_id] ? (" AND (" + categories_filter + ")") : ""
+    sites_service_string + eligibility_string + category_string
   end
 
   # Use algolia search to get results.
   def search
-    algolia_search_result = Service.index.search('', filters: filter_string, hitsPerPage: 1000)
+    algolia_search_result = Service.index.search('', filters: filter_string, sumOrFiltersScores: true, hitsPerPage: 1000)
     matching_service_ids = algolia_search_result['hits'].map { |x| x['id'] }
     matching_services = Service.where(id: matching_service_ids)
     render json: ServicesWithResourceLitePresenter.present(matching_services)

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "54df5125-c1b5-4900-8fd9-9d25eb6a52a7",
+		"_postman_id": "fa7fc5dd-c24b-4480-abc2-46ff3c821120",
 		"name": "AskDarcel API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -517,7 +517,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/services/search?site_id=1",
+					"raw": "{{base_url}}/services?site_id=1",
 					"host": [
 						"{{base_url}}"
 					],
@@ -569,7 +569,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/services/search?eligibility_id=1&site_id=1",
+					"raw": "{{base_url}}/services?eligibility_id=1&site_id=1",
 					"host": [
 						"{{base_url}}"
 					],
@@ -581,6 +581,83 @@
 							"key": "eligibility_id",
 							"value": "1",
 							"description": "A single eligibility id"
+						},
+						{
+							"key": "site_id",
+							"value": "1",
+							"description": "Site code id (1 for SFSG, 2 for SFFamilies) (defaults to SFSG)"
+						}
+					]
+				},
+				"description": "This retrieves all of the services with _any_ of the eligibilities specified in the `eligibility_id` comma-separated list.\n\nReturns a JSON object containing an array of `service`s, i.e.\n```\n{ \"services\": [ /* services here */ ] }\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "Get services by category using algolia endpoint",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Response time is less than 5000ms\"] = responseTime < 5000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var response = pm.response.json();",
+							"",
+							"pm.test(\"Services returned with proper schema\", function() {",
+							"  pm.expect(response.services.length).to.be.greaterThan(0);",
+							"  pm.expect(response.services[0]).to.include.all.keys('name','long_description','schedule','resource');",
+							"});",
+							"",
+							"pm.test(\"Services have at least one of the requested categories\", function () {",
+							"  var requestedCategories = pm.request.url.query.get('category_id').split(',').map(id_str => Number(id_str));",
+							"  response.services.forEach((service) => {",
+							"    pm.expect(",
+							"      service.categories.some(",
+							"        category => requestedCategories.includes(category.id))).to.be.true;",
+							"  });",
+							"});",
+							"",
+							"pm.test(\"Services are ranked by number of matching categories\", function () {",
+							"  var requestedCategories = pm.request.url.query.get('category_id').split(',').map(id_str => Number(id_str));",
+							"  pm.expect(response.services.length > 0);",
+							"  var numMatchingCategories = (service) => {",
+							"    service.categories.filter(category => requestedCategories.includes(category.id)).length;",
+							"  };",
+							"  var maxMatchingCategories = numMatchingCategories(response.services[0]);",
+							"  response.services.forEach((service) => {",
+							"    var matching = numMatchingCategories(service);",
+							"    pm.expect(matching < maxMatchingCategories);",
+							"    // From here on out, the number of matching categories <= this one.",
+							"    if (matching < maxMatchingCategories) {",
+							"      maxMatchingCategories = matching;",
+							"    }",
+							"  });",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/services/search?category_id=1,154&site_id=1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"services",
+						"search"
+					],
+					"query": [
+						{
+							"key": "category_id",
+							"value": "1,154",
+							"description": "Comma-separated list of ids of categories (retrieve numeric ids from /categories)"
 						},
 						{
 							"key": "site_id",

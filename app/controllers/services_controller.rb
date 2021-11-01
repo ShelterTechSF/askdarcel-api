@@ -143,12 +143,12 @@ class ServicesController < ApplicationController
 
   def eligibility_names
     eligibilities = params[:eligibility_id].split(",")
-    Eligibility.where(["id in (?)", eligibilities]).map(&:name)
+    Eligibility.where(id: eligibilities).map(&:name)
   end
 
   def category_names
     categories = params[:category_id].split(",")
-    Category.where(["id in (?)", categories]).map(&:name)
+    Category.where(id: categories).map(&:name)
   end
 
   def eligibilities_filter
@@ -166,10 +166,32 @@ class ServicesController < ApplicationController
     sites_service_string + eligibility_string + category_string
   end
 
+  def algolia_query_geoloc
+    Service.index.search(
+      '',
+      filters: filter_string,
+      sumOrFiltersScores: true,
+      aroundLatLng: format("%<lat>s, %<long>s", lat: params[:lat], long: params[:long]),
+      hitsPerPage: 1000
+    )
+  end
+
+  def algolia_query
+    Service.index.search(
+      '',
+      filters: filter_string,
+      sumOrFiltersScores: true,
+      hitsPerPage: 1000
+    )
+  end
+
+  def algolia_search
+    params[:lat] && params[:long] ? algolia_query_geoloc : algolia_query
+  end
+
   # Use algolia search to get results.
   def search
-    algolia_search_result = Service.index.search('', filters: filter_string, sumOrFiltersScores: true, hitsPerPage: 1000)
-    matching_service_ids = algolia_search_result['hits'].map { |x| x['id'] }
+    matching_service_ids = algolia_search['hits'].map { |x| x['id'] }
     matching_services = Service.where(id: matching_service_ids)
     render json: ServicesWithResourceLitePresenter.present(matching_services)
   end

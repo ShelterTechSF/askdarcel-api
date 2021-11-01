@@ -517,7 +517,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/services?site_id=1",
+					"raw": "{{base_url}}/services/search?site_id=1",
 					"host": [
 						"{{base_url}}"
 					],
@@ -569,7 +569,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/services?eligibility_id=1&site_id=1",
+					"raw": "{{base_url}}/services/search?eligibility_id=1&site_id=1",
 					"host": [
 						"{{base_url}}"
 					],
@@ -594,7 +594,7 @@
 			"response": []
 		},
 		{
-			"name": "Get services by category using algolia endpoint",
+			"name": "Get services by multiple categories using algolia endpoint",
 			"event": [
 				{
 					"listen": "test",
@@ -650,8 +650,7 @@
 						"{{base_url}}"
 					],
 					"path": [
-						"services",
-						"search"
+						"services"
 					],
 					"query": [
 						{
@@ -663,6 +662,96 @@
 							"key": "site_id",
 							"value": "1",
 							"description": "Site code id (1 for SFSG, 2 for SFFamilies) (defaults to SFSG)"
+						}
+					]
+				},
+				"description": "This retrieves all of the services with _any_ of the eligibilities specified in the `eligibility_id` comma-separated list.\n\nReturns a JSON object containing an array of `service`s, i.e.\n```\n{ \"services\": [ /* services here */ ] }\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "Get services by category and geolocation using algolia endpoint",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Response time is less than 5000ms\"] = responseTime < 5000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var response = pm.response.json();",
+							"",
+							"pm.test(\"Services returned with proper schema\", function() {",
+							"    pm.expect(response.services.length).to.be.greaterThan(0);",
+							"    pm.expect(response.services[0]).to.include.all.keys('name','long_description','schedule','resource');",
+							"});",
+							"",
+							"pm.test(\"Services have at least one of the requested categories\", function () {",
+							"    var requestedCategories = pm.request.url.query.get('category_id').split(',').map(id_str => Number(id_str));",
+							"    response.services.forEach((service) => {",
+							"        pm.expect(",
+							"            service.categories.some(",
+							"                category => requestedCategories.includes(category.id))).to.be.true;",
+							"    });",
+							"});",
+							"",
+							"pm.test(\"Services are ranked by geolocation\", function () {",
+							"    var requestedLat = Number(pm.request.url.query.get('lat'));",
+							"    var requestedLong = Number(pm.request.url.query.get('long'));",
+							"    pm.expect(response.services.length > 0);",
+							"    var distFromLatLong = service => {",
+							"        var addresses = service.addresses.concat(service.resource.addresses);",
+							"        var address = addresses[0];",
+							"        var deltaLat = address.latitude - requestedLat;",
+							"        var deltaLong = address.longitude - requestedLong;",
+							"        return Math.sqrt(deltaLat * deltaLat + deltaLong * deltaLong);",
+							"    };",
+							"",
+							"    // The distance should increase with each successive service.",
+							"    var currentMinDist = distFromLatLong(response.services[0]);",
+							"    response.services.forEach(service => {",
+							"        var serviceDist = distFromLatLong(service);",
+							"        pm.expect(serviceDist).to.be.gte(currentMinDist);",
+							"        currentMinDist = Math.max(currentMinDist, serviceDist);",
+							"    });",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/services/search?category_id=1&site_id=1&lat=37.7843279&long=-122.4482159",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"services"
+					],
+					"query": [
+						{
+							"key": "category_id",
+							"value": "1",
+							"description": "Comma-separated list of ids of categories (retrieve numeric ids from /categories)"
+						},
+						{
+							"key": "site_id",
+							"value": "1",
+							"description": "Site code id (1 for SFSG, 2 for SFFamilies) (defaults to SFSG)"
+						},
+						{
+							"key": "lat",
+							"value": "37.7843279",
+							"description": "Latitude"
+						},
+						{
+							"key": "long",
+							"value": "-122.4482159",
+							"description": "Longitude"
 						}
 					]
 				},

@@ -191,9 +191,14 @@ class ServicesController < ApplicationController
 
   # Use algolia search to get results.
   def search
-    matching_service_ids = algolia_search['hits'].map { |x| x['id'] }
-    matching_services = Service.where(id: matching_service_ids)
-    render json: ServicesWithResourceLitePresenter.present(matching_services)
+    ordered_service_ids = algolia_search['hits'].map { |x| x['id'] }
+    # in the event where the Algolia index is out of sync with Rails,
+    # find the ids that exist first with `Service.where(id: query_ids).ids`,
+    # (`Service.find` will raise a RecordNotFound error otherwise)
+    existing_ids = Service.where(id: ordered_service_ids).ids
+    # we need to preserve the Algolia order of these ids, which `Service.where(id: X)` does not guarantee
+    matching_services = ordered_service_ids.filter_map { |id| Service.find(id) if existing_ids.include?(id) }
+    render json: { services: ServicesWithResourceLitePresenter.present(matching_services) }
   end
 
   private

@@ -8,7 +8,7 @@ on:
     branches: [ master ]
 
 env:
-  RUBY_VERSION: 2.7
+  RUBY_VERSION: 2.7.4
   NODE_VERSION: 16.x
   RAILS_ENV: test
   TEXTELLENT_AUTH_CODE: ${{ secrets.TEXTELLENT_AUTH_CODE }}

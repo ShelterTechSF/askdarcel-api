@@ -46,4 +46,6 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   config.lograge.enabled = true
+
+  config.hosts << 'askdarcel.lvh.me'
 end

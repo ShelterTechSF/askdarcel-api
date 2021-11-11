@@ -7,7 +7,7 @@ bundle exec rake db:setup db:populate
 
 bundle exec rails server &
 rails_pid=$!
-sleep 5  # Make sure server is up before continuing
+sleep 10  # Make sure server is up before continuing
 
 # Kill Rails process on exit
 trap "kill $rails_pid" EXIT

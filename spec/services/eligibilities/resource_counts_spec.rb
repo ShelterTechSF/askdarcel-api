@@ -29,7 +29,7 @@ RSpec.describe Eligibilities::ResourceCounts, type: :model do
       end
 
       # eligibility 3 and 4 associated with only first resource
-      e3, e4 = eligibilities[2..-1]
+      e3, e4 = eligibilities[2..]
       resources.take(1).each do |resource|
         resource.services.each { |s| e3.services << s }
         resource.services.each { |s| e4.services << s }

@@ -18,9 +18,9 @@ namespace :migrate do
                   end
 
       o_t = sch.opens_at.to_s.rjust(4, "0")
-      new_opens_at = "#{o_t[0..1]}:#{o_t[2..-1]}"
+      new_opens_at = "#{o_t[0..1]}:#{o_t[2..]}"
       c_t = sch.closes_at.to_s.rjust(4, "0")
-      new_closes_at = "#{c_t[0..1]}:#{c_t[2..-1]}"
+      new_closes_at = "#{c_t[0..1]}:#{c_t[2..]}"
 
       sch.update!(
         open_day: sch.day,

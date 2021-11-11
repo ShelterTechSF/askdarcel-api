@@ -48,7 +48,7 @@ namespace :sffamilies do
           next
         end
 
-        categories_and_eligibilities = row[2..-1]
+        categories_and_eligibilities = row[2..]
         # First identify the resource and service
         resource = Resource.find_by(name: resource_name)
         if resource.nil?

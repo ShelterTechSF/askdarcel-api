@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # spec/requests/services_spec.rb
-require 'swagger_helper'
 
 RSpec.describe 'Services API', type: :request, capture_examples: true do
   path '/services/{id}' do

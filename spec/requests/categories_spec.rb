@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # spec/integration/categories_spec.rb
-require 'swagger_helper'
 
 RSpec.describe 'Categories API', type: :request, capture_examples: true do
   path '/categories' do

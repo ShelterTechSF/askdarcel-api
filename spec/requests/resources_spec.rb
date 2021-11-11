@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # spec/requests/resources_spec.rb
-require "swagger_helper"
 
 RSpec.describe 'Resources', type: :request do
   context 'index' do

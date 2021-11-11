@@ -11,7 +11,7 @@ FactoryBot.define do
     city { Faker::Address.city }
     state_province { Faker::Address.state }
     postal_code { Faker::Address.postcode }
-    latitude { Faker::Number.between(37.78, 37.80) }
-    longitude { Faker::Number.between(-122.41, -122.39) }
+    latitude { Faker::Number.between(from: 37.78, to: 37.80) }
+    longitude { Faker::Number.between(from: -122.41, to: -122.39) }
   end
 end

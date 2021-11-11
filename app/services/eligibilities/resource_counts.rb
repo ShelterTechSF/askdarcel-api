@@ -26,9 +26,7 @@ module Eligibilities
       eligibility_to_resources = compute_eligibility_to_resources(eligibility_to_services, service_to_resource)
 
       # Compute map from eligibility to resource_id count
-      eligibility_to_resources.map do |eligibility_id, resource_ids|
-        [eligibility_id, resource_ids.size]
-      end.to_h
+      eligibility_to_resources.transform_values(&:size)
     end
 
     # Given a list of [eligibility_id, service_id] pairs, compute a hash that

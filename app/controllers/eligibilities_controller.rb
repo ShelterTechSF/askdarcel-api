@@ -70,12 +70,13 @@ class EligibilitiesController < ApplicationController
   private
 
   def render_update_error(error)
-    if error.is_a?(ActiveRecord::RecordNotFound)
+    case error
+    when ActiveRecord::RecordNotFound
       render status: :not_found, json: { error: error.message }
-    elsif error.is_a?(ActiveRecord::RecordNotUnique)
+    when ActiveRecord::RecordNotUnique
       error_msg = "Eligibility with name #{params[:name]} already exists"
       render status: :bad_request, json: { error: error_msg }
-    elsif error.is_a?(ActiveRecord::RecordInvalid)
+    when ActiveRecord::RecordInvalid
       render status: :bad_request, json: RecordInvalidPresenter.present(error)
     else
       render status: :internal_server_error, json: { error: 'Internal server error' }

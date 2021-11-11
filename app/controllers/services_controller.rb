@@ -59,8 +59,8 @@ class ServicesController < ApplicationController
     featured_services = services.includes(
       resource: [
         :addresses, :phones, :categories, :notes,
-        schedule: :schedule_days,
-        services: [:notes, :categories, :addresses, :eligibilities, { schedule: :schedule_days }]
+        { schedule: :schedule_days,
+          services: [:notes, :categories, :addresses, :eligibilities, { schedule: :schedule_days }] }
       ]
     ).where(featured_by_category_join_string, category_id)
 
@@ -91,8 +91,8 @@ class ServicesController < ApplicationController
     pending_services = services.includes(
       resource: [
         :addresses, :phones, :categories, :notes,
-        schedule: :schedule_days,
-        services: [:notes, :categories, :addresses, :eligibilities, { schedule: :schedule_days }]
+        { schedule: :schedule_days,
+          services: [:notes, :categories, :addresses, :eligibilities, { schedule: :schedule_days }] }
       ]
     ).pending
     render json: ServicesWithResourcePresenter.present(pending_services)
@@ -167,7 +167,7 @@ class ServicesController < ApplicationController
   def remove_from_algolia(service)
     service.remove_from_index!
   rescue StandardError
-    puts 'failed to remove rservice ' + service.id.to_s + ' from algolia index'
+    puts "failed to remove rservice #{service.id} from algolia index"
   end
 
   def services
@@ -256,7 +256,7 @@ class ServicesController < ApplicationController
       .includes(
         resource: [
           :addresses, :phones, :categories, :notes,
-          schedule: :schedule_days
+          { schedule: :schedule_days }
         ]
       )
   end

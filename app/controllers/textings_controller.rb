@@ -83,7 +83,7 @@ class TextingsController < ApplicationController
   end
 
   def generate_data(recipient_name, phone_number, categories, service_name, address)
-    data = {
+    {
       "firstName" => recipient_name,
       "lastName" => "",
       "mobilePhone" => phone_number,
@@ -102,7 +102,6 @@ class TextingsController < ApplicationController
         "Org_Phone" => address[:phone]
       }
     }
-    data
   end
 
   def get_db_data(recipient_name, phone_number, service_id)

@@ -53,17 +53,16 @@ class ResourcesController < ApplicationController
   private
 
   def get_all_resources(category_id)
-    relation = if category_id == "all"
-                 resources.where(status: Resource.statuses[:approved])
-               else
-                 # TODO: This can be simplified once we remove categories from resources
-                 resources
-                   .joins(:addresses)
-                   .where(categories_join_string, category_id, category_id)
-                   .where(status: Resource.statuses[:approved])
-                   .order(sort_order)
-               end
-    relation
+    if category_id == "all"
+      resources.where(status: Resource.statuses[:approved])
+    else
+      # TODO: This can be simplified once we remove categories from resources
+      resources
+        .joins(:addresses)
+        .where(categories_join_string, category_id, category_id)
+        .where(status: Resource.statuses[:approved])
+        .order(sort_order)
+    end
   end
 
   # Clean raw request params for interoperability with Rails APIs.
@@ -94,17 +93,17 @@ class ResourcesController < ApplicationController
   def remove_from_algolia(resource)
     resource.remove_from_index!
   rescue StandardError
-    puts 'failed to remove resource ' + resource.id.to_s + ' from algolia index'
+    puts "failed to remove resource #{resource.id} from algolia index"
   end
 
   def fix_lat_and_long(address)
     geo_code(address)
   rescue StandardError => e
-    puts 'google geocoding failed for new address ' + address.address_1 + ': ' + e.message
+    puts "google geocoding failed for new address #{address.address_1}: #{e.message}"
   end
 
   def geo_code(address)
-    a = Geokit::Geocoders::GoogleGeocoder.geocode address.address_1 + ',' + address.city + ',' + address.state_province
+    a = Geokit::Geocoders::GoogleGeocoder.geocode "#{address.address_1},#{address.city},#{address.state_province}"
     address.latitude = a.latitude
     address.longitude = a.longitude
   end
@@ -157,7 +156,7 @@ class ResourcesController < ApplicationController
   end
 
   def resources
-    # Note: We *must* use #preload instead of #includes to force Rails to make a
+    # NOTE: We *must* use #preload instead of #includes to force Rails to make a
     # separate query per table. Otherwise, it creates one large query with many
     # joins, which amplifies the amount of data being sent between Rails and the
     # DB by several orders of magnitude due to duplication of tuples.

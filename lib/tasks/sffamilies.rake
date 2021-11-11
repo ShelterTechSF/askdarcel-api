@@ -74,12 +74,12 @@ namespace :sffamilies do
               warn("Tag '#{category_or_eligibility}' not found in existing data")
             else
               # Don't add if the eligibility has already been added
-              new_eligibilities = new_eligibilities.append(found_eligibility) unless new_eligibilities.include?(found_eligibility)
+              new_eligibilities.append(found_eligibility) unless new_eligibilities.include?(found_eligibility)
               # Neither a category nor eligibility, log to stderr
             end
           else
             # Don't add if the category has already been added
-            new_categories = new_categories.append(found_category) unless new_categories.include?(found_category)
+            new_categories.append(found_category) unless new_categories.include?(found_category)
           end
         end
         new_categories_str = new_categories.map(&:name)

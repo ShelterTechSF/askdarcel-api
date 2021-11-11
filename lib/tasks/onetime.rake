@@ -2,8 +2,8 @@
 
 # Tasks that should be run once to alter data in production.
 
-require_relative "../../app/models/application_record.rb"
-require_relative "../../app/models/category_site.rb"
+require_relative "../../app/models/application_record"
+require_relative "../../app/models/category_site"
 
 namespace :onetime do
   # Add new categories.
@@ -490,10 +490,10 @@ namespace :onetime do
   def process_category_site(category, sites)
     cat_obj = Category.find_by(name: category)
     ## this shouldn't happen; data above is already vetted to exist in db
-    puts "Category " + category + " does not exist" if cat_obj.nil?
+    puts "Category #{category} does not exist" if cat_obj.nil?
     sites&.each do |site|
       site_obj = Site.find_by(site_code: site)
-      puts "Site " + site + " does not exist" if site_obj.nil?
+      puts "Site #{site} does not exist" if site_obj.nil?
       # associate the category with the appropriate site or sites
       CategoriesSites.find_or_create_by(
         category_id: cat_obj.id,
@@ -961,7 +961,7 @@ namespace :onetime do
     cat_obj = Category.find_by(name: category)
     if cat_obj.nil?
       ## this shouldn't happen; data above is already vetted to exist in db
-      puts "Category " + category + " does not exist"
+      puts "Category #{category} does not exist"
     end
     next_tier&.each do |child_category, next_next_tier|
       child_cat_obj = Category.find_by(name: child_category)

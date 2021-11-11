@@ -2,8 +2,8 @@
 
 # Tasks to add default site code of 'sfsg' to all existing resources and categories
 
-require_relative "../../app/models/application_record.rb"
-require_relative "../../app/models/resource_site.rb"
+require_relative "../../app/models/application_record"
+require_relative "../../app/models/resource_site"
 
 namespace :create_site do
   # create site_code of 'sfsg'

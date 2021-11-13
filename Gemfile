@@ -37,7 +37,7 @@ gem 'lograge'
 
 gem 'prometheus-client'
 
-gem 'rspec-rails', '~> 4.0'
+gem 'rspec-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a

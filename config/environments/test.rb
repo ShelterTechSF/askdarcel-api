@@ -48,4 +48,5 @@ Rails.application.configure do
   config.lograge.enabled = true
 
   config.hosts << 'askdarcel.lvh.me'
+  config.hosts << 'www.example.com'
 end

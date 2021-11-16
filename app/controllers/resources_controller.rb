@@ -61,6 +61,7 @@ class ResourcesController < ApplicationController
         .joins(:addresses)
         .where(categories_join_string, category_id, category_id)
         .where(status: Resource.statuses[:approved])
+        .order(sort_order)
     end
   end
 
@@ -165,7 +166,7 @@ class ResourcesController < ApplicationController
   end
 
   def sort_order
-    @sort_order ||= lat_lng ? Address.distance_sql(lat_lng) : :id
+    @sort_order ||= lat_lng ? Arel.sql(Address.distance_sql(lat_lng)) : :id
   end
 
   def lat_lng

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "54df5125-c1b5-4900-8fd9-9d25eb6a52a7",
+		"_postman_id": "fa7fc5dd-c24b-4480-abc2-46ff3c821120",
 		"name": "AskDarcel API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -586,6 +586,184 @@
 							"key": "site_id",
 							"value": "1",
 							"description": "Site code id (1 for SFSG, 2 for SFFamilies) (defaults to SFSG)"
+						}
+					]
+				},
+				"description": "This retrieves all of the services with _any_ of the eligibilities specified in the `eligibility_id` comma-separated list.\n\nReturns a JSON object containing an array of `service`s, i.e.\n```\n{ \"services\": [ /* services here */ ] }\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "Get services by multiple categories using algolia endpoint",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Response time is less than 5000ms\"] = responseTime < 5000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var response = pm.response.json();",
+							"",
+							"pm.test(\"Services returned with proper schema\", function() {",
+							"  pm.expect(response.services.length).to.be.greaterThan(0);",
+							"  pm.expect(response.services[0]).to.include.all.keys('name','long_description','schedule','resource');",
+							"});",
+							"",
+							"pm.test(\"Services have at least one of the requested categories\", function () {",
+							"  var requestedCategories = pm.request.url.query.get('category_id').split(',').map(id_str => Number(id_str));",
+							"  response.services.forEach((service) => {",
+							"    pm.expect(",
+							"      service.categories.some(",
+							"        category => requestedCategories.includes(category.id))).to.be.true;",
+							"  });",
+							"});",
+							"",
+							"pm.test(\"Services are ranked by number of matching categories\", function () {",
+							"  var requestedCategories = pm.request.url.query.get('category_id').split(',').map(id_str => Number(id_str));",
+							"  pm.expect(response.services.length > 0);",
+							"  var numMatchingCategories = (service) => {",
+							"    return service.categories.filter(category => requestedCategories.includes(category.id)).length;",
+							"  };",
+							"  var maxMatchingCategories = numMatchingCategories(response.services[0]);",
+							"  response.services.forEach((service) => {",
+							"    var matching = numMatchingCategories(service);",
+							"    pm.expect(matching).to.be.lte(maxMatchingCategories);",
+							"    // From here on out, the number of matching categories <= this one.",
+							"    maxMatchingCategories = Math.min(matching, maxMatchingCategories);",
+							"  });",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/services/search?category_id=1,184,101&site_id=1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"services"
+					],
+					"query": [
+						{
+							"key": "category_id",
+							"value": "1,184,101",
+							"description": "Comma-separated list of ids of categories (retrieve numeric ids from /categories)"
+						},
+						{
+							"key": "site_id",
+							"value": "1",
+							"description": "Site code id (1 for SFSG, 2 for SFFamilies) (defaults to SFSG)"
+						}
+					]
+				},
+				"description": "This retrieves all of the services with _any_ of the eligibilities specified in the `eligibility_id` comma-separated list.\n\nReturns a JSON object containing an array of `service`s, i.e.\n```\n{ \"services\": [ /* services here */ ] }\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "Get services by category and geolocation using algolia endpoint",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Response time is less than 5000ms\"] = responseTime < 5000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var response = pm.response.json();",
+							"",
+							"pm.test(\"Services returned with proper schema\", function() {",
+							"    pm.expect(response.services.length).to.be.greaterThan(0);",
+							"    pm.expect(response.services[0]).to.include.all.keys('name','long_description','schedule','resource');",
+							"});",
+							"",
+							"pm.test(\"Services have at least one of the requested categories\", function () {",
+							"    var requestedCategories = pm.request.url.query.get('category_id').split(',').map(id_str => Number(id_str));",
+							"    response.services.forEach((service) => {",
+							"        pm.expect(",
+							"            service.categories.some(",
+							"                category => requestedCategories.includes(category.id))).to.be.true;",
+							"    });",
+							"});",
+							"",
+							"// // Comment out this test for now. The test Algolia index lat/lng don't seem to match the addresses' lat/lng in services / resources.",
+							"// pm.test(\"Services are ranked by geolocation\", function () {",
+							"//     var requestedLat = Number(pm.request.url.query.get('lat'));",
+							"//     var requestedLong = Number(pm.request.url.query.get('long'));",
+							"//     pm.expect(response.services.length > 0);",
+							"//     // use the haversine formula https://www.movable-type.co.uk/scripts/latlong.html",
+							"//     var distFromLatLong = address => {",
+							"//         var svcTheta = address.latitude * Math.PI / 180.0;",
+							"//         var reqTheta = requestedLat * Math.PI / 180.0;",
+							"//         var deltaTheta = (requestedLat - address.latitude) * Math.PI / 180.0;",
+							"//         var deltaLambda = (requestedLong - address.longitude) * Math.PI / 180.0;",
+							"//         var a = Math.sin(deltaTheta / 2.0) * Math.sin(deltaTheta / 2.0)",
+							"//             + Math.cos(svcTheta) * Math.cos(reqTheta)",
+							"//             * Math.sin(deltaLambda / 2.0) * Math.sin(deltaLambda / 2.0);",
+							"//         var c = 2.0 * Math.atan2(Math.sqrt(a), Math.sqrt(1.0 - a));",
+							"//         return 6371e3 * c;",
+							"//     };",
+							"//     var rankedDistFromLatLong = service => {",
+							"//         var addresses = service.addresses;",
+							"//         if (addresses.length == 0)",
+							"//             addresses = [ service.resource.addresses[0] ];",
+							"//         return addresses.reduce((minDist, currAddress) => {",
+							"//             return Math.max(minDist, distFromLatLong(currAddress));",
+							"//         }, Number.MIN_SAFE_INTEGER);",
+							"//     };",
+							"",
+							"//     // The distance should increase with each successive service.",
+							"//     var currentMinDist = rankedDistFromLatLong(response.services[0]);",
+							"//     response.services.forEach(service => {",
+							"//         var serviceDist = rankedDistFromLatLong(service);",
+							"//         pm.expect(serviceDist).to.be.gte(currentMinDist);",
+							"//         currentMinDist = Math.max(currentMinDist, serviceDist);",
+							"//     });",
+							"// });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/services/search?category_id=1&site_id=1&lat=37.7843279&long=-122.4482159",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"services"
+					],
+					"query": [
+						{
+							"key": "category_id",
+							"value": "1",
+							"description": "Comma-separated list of ids of categories (retrieve numeric ids from /categories)"
+						},
+						{
+							"key": "site_id",
+							"value": "1",
+							"description": "Site code id (1 for SFSG, 2 for SFFamilies) (defaults to SFSG)"
+						},
+						{
+							"key": "lat",
+							"value": "37.7843279",
+							"description": "Latitude"
+						},
+						{
+							"key": "long",
+							"value": "-122.4482159",
+							"description": "Longitude"
 						}
 					]
 				},

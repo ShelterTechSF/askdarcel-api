@@ -151,12 +151,16 @@ class ServicesController < ApplicationController
     Category.where(id: categories).map(&:name)
   end
 
+  def tag_conjunction
+    params[:match_all_tags].nil? ? " OR " : " AND "
+  end
+
   def eligibilities_filter
-    params[:eligibility_id] ? eligibility_names.map { |name| "eligibilities:'" + name + "'<score=1>" }.join(" OR ") : ""
+    params[:eligibility_id] ? eligibility_names.map { |name| "eligibilities:'" + name + "'<score=1>" }.join(tag_conjunction) : ""
   end
 
   def categories_filter
-    params[:eligibility_id] ? category_names.map { |name| "categories:'" + name + "'<score=1>" }.join(" OR ") : ""
+    params[:category_id] ? category_names.map { |name| "categories:'" + name + "'<score=1>" }.join(tag_conjunction) : ""
   end
 
   def filter_string
@@ -166,9 +170,13 @@ class ServicesController < ApplicationController
     sites_service_string + eligibility_string + category_string
   end
 
+  def free_text_query
+    params[:text] ? CGI.unescape(params[:text]) : ""
+  end
+
   def algolia_query_geoloc
     Service.index.search(
-      '',
+      free_text_query,
       filters: filter_string,
       sumOrFiltersScores: true,
       aroundLatLng: format("%<lat>s, %<long>s", lat: params[:lat], long: params[:long]),
@@ -178,7 +186,7 @@ class ServicesController < ApplicationController
 
   def algolia_query
     Service.index.search(
-      '',
+      free_text_query,
       filters: filter_string,
       sumOrFiltersScores: true,
       hitsPerPage: 1000

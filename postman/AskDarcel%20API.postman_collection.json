@@ -663,7 +663,72 @@
 						}
 					]
 				},
-				"description": "This retrieves all of the services with _any_ of the eligibilities specified in the `eligibility_id` comma-separated list.\n\nReturns a JSON object containing an array of `service`s, i.e.\n```\n{ \"services\": [ /* services here */ ] }\n```"
+				"description": "This retrieves all of the services with _any_ of the categories specified in the `category_id` comma-separated list.\n\nReturns a JSON object containing an array of `service`s, i.e.\n```\n{ \"services\": [ /* services here */ ] }\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "Get services matching all queried categories using algolia endpoint",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Response time is less than 5000ms\"] = responseTime < 5000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var response = pm.response.json();",
+							"",
+							"pm.test(\"Services have ALL of the requested categories\", function () {",
+							"  var requestedCategories = pm.request.url.query.get('category_id').split(',').map(id_str => Number(id_str));",
+							"  // Tests cannot guarantee all of these category ids will exist.",
+							"  // Ensure the number matching in each service is the same across the board.",
+							"  var matchingCategories = 0;",
+							"  response.services.forEach((service) => {",
+							"    var matchingCount = service.categories.filter(c => requestedCategories.includes(c.id)).length;",
+							"    if (matchingCategories !== 0) {",
+							"        pm.expect(matchingCount).to.equal(matchingCategories);",
+							"    } else {",
+							"        matchingCategories = matchingCount;",
+							"    }",
+							"  });",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/services/search?category_id=116,184&site_id=1&match_all_tags=1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"services"
+					],
+					"query": [
+						{
+							"key": "category_id",
+							"value": "116,184",
+							"description": "Comma-separated list of ids of categories (retrieve numeric ids from /categories)"
+						},
+						{
+							"key": "site_id",
+							"value": "1",
+							"description": "Site code id (1 for SFSG, 2 for SFFamilies) (defaults to SFSG)"
+						},
+						{
+							"key": "match_all_tags",
+							"value": "1",
+							"description": "Indicates returned services need to match all of the input tags "
+						}
+					]
+				},
+				"description": "This retrieves all of the services with _ALL_ of the categories specified in the `category_id` comma-separated list.\n\nReturns a JSON object containing an array of `service`s, i.e.\n```\n{ \"services\": [ /* services here */ ] }\n```"
 			},
 			"response": []
 		},
@@ -693,41 +758,7 @@
 							"                category => requestedCategories.includes(category.id))).to.be.true;",
 							"    });",
 							"});",
-							"",
-							"// // Comment out this test for now. The test Algolia index lat/lng don't seem to match the addresses' lat/lng in services / resources.",
-							"// pm.test(\"Services are ranked by geolocation\", function () {",
-							"//     var requestedLat = Number(pm.request.url.query.get('lat'));",
-							"//     var requestedLong = Number(pm.request.url.query.get('long'));",
-							"//     pm.expect(response.services.length > 0);",
-							"//     // use the haversine formula https://www.movable-type.co.uk/scripts/latlong.html",
-							"//     var distFromLatLong = address => {",
-							"//         var svcTheta = address.latitude * Math.PI / 180.0;",
-							"//         var reqTheta = requestedLat * Math.PI / 180.0;",
-							"//         var deltaTheta = (requestedLat - address.latitude) * Math.PI / 180.0;",
-							"//         var deltaLambda = (requestedLong - address.longitude) * Math.PI / 180.0;",
-							"//         var a = Math.sin(deltaTheta / 2.0) * Math.sin(deltaTheta / 2.0)",
-							"//             + Math.cos(svcTheta) * Math.cos(reqTheta)",
-							"//             * Math.sin(deltaLambda / 2.0) * Math.sin(deltaLambda / 2.0);",
-							"//         var c = 2.0 * Math.atan2(Math.sqrt(a), Math.sqrt(1.0 - a));",
-							"//         return 6371e3 * c;",
-							"//     };",
-							"//     var rankedDistFromLatLong = service => {",
-							"//         var addresses = service.addresses;",
-							"//         if (addresses.length == 0)",
-							"//             addresses = [ service.resource.addresses[0] ];",
-							"//         return addresses.reduce((minDist, currAddress) => {",
-							"//             return Math.max(minDist, distFromLatLong(currAddress));",
-							"//         }, Number.MIN_SAFE_INTEGER);",
-							"//     };",
-							"",
-							"//     // The distance should increase with each successive service.",
-							"//     var currentMinDist = rankedDistFromLatLong(response.services[0]);",
-							"//     response.services.forEach(service => {",
-							"//         var serviceDist = rankedDistFromLatLong(service);",
-							"//         pm.expect(serviceDist).to.be.gte(currentMinDist);",
-							"//         currentMinDist = Math.max(currentMinDist, serviceDist);",
-							"//     });",
-							"// });"
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -767,7 +798,69 @@
 						}
 					]
 				},
-				"description": "This retrieves all of the services with _any_ of the eligibilities specified in the `eligibility_id` comma-separated list.\n\nReturns a JSON object containing an array of `service`s, i.e.\n```\n{ \"services\": [ /* services here */ ] }\n```"
+				"description": "This retrieves all of the services with _any_ of the categories specified in the `category_id` comma-separated list.\n\nAdditionally, it allows the user to pass in `lat` (latitude) and `long` (longitude) to rank results by geolocation using Algolia. (The geolocation query is invalid unless both `lat` and `long` are specified.) \n\nReturns a JSON object containing an array of `service`s, i.e.\n```\n{ \"services\": [ /* services here */ ] }\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "Get services by free text and geolocation using algolia endpoint",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Response time is less than 5000ms\"] = responseTime < 5000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var response = pm.response.json();",
+							"",
+							"pm.test(\"Services returned with proper schema\", function() {",
+							"    pm.expect(response.services.length).to.be.greaterThan(0);",
+							"    pm.expect(response.services[0]).to.include.all.keys('name','long_description','schedule','resource');",
+							"});",
+							"",
+							"// It's kind of hard to test free text matching without mocking out",
+							"// Algolia synonyms that might also match."
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/services/search?site_id=1&lat=37.7843279&long=-122.4482159&text=students%20classes",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"services"
+					],
+					"query": [
+						{
+							"key": "site_id",
+							"value": "1"
+						},
+						{
+							"key": "lat",
+							"value": "37.7843279",
+							"description": "Latitude"
+						},
+						{
+							"key": "long",
+							"value": "-122.4482159",
+							"description": "Longitude"
+						},
+						{
+							"key": "text",
+							"value": "students%20classes",
+							"description": "url encoded free text"
+						}
+					]
+				},
+				"description": "This retrieves all of the services matching the given filters (e.g. by site id) as well as matching `text` parameter, according to the Algolia index.\n\nReturns a JSON object containing an array of `service`s, i.e.\n```\n{ \"services\": [ /* services here */ ] }\n```"
 			},
 			"response": []
 		},

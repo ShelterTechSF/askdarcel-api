@@ -152,17 +152,17 @@ class ServicesController < ApplicationController
   end
 
   def eligibilities_filter
-    eligibility_names.map { |name| "eligibilities:'" + name + "'<score=1>" }.join(" OR ")
+    params[:eligibility_id] ? eligibility_names.map { |name| "eligibilities:'" + name + "'<score=1>" }.join(" OR ") : ""
   end
 
   def categories_filter
-    category_names.map { |name| "categories:'" + name + "'<score=1>" }.join(" OR ")
+    params[:eligibility_id] ? category_names.map { |name| "categories:'" + name + "'<score=1>" }.join(" OR ") : ""
   end
 
   def filter_string
     sites_service_string = format("associated_sites:'%<site_code>s' AND type: 'service'", site_code: site_code)
-    eligibility_string = params[:eligibility_id] ? (" AND (" + eligibilities_filter + ")") : ""
-    category_string = params[:category_id] ? (" AND (" + categories_filter + ")") : ""
+    eligibility_string = eligibilities_filter.empty? ? "" : (" AND (" + eligibilities_filter + ")")
+    category_string = categories_filter.empty? ? "" : (" AND (" + categories_filter + ")")
     sites_service_string + eligibility_string + category_string
   end
 
@@ -197,7 +197,7 @@ class ServicesController < ApplicationController
     # (`Service.find` will raise a RecordNotFound error otherwise)
     existing_ids = Service.where(id: ordered_service_ids).ids
     # we need to preserve the Algolia order of these ids, which `Service.where(id: X)` does not guarantee
-    matching_services = ordered_service_ids.filter_map { |id| Service.find(id) if existing_ids.include?(id) }
+    matching_services = ordered_service_ids.select { |id| existing_ids.include?(id) }.map { |id| Service.find(id) }
     render json: { services: ServicesWithResourceLitePresenter.present(matching_services) }
   end
 

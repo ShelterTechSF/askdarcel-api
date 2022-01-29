@@ -156,17 +156,17 @@ class ServicesController < ApplicationController
   end
 
   def eligibilities_filter
-    params[:eligibility_id] ? eligibility_names.map { |name| "eligibilities:'" + name + "'<score=1>" }.join(tag_conjunction) : ""
+    params[:eligibility_id] ? eligibility_names.map { |name| "eligibilities:'#{name}'<score=1>" }.join(tag_conjunction) : ""
   end
 
   def categories_filter
-    params[:category_id] ? category_names.map { |name| "categories:'" + name + "'<score=1>" }.join(tag_conjunction) : ""
+    params[:category_id] ? category_names.map { |name| "categories:'#{name}'<score=1>" }.join(tag_conjunction) : ""
   end
 
   def filter_string
     sites_service_string = format("associated_sites:'%<site_code>s' AND type: 'service'", site_code: site_code)
-    eligibility_string = eligibilities_filter.empty? ? "" : (" AND (" + eligibilities_filter + ")")
-    category_string = categories_filter.empty? ? "" : (" AND (" + categories_filter + ")")
+    eligibility_string = eligibilities_filter.empty? ? "" : " AND (#{eligibilities_filter})"
+    category_string = categories_filter.empty? ? "" : " AND (#{categories_filter})"
     sites_service_string + eligibility_string + category_string
   end
 

@@ -52,12 +52,12 @@ class AlgoliaIncrementalIndexJob
             .find_or_create_by(identifier: BOOKMARK_IDENTIFIER)
   end
 
-  def scan_through_recently_updated_resources(bookmark)
+  def scan_through_recently_updated_resources(bookmark, &block)
     loop do
       batch = query_next_batch(bookmark)
       break if batch.empty?
 
-      batch.each { |resource| yield resource }
+      batch.each(&block)
       last = batch.last
       bookmark.update(date_value: last.updated_at, id_value: last.id)
       Rails.logger.info("Bookmark updated. #{bookmark.identifier} - "\

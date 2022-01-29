@@ -3,7 +3,7 @@
 require 'faker/sheltertech'
 
 module ShelterTech
-  # rubocop:disable Metrics/LineLength
+  # rubocop:disable Layout/LineLength
   # rubocop:disable Metrics/MethodLength
 
   module DB
@@ -18,11 +18,9 @@ module ShelterTech
       end
 
       # Temporarily disable Algolia indexes so that we can do it once in bulk.
-      def self.algolia_deferred_index_update
+      def self.algolia_deferred_index_update(&block)
         Resource.without_auto_index do
-          Service.without_auto_index do
-            yield
-          end
+          Service.without_auto_index(&block)
         end
         Resource.reindex!
         Service.reindex!
@@ -602,6 +600,6 @@ module ShelterTech
     end
   end
 
-  # rubocop:enable Metrics/LineLength
+  # rubocop:enable Layout/LineLength
   # rubocop:enable Metrics/MethodLength
 end

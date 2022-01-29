@@ -18,7 +18,7 @@ class ApplicationController < ActionController::API
   def update_in_airtable(org)
     create_org_in_airtable(org) unless update_org_in_airtable(org)
   rescue StandardError => e
-    puts "failed to update org " + org.id.to_s + " to airtable: " + e.to_s
+    puts "failed to update org #{org.id} to airtable: #{e}"
   end
 
   private
@@ -34,7 +34,7 @@ class ApplicationController < ActionController::API
     # This is the public key from the cert that the JWT is issued by
     public_key = Rails.configuration.x.authorization.cert.public_key
     decoded_token = JWT.decode request.cookies["CF_Authorization"], public_key, true, algorithm: "RS256"
-    logger.info "Admin API call by: " + decoded_token[0]["email"]
+    logger.info "Admin API call by: #{decoded_token[0]['email']}"
   end
   # rubocop:enable Metrics/AbcSize
 
@@ -51,7 +51,7 @@ class ApplicationController < ActionController::API
   end
 
   def update_org_in_airtable(org)
-    airtable_org = AirTableOrgs.all(filter: "{ID} = " + org.id.to_s)
+    airtable_org = AirTableOrgs.all(filter: "{ID} = #{org.id}")
     return unless airtable_org[0]
 
     airtable_org[0]["Organization Name"] = org.name

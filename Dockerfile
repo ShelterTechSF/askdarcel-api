@@ -1,4 +1,4 @@
-FROM ad2games/docker-rails:2.8.3
+FROM ad2games/docker-rails:2.8.5
 
 # ad2games/docker-rails removes files required for dpkg to work. We must
 # recreate those files first before we can in stall postgresql-client.
@@ -15,5 +15,5 @@ RUN mkdir -p /var/lib/dpkg/alternatives /var/lib/dpkg/info /var/lib/dpkg/parts /
   curl --silent https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
   apt-get update && \
   apt-get install -y libglib2.0-dev && \
-  apt-get install -y postgresql-client-9.5 && \
+  apt-get install -y postgresql-client-common && \
   rm -rf /var/lib/apt/lists/*

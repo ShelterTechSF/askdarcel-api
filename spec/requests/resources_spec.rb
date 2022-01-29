@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # spec/requests/resources_spec.rb
-require "swagger_helper"
 
 RSpec.describe 'Resources', type: :request do
   context 'index' do
@@ -35,8 +34,8 @@ RSpec.describe 'Resources', type: :request do
       end
     end
 
-    context 'with a category_id and latitude/longitude' do
-      path '/resources' do
+    it 'with a category_id and latitude/longitude' do
+      get '/resources' do
         get(summary: 'Retrieves resources by category_id and lat/long') do
           tags :resources
           produces 'application/json'
@@ -91,46 +90,48 @@ RSpec.describe 'Resources', type: :request do
       resource.services = services
       resource
     end
-    path '/resources/{id}' do
-      get(summary: 'Retrieves resources by id') do
-        tags :resources
-        produces 'application/json'
-        parameter :id, in: :path, type: :integer, description: 'Resource ID'
+    it "get resource by id" do
+      get "/resources/#{String(resource_a.id)}" do
+        get(summary: 'Retrieves resources by id') do
+          tags :resources
+          produces 'application/json'
+          parameter :id, in: :path, type: :integer, description: 'Resource ID'
 
-        response(200, description: 'resource found') do
-          let!(:id) { resource_a.id }
-          capture_example
+          response(200, description: 'resource found') do
+            let!(:id) { resource_a.id }
+            capture_example
 
-          it 'returns specific resource' do
-            expect(response_json['resource']).to include(
-              'id' => resource_a.id,
-              'addresses' => Array,
-              'categories' => Array,
-              'schedule' => Hash,
-              'phones' => Array,
-              'services' => Array
-            )
-            service = resource_a.services.first
+            it 'returns specific resource' do
+              expect(response_json['resource']).to include(
+                'id' => resource_a.id,
+                'addresses' => Array,
+                'categories' => Array,
+                'schedule' => Hash,
+                'phones' => Array,
+                'services' => Array
+              )
+              service = resource_a.services.first
 
-            expect(response_json['resource']['services'][0]).to include(
-              'name' => service.name,
-              'long_description' => service.long_description,
-              'eligibility' => service.eligibility,
-              'required_documents' => service.required_documents,
-              'fee' => service.fee,
-              'application_process' => service.application_process,
-              'notes' => Array,
-              'schedule' => Hash
-            )
+              expect(response_json['resource']['services'][0]).to include(
+                'name' => service.name,
+                'long_description' => service.long_description,
+                'eligibility' => service.eligibility,
+                'required_documents' => service.required_documents,
+                'fee' => service.fee,
+                'application_process' => service.application_process,
+                'notes' => Array,
+                'schedule' => Hash
+              )
+            end
           end
-        end
 
-        response(200, description: 'resource not found') do
-          let(:id) { resource_b.id }
-          capture_example
+          response(200, description: 'resource not found') do
+            let(:id) { resource_b.id }
+            capture_example
 
-          it 'does not return unapproved services' do
-            expect(response_json['resource']['services']).to have(0).items
+            it 'does not return unapproved services' do
+              expect(response_json['resource']['services']).to have(0).items
+            end
           end
         end
       end

@@ -27,7 +27,7 @@ class Service < ActiveRecord::Base
   end
 
   if Rails.configuration.x.algolia.enabled
-    # Note: We can't use the per_environment option because both our production
+    # NOTE: We can't use the per_environment option because both our production
     # and staging servers use the same RAILS_ENV.
     # rubocop:disable Metrics/BlockLength
     algoliasearch index_name: "#{Rails.configuration.x.algolia.index_prefix}_services_search", id: :algolia_id do

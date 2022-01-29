@@ -18,7 +18,7 @@ module ShelterTech
       to_minutes = Time.hhmm_to_minutes(to)
 
       # Bias minutes so that we only return times aligned to every quarter hour
-      time = Faker::Number.positive(from_minutes / 15, to_minutes / 15) * 15
+      time = Faker::Number.positive(from: from_minutes / 15, to: to_minutes / 15) * 15
 
       Time.minutes_to_hhmm(time)
     end

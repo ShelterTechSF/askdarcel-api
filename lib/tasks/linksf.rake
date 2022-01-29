@@ -34,9 +34,9 @@ namespace :linksf do
       resource.long_description = location[:description]
       resource.status = :approved
 
-      puts 'adding ' + resource.name
+      puts "adding #{resource.name}"
 
-      puts 'resource description is :' + resource.long_description
+      puts "resource description is :#{resource.long_description}"
 
       if resource.long_description.blank? || resource.long_description.length < 15
         puts 'replacing bad description with nil'
@@ -115,12 +115,12 @@ namespace :linksf do
 
         field_change = change_request.field_changes.build
         field_change.field_name = 'name'
-        field_change.field_value = service.name + '(changed)'
+        field_change.field_value = "#{service.name}(changed)"
 
         field_change = change_request.field_changes.build
         field_change.field_name = 'long_description'
         field_change.field_value = if service.long_description.present?
-                                     service.long_description + '(changed)'
+                                     "#{service.long_description}(changed)"
                                    else
                                      '(changed)'
                                    end
@@ -138,12 +138,12 @@ namespace :linksf do
 
       field_change = change_request.field_changes.build
       field_change.field_name = 'name'
-      field_change.field_value = resource.name + '(changed)'
+      field_change.field_value = "#{resource.name}(changed)"
 
       field_change = change_request.field_changes.build
       field_change.field_name = 'long_description'
       field_change.field_value = if resource.long_description.present?
-                                   resource.long_description + '(changed)'
+                                   "#{resource.long_description}(changed)"
                                  else
                                    '(changed)'
                                  end

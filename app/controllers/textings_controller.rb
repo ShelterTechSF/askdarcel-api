@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require 'net/http'
+require 'uri'
+
 class TextingsController < ApplicationController
   def create
     recipient_name = texting_params[:recipient_name]
@@ -9,7 +12,7 @@ class TextingsController < ApplicationController
     # Make a request to Textellent API. If request successful we update our DB
 
     response = JSON.parse(post_textellent(data).body)
-
+    Rails.logger.info(response)
     if response['status'] != 'success'
       render status: :bad_request, json: { error: 'failure' }
       return
@@ -83,7 +86,7 @@ class TextingsController < ApplicationController
   end
 
   def generate_data(recipient_name, phone_number, categories, service_name, address)
-    data = {
+    {
       "firstName" => recipient_name,
       "lastName" => "",
       "mobilePhone" => phone_number,
@@ -102,7 +105,6 @@ class TextingsController < ApplicationController
         "Org_Phone" => address[:phone]
       }
     }
-    data
   end
 
   def get_db_data(recipient_name, phone_number, service_id)
@@ -121,18 +123,15 @@ class TextingsController < ApplicationController
 
   # handling the post request to Textellent API.
   def post_textellent(data)
-    header = {
-      'Content-Type' => 'application/json',
-      'authCode' => Rails.configuration.x.textellent.api_key
-    }
-
-    query = {
-      body: data.to_json
-    }
-
-    client = HTTPClient.new default_header: header
-    client.ssl_config.set_default_paths
-    client.post Rails.configuration.x.textellent.url, query
+    url = URI.parse(Rails.configuration.x.textellent.url)
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = true
+    request = Net::HTTP::Post.new(url.path, {
+                                    'Content-Type' => 'application/json',
+                                    'authCode' => Rails.configuration.x.textellent.api_key
+                                  })
+    request.body = data.to_json
+    http.request(request)
   end
   # rubocop:enable Metrics/MethodLength
 end

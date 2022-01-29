@@ -30,8 +30,8 @@ namespace :pitstops do
     resource.website = 'https://sf.gov/'
     resource.long_description = 'The City'
     resource.status = :approved
-    puts 'adding ' + resource.name
-    puts 'resource description is :' + resource.long_description
+    puts "adding #{resource.name}"
+    puts "resource description is :#{resource.long_description}"
 
     # pitstops and handwashing are each a service of the City
     pitstops = resource.services.build
@@ -85,8 +85,8 @@ namespace :pitstops do
       if location[:properties][:Site_Type] == "Pit Stop"
         pitstops.addresses << address
         # Since Pit Stops have varying hours, append actual location's hours to Service Notes
-        note_p.note += location[:properties][:Neighborhood] + ": " + location[:properties][:Name] + "\n"
-        note_p.note += location[:properties][:Hours_of_Operation] + "\n\n"
+        note_p.note += "#{location[:properties][:Neighborhood]}: #{location[:properties][:Name]}\n"
+        note_p.note += "#{location[:properties][:Hours_of_Operation]}\n\n"
       else
         handwashing.addresses << address
       end

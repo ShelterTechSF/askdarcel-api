@@ -48,7 +48,6 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'spring'
   gem 'rubocop'
-  gem 'rspec-rails-swagger'
 end
 
 group :test do

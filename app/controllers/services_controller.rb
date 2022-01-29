@@ -141,25 +141,72 @@ class ServicesController < ApplicationController
     params[:site_id] ? Site.find_by(id: params[:site_id]).site_code : "sfsg"
   end
 
-  def eligibility_name
-    params[:eligibility_id] ? Eligibility.find_by(id: params[:eligibility_id].to_i).name : ""
+  def eligibility_names
+    eligibilities = params[:eligibility_id].split(",")
+    Eligibility.where(id: eligibilities).map(&:name)
+  end
+
+  def category_names
+    categories = params[:category_id].split(",")
+    Category.where(id: categories).map(&:name)
+  end
+
+  def tag_conjunction
+    params[:match_all_tags].nil? ? " OR " : " AND "
+  end
+
+  def eligibilities_filter
+    params[:eligibility_id] ? eligibility_names.map { |name| "eligibilities:'" + name + "'<score=1>" }.join(tag_conjunction) : ""
+  end
+
+  def categories_filter
+    params[:category_id] ? category_names.map { |name| "categories:'" + name + "'<score=1>" }.join(tag_conjunction) : ""
   end
 
   def filter_string
-    if eligibility_name != ""
-      return format("associated_sites:'%<site_code>s' AND eligibilities:'%<eligibility_name>s' AND type: 'service'",
-                    site_code: site_code, eligibility_name: eligibility_name)
-    end
+    sites_service_string = format("associated_sites:'%<site_code>s' AND type: 'service'", site_code: site_code)
+    eligibility_string = eligibilities_filter.empty? ? "" : (" AND (" + eligibilities_filter + ")")
+    category_string = categories_filter.empty? ? "" : (" AND (" + categories_filter + ")")
+    sites_service_string + eligibility_string + category_string
+  end
 
-    format("associated_sites:'%<site_code>s' AND type: 'service'", site_code: site_code)
+  def free_text_query
+    params[:text] ? CGI.unescape(params[:text]) : ""
+  end
+
+  def algolia_query_geoloc
+    Service.index.search(
+      free_text_query,
+      filters: filter_string,
+      sumOrFiltersScores: true,
+      aroundLatLng: format("%<lat>s, %<long>s", lat: params[:lat], long: params[:long]),
+      hitsPerPage: 1000
+    )
+  end
+
+  def algolia_query
+    Service.index.search(
+      free_text_query,
+      filters: filter_string,
+      sumOrFiltersScores: true,
+      hitsPerPage: 1000
+    )
+  end
+
+  def algolia_search
+    params[:lat] && params[:long] ? algolia_query_geoloc : algolia_query
   end
 
   # Use algolia search to get results.
   def search
-    algolia_search_result = Service.index.search('', filters: filter_string, hitsPerPage: 1000)
-    matching_service_ids = algolia_search_result['hits'].map { |x| x['id'] }
-    matching_services = Service.where(id: matching_service_ids)
-    render json: ServicesWithResourceLitePresenter.present(matching_services)
+    ordered_service_ids = algolia_search['hits'].map { |x| x['id'] }
+    # in the event where the Algolia index is out of sync with Rails,
+    # find the ids that exist first with `Service.where(id: query_ids).ids`,
+    # (`Service.find` will raise a RecordNotFound error otherwise)
+    existing_ids = Service.where(id: ordered_service_ids).ids
+    # we need to preserve the Algolia order of these ids, which `Service.where(id: X)` does not guarantee
+    matching_services = ordered_service_ids.select { |id| existing_ids.include?(id) }.map { |id| Service.find(id) }
+    render json: { services: ServicesWithResourceLitePresenter.present(matching_services) }
   end
 
   private

@@ -4,7 +4,7 @@ services:
   db:
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust
-    image: "postgres:13"
+    image: "postgres:9.5"
     networks:
       - askdarcel
     ports:

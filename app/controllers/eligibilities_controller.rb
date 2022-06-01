@@ -67,6 +67,11 @@ class EligibilitiesController < ApplicationController
     render json: { eligibilities: items }
   end
 
+  def subeligibilities
+    eligibilities = Eligibility.order(:feature_rank).where.not(feature_rank: nil).to_a
+    render json: EligibilityPresenter.present(eligibilities)    
+  end
+
   private
 
   def render_update_error(error)

@@ -12,9 +12,10 @@ Rails.application.routes.draw do
       get :hierarchy
     end
   end
-  resources :eligibilities, only: %i[index show update] do
+  resources :eligibilities do
     collection do
       get :featured
+      get :subeligibilities 
     end
   end
   resources :resources do

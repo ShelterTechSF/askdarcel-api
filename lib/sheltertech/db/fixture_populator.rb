@@ -305,6 +305,8 @@ module ShelterTech
       def self.create_parents
         Constants::PARENT_ELIGIBILITY_NAMES.map do |name|
           parent = Eligibility.find_by_name(name)
+          parent.is_parent = true
+          parent.save
           child = Eligibility.order('RANDOM()').first
           relationship = EligibilityRelationship.new
           relationship.parent = parent

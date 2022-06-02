@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_01_051134) do
+ActiveRecord::Schema.define(version: 2022_06_02_025217) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -162,6 +162,7 @@ ActiveRecord::Schema.define(version: 2022_06_01_051134) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "feature_rank"
+    t.boolean "is_parent", default: false
     t.index ["feature_rank"], name: "index_eligibilities_on_feature_rank"
     t.index ["name"], name: "index_eligibilities_on_name", unique: true
   end

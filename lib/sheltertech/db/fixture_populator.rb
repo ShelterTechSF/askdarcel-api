@@ -114,6 +114,7 @@ module ShelterTech
 
       def create_eligibilities
         EligibilityCreator.create
+        EligibilityCreator.create_parents
       end
 
       def create_sites
@@ -298,6 +299,19 @@ module ShelterTech
         resources = Resource.all.sample(resource_count)
         resources.each do |resource|
           eligibility.services << resource.services.sample
+        end
+      end
+
+      def self.create_parents
+        Constants::PARENT_ELIGIBILITY_NAMES.map do |name|
+          parent = Eligibility.find_by_name(name)
+          parent.is_parent = true
+          parent.save
+          child = Eligibility.order('RANDOM()').first
+          relationship = EligibilityRelationship.new
+          relationship.parent = parent
+          relationship.child = child
+          relationship.save
         end
       end
     end
@@ -578,6 +592,12 @@ module ShelterTech
         'Homeless',
         'Disabled',
         'Low-Income'
+      ].freeze
+
+      PARENT_ELIGIBILITY_NAMES = [
+        'Foster Youth',
+        'Homeless',
+        'Disabled'
       ].freeze
 
       ELIGIBILITY_FEATURE_RANKS = {

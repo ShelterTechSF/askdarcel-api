@@ -24,8 +24,8 @@ module ShelterTech
       def self.import_staging_database!(password)
         local_db_config = ActiveRecord::Base.connection_config
 
-        staging_config = local_db_config.clone
-        staging_config[:host] = 'staging-db.askdarcel.org'
+        staging_config = local_db_config.deep_dup
+        staging_config[:host] = '35.197.79.154'
         staging_config[:database] = 'askdarcel'
         staging_config[:username] = 'master'
         staging_config[:password] = password

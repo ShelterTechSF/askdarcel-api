@@ -17,9 +17,7 @@ class AlgoliaReindexJob
     Resource.where(status: :approved).reindex
 
     # Batch synonyms, with replica forwarding and atomic replacement of existing synonyms
-    forward_to_replicas = true
-    replace_existing_synonyms = true
-    Resource.index.batch_synonyms(format_synonyms_list, forward_to_replicas, replace_existing_synonyms)
+    Resource.index.save_synonyms(format_synonyms_list, { forwardToReplicas: true, replaceExistingSynonyms: true })
 
     # Since Service and Resource share an algolia index, we use `reindex!` so
     # Service reindexing does not clear out Resource index records.

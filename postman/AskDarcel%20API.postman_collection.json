@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "fa7fc5dd-c24b-4480-abc2-46ff3c821120",
+		"_postman_id": "5d767a6f-afc3-4234-847b-0ae61e3f1b63",
 		"name": "AskDarcel API",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "680011"
 	},
 	"item": [
 		{
@@ -517,7 +518,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/services/search?site_id=1",
+					"raw": "{{base_url}}/services?site_id=1",
 					"host": [
 						"{{base_url}}"
 					],
@@ -569,7 +570,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/services/search?eligibility_id=1&site_id=1",
+					"raw": "{{base_url}}/services?eligibility_id=1&site_id=1",
 					"host": [
 						"{{base_url}}"
 					],
@@ -643,7 +644,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/services/search?category_id=1,184,101&site_id=1",
+					"raw": "{{base_url}}/services?category_id=1,184,101&site_id=1",
 					"host": [
 						"{{base_url}}"
 					],
@@ -703,7 +704,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/services/search?category_id=116,184&site_id=1&match_all_tags=1",
+					"raw": "{{base_url}}/services?category_id=116,184&site_id=1&match_all_tags=1",
 					"host": [
 						"{{base_url}}"
 					],
@@ -768,7 +769,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/services/search?category_id=1&site_id=1&lat=37.7843279&long=-122.4482159",
+					"raw": "{{base_url}}/services?category_id=1&site_id=1&lat=37.7843279&long=-122.4482159",
 					"host": [
 						"{{base_url}}"
 					],
@@ -831,7 +832,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/services/search?site_id=1&lat=37.7843279&long=-122.4482159&text=students%20classes",
+					"raw": "{{base_url}}/services?site_id=1&lat=37.7843279&long=-122.4482159&text=students%20classes",
 					"host": [
 						"{{base_url}}"
 					],
@@ -1062,6 +1063,50 @@
 		},
 		{
 			"name": "Get featured eligibilities",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"pm.test(\"Featured eligibilities are correctly sorted by feature_rank\", function () {",
+							"  var jsonData = pm.response.json();",
+							"  pm.expect(jsonData.eligibilities.length).to.eql(6);",
+							"  pm.expect(jsonData.eligibilities[0].name).to.eql('Seniors (55+ years old)');",
+							"  pm.expect(jsonData.eligibilities[0].feature_rank).to.eql(1);",
+							"  pm.expect(jsonData.eligibilities[0].resource_count).to.eql(25);",
+							"  pm.expect(jsonData.eligibilities[0].service_count).to.eql(25);",
+							"  pm.expect(jsonData.eligibilities[5].name).to.eql('Immigrants');",
+							"  pm.expect(jsonData.eligibilities[5].feature_rank).to.eql(6);",
+							"  pm.expect(jsonData.eligibilities[5].resource_count).to.eql(8);",
+							"  pm.expect(jsonData.eligibilities[5].service_count).to.eql(8);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/eligibilities/featured",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"eligibilities",
+						"featured"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get child eligibilities",
 			"event": [
 				{
 					"listen": "test",

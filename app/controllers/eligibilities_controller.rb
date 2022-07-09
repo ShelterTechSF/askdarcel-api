@@ -68,7 +68,12 @@ class EligibilitiesController < ApplicationController
   end
 
   def subeligibilities
-    eligibilities = Eligibility.order(:feature_rank).where.not(feature_rank: nil).to_a
+    if params[:name]
+
+      eligibilities = Eligibility.where("id in (select child_id from eligibility_relationships where parent_id=(select id from eligibilities where name=?))", params[:name])
+    else      
+      eligibilities = Eligibility.where("id in (select child_id from eligibility_relationships where parent_id=?)", params[:id])
+    end
     render json: EligibilityPresenter.present(eligibilities)    
   end
 

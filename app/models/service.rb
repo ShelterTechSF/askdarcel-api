@@ -15,6 +15,7 @@ class Service < ActiveRecord::Base
   has_and_belongs_to_many :categories
   has_and_belongs_to_many :eligibilities, dependent: :destroy
   has_and_belongs_to_many :addresses, dependent: :destroy
+  has_and_belongs_to_many :documents
 
   accepts_nested_attributes_for :notes
   accepts_nested_attributes_for :schedule

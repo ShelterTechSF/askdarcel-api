@@ -227,6 +227,13 @@ module ShelterTech
                                     resource: resource,
                                     long_description: Faker::ShelterTech.description,
                                     categories: categories)
+        document = FactoryBot.create(:document,
+                                     name: service.id.to_s, url: "document_url",
+                                     description: "Some document")
+        service_document = ServiceDocument.new
+        service_document.service = service
+        service_document.document = document
+        service_document.save
 
         FactoryBot.create(:change_request,
                           type: 'ResourceChangeRequest',

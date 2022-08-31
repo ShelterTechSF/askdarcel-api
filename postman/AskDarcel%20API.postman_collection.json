@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "5d767a6f-afc3-4234-847b-0ae61e3f1b63",
+		"_postman_id": "03c3fafa-ce04-488a-9b78-b08f2959a62f",
 		"name": "AskDarcel API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "680011"
@@ -1118,15 +1118,7 @@
 							"",
 							"pm.test(\"Featured eligibilities are correctly sorted by feature_rank\", function () {",
 							"  var jsonData = pm.response.json();",
-							"  pm.expect(jsonData.eligibilities.length).to.eql(6);",
-							"  pm.expect(jsonData.eligibilities[0].name).to.eql('Seniors (55+ years old)');",
-							"  pm.expect(jsonData.eligibilities[0].feature_rank).to.eql(1);",
-							"  pm.expect(jsonData.eligibilities[0].resource_count).to.eql(25);",
-							"  pm.expect(jsonData.eligibilities[0].service_count).to.eql(25);",
-							"  pm.expect(jsonData.eligibilities[5].name).to.eql('Immigrants');",
-							"  pm.expect(jsonData.eligibilities[5].feature_rank).to.eql(6);",
-							"  pm.expect(jsonData.eligibilities[5].resource_count).to.eql(8);",
-							"  pm.expect(jsonData.eligibilities[5].service_count).to.eql(8);",
+							"  pm.expect(jsonData.eligibilities.length).to.eql(1);",
 							"});"
 						],
 						"type": "text/javascript"
@@ -1137,13 +1129,19 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/eligibilities/featured",
+					"raw": "{{base_url}}/eligibilities/subeligibilities?name=Homeless",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"eligibilities",
-						"featured"
+						"subeligibilities"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Homeless"
+						}
 					]
 				}
 			},
@@ -1160,18 +1158,7 @@
 							"",
 							"tests[\"Status code is 200\"] = responseCode.code === 200;",
 							"",
-							"pm.test(\"Featured eligibilities are correctly sorted by feature_rank\", function () {",
-							"  var jsonData = pm.response.json();",
-							"  pm.expect(jsonData.eligibilities.length).to.eql(6);",
-							"  pm.expect(jsonData.eligibilities[0].name).to.eql('Seniors (55+ years old)');",
-							"  pm.expect(jsonData.eligibilities[0].feature_rank).to.eql(1);",
-							"  pm.expect(jsonData.eligibilities[0].resource_count).to.eql(25);",
-							"  pm.expect(jsonData.eligibilities[0].service_count).to.eql(25);",
-							"  pm.expect(jsonData.eligibilities[5].name).to.eql('Immigrants');",
-							"  pm.expect(jsonData.eligibilities[5].feature_rank).to.eql(6);",
-							"  pm.expect(jsonData.eligibilities[5].resource_count).to.eql(8);",
-							"  pm.expect(jsonData.eligibilities[5].service_count).to.eql(8);",
-							"});"
+							""
 						],
 						"type": "text/javascript"
 					}

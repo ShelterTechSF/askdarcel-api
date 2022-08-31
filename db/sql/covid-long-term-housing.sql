@@ -37,19 +37,21 @@ insert into category_relationships (parent_id, child_id) values
 (1000011, 1100047);
 
 insert into category_relationships (parent_id, child_id) values
-(1000046, 1100048);
+(1100046, 1100048);
 
 insert into category_relationships (parent_id, child_id) values
-(1000046, 1100048);
+(1100046, 1100049);
 
 insert into category_relationships (parent_id, child_id) values
-(1000046, 1100049);
+(1100046, 1100045);
 
 insert into category_relationships (parent_id, child_id) values
-(1000047, 1100050);
+(1100047, 1100051);
 
 insert into category_relationships (parent_id, child_id) values
-(1000047, 1100051);
+(1100047, 1100052);
+
+
 
 
 

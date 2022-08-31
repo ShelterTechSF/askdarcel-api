@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   resources :eligibilities do
     collection do
       get :featured
-      get :subeligibilities 
+      get :subeligibilities
     end
   end
   resources :resources do

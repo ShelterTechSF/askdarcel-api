@@ -1150,6 +1150,50 @@
 			"response": []
 		},
 		{
+			"name": "Get child eligibilities by id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"pm.test(\"Featured eligibilities are correctly sorted by feature_rank\", function () {",
+							"  var jsonData = pm.response.json();",
+							"  pm.expect(jsonData.eligibilities.length).to.eql(6);",
+							"  pm.expect(jsonData.eligibilities[0].name).to.eql('Seniors (55+ years old)');",
+							"  pm.expect(jsonData.eligibilities[0].feature_rank).to.eql(1);",
+							"  pm.expect(jsonData.eligibilities[0].resource_count).to.eql(25);",
+							"  pm.expect(jsonData.eligibilities[0].service_count).to.eql(25);",
+							"  pm.expect(jsonData.eligibilities[5].name).to.eql('Immigrants');",
+							"  pm.expect(jsonData.eligibilities[5].feature_rank).to.eql(6);",
+							"  pm.expect(jsonData.eligibilities[5].resource_count).to.eql(8);",
+							"  pm.expect(jsonData.eligibilities[5].service_count).to.eql(8);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/eligibilities/featured",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"eligibilities",
+						"featured"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Update eligibility feature_rank, 1 of 2",
 			"event": [
 				{

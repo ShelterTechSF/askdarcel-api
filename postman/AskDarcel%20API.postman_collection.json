@@ -1168,13 +1168,19 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/eligibilities/featured",
+					"raw": "{{base_url}}/eligibilities/subeligibilities?id=7",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"eligibilities",
-						"featured"
+						"subeligibilities"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "7"
+						}
 					]
 				}
 			},

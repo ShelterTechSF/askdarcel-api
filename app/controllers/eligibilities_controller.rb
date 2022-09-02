@@ -67,6 +67,18 @@ class EligibilitiesController < ApplicationController
     render json: { eligibilities: items }
   end
 
+  def subeligibilities
+    eligibilities = if params[:name]
+                      Eligibility.where(
+                        "id in (select child_id from eligibility_relationships where " \
+                        "parent_id=(select id from eligibilities where name=?))", params[:name]
+                      )
+                    else
+                      Eligibility.where("id in (select child_id from eligibility_relationships where parent_id=?)", params[:id])
+                    end
+    render json: EligibilityPresenter.present(eligibilities)
+  end
+
   private
 
   def render_update_error(error)

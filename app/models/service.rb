@@ -22,6 +22,7 @@ class Service < ActiveRecord::Base
   accepts_nested_attributes_for :addresses
 
   has_many :textings
+  has_many :instructions
 
   before_create do
     self.status = :pending unless status

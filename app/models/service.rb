@@ -11,6 +11,8 @@ class Service < ActiveRecord::Base
   belongs_to :program
   has_many :notes, dependent: :destroy
   has_many :feedbacks, dependent: :destroy
+  has_many :textings
+  has_many :instructions
   has_one :schedule, dependent: :destroy
   has_and_belongs_to_many :categories
   has_and_belongs_to_many :eligibilities, dependent: :destroy
@@ -20,8 +22,7 @@ class Service < ActiveRecord::Base
   accepts_nested_attributes_for :notes
   accepts_nested_attributes_for :schedule
   accepts_nested_attributes_for :addresses
-
-  has_many :textings
+  accepts_nested_attributes_for :instructions
 
   before_create do
     self.status = :pending unless status

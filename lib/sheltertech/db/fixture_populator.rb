@@ -235,6 +235,11 @@ module ShelterTech
         service_document.document = document
         service_document.save
 
+        instruction = Instruction.new
+        instruction.service = service
+        instruction.instruction = "Instruction text goes here"
+        service.instructions << instruction
+
         FactoryBot.create(:change_request,
                           type: 'ResourceChangeRequest',
                           status: ChangeRequest.statuses[:pending],

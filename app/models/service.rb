@@ -13,6 +13,7 @@ class Service < ActiveRecord::Base
   has_many :feedbacks, dependent: :destroy
   has_many :textings
   has_many :instructions
+  has_many :news, dependent: :destroy
   has_one :schedule, dependent: :destroy
   has_and_belongs_to_many :categories
   has_and_belongs_to_many :eligibilities, dependent: :destroy

@@ -1,7 +1,6 @@
 class CreateNewsArticle < ActiveRecord::Migration[6.1]
   def change
     create_table :news_article do |t|
-      t.integer :id, null: false
       t.string :headline
       t.datetime :effective_date
       t.string :body

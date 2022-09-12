@@ -1,4 +1,5 @@
 # frozen_string_literal: true
 
-class News < ApplicationRecord
+class NewsArticle < ActiveRecord::Base
+  belongs_to :service
 end

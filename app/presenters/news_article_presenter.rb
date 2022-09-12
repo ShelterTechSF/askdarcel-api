@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class NewsPresenter < Jsonite
+class NewsArticlePresenter < Jsonite
   property :id
   property :headline
   property :effective_date

@@ -1,13 +1,14 @@
-class CreateNews < ActiveRecord::Migration[6.1]
+class CreateNewsArticle < ActiveRecord::Migration[6.1]
   def change
-    create_table :news do |t|
-      t.integer :id, :null => false
-      t.string :headline, :null => false
-      t.datetime :effective_date, :null => false
-      t.string :body, :null => false
-      t.integer :priority, :null => false
-      t.datetime :expiration_date, :null => false
+    create_table :news_article do |t|
+      t.integer :id, null: false
+      t.string :headline
+      t.datetime :effective_date
+      t.string :body
+      t.integer :priority
+      t.datetime :expiration_date
+
+      t.timestamps
     end
   end
 end
-

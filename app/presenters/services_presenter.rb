@@ -25,5 +25,4 @@ class ServicesPresenter < Jsonite
   property :addresses, with: AddressPresenter
   property :eligibilities, with: EligibilityPresenter
   property :instructions, with: InstructionsPresenter
-  property :news, with: NewsPresenter
 end

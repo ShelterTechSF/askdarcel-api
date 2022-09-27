@@ -4,8 +4,8 @@ class NewsArticleController < ApplicationController
 
   def create
     news_article = params[:news_article]
-    persisted_inews_article = NewsArticle.create(news_article[:news_article])
-    render status: :created, json: NewsArticlePresenter.present(persisted_inews_article)
+    persisted_news_article = NewsArticle.create(news_article[:news_article])
+    render status: :created, json: NewsArticlePresenter.present(persisted_news_article)
   end
 
   def retrieve

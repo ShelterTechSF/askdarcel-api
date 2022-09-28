@@ -2465,7 +2465,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Sending with a phone number\", function () {",
+							"pm.test(\"Updating instruction\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});"
 						],
@@ -2505,7 +2505,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Sending with a phone number\", function () {",
+							"pm.test(\"Deleting instruction\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});"
 						],
@@ -2584,7 +2584,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Adding instruction\", function () {",
+							"pm.test(\"Adding document\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});"
 						],
@@ -2624,7 +2624,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Sending with a phone number\", function () {",
+							"pm.test(\"Deleting document\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});"
 						],
@@ -2637,7 +2637,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"instruction\": {\n        \"instruction\": \"test instruction\",\n        \"service_id\": 1\n    }\n}",
+					"raw": "{\n    \"document\": {\n        \"document\": \"test document\",\n        \"service_id\": 1\n    }\n}",
 					"options": {
 						"raw": {
 							"language": "json"

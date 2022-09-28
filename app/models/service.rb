@@ -146,6 +146,16 @@ class Service < ActiveRecord::Base
         resource.sites.map(&:site_code)
       end
 
+      add_attribute :documents do
+        documents.map do |d|
+          { id: d.id, url: d.url, description: d.description }
+        end
+      end
+
+      add_attribute :instructions do
+        instructions.map(&:instruction)
+      end
+
       # add_attribute :keywords do
       #   keywords.map(&:name)
       # end

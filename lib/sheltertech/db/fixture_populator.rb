@@ -230,16 +230,12 @@ module ShelterTech
         document = FactoryBot.create(:document,
                                      name: service.id.to_s, url: "document_url",
                                      description: "Some document")
-        service_document = ServiceDocument.new
-        service_document.service = service
-        service_document.document = document
-        service_document.save
+        service.documents << document
 
         instruction = Instruction.new
         instruction.service = service
         instruction.instruction = "Instruction text goes here"
         service.instructions << instruction
-
         FactoryBot.create(:change_request,
                           type: 'ResourceChangeRequest',
                           status: ChangeRequest.statuses[:pending],

@@ -218,7 +218,7 @@ class ServicesController < ApplicationController
   end
 
   def services
-    Service.includes(:notes, :categories, :eligibilities, :addresses, schedule: :schedule_days)
+    Service.includes(:notes, :categories, :eligibilities, :addresses, :documents, schedule: :schedule_days)
   end
 
   # Clean raw request params for interoperability with Rails APIs.

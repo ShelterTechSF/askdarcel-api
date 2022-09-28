@@ -69,5 +69,6 @@ Rails.application.routes.draw do
       get :activity_by_timeframe
     end
   end
+  resources :documents, only: %i[create update destroy]
   get 'reindex' => "algolia#reindex"
 end

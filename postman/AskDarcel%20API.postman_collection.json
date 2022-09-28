@@ -2545,7 +2545,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Adding instruction\", function () {",
+							"pm.test(\"Adding document\", function () {",
 							"    pm.response.to.have.status(201);",
 							"});"
 						],
@@ -2584,7 +2584,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Adding document\", function () {",
+							"pm.test(\"Updating document\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});"
 						],

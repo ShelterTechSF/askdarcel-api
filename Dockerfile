@@ -6,6 +6,9 @@ FROM ad2games/docker-rails:2.8.5
 # http://askubuntu.com/questions/383339/how-to-recover-deleted-dpkg-directory
 # forward request and error logs to docker log collector
 
+# NB The xenial-pgdg package that we're installing with APT below may be removed from Postgres' repo
+# when future Linux updates come out. See: https://wiki.postgresql.org/wiki/Apt for updates.
+
 RUN mkdir -p /var/lib/dpkg/alternatives /var/lib/dpkg/info /var/lib/dpkg/parts /var/lib/dpkg/triggers /var/lib/dpkg/updates && \
   touch /var/lib/dpkg/status && \
   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \

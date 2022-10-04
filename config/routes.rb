@@ -70,5 +70,11 @@ Rails.application.routes.draw do
     end
   end
   resources :documents, only: %i[create update destroy]
+  resources :news_articles do
+    post :create
+    get :retrieve
+    put :update
+    delete :delete
+  end
   get 'reindex' => "algolia#reindex"
 end

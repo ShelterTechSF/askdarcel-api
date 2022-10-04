@@ -2,4 +2,5 @@
 
 class InstructionsPresenter < Jsonite
   property :instruction
+  property :id
 end

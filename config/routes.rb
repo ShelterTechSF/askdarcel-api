@@ -59,6 +59,7 @@ Rails.application.routes.draw do
     resources :change_requests, only: :create
   end
   resources :textings, only: %i[create destroy]
+  resources :instructions, only: %i[create update destroy]
   resources :change_requests do
     post :create
     post :approve
@@ -68,5 +69,6 @@ Rails.application.routes.draw do
       get :activity_by_timeframe
     end
   end
+  resources :documents, only: %i[create update destroy]
   get 'reindex' => "algolia#reindex"
 end

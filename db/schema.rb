@@ -165,6 +165,11 @@ ActiveRecord::Schema.define(version: 2022_09_09_212857) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "documents_services", id: false, force: :cascade do |t|
+    t.integer "service_id"
+    t.integer "document_id"
+  end
+
   create_table "eligibilities", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -345,11 +350,6 @@ ActiveRecord::Schema.define(version: 2022_09_09_212857) do
     t.boolean "hours_known", default: true
     t.index ["resource_id"], name: "index_schedules_on_resource_id"
     t.index ["service_id"], name: "index_schedules_on_service_id"
-  end
-
-  create_table "service_documents", id: false, force: :cascade do |t|
-    t.integer "service_id"
-    t.integer "document_id"
   end
 
   create_table "services", force: :cascade do |t|

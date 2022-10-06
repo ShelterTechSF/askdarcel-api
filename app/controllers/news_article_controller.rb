@@ -11,6 +11,7 @@ class NewsArticleController < ApplicationController
     news_articles = NewsArticle.where("effective_date is <= ?", Time.current).where(
       "(expiration_date = ? or DATE(expiration_date) > ?)", nil, Time.current
     )
+
     render json: NewsArticlePresenter.present(news_articles)
   end
 

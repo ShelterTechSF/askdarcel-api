@@ -14,6 +14,7 @@ class NewsArticleController < ApplicationController
 
     render json: NewsArticlePresenter.present(news_articles)
   end
+
   # rubocop:disable Metrics/AbcSize
   def update
     news_article = NewsArticle.find(params[:id])

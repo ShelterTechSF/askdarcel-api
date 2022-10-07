@@ -19,6 +19,7 @@ class ServicesPresenter < Jsonite
   property :certified_at
   property :featured
   property :source_attribution
+  property :status
   property :schedule, with: SchedulesPresenter
   property :notes, with: NotesPresenter
   property :categories, with: CategoryPresenter

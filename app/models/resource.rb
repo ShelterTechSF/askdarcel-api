@@ -38,7 +38,7 @@ class Resource < ActiveRecord::Base
 
     # Important: Use Resource.reindex! and Service.reindex! to reindex/create your index
     # rubocop:disable Metrics/BlockLength
-    algoliasearch if: :status_approved,
+    algoliasearch if: :approved?,
                   index_name: "#{Rails.configuration.x.algolia.index_prefix}_services_search",
                   id: :algolia_id do
       # specify the list of attributes available for faceting
@@ -137,9 +137,5 @@ class Resource < ActiveRecord::Base
 
   def algolia_id
     "resource_#{id}" # ensure the resource & service IDs are not conflicting
-  end
-
-  def status_approved
-    status == "approved"
   end
 end

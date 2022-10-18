@@ -38,7 +38,9 @@ class Resource < ActiveRecord::Base
 
     # Important: Use Resource.reindex! and Service.reindex! to reindex/create your index
     # rubocop:disable Metrics/BlockLength
-    algoliasearch index_name: "#{Rails.configuration.x.algolia.index_prefix}_services_search", id: :algolia_id do
+    algoliasearch if: :approved?,
+                  index_name: "#{Rails.configuration.x.algolia.index_prefix}_services_search",
+                  id: :algolia_id do
       # specify the list of attributes available for faceting
       attributesForFaceting %i[categories open_times eligibilities associated_sites type]
       # Define attributes used to build an Algolia record

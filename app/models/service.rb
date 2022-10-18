@@ -32,7 +32,7 @@ class Service < ActiveRecord::Base
     # NOTE: We can't use the per_environment option because both our production
     # and staging servers use the same RAILS_ENV.
     # rubocop:disable Metrics/BlockLength
-    algoliasearch if: :status_approved,
+    algoliasearch if: :approved?,
                   index_name: "#{Rails.configuration.x.algolia.index_prefix}_services_search",
                   id: :algolia_id do
       # specify the list of attributes available for faceting
@@ -191,9 +191,5 @@ class Service < ActiveRecord::Base
 
   def algolia_id
     "service_#{id}"
-  end
-
-  def status_approved
-    status == "approved"
   end
 end

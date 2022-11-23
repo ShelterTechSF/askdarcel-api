@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 class Resource < ActiveRecord::Base
   include AlgoliaSearch
 
@@ -45,10 +44,10 @@ class Resource < ActiveRecord::Base
       attributesForFaceting %i[categories open_times eligibilities associated_sites type]
       # Define attributes used to build an Algolia record
       add_attribute :_geoloc do
-        if addresses.blank?
-          nil
-        else
+        if addresses.any?
           { lat: addresses[0].latitude.to_f, lng: addresses[0].longitude.to_f }
+        else
+          { lat: 0, lng: 0 }
         end
       end
 
@@ -63,8 +62,8 @@ class Resource < ActiveRecord::Base
               postal_code: a.postal_code,
               country: 'USA',
               address_1: a.address_1,
-              latitude: a.latitude.to_f || nil,
-              longitude: a.longitude.to_f || nil
+              latitude: a.latitude.to_f || 0,
+              longitude: a.longitude.to_f || 0
             }
           end
         else
@@ -119,6 +118,7 @@ class Resource < ActiveRecord::Base
       end
     end
     # rubocop:enable Metrics/BlockLength
+    puts algoliasearch.inspect
   end
 
   def resource_id

@@ -46,8 +46,10 @@ class Service < ActiveRecord::Base
             { lat: a.latitude.to_f, lng: a.longitude.to_f } \
               if a.latitude.present? && a.longitude.present?
           end
-        elsif !resource.addresses.blank? && resource.addresses[0].latitude.present? && resource.addresses[0].longitude.present?
+        elsif !resource.addresses.empty? && resource.addresses[0].latitude.present? && resource.addresses[0].longitude.present?
           { lat: resource.addresses[0].latitude.to_f, lng: resource.addresses[0].longitude.to_f }
+        else
+          { lat: 0, lng: 0 }
         end
       end
 
@@ -60,8 +62,8 @@ class Service < ActiveRecord::Base
               postal_code: a.postal_code,
               country: 'USA',
               address_1: a.address_1,
-              latitude: a.latitude.to_f || nil,
-              longitude: a.longitude.to_f || nil
+              latitude: a.latitude.to_f || 0,
+              longitude: a.longitude.to_f || 0
             }
           end
         elsif resource.addresses.present?

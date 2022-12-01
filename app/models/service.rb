@@ -62,8 +62,8 @@ class Service < ActiveRecord::Base
               postal_code: a.postal_code,
               country: 'USA',
               address_1: a.address_1,
-              latitude: a.latitude.to_f || 0,
-              longitude: a.longitude.to_f || 0
+              latitude: a.latitude.to_f || nil,
+              longitude: a.longitude.to_f || nil
             }
           end
         elsif resource.addresses.present?

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Resource < ActiveRecord::Base
   include AlgoliaSearch
 

@@ -45,7 +45,7 @@ class Resource < ActiveRecord::Base
       attributesForFaceting %i[categories open_times eligibilities associated_sites type]
       # Define attributes used to build an Algolia record
       add_attribute :_geoloc do
-        if addresses.any?
+        if addresses&.any?
           { lat: addresses[0].latitude.to_f, lng: addresses[0].longitude.to_f }
         else
           { lat: 0, lng: 0 }
@@ -119,7 +119,6 @@ class Resource < ActiveRecord::Base
       end
     end
     # rubocop:enable Metrics/BlockLength
-    puts algoliasearch.inspect
   end
 
   def resource_id

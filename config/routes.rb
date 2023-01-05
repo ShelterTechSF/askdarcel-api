@@ -74,7 +74,7 @@ Rails.application.routes.draw do
     post :create
     get :retrieve
     put :update
-    delete :delete
+    delete :destroy
   end
   get 'reindex' => "algolia#reindex"
 end

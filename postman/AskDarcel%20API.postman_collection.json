@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "03c3fafa-ce04-488a-9b78-b08f2959a62f",
+		"_postman_id": "fca7c8d9-8e45-4f57-a7b4-cd66fcc57bf7",
 		"name": "AskDarcel API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "680011"
@@ -2651,6 +2651,124 @@
 					],
 					"path": [
 						"documents",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Breaking News",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Adding document\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"news_article\": {\n        \"headline\": \"headline\",\n        \"body\": \"Lorem Ipsum etc etc etc\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/news_articles",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"news_articles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Breaking News",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Adding document\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"news_article\": {\n        \"headline\": \"modified headline\",\n        \"body\": \"Lorem Ipsum etc etc etc (modified)\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/news_articles",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"news_articles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Breaking News",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Deleting document\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"document\": {\n        \"document\": \"test document\",\n        \"service_id\": 1\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/news_articles/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"news_articles",
 						"1"
 					]
 				}

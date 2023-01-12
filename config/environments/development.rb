@@ -36,4 +36,7 @@ Rails.application.configure do
   config.lograge.enabled = true
 
   config.hosts << 'askdarcel.lvh.me'
+
+  # Public API key provided by PDF Crowd
+  config.x.pdfcrowd.api_key = "ce544b6ea52a5621fb9d55f8b542d14d"
 end

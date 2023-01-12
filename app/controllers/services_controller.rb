@@ -55,14 +55,15 @@ class ServicesController < ApplicationController
   end
 
   def convert_to_pdf
-    client = Pdfcrowd::HtmlToPdfClient.new("demo", "ce544b6ea52a5621fb9d55f8b542d14d")
-    pdf = client.convertUrl(params[:url])
-
-    send_data pdf,
-              {
-                type: "application/pdf",
-                disposition: "attachment; filename*=UTF-8''#{ERB::Util.url_encode('result.pdf')} }"
-              }
+    if Rails.configuration.x.pdfcrowd.api_key
+      client = Pdfcrowd::HtmlToPdfClient.new("demo", Rails.configuration.x.pdfcrowd.api_key)
+      pdf = client.convertUrl(params[:url])
+      send_data pdf,
+                { type: "application/pdf",
+                  disposition: "attachment; filename*=UTF-8''#{ERB::Util.url_encode('result.pdf')} }"}
+    else
+      render(status: 500)
+    end
   rescue Pdfcrowd::Error => e
     render plain: e.getMessage, status: e.getCode
   end

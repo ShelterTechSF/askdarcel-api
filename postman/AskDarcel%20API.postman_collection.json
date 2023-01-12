@@ -2774,6 +2774,48 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Retrieve Breaking News",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Deleting document\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"document\": {\n        \"document\": \"test document\",\n        \"service_id\": 1\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/news_articles",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"news_articles"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [

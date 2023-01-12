@@ -10,7 +10,8 @@ class NewsArticlesController < ApplicationController
   end
 
   def index
-    news_articles = NewsArticle.where("effective_date <= ? and (expiration_date is null or expiration_date>=?)", Time.current, Time.current)
+    news_articles = NewsArticle.where("effective_date <= ? and (expiration_date is null or expiration_date>=?)", Time.current,
+                                      Time.current)
 
     render json: NewsArticlePresenter.present(news_articles)
   end

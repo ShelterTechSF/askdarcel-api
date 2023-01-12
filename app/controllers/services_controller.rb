@@ -54,6 +54,19 @@ class ServicesController < ApplicationController
     render json: ServicesWithResourcePresenter.present(service)
   end
 
+  def convert_to_pdf
+    client = Pdfcrowd::HtmlToPdfClient.new("demo", "ce544b6ea52a5621fb9d55f8b542d14d")
+    pdf = client.convertUrl(params[:url])
+
+    send_data pdf,
+              {
+                type: "application/pdf",
+                disposition: "attachment; filename*=UTF-8''#{ERB::Util.url_encode('result.pdf')} }"
+              }
+  rescue Pdfcrowd::Error => e
+    render plain: e.getMessage, status: e.getCode
+  end
+
   def featured
     category_id = params[:category_id]
     featured_services = services.includes(

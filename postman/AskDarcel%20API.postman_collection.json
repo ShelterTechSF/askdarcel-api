@@ -2664,7 +2664,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Adding document\", function () {",
+							"pm.test(\"Adding breaking news\", function () {",
 							"    pm.response.to.have.status(201);",
 							"});"
 						],
@@ -2677,7 +2677,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"news_article\": {\n        \"headline\": \"headline\",\n        \"body\": \"Lorem Ipsum etc etc etc\"\n    }\n}",
+					"raw": "{\n    \"news_article\": {\n        \"headline\": \"headline\",\n        \"body\": \"Lorem Ipsum etc etc etc\",\n        \"effective_date\": \"2022-12-01\",\n        \"priority\": \"1\"\n    }\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -2703,7 +2703,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Adding document\", function () {",
+							"pm.test(\"Modifying breaking news\", function () {",
 							"    pm.response.to.have.status(201);",
 							"});"
 						],
@@ -2712,7 +2712,7 @@
 				}
 			],
 			"request": {
-				"method": "POST",
+				"method": "PUT",
 				"header": [],
 				"body": {
 					"mode": "raw",
@@ -2724,12 +2724,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}/news_articles",
+					"raw": "{{base_url}}/news_articles/1",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"news_articles"
+						"news_articles",
+						"1"
 					]
 				}
 			},
@@ -2742,7 +2743,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Deleting document\", function () {",
+							"pm.test(\"Deleting breaking news\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});"
 						],
@@ -2782,7 +2783,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Deleting document\", function () {",
+							"pm.test(\"Retrieving breaking news\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});"
 						],

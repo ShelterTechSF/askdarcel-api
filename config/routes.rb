@@ -72,7 +72,7 @@ Rails.application.routes.draw do
   resources :documents, only: %i[create update destroy]
   resources :news_articles do
     post :create
-    get :retrieve
+    get :index
     put :update
     delete :destroy
   end

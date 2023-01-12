@@ -9,10 +9,8 @@ class NewsArticlesController < ApplicationController
     render status: :created, json: NewsArticlePresenter.present(persisted_news_article)
   end
 
-  def retrieve
-    news_articles = NewsArticle.where("effective_date is <= ?", Time.current).where(
-      "(expiration_date = ? or DATE(expiration_date) > ?)", nil, Time.current
-    )
+  def index
+    news_articles = NewsArticle.where("effective_date <= ? and (expiration_date is null or expiration_date>=?)", Time.current, Time.current)
 
     render json: NewsArticlePresenter.present(news_articles)
   end
@@ -31,7 +29,7 @@ class NewsArticlesController < ApplicationController
   end
   # rubocop:enable Metrics/AbcSize
 
-  def delete
+  def destroy
     news_article = NewsArticle.find params[:id]
     news_article.delete
 

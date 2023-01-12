@@ -2704,7 +2704,7 @@
 					"script": {
 						"exec": [
 							"pm.test(\"Modifying breaking news\", function () {",
-							"    pm.response.to.have.status(201);",
+							"    pm.response.to.have.status(200);",
 							"});"
 						],
 						"type": "text/javascript"

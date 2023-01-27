@@ -1,6 +1,6 @@
-class CreateNewsArticle < ActiveRecord::Migration[6.1]
+class CreateNewsArticles < ActiveRecord::Migration[6.1]
   def change
-    create_table :news_article do |t|
+    create_table :news_articles do |t|
       t.string :headline
       t.datetime :effective_date
       t.string :body

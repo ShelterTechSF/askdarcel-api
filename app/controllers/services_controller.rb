@@ -54,13 +54,13 @@ class ServicesController < ApplicationController
     render json: ServicesWithResourcePresenter.present(service)
   end
 
-  def convert_to_pdf
-    if Rails.configuration.x.pdfcrowd.api_key
-      client = Pdfcrowd::HtmlToPdfClient.new("demo", Rails.configuration.x.pdfcrowd.api_key)
-      pdf = client.convertUrl(params[:url])
+  def html_to_pdf
+    if Rails.configuration.x.pdfcrowd.api_key && Rails.configuration.x.pdfcrowd.username
+      client = Pdfcrowd::HtmlToPdfClient.new(Rails.configuration.x.pdfcrowd.username, Rails.configuration.x.pdfcrowd.api_key)
+      pdf = client.convertString(params[:html])
       send_data pdf,
                 { type: "application/pdf",
-                  disposition: "attachment; filename*=UTF-8''#{ERB::Util.url_encode('result.pdf')} }"}
+                  disposition: "attachment; filename*=UTF-8''#{ERB::Util.url_encode('result.pdf')} }" }
     else
       render(status: 500)
     end
@@ -363,4 +363,5 @@ class ServicesController < ApplicationController
         user_input_site_id
       )
   end
+
 end

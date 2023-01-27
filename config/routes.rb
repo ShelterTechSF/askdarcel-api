@@ -40,7 +40,7 @@ Rails.application.routes.draw do
       post :approve
       post :reject
       post :certify
-      post :convert_to_pdf
+      post :html_to_pdf
     end
     collection do
       get :featured

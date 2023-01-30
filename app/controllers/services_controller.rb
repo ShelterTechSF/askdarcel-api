@@ -65,8 +65,6 @@ class ServicesController < ApplicationController
       send_data pdf,
                 { type: "application/pdf",
                   disposition: "attachment; filename*=UTF-8''#{ERB::Util.url_encode('result.pdf')} }" }
-    else
-      render(status: 500)
     end
   rescue Pdfcrowd::Error => e
     puts "Failed to convert HTML to PDF: #{e}"

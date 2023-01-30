@@ -69,7 +69,8 @@ class ServicesController < ApplicationController
       render(status: 500)
     end
   rescue Pdfcrowd::Error => e
-    render plain: e.getMessage, status: e.getCode
+    puts "Failed to convert HTML to PDF: #{e}"
+    render plain: "There was an error getting the PDF. Please try again", status: 500
   end
 
   def featured

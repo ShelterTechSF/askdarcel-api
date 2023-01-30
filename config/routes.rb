@@ -36,17 +36,15 @@ Rails.application.routes.draw do
     resources :notes, only: :create
     resources :feedbacks, only: %i[create index]
     resources :addresses, only: %i[update destroy]
-    collection do
-      post :approve
-      post :reject
-      post :certify
-      post :html_to_pdf
-    end
+    post :approve
+    post :reject
+    post :certify
     collection do
       get :featured
       get :pending
       get :count
       get :search
+      post :html_to_pdf
     end
   end
   resources :notes do

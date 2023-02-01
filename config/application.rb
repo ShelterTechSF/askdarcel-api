@@ -28,6 +28,10 @@ module AskdarcelApi
 
     config.x.google.api_key = ENV['GOOGLE_API_KEY']
 
+    # PDF Crowd
+    config.x.pdfcrowd.username = ENV['PDFCROWD_USERNAME']
+    config.x.pdfcrowd.api_key = ENV['PDFCROWD_API_KEY']
+
     config.x.textellent.api_key = ENV['TEXTELLENT_AUTH_CODE']
 
     config.x.textellent.url = 'https://client.textellent.com/api/v1/engagement/create.json'

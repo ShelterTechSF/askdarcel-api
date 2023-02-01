@@ -54,6 +54,23 @@ class ServicesController < ApplicationController
     render json: ServicesWithResourcePresenter.present(service)
   end
 
+  def init_pdf_crowd_client
+    Pdfcrowd::HtmlToPdfClient.new(Rails.configuration.x.pdfcrowd.username, Rails.configuration.x.pdfcrowd.api_key)
+  end
+
+  def html_to_pdf
+    if Rails.configuration.x.pdfcrowd.api_key && Rails.configuration.x.pdfcrowd.username
+      client = init_pdf_crowd_client
+      pdf = client.convertString(params[:html])
+      send_data pdf,
+                { type: "application/pdf",
+                  disposition: "attachment; filename*=UTF-8''#{ERB::Util.url_encode('result.pdf')} }" }
+    end
+  rescue Pdfcrowd::Error => e
+    puts "Failed to convert HTML to PDF: #{e}"
+    render plain: "There was an error getting the PDF. Please try again", status: 500
+  end
+
   def featured
     category_id = params[:category_id]
     featured_services = services.includes(

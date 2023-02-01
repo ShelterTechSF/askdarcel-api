@@ -149,6 +149,7 @@ GEM
     parallel (1.21.0)
     parser (3.0.2.0)
       ast (~> 2.4.1)
+    pdfcrowd (5.10.0)
     pg (1.2.3)
     phonelib (0.6.54)
     prometheus-client (2.1.0)
@@ -264,6 +265,7 @@ DEPENDENCIES
   jsonite
   jwt
   lograge
+  pdfcrowd
   pg
   phonelib
   prometheus-client

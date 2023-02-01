@@ -44,6 +44,7 @@ Rails.application.routes.draw do
       get :pending
       get :count
       get :search
+      post :html_to_pdf
     end
   end
   resources :notes do

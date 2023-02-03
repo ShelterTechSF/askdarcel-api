@@ -5,4 +5,7 @@ if Rails.configuration.x.algolia.enabled
     application_id: Rails.configuration.x.algolia.application_id,
     api_key: Rails.configuration.x.algolia.api_key
   }
+  AlgoliaSearch.client_opts = {
+    logger: Algolia::LoggerHelper.create($stderr)
+  }
 end

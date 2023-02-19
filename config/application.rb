@@ -29,8 +29,8 @@ module AskdarcelApi
     config.x.google.api_key = ENV['GOOGLE_API_KEY']
 
     # PDF Crowd
-    config.x.pdfcrowd.username = ENV['PDFCROWD_USERNAME']
-    config.x.pdfcrowd.api_key = ENV['PDFCROWD_API_KEY']
+    config.x.pdfcrowd.username = ENV['PDF_CROWD_USERNAME']
+    config.x.pdfcrowd.api_key = ENV['PDF_CROWD_API_KEY']
 
     config.x.textellent.api_key = ENV['TEXTELLENT_AUTH_CODE']
 

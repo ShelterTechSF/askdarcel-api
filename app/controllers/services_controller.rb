@@ -54,7 +54,7 @@ class ServicesController < ApplicationController
     render json: ServicesWithResourcePresenter.present(service)
   end
 
-  def translate_html
+  def translate_html(params)
     request = Google::Cloud::Translate::V3::TranslateTextRequest.new(
       {
         contents: [params[:html]],
@@ -73,7 +73,7 @@ class ServicesController < ApplicationController
 
   def html_to_pdf
     if Rails.configuration.x.pdfcrowd.enabled
-      html = html_should_be_translated(params) ? translate_html : params[:html]
+      html = html_should_be_translated(params) ? translate_html(params) : params[:html]
       send_data PdfCrowdClient.client.convertString(html),
                 { type: "application/pdf",
                   disposition: "attachment; filename*=UTF-8''#{ERB::Util.url_encode('result.pdf')} }" }

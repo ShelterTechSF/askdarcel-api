@@ -54,15 +54,27 @@ class ServicesController < ApplicationController
     render json: ServicesWithResourcePresenter.present(service)
   end
 
-  def init_pdf_crowd_client
-    Pdfcrowd::HtmlToPdfClient.new(Rails.configuration.x.pdfcrowd.username, Rails.configuration.x.pdfcrowd.api_key)
+  def translate_html
+    request = Google::Cloud::Translate::V3::TranslateTextRequest.new(
+      {
+        contents: [params[:html]],
+        target_language_code: params[:target_language],
+        parent: "projects/askdarcel-184805"
+      }
+    )
+    response = TranslationService.translate_text request
+    response.translations[0].translated_text
+  end
+
+  def html_should_be_translated(params)
+    languages = %w[en es tl zh-TW vi ar ru]
+    languages.include? params[:target_language]
   end
 
   def html_to_pdf
-    if Rails.configuration.x.pdfcrowd.api_key && Rails.configuration.x.pdfcrowd.username
-      client = init_pdf_crowd_client
-      pdf = client.convertString(params[:html])
-      send_data pdf,
+    html = html_should_be_translated(params) ? translate_html : params[:html]
+    if Rails.configuration.x.pdfcrowd.enabled
+      send_data PdfCrowdClient.client.convertString(html),
                 { type: "application/pdf",
                   disposition: "attachment; filename*=UTF-8''#{ERB::Util.url_encode('result.pdf')} }" }
     end

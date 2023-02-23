@@ -55,3 +55,4 @@ group :test do
 end
 
 gem 'pdfcrowd'
+gem 'google-cloud-translate'

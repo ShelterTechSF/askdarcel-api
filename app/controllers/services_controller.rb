@@ -72,8 +72,8 @@ class ServicesController < ApplicationController
   end
 
   def html_to_pdf
-    html = html_should_be_translated(params) ? translate_html : params[:html]
     if Rails.configuration.x.pdfcrowd.enabled
+      html = html_should_be_translated(params) ? translate_html : params[:html]
       send_data PdfCrowdClient.client.convertString(html),
                 { type: "application/pdf",
                   disposition: "attachment; filename*=UTF-8''#{ERB::Util.url_encode('result.pdf')} }" }

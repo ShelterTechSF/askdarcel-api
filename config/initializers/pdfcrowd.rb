@@ -6,5 +6,8 @@ if Rails.configuration.x.pdfcrowd.api_key && Rails.configuration.x.pdfcrowd.user
     class << self; attr_accessor :client; end
   end
 
-  PdfCrowdClient.client = Pdfcrowd::HtmlToPdfClient.new(Rails.configuration.x.pdfcrowd.username, Rails.configuration.x.pdfcrowd.api_key)
+  PdfCrowdClient.client = Pdfcrowd::HtmlToPdfClient.new(
+    Rails.configuration.x.pdfcrowd.username,
+    Rails.configuration.x.pdfcrowd.api_key
+  )
 end

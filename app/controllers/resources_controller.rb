@@ -85,7 +85,7 @@ class ResourcesController < ApplicationController
         fix_lat_and_long(a)
       end
 
-      if r.sites.length.zero?
+      if r.sites.empty?
         sfsg = Site.find_by site_code: "sfsg"
         r.sites = [sfsg]
       end

@@ -128,6 +128,7 @@ class ResourcesController < ApplicationController
       :long_description,
       :short_description,
       :website,
+      :legal_status,
       :email,
       :status,
       addresses: %i[{ address_1 address_2 address_3 address_4 city state_province postal_code latitude longitude }],

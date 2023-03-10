@@ -59,13 +59,13 @@ class ServicesController < ApplicationController
       {
         contents: [params[:html]],
         target_language_code: params[:target_language],
-        parent: "projects/askdarcel-184805"
+        parent: "projects/#{CloudTranslation.project_id}"
       }
     )
   end
 
   def translate_html
-    response = TranslationService.translate_text new_google_translate_request
+    response = CloudTranslation.translation_service.translate_text new_google_translate_request
     response.translations[0].translated_text
   rescue StandardError => e
     if e.instance_of? Google::Cloud::ResourceExhaustedError

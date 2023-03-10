@@ -54,33 +54,50 @@ class ServicesController < ApplicationController
     render json: ServicesWithResourcePresenter.present(service)
   end
 
-  def translate_html(params)
-    request = Google::Cloud::Translate::V3::TranslateTextRequest.new(
+  def new_google_translate_request
+    Google::Cloud::Translate::V3::TranslateTextRequest.new(
       {
         contents: [params[:html]],
         target_language_code: params[:target_language],
         parent: "projects/askdarcel-184805"
       }
     )
-    response = TranslationService.translate_text request
-    response.translations[0].translated_text
   end
 
-  def html_should_be_translated(params)
+  def translate_html
+    response = TranslationService.translate_text new_google_translate_request
+    response.translations[0].translated_text
+  rescue StandardError => e
+    if e.instance_of? Google::Cloud::ResourceExhaustedError
+      e = "We're sorry, we've hit our PDF translation limit for the day. Please try again tomorrow. Contact support with any \
+questions."
+    end
+    raise e
+  end
+
+  def html_input
     languages = %w[en es tl zh-TW vi ar ru]
-    languages.include? params[:target_language]
+    if languages.include? params[:target_language]
+      unless Rails.configuration.x.google.translation_enabled
+        raise "PDF translation service is not enabled right now. Please contact support or try again later."
+      end
+
+      html = translate_html
+    end
+    html
   end
 
   def html_to_pdf
-    if Rails.configuration.x.pdfcrowd.enabled
-      html = html_should_be_translated(params) ? translate_html(params) : params[:html]
-      send_data PdfCrowdClient.client.convertString(html),
-                { type: "application/pdf",
-                  disposition: "attachment; filename*=UTF-8''#{ERB::Util.url_encode('result.pdf')} }" }
+    unless Rails.configuration.x.pdfcrowd.enabled
+      raise "Dynamic PDF generation is not enabled right now. Please contact support or try again later."
     end
-  rescue Pdfcrowd::Error => e
-    puts "Failed to convert HTML to PDF: #{e}"
-    render plain: "There was an error getting the PDF. Please try again", status: 500
+
+    send_data PdfCrowdClient.client.convertString(html_input),
+              { type: "application/pdf",
+                disposition: "attachment; filename*=UTF-8''#{ERB::Util.url_encode('translation.pdf')} }" }
+  rescue StandardError => e
+    Rails.logger.error(e)
+    render plain: e.to_s, status: 500
   end
 
   def featured
@@ -243,7 +260,7 @@ class ServicesController < ApplicationController
   def remove_from_algolia(service)
     service.remove_from_index!
   rescue StandardError
-    puts "failed to remove rservice #{service.id} from algolia index"
+    Rails.logger.error "failed to remove service #{service.id} from algolia index"
   end
 
   def services

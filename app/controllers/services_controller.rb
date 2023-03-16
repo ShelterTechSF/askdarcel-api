@@ -67,16 +67,16 @@ class ServicesController < ApplicationController
   def translate_html
     response = CloudTranslation.translation_service.translate_text new_google_translate_request
     response.translations[0].translated_text
-  rescue StandardError => e
-    if e.instance_of? Google::Cloud::ResourceExhaustedError
-      e = "We're sorry, we've hit our PDF translation limit for the day. Please try again tomorrow. Contact support with any \
-questions."
-    end
-    raise e
+  rescue Google::Cloud::ResourceExhaustedError
+    error = StandardError.new "We're sorry, we've hit our PDF translation limit for the day. Please try again tomorrow. Contact \
+support with any questions."
+    raise error
   end
 
   def html_input
+    html = params[:html]
     languages = %w[en es tl zh-TW vi ar ru]
+
     if languages.include? params[:target_language]
       unless Rails.configuration.x.google.translation_enabled
         raise "PDF translation service is not enabled right now. Please contact support or try again later."
@@ -84,6 +84,7 @@ questions."
 
       html = translate_html
     end
+
     html
   end
 
@@ -96,7 +97,7 @@ questions."
               { type: "application/pdf",
                 disposition: "attachment; filename*=UTF-8''#{ERB::Util.url_encode('translation.pdf')} }" }
   rescue StandardError => e
-    Rails.logger.error(e)
+    Raven.capture_exception(e)
     render plain: e.to_s, status: 500
   end
 

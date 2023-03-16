@@ -27,6 +27,7 @@ module AskdarcelApi
     config.x.airtable.api_key = ENV['AIRTABLE_API_KEY']
 
     config.x.google.api_key = ENV['GOOGLE_API_KEY']
+    config.x.google.translate_credentials = ENV['TRANSLATE_CREDENTIALS']
 
     # PDF Crowd
     config.x.pdfcrowd.username = ENV['PDF_CROWD_USERNAME']

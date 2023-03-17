@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# Rails.logger.info("6: #{Rails.configuration.x.google.translate_credentials}")
+puts("6: #{Rails.configuration.x.google.translate_credentials}")
+
 if Rails.configuration.x.google.translate_credentials
   Rails.configuration.x.google.translation_enabled = true
   module CloudTranslation

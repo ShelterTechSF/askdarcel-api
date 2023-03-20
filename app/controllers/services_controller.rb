@@ -55,7 +55,7 @@ class ServicesController < ApplicationController
   end
 
   def new_google_translate_request
-    Google::Cloud::Translate::V3::TranslateTextRequest.new(
+    CloudTranslation.client::V3::TranslateTextRequest.new(
       {
         contents: [params[:html]],
         target_language_code: params[:target_language],
@@ -65,7 +65,7 @@ class ServicesController < ApplicationController
   end
 
   def translate_html
-    response = CloudTranslation.translation_service.translate_text new_google_translate_request
+    response = CloudTranslation.client.translation_service.translate_text new_google_translate_request
     response.translations[0].translated_text
   rescue Google::Cloud::ResourceExhaustedError
     error = StandardError.new "We're sorry, we've hit our PDF translation limit for the day. Please try again tomorrow. Contact \

@@ -29,13 +29,6 @@ module AskdarcelApi
     config.x.google.api_key = ENV['GOOGLE_API_KEY']
     config.x.google.translate_credentials = ENV['TRANSLATE_CREDENTIALS']
 
-    puts("Logging ENV #{ENV}")
-    puts("1: #{ENV['TRANSLATE_CREDENTIALS']}")
-    puts("2: #{ENV['TRANSLATE_KEYFILE']}")
-    puts("3: #{ENV['GOOGLE_CLOUD_CREDENTIALS']}")
-    puts("4: #{ENV['GOOGLE_CLOUD_KEYFILE']}")
-    puts("5: #{ENV['GOOGLE_APPLICATION_CREDENTIALS']}")
-
     # PDF Crowd
     config.x.pdfcrowd.username = ENV['PDF_CROWD_USERNAME']
     config.x.pdfcrowd.api_key = ENV['PDF_CROWD_API_KEY']

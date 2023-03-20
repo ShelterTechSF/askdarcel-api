@@ -55,17 +55,18 @@ class ServicesController < ApplicationController
   end
 
   def new_google_translate_request
-    CloudTranslation.client::V3::TranslateTextRequest.new(
+    project_id = JSON.parse(Rails.configuration.x.google.translate_credentials)['project_id']
+    Google::Cloud::Translate::V3::TranslateTextRequest.new(
       {
         contents: [params[:html]],
         target_language_code: params[:target_language],
-        parent: "projects/#{CloudTranslation.project_id}"
+        parent: "projects/#{project_id}"
       }
     )
   end
 
   def translate_html
-    response = CloudTranslation.client.translation_service.translate_text new_google_translate_request
+    response = Google::Cloud::Translate.translation_service.translate_text new_google_translate_request
     response.translations[0].translated_text
   rescue Google::Cloud::ResourceExhaustedError
     error = StandardError.new "We're sorry, we've hit our PDF translation limit for the day. Please try again tomorrow. Contact \
@@ -78,7 +79,7 @@ support with any questions."
     languages = %w[en es tl zh-TW vi ar ru]
 
     if languages.include? params[:target_language]
-      unless Rails.configuration.x.google.translation_enabled
+      unless Rails.configuration.x.google.translate_credentials
         raise "PDF translation service is not enabled right now. Please contact support or try again later."
       end
 

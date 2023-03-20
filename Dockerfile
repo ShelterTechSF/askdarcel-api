@@ -1,6 +1,6 @@
 FROM combostrikehq/docker-rails:ruby-2.7
 
-# ad2games/docker-rails removes files required for dpkg to work. We must
+# combostrikehq/docker-rails removes files required for dpkg to work. We must
 # recreate those files first before we can install postgresql-client.
 # See this StackExchange question on restoring dpkg files:
 # http://askubuntu.com/questions/383339/how-to-recover-deleted-dpkg-directory

@@ -21,5 +21,4 @@ RUN mkdir -p /var/lib/dpkg/alternatives /var/lib/dpkg/info /var/lib/dpkg/parts /
   apt-get install -y postgresql-client-common && \
   rm -rf /var/lib/apt/lists/*
 
-ENV LD_PRELOAD=$LD_PRELOAD:/lib/x86_64-linux-gnu/libjemalloc.so.2\ bundle\ exec\ ruby\ server.rb
-ENV LD_PRELOAD=$LD_PRELOAD:/lib/x86_64-linux-gnu/libjemalloc.so.2\ bundle\ exec\ ruby\ client.rb
+ENV LD_PRELOAD=$LD_PRELOAD:/lib/x86_64-linux-gnu/libjemalloc.so.2

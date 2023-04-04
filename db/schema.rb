@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_09_212858) do
+ActiveRecord::Schema.define(version: 2023_04_04_181143) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -261,6 +261,7 @@ ActiveRecord::Schema.define(version: 2022_09_09_212858) do
     t.datetime "expiration_date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "url"
   end
 
   create_table "notes", force: :cascade do |t|
@@ -360,6 +361,11 @@ ActiveRecord::Schema.define(version: 2022_09_09_212858) do
     t.boolean "hours_known", default: true
     t.index ["resource_id"], name: "index_schedules_on_resource_id"
     t.index ["service_id"], name: "index_schedules_on_service_id"
+  end
+
+  create_table "service_documents", id: false, force: :cascade do |t|
+    t.integer "service_id"
+    t.integer "document_id"
   end
 
   create_table "services", force: :cascade do |t|

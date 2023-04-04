@@ -7,4 +7,5 @@ class NewsArticlePresenter < Jsonite
   property :body
   property :priority
   property :expiration_date
+  property :url
 end

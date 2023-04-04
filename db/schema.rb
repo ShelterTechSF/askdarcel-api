@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_04_04_181143) do
+ActiveRecord::Schema.define(version: 2023_04_04_230604) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -243,16 +243,6 @@ ActiveRecord::Schema.define(version: 2023_04_04_181143) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "news_article", force: :cascade do |t|
-    t.string "headline"
-    t.datetime "effective_date"
-    t.string "body"
-    t.integer "priority"
-    t.datetime "expiration_date"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "news_articles", force: :cascade do |t|
     t.string "headline"
     t.datetime "effective_date"
@@ -363,9 +353,13 @@ ActiveRecord::Schema.define(version: 2023_04_04_181143) do
     t.index ["service_id"], name: "index_schedules_on_service_id"
   end
 
-  create_table "service_documents", id: false, force: :cascade do |t|
-    t.integer "service_id"
-    t.integer "document_id"
+  create_table "service_at_locations", force: :cascade do |t|
+    t.bigint "service_id"
+    t.bigint "address_id"
+    t.bigint "schedule_id"
+    t.index ["address_id"], name: "index_service_at_locations_on_address_id"
+    t.index ["schedule_id"], name: "index_service_at_locations_on_schedule_id"
+    t.index ["service_id"], name: "index_service_at_locations_on_service_id"
   end
 
   create_table "services", force: :cascade do |t|

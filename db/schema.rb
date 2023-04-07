@@ -353,15 +353,6 @@ ActiveRecord::Schema.define(version: 2023_04_04_230604) do
     t.index ["service_id"], name: "index_schedules_on_service_id"
   end
 
-  create_table "service_at_locations", force: :cascade do |t|
-    t.bigint "service_id"
-    t.bigint "address_id"
-    t.bigint "schedule_id"
-    t.index ["address_id"], name: "index_service_at_locations_on_address_id"
-    t.index ["schedule_id"], name: "index_service_at_locations_on_schedule_id"
-    t.index ["service_id"], name: "index_service_at_locations_on_service_id"
-  end
-
   create_table "services", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

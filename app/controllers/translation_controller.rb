@@ -17,7 +17,6 @@ support with any questions."
   end
 
   def translate_params
-    Rails.logger.info("whats going onhere ...")
     {
       contents: [params[:text]],
       target_language_code: 'en',

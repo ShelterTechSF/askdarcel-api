@@ -8,8 +8,7 @@ class TranslationController < ApplicationController
     client = ::Google::Cloud::Translate::V3::TranslationService::Client.new
     request = ::Google::Cloud::Translate::V3::TranslateTextRequest.new(translate_params)
     response = client.translate_text request
-    Rails.logger.info(response.translations[0].translated_text)
-    render json: {result: response.translations[0].translated_text}
+    render json: { result: response.translations[0].translated_text }
   rescue Google::Cloud::ResourceExhaustedError
     error = StandardError.new "Sorry – we've hit our translation limit for the day. Please try again tomorrow. Contact \
 support with any questions."

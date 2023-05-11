@@ -275,8 +275,8 @@ ActiveRecord::Schema.define(version: 2023_05_11_221255) do
     t.string "permission"
     t.string "object_type"
     t.integer "object_pk"
-    t.bigint "user_id", null: false
-    t.bigint "group_id", null: false
+    t.bigint "user_id"
+    t.bigint "group_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["group_id"], name: "index_permissions_on_group_id"

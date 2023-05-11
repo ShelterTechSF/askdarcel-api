@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_04_04_230604) do
+ActiveRecord::Schema.define(version: 2023_05_11_221255) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -215,6 +215,13 @@ ActiveRecord::Schema.define(version: 2023_04_04_230604) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "groups", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_groups_on_name", unique: true
+  end
+
   create_table "instructions", force: :cascade do |t|
     t.string "instruction"
     t.datetime "created_at", precision: 6, null: false
@@ -262,6 +269,18 @@ ActiveRecord::Schema.define(version: 2023_04_04_230604) do
     t.datetime "updated_at", null: false
     t.index ["resource_id"], name: "index_notes_on_resource_id"
     t.index ["service_id"], name: "index_notes_on_service_id"
+  end
+
+  create_table "permissions", force: :cascade do |t|
+    t.string "permission"
+    t.string "object_type"
+    t.integer "object_pk"
+    t.bigint "user_id", null: false
+    t.bigint "group_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["group_id"], name: "index_permissions_on_group_id"
+    t.index ["user_id"], name: "index_permissions_on_user_id"
   end
 
   create_table "phones", force: :cascade do |t|
@@ -419,8 +438,16 @@ ActiveRecord::Schema.define(version: 2023_04_04_230604) do
     t.index ["texting_recipient_id"], name: "index_textings_on_texting_recipient_id"
   end
 
+  create_table "user_groups", id: false, force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "group_id", null: false
+    t.index ["group_id"], name: "index_user_groups_on_group_id"
+    t.index ["user_id"], name: "index_user_groups_on_user_id"
+  end
+
   create_table "users", id: :serial, force: :cascade do |t|
     t.string "name"
+    t.boolean "is_superuser"
   end
 
   create_table "volunteers", force: :cascade do |t|
@@ -444,6 +471,8 @@ ActiveRecord::Schema.define(version: 2023_04_04_230604) do
   add_foreign_key "instructions", "services"
   add_foreign_key "notes", "resources"
   add_foreign_key "notes", "services"
+  add_foreign_key "permissions", "groups"
+  add_foreign_key "permissions", "users"
   add_foreign_key "phones", "contacts"
   add_foreign_key "phones", "languages"
   add_foreign_key "phones", "resources"

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-class User < ActiveRecord::Base
-  has_and_belongs_to_many(:groups,
+class Group < ApplicationRecord
+  has_and_belongs_to_many(:users,
                           join_table: "user_groups",
-                          foreign_key: "user_id")
+                          foreign_key: "group_id")
   has_many :permissions, dependent: :destroy
 end

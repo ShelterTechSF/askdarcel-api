@@ -272,9 +272,10 @@ ActiveRecord::Schema.define(version: 2023_05_11_221255) do
   end
 
   create_table "permissions", force: :cascade do |t|
-    t.string "permission"
-    t.string "object_type"
-    t.integer "object_pk"
+    t.string "description"
+    t.string "permission", null: false
+    t.string "object_type", null: false
+    t.integer "object_pk", null: false
     t.bigint "user_id"
     t.bigint "group_id"
     t.datetime "created_at", precision: 6, null: false
@@ -447,7 +448,7 @@ ActiveRecord::Schema.define(version: 2023_05_11_221255) do
 
   create_table "users", id: :serial, force: :cascade do |t|
     t.string "name"
-    t.boolean "is_superuser"
+    t.boolean "is_superuser", default: false
   end
 
   create_table "volunteers", force: :cascade do |t|

@@ -19,7 +19,7 @@ support with any questions."
     {
       contents: [params[:text]],
       target_language_code: 'en',
-      source_language_code: params[:target_language],
+      source_language_code: params[:source_language],
       parent: "projects/#{Rails.configuration.x.google.project_id}"
     }
   end

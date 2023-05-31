@@ -16,11 +16,13 @@
 #
 # The permissions system provides a way to assign specific permissions
 # to users and groups of users for specific objects. The object_type
-# is intended to be either a Resource or Service and the object_pk
+# is intended to be either a "Resource" or "Service" and the object_pk
 # is the private key for the selected object. The permission field
-# can be create, read, update, or destroy
+# can be a standard operation like "create", "read", "update", "destroy",
+# or a custom field for more unique operations
 
 class Permission < ApplicationRecord
-  belongs_to :user
-  belongs_to :group
+  has_and_belongs_to_many(:users, join_table: "user_permissions")
+
+  has_and_belongs_to_many(:groups, join_table: "group_permissions")
 end

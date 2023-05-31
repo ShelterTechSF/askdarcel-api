@@ -16,5 +16,7 @@
 class Group < ApplicationRecord
   has_and_belongs_to_many(:users,
                           join_table: "user_groups")
-  has_many :permissions
+
+  has_and_belongs_to_many(:permissions,
+                          join_table: "group_permissions")
 end

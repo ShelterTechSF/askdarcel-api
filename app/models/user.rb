@@ -13,5 +13,5 @@ class User < ActiveRecord::Base
                           join_table: "user_groups")
 
   has_and_belongs_to_many(:permissions,
-                        join_table: "user_permissions")
+                          join_table: "user_permissions")
 end

@@ -18,7 +18,7 @@
 # is intended to be either a "Resource" or "Service" and the object_pk
 # is the private key for the selected object. The permission field
 # can be a standard operation like "create", "read", "update", "destroy",
-# or a custom field for more unique operations
+# or a custom field for more custom operations
 
 class Permission < ApplicationRecord
   has_and_belongs_to_many(:users, join_table: "user_permissions")

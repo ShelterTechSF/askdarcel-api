@@ -8,12 +8,11 @@
 #  description :string
 #  permission  :string           not null
 #  object_type :string           not null
-#  object_pk   :integer          not null
-#  user_id     :bigint
-#  group_id    :bigint
+#  object_pk   :bigint           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
+
 # The permissions system provides a way to assign specific permissions
 # to users and groups of users for specific objects. The object_type
 # is intended to be either a "Resource" or "Service" and the object_pk

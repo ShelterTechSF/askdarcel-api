@@ -9,7 +9,7 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
-#
+
 # Groups provide a way to categorize a given group of users and to assign
 # specific permissions to said group
 

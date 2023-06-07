@@ -5,10 +5,14 @@ class ChangeRequestsController < ApplicationController
   def create
     ApplicationRecord.transaction do
       create_change_request
+      puts "create_change_request function completed"
     end
+    puts "application transaction loop completed (create HTTP endpoint completed)"
   rescue ActiveRecord::UnknownAttributeError => e
+    puts "rescue unknown attribute error"
     render status: :bad_request, json: unknown_attribute_error_json(e)
   rescue ActiveRecord::RecordInvalid => e
+    puts "rescue record invalid error"
     render status: :bad_request, json: RecordInvalidPresenter.present(e)
   end
 
@@ -61,7 +65,7 @@ class ChangeRequestsController < ApplicationController
     @change_request.field_changes = field_changes
 
     persist_change (@change_request)
-
+    puts "persist_change function executed"
     render status: :created, json: ChangeRequestsPresenter.present(@change_request)
   end
 
@@ -96,9 +100,9 @@ class ChangeRequestsController < ApplicationController
         :transportation
       ]
       required_fields = [
-        :address_1, 
-        :city, 
-        :state_province, 
+        :address_1,
+        :city,
+        :state_province,
         :postal_code
       ]
       change_request_params = change_request.require(:field_changes).permit(permitted_fields)
@@ -106,7 +110,7 @@ class ChangeRequestsController < ApplicationController
 
       address.attributes = change_request_params
       address.resource_id = resource_id
-      
+
       a = geocode_address address
       unless a.nil?
         address.latitude = a.latitude
@@ -115,7 +119,7 @@ class ChangeRequestsController < ApplicationController
 
       address.save!
       AddressChangeRequest.create(object_id: address.id, resource_id: Address.find(address.id).resource_id)
-      
+
     when "phones"
       puts "PhoneInsertChangeRequest"
       phone = Phone.new
@@ -127,7 +131,7 @@ class ChangeRequestsController < ApplicationController
         :contact_id,
         :language_id
       ]
-      required_fields = [:number, :service_type] 
+      required_fields = [:number, :service_type]
       change_request_params = change_request.require(:field_changes).permit(permitted_fields)
       change_request_params.require(required_fields)
       phone.attributes = change_request_params
@@ -239,13 +243,19 @@ class ChangeRequestsController < ApplicationController
     puts object_id
     field_change_hash = get_field_change_hash change_request
     if change_request.is_a? ServiceChangeRequest
-      puts "ServiceChangeRequest"
+      puts "ServiceChangeRequest: "
+      puts change_request.inspect
       service = Service.find(change_request.object_id)
+      puts "Target service: "
+      puts service.inspect
       service.update field_change_hash
+      puts "service update called"
+      puts service.inspect
     elsif change_request.is_a? ResourceChangeRequest
       puts "ResourceChangeRequest"
       resource = Resource.find(change_request.object_id)
       resource.update field_change_hash
+      puts "Resource updated"
     elsif change_request.is_a? ScheduleDayChangeRequest
       puts "ScheduleDayChangeRequest"
       ScheduleDayChangeRequest.modify_schedule_day_hours(field_change_hash, params[:schedule_id], change_request.object_id)
@@ -269,7 +279,7 @@ class ChangeRequestsController < ApplicationController
         a = geocode_address address
         unless a.nil?
           field_change_hash["latitude"] = a.latitude
-          field_change_hash["longitude"] = a.longitude 
+          field_change_hash["longitude"] = a.longitude
         end
         address.update field_change_hash
       end
@@ -278,8 +288,10 @@ class ChangeRequestsController < ApplicationController
     end
 
     resource = change_request.resource
+    puts "resource"
+    puts resource.inspect
     return unless resource.present?
-
+    puts "resource present"
     # Touch 'updated_at' for resource. Signals to other systems that this
     # resource and/or its services have been modified.
     resource.touch

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_05_31_183601) do
+ActiveRecord::Schema.define(version: 2023_06_09_201040) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -117,6 +117,8 @@ ActiveRecord::Schema.define(version: 2023_05_31_183601) do
   create_table "category_relationships", id: false, force: :cascade do |t|
     t.integer "parent_id", null: false
     t.integer "child_id", null: false
+    t.integer "child_priority_rank"
+    t.index ["child_id", "parent_id"], name: "index_category_relationships_on_child_id_and_parent_id", unique: true
   end
 
   create_table "change_requests", force: :cascade do |t|
@@ -331,6 +333,7 @@ ActiveRecord::Schema.define(version: 2023_05_31_183601) do
     t.datetime "certified_at"
     t.boolean "featured"
     t.integer "source_attribution", default: 0
+    t.text "internal_note"
     t.index ["contact_id"], name: "index_resources_on_contact_id"
     t.index ["funding_id"], name: "index_resources_on_funding_id"
     t.index ["updated_at", "id"], name: "index_resources_on_updated_at_and_id"
@@ -400,6 +403,7 @@ ActiveRecord::Schema.define(version: 2023_05_31_183601) do
     t.datetime "certified_at"
     t.boolean "featured"
     t.integer "source_attribution", default: 0
+    t.text "internal_note"
     t.index ["contact_id"], name: "index_services_on_contact_id"
     t.index ["funding_id"], name: "index_services_on_funding_id"
     t.index ["program_id"], name: "index_services_on_program_id"

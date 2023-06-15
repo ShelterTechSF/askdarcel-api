@@ -96,9 +96,9 @@ class ChangeRequestsController < ApplicationController
         :transportation
       ]
       required_fields = [
-        :address_1, 
-        :city, 
-        :state_province, 
+        :address_1,
+        :city,
+        :state_province,
         :postal_code
       ]
       change_request_params = change_request.require(:field_changes).permit(permitted_fields)
@@ -106,7 +106,7 @@ class ChangeRequestsController < ApplicationController
 
       address.attributes = change_request_params
       address.resource_id = resource_id
-      
+
       a = geocode_address address
       unless a.nil?
         address.latitude = a.latitude
@@ -115,7 +115,7 @@ class ChangeRequestsController < ApplicationController
 
       address.save!
       AddressChangeRequest.create(object_id: address.id, resource_id: Address.find(address.id).resource_id)
-      
+
     when "phones"
       puts "PhoneInsertChangeRequest"
       phone = Phone.new
@@ -127,7 +127,7 @@ class ChangeRequestsController < ApplicationController
         :contact_id,
         :language_id
       ]
-      required_fields = [:number, :service_type] 
+      required_fields = [:number, :service_type]
       change_request_params = change_request.require(:field_changes).permit(permitted_fields)
       change_request_params.require(required_fields)
       phone.attributes = change_request_params
@@ -269,7 +269,7 @@ class ChangeRequestsController < ApplicationController
         a = geocode_address address
         unless a.nil?
           field_change_hash["latitude"] = a.latitude
-          field_change_hash["longitude"] = a.longitude 
+          field_change_hash["longitude"] = a.longitude
         end
         address.update field_change_hash
       end

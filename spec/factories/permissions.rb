@@ -5,12 +5,18 @@
 # Table name: permissions
 #
 #  id          :bigint           not null, primary key
-#  description :string
-#  permission  :string           not null
-#  object_type :string           not null
-#  object_pk   :bigint           not null
+#  action      :integer
+#  resource_id :bigint
+#  service_id  :bigint
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#
+# Indexes
+#
+#  index_permissions_on_resource_id             (resource_id)
+#  index_permissions_on_resource_id_and_action  (resource_id,action) UNIQUE
+#  index_permissions_on_service_id              (service_id)
+#  index_permissions_on_service_id_and_action   (service_id,action) UNIQUE
 #
 FactoryBot.define do
   factory :permission do

@@ -4,9 +4,8 @@
 #
 # Table name: users
 #
-#  id           :integer          not null, primary key
-#  name         :string
-#  is_superuser :boolean          default(FALSE)
+#  id   :integer          not null, primary key
+#  name :string
 #
 FactoryBot.define do
   factory :user do

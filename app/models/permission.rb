@@ -5,14 +5,19 @@
 # Table name: permissions
 #
 #  id          :bigint           not null, primary key
-#  action      :int              not null
+#  action      :integer
+#  resource_id :bigint
+#  service_id  :bigint
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
 # Indexes
 #
-#  index_groups_on_service_id_and_action ([:service_id, :action]) UNIQUE
-#  index_groups_on_resource_id_and_action ([:resource_id, :action]) UNIQUE
+#  index_permissions_on_resource_id             (resource_id)
+#  index_permissions_on_resource_id_and_action  (resource_id,action) UNIQUE
+#  index_permissions_on_service_id              (service_id)
+#  index_permissions_on_service_id_and_action   (service_id,action) UNIQUE
+#
 
 # The permissions system provides a way to assign specific permissions
 # to a group to view/alter specific objects.

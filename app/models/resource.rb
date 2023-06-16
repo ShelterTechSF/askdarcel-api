@@ -22,6 +22,7 @@ class Resource < ActiveRecord::Base
   has_many :change_requests, dependent: :destroy
   has_many :programs, dependent: :destroy
   has_many :feedbacks, dependent: :destroy
+  has_many :permissions, dependent: :destroy
 
   accepts_nested_attributes_for :notes
   accepts_nested_attributes_for :schedule

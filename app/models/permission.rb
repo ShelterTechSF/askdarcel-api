@@ -21,7 +21,9 @@
 # or a custom field for more custom operations
 
 class Permission < ApplicationRecord
-  has_and_belongs_to_many(:users, join_table: "user_permissions")
+  enum action: { add: 0, view: 1, edit: 2, remove: 3 }
 
   has_and_belongs_to_many(:groups, join_table: "group_permissions")
+  belongs_to :resource, optional: true
+  belongs_to :service, optional: true
 end

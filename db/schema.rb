@@ -281,12 +281,16 @@ ActiveRecord::Schema.define(version: 2023_06_09_201040) do
   end
 
   create_table "permissions", force: :cascade do |t|
-    t.string "description"
-    t.string "permission", null: false
-    t.string "object_type", null: false
-    t.bigint "object_pk", null: false
+    t.integer "action"
+    t.bigint "resource_id"
+    t.bigint "service_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["resource_id", "action"], name: "index_permissions_on_resource_id_and_action", unique: true
+    t.index ["resource_id"], name: "index_permissions_on_resource_id"
+    t.index ["service_id", "action"], name: "index_permissions_on_service_id_and_action", unique: true
+    t.index ["service_id"], name: "index_permissions_on_service_id"
+    t.check_constraint "((resource_id IS NOT NULL) AND (service_id IS NULL)) OR ((resource_id IS NULL) AND (service_id IS NOT NULL))", name: "resource_xor_service"
   end
 
   create_table "phones", force: :cascade do |t|
@@ -453,16 +457,8 @@ ActiveRecord::Schema.define(version: 2023_06_09_201040) do
     t.index ["user_id"], name: "index_user_groups_on_user_id"
   end
 
-  create_table "user_permissions", id: false, force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "permission_id", null: false
-    t.index ["permission_id", "user_id"], name: "index_user_permissions_on_permission_id_and_user_id"
-    t.index ["user_id", "permission_id"], name: "index_user_permissions_on_user_id_and_permission_id"
-  end
-
   create_table "users", id: :serial, force: :cascade do |t|
     t.string "name"
-    t.boolean "is_superuser", default: false
   end
 
   create_table "volunteers", force: :cascade do |t|
@@ -486,6 +482,8 @@ ActiveRecord::Schema.define(version: 2023_06_09_201040) do
   add_foreign_key "instructions", "services"
   add_foreign_key "notes", "resources"
   add_foreign_key "notes", "services"
+  add_foreign_key "permissions", "resources"
+  add_foreign_key "permissions", "services"
   add_foreign_key "phones", "contacts"
   add_foreign_key "phones", "languages"
   add_foreign_key "phones", "resources"

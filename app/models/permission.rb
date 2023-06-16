@@ -5,20 +5,17 @@
 # Table name: permissions
 #
 #  id          :bigint           not null, primary key
-#  description :string
-#  permission  :string           not null
-#  object_type :string           not null
-#  object_pk   :bigint           not null
+#  action      :int              not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
+# Indexes
+#
+#  index_groups_on_service_id_and_action ([:service_id, :action]) UNIQUE
+#  index_groups_on_resource_id_and_action ([:resource_id, :action]) UNIQUE
 
 # The permissions system provides a way to assign specific permissions
-# to users and groups of users for specific objects. The object_type
-# is intended to be either a "Resource" or "Service" and the object_pk
-# is the private key for the selected object. The permission field
-# can be a standard operation like "create", "read", "update", "destroy",
-# or a custom field for more custom operations
+# to a group to view/alter specific objects.
 
 class Permission < ApplicationRecord
   enum action: { add: 0, view: 1, edit: 2, remove: 3 }

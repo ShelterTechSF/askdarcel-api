@@ -9,6 +9,10 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
+# Indexes
+#
+#  index_groups_on_name  (name) UNIQUE
+#
 
 # Groups provide a way to categorize a given group of users and to assign
 # specific permissions to said group

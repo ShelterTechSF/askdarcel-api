@@ -7,19 +7,22 @@ class TextingsController < ApplicationController
   def create
     text_data = aggregate_text_data
 
-    # Make a request to Textellent API. If the request is successful, we update our DB
+    # Make a request to Textellent API. If the request is successful, we store a record in our DB
     response = JSON.parse(post_textellent(text_data).body)
     Rails.logger.info(response)
+
     if response['status'] != 'success'
       render status: :bad_request, json: { error: 'failure' }
       return
     end
-    update_db(recipient_name, phone_number)
+    update_db
   end
 
   private
 
-  def update_db(recipient_name, phone_number)
+  def update_db
+    phone_number = texting_params[:phone_number]
+    recipient_name = texting_params[:recipient_name]
     recipient = TextingRecipient.find_by(phone_number: phone_number)
 
     if recipient

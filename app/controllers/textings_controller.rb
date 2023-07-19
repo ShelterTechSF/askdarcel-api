@@ -65,14 +65,14 @@ class TextingsController < ApplicationController
   end
 
   # rubocop:disable Metrics/MethodLength
-  def get_resource_address(resource_address, phone)
-    if resource_address.any?
+  def get_listing_address(address_array, phone)
+    if address_array.any?
       return {
-        address1: resource_address[0].address_1,
-        address2: resource_address[0].address_2,
-        city: resource_address[0].city,
-        state_province: resource_address[0].state_province,
-        postal_code: resource_address[0].postal_code,
+        address1: address_array[0].address_1,
+        address2: address_array[0].address_2,
+        city: address_array[0].city,
+        state_province: address_array[0].state_province,
+        postal_code: address_array[0].postal_code,
         phone: phone
       }
     end
@@ -126,7 +126,7 @@ class TextingsController < ApplicationController
     categories = service.categories.map(&:name)
     resource = Resource.find(service.resource_id)
     phone = get_resource_phone(resource)
-    address = get_resource_address(resource.addresses, phone)
+    address = get_listing_address(service.addresses.any? ? service.addresses : resource.addresses, phone)
 
     generate_data(recipient_name, phone_number, categories, service.name, address)
   end
@@ -135,7 +135,7 @@ class TextingsController < ApplicationController
     resource = Resource.find(resource_id)
     phone = get_resource_phone(resource)
     resource_addresses = resource.addresses
-    address = get_resource_address(resource_addresses, phone)
+    address = get_listing_address(resource_addresses, phone)
     categories = resource.categories.map(&:name)
 
     generate_data(recipient_name, phone_number, categories, resource.name, address)

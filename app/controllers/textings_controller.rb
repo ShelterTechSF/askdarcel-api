@@ -15,14 +15,14 @@ class TextingsController < ApplicationController
       render status: :bad_request, json: { error: 'failure' }
       return
     end
-    update_db
+    update_db(text_data)
   end
 
   private
 
-  def update_db
-    phone_number = texting_params[:phone_number]
-    recipient_name = texting_params[:recipient_name]
+  def update_db(text_data)
+    phone_number = text_data[:mobilePhone]
+    recipient_name = text_data[:firstName]
     recipient = TextingRecipient.find_by(phone_number: phone_number)
 
     if recipient

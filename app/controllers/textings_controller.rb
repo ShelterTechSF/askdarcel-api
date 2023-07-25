@@ -105,7 +105,7 @@ class TextingsController < ApplicationController
         "Zip" => address[:postal_code],
         "Org_Phone" => address[:phone]
       }
-    }
+    }.with_indifferent_access
   end
 
   def aggregate_text_data

@@ -2,17 +2,30 @@
 class NotesController < ApplicationController
   def create
 
-    if params[:service_id]
-      note = service.notes.build
-      note.note = params[:note][:note]
-      service.save!
-    elsif params[:resource_id]
-      note = resource.notes.build
-      note.note = params[:note][:note]
-      resource.save!
+    note = nil
+    note_json = params[:note]
+    if note_json[:service_id]
+      note = Note.create(service_id: note_json[:service_id], note: note_json[:note])
+      note.save!
+    elsif note_json[:resource_id]
+      note = Note.create(resource_id: note_json[:resource_id], note: note_json[:note])
+      note.save!
+    else
+      render plain: "Improper Note Data", status: 400
+      return
     end
-
+ 
     render status: :created, json: note
+  end
+
+  def update
+
+    note = Note.find(params[:id])
+    note.note = params[:note][:note]
+    note.save
+
+    render status: :ok, json: note
+
   end
 
   def destroy

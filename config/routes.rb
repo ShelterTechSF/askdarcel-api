@@ -78,4 +78,5 @@ Rails.application.routes.draw do
     delete :destroy
   end
   get 'reindex' => "algolia#reindex"
+  post 'translation/translate_text', to: 'translation#translate_text'
 end

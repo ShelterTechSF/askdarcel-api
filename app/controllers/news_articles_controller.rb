@@ -24,6 +24,7 @@ class NewsArticlesController < ApplicationController
     news_article.body = params[:news_article][:body]
     news_article.priority = params[:news_article][:priority]
     news_article.expiration_date = params[:news_article][:expiration_date]
+    news_article.url = params[:news_article][:url]
     news_article.save
 
     render status: :ok, json: NewsArticlePresenter.present(news_article)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_04_04_230604) do
+ActiveRecord::Schema.define(version: 2023_07_18_212101) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -117,6 +117,8 @@ ActiveRecord::Schema.define(version: 2023_04_04_230604) do
   create_table "category_relationships", id: false, force: :cascade do |t|
     t.integer "parent_id", null: false
     t.integer "child_id", null: false
+    t.integer "child_priority_rank"
+    t.index ["child_id", "parent_id"], name: "index_category_relationships_on_child_id_and_parent_id", unique: true
   end
 
   create_table "change_requests", force: :cascade do |t|
@@ -308,6 +310,7 @@ ActiveRecord::Schema.define(version: 2023_04_04_230604) do
     t.datetime "certified_at"
     t.boolean "featured"
     t.integer "source_attribution", default: 0
+    t.text "internal_note"
     t.index ["contact_id"], name: "index_resources_on_contact_id"
     t.index ["funding_id"], name: "index_resources_on_funding_id"
     t.index ["updated_at", "id"], name: "index_resources_on_updated_at_and_id"
@@ -377,6 +380,7 @@ ActiveRecord::Schema.define(version: 2023_04_04_230604) do
     t.datetime "certified_at"
     t.boolean "featured"
     t.integer "source_attribution", default: 0
+    t.text "internal_note"
     t.index ["contact_id"], name: "index_services_on_contact_id"
     t.index ["funding_id"], name: "index_services_on_funding_id"
     t.index ["program_id"], name: "index_services_on_program_id"
@@ -412,11 +416,14 @@ ActiveRecord::Schema.define(version: 2023_04_04_230604) do
 
   create_table "textings", force: :cascade do |t|
     t.bigint "texting_recipient_id", null: false
-    t.bigint "service_id", null: false
+    t.bigint "service_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "resource_id"
+    t.index ["resource_id"], name: "index_textings_on_resource_id"
     t.index ["service_id"], name: "index_textings_on_service_id"
     t.index ["texting_recipient_id"], name: "index_textings_on_texting_recipient_id"
+    t.check_constraint "((resource_id IS NOT NULL) AND (service_id IS NULL)) OR ((resource_id IS NULL) AND (service_id IS NOT NULL))", name: "resource_xor_service"
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
@@ -462,6 +469,7 @@ ActiveRecord::Schema.define(version: 2023_04_04_230604) do
   add_foreign_key "services", "programs"
   add_foreign_key "services", "resources"
   add_foreign_key "synonyms", "synonym_groups"
+  add_foreign_key "textings", "resources"
   add_foreign_key "textings", "services"
   add_foreign_key "textings", "texting_recipients"
   add_foreign_key "volunteers", "resources"

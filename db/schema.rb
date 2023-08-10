@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_06_09_201040) do
+ActiveRecord::Schema.define(version: 2023_07_18_212101) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -443,11 +443,14 @@ ActiveRecord::Schema.define(version: 2023_06_09_201040) do
 
   create_table "textings", force: :cascade do |t|
     t.bigint "texting_recipient_id", null: false
-    t.bigint "service_id", null: false
+    t.bigint "service_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "resource_id"
+    t.index ["resource_id"], name: "index_textings_on_resource_id"
     t.index ["service_id"], name: "index_textings_on_service_id"
     t.index ["texting_recipient_id"], name: "index_textings_on_texting_recipient_id"
+    t.check_constraint "((resource_id IS NOT NULL) AND (service_id IS NULL)) OR ((resource_id IS NULL) AND (service_id IS NOT NULL))", name: "resource_xor_service"
   end
 
   create_table "user_groups", id: false, force: :cascade do |t|
@@ -502,6 +505,7 @@ ActiveRecord::Schema.define(version: 2023_06_09_201040) do
   add_foreign_key "services", "programs"
   add_foreign_key "services", "resources"
   add_foreign_key "synonyms", "synonym_groups"
+  add_foreign_key "textings", "resources"
   add_foreign_key "textings", "services"
   add_foreign_key "textings", "texting_recipients"
   add_foreign_key "volunteers", "resources"

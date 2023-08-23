@@ -217,6 +217,20 @@ ActiveRecord::Schema.define(version: 2023_07_18_212101) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "group_permissions", id: false, force: :cascade do |t|
+    t.bigint "group_id", null: false
+    t.bigint "permission_id", null: false
+    t.index ["group_id", "permission_id"], name: "index_group_permissions_on_group_id_and_permission_id"
+    t.index ["permission_id", "group_id"], name: "index_group_permissions_on_permission_id_and_group_id"
+  end
+
+  create_table "groups", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_groups_on_name", unique: true
+  end
+
   create_table "instructions", force: :cascade do |t|
     t.string "instruction"
     t.datetime "created_at", precision: 6, null: false
@@ -264,6 +278,19 @@ ActiveRecord::Schema.define(version: 2023_07_18_212101) do
     t.datetime "updated_at", null: false
     t.index ["resource_id"], name: "index_notes_on_resource_id"
     t.index ["service_id"], name: "index_notes_on_service_id"
+  end
+
+  create_table "permissions", force: :cascade do |t|
+    t.integer "action"
+    t.bigint "resource_id"
+    t.bigint "service_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["resource_id", "action"], name: "index_permissions_on_resource_id_and_action", unique: true
+    t.index ["resource_id"], name: "index_permissions_on_resource_id"
+    t.index ["service_id", "action"], name: "index_permissions_on_service_id_and_action", unique: true
+    t.index ["service_id"], name: "index_permissions_on_service_id"
+    t.check_constraint "((resource_id IS NOT NULL) AND (service_id IS NULL)) OR ((resource_id IS NULL) AND (service_id IS NOT NULL))", name: "resource_xor_service"
   end
 
   create_table "phones", force: :cascade do |t|
@@ -426,6 +453,13 @@ ActiveRecord::Schema.define(version: 2023_07_18_212101) do
     t.check_constraint "((resource_id IS NOT NULL) AND (service_id IS NULL)) OR ((resource_id IS NULL) AND (service_id IS NOT NULL))", name: "resource_xor_service"
   end
 
+  create_table "user_groups", id: false, force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "group_id", null: false
+    t.index ["group_id"], name: "index_user_groups_on_group_id"
+    t.index ["user_id"], name: "index_user_groups_on_user_id"
+  end
+
   create_table "users", id: :serial, force: :cascade do |t|
     t.string "name"
   end
@@ -451,6 +485,8 @@ ActiveRecord::Schema.define(version: 2023_07_18_212101) do
   add_foreign_key "instructions", "services"
   add_foreign_key "notes", "resources"
   add_foreign_key "notes", "services"
+  add_foreign_key "permissions", "resources"
+  add_foreign_key "permissions", "services"
   add_foreign_key "phones", "contacts"
   add_foreign_key "phones", "languages"
   add_foreign_key "phones", "resources"

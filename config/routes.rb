@@ -48,8 +48,6 @@ Rails.application.routes.draw do
     end
   end
   resources :notes do
-    post :create
-    put :update
     resources :change_requests, only: :create
   end
   resources :addresses do
@@ -59,7 +57,6 @@ Rails.application.routes.draw do
     resources :change_requests, only: :create
   end
   resources :phones do
-    post :create
     resources :change_requests, only: :create
   end
   resources :textings, only: %i[create destroy]

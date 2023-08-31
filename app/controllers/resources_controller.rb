@@ -161,7 +161,7 @@ class ResourcesController < ApplicationController
   def transform_simple_objects(resource)
     if resource.key?(:notes)
       resource[:notes_attributes] = resource[:notes].map { |note| note[:note] }
-      resource.delete(:notes)  # Remove the original :notes key
+      resource.delete(:notes)
     end
 
     resource[:addresses_attributes] = resource.delete(:addresses) if resource.key? :addresses

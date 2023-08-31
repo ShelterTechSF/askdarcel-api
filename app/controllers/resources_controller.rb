@@ -134,7 +134,7 @@ class ResourcesController < ApplicationController
       addresses: %i[{ address_1 address_2 address_3 address_4 city state_province postal_code latitude longitude }],
       schedule: [{ schedule_days: %i[day opens_at closes_at open_day open_time close_day close_time] }],
       phones: %i[number service_type],
-      notes: [:note],
+      notes: [{ note: :note }],
       categories: [:id],
       sites: [:id]
     )
@@ -159,12 +159,12 @@ class ResourcesController < ApplicationController
   end
 
   def transform_simple_objects(resource)
-    resource[:notes_attributes] = resource.delete(:notes) if resource.key? :notes
+    if resource.key?(:notes)
+      resource[:notes_attributes] = resource[:notes].map { |note| note[:note] }
+      resource.delete(:notes)  # Remove the original :notes key
+    end
 
     resource[:addresses_attributes] = resource.delete(:addresses) if resource.key? :addresses
-
-    resource.delete(:notes)
-
     resource[:phones_attributes] = resource.delete(:phones) if resource.key? :phones
   end
 

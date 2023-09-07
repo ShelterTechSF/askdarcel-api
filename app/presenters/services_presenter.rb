@@ -13,6 +13,7 @@ class ServicesPresenter < Jsonite
   property :long_description
   property :name
   property :required_documents
+  property :short_description
   property :url
   property :verified_at
   property :wait_time

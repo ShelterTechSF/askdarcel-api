@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_07_18_212101) do
+ActiveRecord::Schema.define(version: 2023_09_07_215706) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -408,6 +408,7 @@ ActiveRecord::Schema.define(version: 2023_07_18_212101) do
     t.boolean "featured"
     t.integer "source_attribution", default: 0
     t.text "internal_note"
+    t.string "short_description"
     t.index ["contact_id"], name: "index_services_on_contact_id"
     t.index ["funding_id"], name: "index_services_on_funding_id"
     t.index ["program_id"], name: "index_services_on_program_id"

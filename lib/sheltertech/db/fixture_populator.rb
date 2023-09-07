@@ -275,6 +275,7 @@ module ShelterTech
                           name: "A Test Service",
                           resource: resource,
                           long_description: "I am a long description of a service.",
+                          short_description: "I am a short description of a service.",
                           categories: [test_category])
       end
 

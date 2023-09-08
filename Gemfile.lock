@@ -73,6 +73,9 @@ GEM
     algoliasearch-rails (2.2.1)
       algolia (< 3.0.0)
       json (>= 1.5.1)
+    annotate (3.2.0)
+      activerecord (>= 3.2, < 8.0)
+      rake (>= 10.4, < 14.0)
     ast (2.4.2)
     builder (3.2.4)
     bullet (6.1.5)
@@ -343,6 +346,7 @@ PLATFORMS
 DEPENDENCIES
   airrecord
   algoliasearch-rails
+  annotate
   bullet
   byebug
   dotenv-rails

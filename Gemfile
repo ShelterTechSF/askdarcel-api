@@ -50,6 +50,10 @@ group :development, :test do
   gem 'rubocop'
 end
 
+group :development do
+  gem 'annotate', require: false
+end
+
 group :test do
   gem 'rspec-collection_matchers'
 end

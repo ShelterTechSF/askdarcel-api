@@ -44,6 +44,15 @@ module AskdarcelApi
     # rubocop:enable Layout/LineLength
     config.x.authorization.cert = OpenSSL::X509::Certificate.new(pem)
 
+    # Store for managing cookie-based sessions which are required for OmniAuth
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore, key: 'sheltertech'
+
+    # Auth0 variables
+    config.x.auth0.client_id = ENV['AUTH0_CLIENT_ID']
+    config.x.auth0.client_secret = ENV['AUTH0_CLIENT_SECRET']
+    config.x.auth0.domain = ENV['AUTH0_DOMAIN']
+
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins '*'

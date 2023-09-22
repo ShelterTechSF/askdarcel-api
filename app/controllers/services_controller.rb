@@ -95,7 +95,7 @@ support with any questions."
       raise "Dynamic PDF generation is not enabled right now. Please contact support or try again later."
     end
 
-    PdfCrowdClient.client.setPageMargins('0.3in', '0.3in', '0.3in', '0.3in')
+    PdfCrowdClient.client.setPageMargins('0.2in', '0.2in', '0.2in', '0.2in')
 
     send_data PdfCrowdClient.client.convertString(html_input),
               { type: "application/pdf",

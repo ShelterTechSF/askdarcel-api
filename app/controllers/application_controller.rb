@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
 require "jwt"
+require "auth0_client"
 
 class ApplicationController < ActionController::API
+  include Secured
+
   rescue_from ActionController::ParameterMissing do
     head :bad_request
   end

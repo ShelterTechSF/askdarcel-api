@@ -12,6 +12,8 @@ module Secured
   }.freeze
 
   def authorize
+    # This method can be run as a before_action to validate user's token prior to
+    # allowing access to endpoint
     token = token_from_request
 
     return if performed?

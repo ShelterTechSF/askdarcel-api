@@ -4,9 +4,7 @@ module Secured
   extend ActiveSupport::Concern
 
   REQUIRES_AUTHENTICATION = { message: 'Requires authentication' }.freeze
-  BAD_CREDENTIALS = {
-    message: 'Bad credentials'
-  }.freeze
+  BAD_CREDENTIALS = { message: 'Bad credentials'}.freeze
   MALFORMED_AUTHORIZATION_HEADER = {
     error: 'invalid_request',
     error_description: 'Authorization header value must follow this format: Bearer access-token',

@@ -7,11 +7,11 @@ class Auth0Client
   Error = Struct.new(:message, :status)
   Response = Struct.new(:decoded_token, :error)
 
-  def domain_url
+  def self.domain_url
     "https://#{Rails.application.config.x.auth0.domain}/"
   end
 
-  def decode_token(token, jwks_hash)
+  def self.decode_token(token, jwks_hash)
     JWT.decode(token, nil, true, {
                  algorithm: 'RS256',
                  iss: domain_url,
@@ -22,16 +22,16 @@ class Auth0Client
                })
   end
 
-  def jwks
+  def self.jwks
     jwks_uri = URI("#{domain_url}.well-known/jwks.json")
     Net::HTTP.get_response jwks_uri
   end
 
-  def jwks_hash(jwks_response_body)
+  def self.jwks_hash(jwks_response_body)
     JSON.parse(jwks_response_body).deep_symbolize_keys
   end
 
-  def validate_token(token)
+  def self.validate_token(token)
     jwks_response = jwks
 
     unless jwks_response.is_a? Net::HTTPSuccess
@@ -47,4 +47,5 @@ class Auth0Client
     Response.new(nil, error)
   end
   # rubocop:enable Lint/ShadowedException
+
 end

@@ -47,5 +47,4 @@ class Auth0Client
     Response.new(nil, error)
   end
   # rubocop:enable Lint/ShadowedException
-
 end

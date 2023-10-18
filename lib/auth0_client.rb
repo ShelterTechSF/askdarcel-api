@@ -4,14 +4,14 @@ require 'jwt'
 require 'net/http'
 
 class Auth0Client
-  AUTH_DOMAIN = URI::HTTPS.build(host: Rails.application.config.x.auth0.domain)
+  Auth_Domain = URI::HTTPS.build(host: Rails.application.config.x.auth0.domain)
   Error = Struct.new(:message, :status)
   Response = Struct.new(:decoded_token, :error)
 
   def self.decode_token(token, jwks_hash)
     JWT.decode(token, nil, true, {
                  algorithm: 'RS256',
-                 iss: URI.join(AUTH_DOMAIN, '/'), # Trailing slash is required to successfully validate token
+                 iss: URI.join(Auth_Domain, '/'), # Trailing slash is required to successfully validate token
                  verify_iss: true,
                  aud: Rails.application.config.x.auth0.audience,
                  verify_aud: true,
@@ -20,7 +20,7 @@ class Auth0Client
   end
 
   def self.fetch_jwks
-    jwks_uri = URI.join(AUTH_DOMAIN, '.well-known/jwks.json')
+    jwks_uri = URI.join(Auth_Domain, '.well-known/jwks.json')
     Net::HTTP.get_response jwks_uri
   end
 

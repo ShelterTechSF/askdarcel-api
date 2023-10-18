@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# This concern is included in our ApplicationController.
+# It instantiates an Auth0Client, which calls the validate_token method
+# to validate Auth tokens included in requests from the front-end.
 module Secured
   extend ActiveSupport::Concern
 
@@ -11,16 +14,16 @@ module Secured
     message: 'Bad credentials'
   }.freeze
 
+  # The authorize method can be run as a before_action within a controller to validate
+  # a user's token prior to allowing access to an endpoint.
   def authorize
-    # This method can be run as a before_action to validate user's token prior to
-    # allowing access to endpoint
     token = token_from_request
 
     return if performed?
 
     validation_response = Auth0Client.validate_token(token)
-
-    return unless (error = validation_response.error)
+    error = validation_response.error
+    return unless error
 
     render json: { message: error.message }, status: error.status
   end

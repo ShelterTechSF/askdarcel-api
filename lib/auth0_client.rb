@@ -35,9 +35,7 @@ class Auth0Client
     jwks_hash = JSON.parse(jwks_response.body).deep_symbolize_keys
     decoded_token = decode_token(token, jwks_hash)
     Response.new(decoded_token, nil)
-  # rubocop:disable Lint/ShadowedException
   rescue JWT::DecodeError
     Response.new(nil, Error.new('Bad credentials', :unauthorized))
   end
-  # rubocop:enable Lint/ShadowedException
 end

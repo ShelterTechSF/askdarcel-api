@@ -52,6 +52,7 @@ module AskdarcelApi
     config.x.auth0.client_id = ENV['AUTH0_CLIENT_ID']
     config.x.auth0.client_secret = ENV['AUTH0_CLIENT_SECRET']
     config.x.auth0.domain = ENV['AUTH0_DOMAIN']
+    config.x.auth0.audience = ENV['AUTH0_AUDIENCE']
 
     config.middleware.insert_before 0, Rack::Cors do
       allow do

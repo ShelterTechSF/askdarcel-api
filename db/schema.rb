@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_09_07_215706) do
+ActiveRecord::Schema.define(version: 2023_11_30_030827) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,12 +69,13 @@ ActiveRecord::Schema.define(version: 2023_09_07_215706) do
   end
 
   create_table "bookmarks", force: :cascade do |t|
-    t.string "identifier"
-    t.datetime "date_value"
-    t.integer "id_value"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["identifier"], name: "index_bookmarks_on_identifier", unique: true
+    t.integer "rank"
+    t.bigint "folder_id"
+    t.bigint "service_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["folder_id"], name: "index_bookmarks_on_folder_id"
+    t.index ["service_id"], name: "index_bookmarks_on_service_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -211,6 +212,15 @@ ActiveRecord::Schema.define(version: 2023_09_07_215706) do
     t.index ["change_request_id"], name: "index_field_changes_on_change_request_id"
   end
 
+  create_table "folders", force: :cascade do |t|
+    t.string "name"
+    t.integer "rank"
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_folders_on_user_id"
+  end
+
   create_table "fundings", force: :cascade do |t|
     t.string "source"
     t.datetime "created_at", null: false
@@ -257,6 +267,16 @@ ActiveRecord::Schema.define(version: 2023_09_07_215706) do
     t.string "language"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "news_article", force: :cascade do |t|
+    t.string "headline"
+    t.datetime "effective_date"
+    t.string "body"
+    t.integer "priority"
+    t.datetime "expiration_date"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "news_articles", force: :cascade do |t|
@@ -475,6 +495,8 @@ ActiveRecord::Schema.define(version: 2023_09_07_215706) do
   end
 
   add_foreign_key "addresses", "resources"
+  add_foreign_key "bookmarks", "folders"
+  add_foreign_key "bookmarks", "services"
   add_foreign_key "categories_sites", "categories"
   add_foreign_key "categories_sites", "sites"
   add_foreign_key "change_requests", "resources"
@@ -483,6 +505,7 @@ ActiveRecord::Schema.define(version: 2023_09_07_215706) do
   add_foreign_key "feedbacks", "resources"
   add_foreign_key "feedbacks", "services"
   add_foreign_key "field_changes", "change_requests"
+  add_foreign_key "folders", "users"
   add_foreign_key "instructions", "services"
   add_foreign_key "notes", "resources"
   add_foreign_key "notes", "services"

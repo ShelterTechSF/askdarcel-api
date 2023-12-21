@@ -1,5 +1,7 @@
 class DropRatings < ActiveRecord::Migration[5.2]
   def change
-    drop_table :ratings
+    if table_exists?(:ratings)
+      drop_table :ratings
+    end
   end
 end

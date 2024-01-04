@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "fca7c8d9-8e45-4f57-a7b4-cd66fcc57bf7",
+		"_postman_id": "76cd3595-feb0-4ae6-afb6-12041928c88e",
 		"name": "AskDarcel API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "680011"
+		"_exporter_id": "31930954"
 	},
 	"item": [
 		{
@@ -2666,6 +2666,9 @@
 						"exec": [
 							"pm.test(\"Adding breaking news\", function () {",
 							"    pm.response.to.have.status(201);",
+							"    ",
+							"    const responseBody = pm.response.json();",
+							"    pm.expect(responseBody.news_article.url).to.eql(\"https://sfserviceguide.org\");",
 							"});"
 						],
 						"type": "text/javascript"
@@ -2677,7 +2680,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"news_article\": {\n        \"headline\": \"headline\",\n        \"body\": \"Lorem Ipsum etc etc etc\",\n        \"effective_date\": \"2022-12-01\",\n        \"priority\": \"1\"\n    }\n}",
+					"raw": "{\n    \"news_article\": {\n        \"headline\": \"headline\",\n        \"body\": \"Lorem Ipsum etc etc etc\",\n        \"effective_date\": \"2022-12-01\",\n        \"priority\": \"1\",\n        \"url\": \"https://sfserviceguide.org\"\n    }\n}",
 					"options": {
 						"raw": {
 							"language": "json"

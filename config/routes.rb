@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     collection do
       get :counts
       get :featured
-      get :subcategories
+    get :subcategories
       get :hierarchy
     end
   end
@@ -79,10 +79,5 @@ Rails.application.routes.draw do
   end
   get 'reindex' => "algolia#reindex"
   post 'translation/translate_text', to: 'translation#translate_text'
-  resource :auth, only: [] do
-    get :auth0, to: 'auth#authenticate', as: :authenticate
-    get :failure
-    get :logout
-    get 'auth0/callback' => 'auth#callback'
-  end
+  get 'auth/user_exists' => 'auth#auth0_user_exists'
 end

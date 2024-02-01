@@ -13,6 +13,7 @@ class ServicesPresenter < Jsonite
   property :long_description
   property :name
   property :required_documents
+  property :short_description
   property :url
   property :verified_at
   property :wait_time
@@ -20,6 +21,7 @@ class ServicesPresenter < Jsonite
   property :featured
   property :source_attribution
   property :status
+  property :internal_note
   property :schedule, with: SchedulesPresenter
   property :notes, with: NotesPresenter
   property :categories, with: CategoryPresenter

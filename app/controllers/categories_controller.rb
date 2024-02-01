@@ -7,7 +7,18 @@ class CategoriesController < ApplicationController
   end
 
   def subcategories
-    categories = Category.where("id in (select child_id from category_relationships where parent_id=?)", params[:id])
+    # Fetch category children records. Records are ordered by (optional) child_priority_rank
+    category_relationships = CategoryRelationship.where(parent_id: params[:id])
+                                                 .order(:child_priority_rank)
+                                                 .select(:child_id, :child_priority_rank)
+
+    child_ids = category_relationships.pluck(:child_id)
+
+    # Query categories using child_ids and order by child_priority_rank
+    categories = Category.joins("INNER JOIN (#{category_relationships.to_sql}) cr ON categories.id = cr.child_id")
+                         .where(id: child_ids)
+                         .order("cr.child_priority_rank")
+
     render json: CategoryPresenter.present(categories)
   end
 

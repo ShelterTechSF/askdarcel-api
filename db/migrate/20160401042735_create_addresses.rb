@@ -1,4 +1,4 @@
-class CreateAddresses < ActiveRecord::Migration
+class CreateAddresses < ActiveRecord::Migration[6.1]
   def change
     create_table :addresses do |t|
       t.timestamps null: false

@@ -1,4 +1,4 @@
-class CreateJoinTableServiceCategory < ActiveRecord::Migration
+class CreateJoinTableServiceCategory < ActiveRecord::Migration[6.1]
   def change
     create_join_table :services, :categories do |t|
       # t.index [:service_id, :category_id]

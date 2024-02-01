@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_04_04_230604) do
+ActiveRecord::Schema.define(version: 2023_11_30_030827) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "accessibilities", force: :cascade do |t|
+  create_table "accessibilities", id: :serial, force: :cascade do |t|
     t.string "accessibility"
     t.string "details"
     t.datetime "created_at", null: false
@@ -23,8 +23,8 @@ ActiveRecord::Schema.define(version: 2023_04_04_230604) do
   end
 
   create_table "addresses", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.string "attention"
     t.string "address_1", null: false
     t.string "address_2"
@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 2023_04_04_230604) do
     t.string "city", null: false
     t.string "state_province", null: false
     t.string "postal_code", null: false
-    t.integer "resource_id"
+    t.bigint "resource_id"
     t.decimal "latitude"
     t.decimal "longitude"
     t.boolean "online"
@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(version: 2023_04_04_230604) do
     t.index ["service_id", "address_id"], name: "index_addresses_services_on_service_id_and_address_id"
   end
 
-  create_table "admins", force: :cascade do |t|
+  create_table "admins", id: :serial, force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -69,17 +69,18 @@ ActiveRecord::Schema.define(version: 2023_04_04_230604) do
   end
 
   create_table "bookmarks", force: :cascade do |t|
-    t.string "identifier"
-    t.datetime "date_value"
-    t.integer "id_value"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["identifier"], name: "index_bookmarks_on_identifier", unique: true
+    t.integer "order"
+    t.bigint "folder_id"
+    t.bigint "service_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["folder_id"], name: "index_bookmarks_on_folder_id"
+    t.index ["service_id"], name: "index_bookmarks_on_service_id"
   end
 
   create_table "categories", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.string "name", null: false
     t.boolean "top_level", default: false, null: false
     t.string "vocabulary"
@@ -88,20 +89,20 @@ ActiveRecord::Schema.define(version: 2023_04_04_230604) do
   end
 
   create_table "categories_keywords", id: false, force: :cascade do |t|
-    t.integer "category_id", null: false
-    t.integer "keyword_id", null: false
+    t.bigint "category_id", null: false
+    t.bigint "keyword_id", null: false
   end
 
   create_table "categories_resources", id: false, force: :cascade do |t|
-    t.integer "category_id", null: false
-    t.integer "resource_id", null: false
+    t.bigint "category_id", null: false
+    t.bigint "resource_id", null: false
     t.index ["category_id"], name: "index_categories_resources_on_category_id"
     t.index ["resource_id"], name: "index_categories_resources_on_resource_id"
   end
 
   create_table "categories_services", id: false, force: :cascade do |t|
-    t.integer "service_id", null: false
-    t.integer "category_id", null: false
+    t.bigint "service_id", null: false
+    t.bigint "category_id", null: false
     t.integer "feature_rank"
     t.index ["category_id"], name: "index_categories_services_on_category_id"
     t.index ["service_id"], name: "index_categories_services_on_service_id"
@@ -110,16 +111,18 @@ ActiveRecord::Schema.define(version: 2023_04_04_230604) do
   create_table "categories_sites", id: false, force: :cascade do |t|
     t.bigint "category_id", null: false
     t.bigint "site_id", null: false
-    t.index ["category_id"], name: "index_categories_sites_on_category_id"
-    t.index ["site_id"], name: "index_categories_sites_on_site_id"
+    t.index ["category_id", "site_id"], name: "index_categories_sites_on_category_id_and_site_id"
+    t.index ["site_id", "category_id"], name: "index_categories_sites_on_site_id_and_category_id"
   end
 
   create_table "category_relationships", id: false, force: :cascade do |t|
     t.integer "parent_id", null: false
     t.integer "child_id", null: false
+    t.integer "child_priority_rank"
+    t.index ["child_id", "parent_id"], name: "index_category_relationships_on_child_id_and_parent_id", unique: true
   end
 
-  create_table "change_requests", force: :cascade do |t|
+  create_table "change_requests", id: :serial, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "type"
@@ -130,7 +133,7 @@ ActiveRecord::Schema.define(version: 2023_04_04_230604) do
     t.index ["resource_id"], name: "index_change_requests_on_resource_id"
   end
 
-  create_table "contacts", force: :cascade do |t|
+  create_table "contacts", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "title"
     t.string "email"
@@ -140,21 +143,6 @@ ActiveRecord::Schema.define(version: 2023_04_04_230604) do
     t.integer "service_id"
     t.index ["resource_id"], name: "index_contacts_on_resource_id"
     t.index ["service_id"], name: "index_contacts_on_service_id"
-  end
-
-  create_table "delayed_jobs", id: :serial, force: :cascade do |t|
-    t.integer "priority", default: 0, null: false
-    t.integer "attempts", default: 0, null: false
-    t.text "handler", null: false
-    t.text "last_error"
-    t.datetime "run_at"
-    t.datetime "locked_at"
-    t.datetime "failed_at"
-    t.string "locked_by"
-    t.string "queue"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
   create_table "documents", force: :cascade do |t|
@@ -170,7 +158,7 @@ ActiveRecord::Schema.define(version: 2023_04_04_230604) do
     t.integer "document_id"
   end
 
-  create_table "eligibilities", force: :cascade do |t|
+  create_table "eligibilities", id: :serial, force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -202,17 +190,40 @@ ActiveRecord::Schema.define(version: 2023_04_04_230604) do
     t.index ["service_id"], name: "index_feedbacks_on_service_id"
   end
 
-  create_table "field_changes", force: :cascade do |t|
+  create_table "field_changes", id: :serial, force: :cascade do |t|
     t.string "field_name"
     t.string "field_value"
     t.integer "change_request_id", null: false
     t.index ["change_request_id"], name: "index_field_changes_on_change_request_id"
   end
 
-  create_table "fundings", force: :cascade do |t|
+  create_table "folders", force: :cascade do |t|
+    t.string "name"
+    t.integer "order"
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_folders_on_user_id"
+  end
+
+  create_table "fundings", id: :serial, force: :cascade do |t|
     t.string "source"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "group_permissions", id: false, force: :cascade do |t|
+    t.bigint "group_id", null: false
+    t.bigint "permission_id", null: false
+    t.index ["group_id", "permission_id"], name: "index_group_permissions_on_group_id_and_permission_id"
+    t.index ["permission_id", "group_id"], name: "index_group_permissions_on_permission_id_and_group_id"
+  end
+
+  create_table "groups", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_groups_on_name", unique: true
   end
 
   create_table "instructions", force: :cascade do |t|
@@ -228,16 +239,16 @@ ActiveRecord::Schema.define(version: 2023_04_04_230604) do
   end
 
   create_table "keywords_resources", id: false, force: :cascade do |t|
-    t.integer "resource_id", null: false
-    t.integer "keyword_id", null: false
+    t.bigint "resource_id", null: false
+    t.bigint "keyword_id", null: false
   end
 
   create_table "keywords_services", id: false, force: :cascade do |t|
-    t.integer "service_id", null: false
-    t.integer "keyword_id", null: false
+    t.bigint "service_id", null: false
+    t.bigint "keyword_id", null: false
   end
 
-  create_table "languages", force: :cascade do |t|
+  create_table "languages", id: :serial, force: :cascade do |t|
     t.string "language"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -256,20 +267,33 @@ ActiveRecord::Schema.define(version: 2023_04_04_230604) do
 
   create_table "notes", force: :cascade do |t|
     t.text "note"
-    t.integer "resource_id"
-    t.integer "service_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.bigint "resource_id"
+    t.bigint "service_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["resource_id"], name: "index_notes_on_resource_id"
     t.index ["service_id"], name: "index_notes_on_service_id"
   end
 
+  create_table "permissions", force: :cascade do |t|
+    t.integer "action"
+    t.bigint "resource_id"
+    t.bigint "service_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["resource_id", "action"], name: "index_permissions_on_resource_id_and_action", unique: true
+    t.index ["resource_id"], name: "index_permissions_on_resource_id"
+    t.index ["service_id", "action"], name: "index_permissions_on_service_id_and_action", unique: true
+    t.index ["service_id"], name: "index_permissions_on_service_id"
+    t.check_constraint "((resource_id IS NOT NULL) AND (service_id IS NULL)) OR ((resource_id IS NULL) AND (service_id IS NOT NULL))", name: "resource_xor_service"
+  end
+
   create_table "phones", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.string "number", null: false
     t.string "service_type", null: false
-    t.integer "resource_id", null: false
+    t.bigint "resource_id", null: false
     t.string "description"
     t.integer "service_id"
     t.integer "contact_id"
@@ -280,7 +304,7 @@ ActiveRecord::Schema.define(version: 2023_04_04_230604) do
     t.index ["service_id"], name: "index_phones_on_service_id"
   end
 
-  create_table "programs", force: :cascade do |t|
+  create_table "programs", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "alternate_name"
     t.string "description"
@@ -291,8 +315,8 @@ ActiveRecord::Schema.define(version: 2023_04_04_230604) do
   end
 
   create_table "resources", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.string "name", null: false
     t.string "short_description"
     t.text "long_description"
@@ -308,6 +332,7 @@ ActiveRecord::Schema.define(version: 2023_04_04_230604) do
     t.datetime "certified_at"
     t.boolean "featured"
     t.integer "source_attribution", default: 0
+    t.text "internal_note"
     t.index ["contact_id"], name: "index_resources_on_contact_id"
     t.index ["funding_id"], name: "index_resources_on_funding_id"
     t.index ["updated_at", "id"], name: "index_resources_on_updated_at_and_id"
@@ -316,8 +341,8 @@ ActiveRecord::Schema.define(version: 2023_04_04_230604) do
   create_table "resources_sites", id: false, force: :cascade do |t|
     t.bigint "resource_id", null: false
     t.bigint "site_id", null: false
-    t.index ["resource_id"], name: "index_resources_sites_on_resource_id"
-    t.index ["site_id"], name: "index_resources_sites_on_site_id"
+    t.index ["resource_id", "site_id"], name: "index_resources_sites_on_resource_id_and_site_id"
+    t.index ["site_id", "resource_id"], name: "index_resources_sites_on_site_id_and_resource_id"
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -330,12 +355,12 @@ ActiveRecord::Schema.define(version: 2023_04_04_230604) do
   end
 
   create_table "schedule_days", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.string "day", null: false
     t.integer "opens_at"
     t.integer "closes_at"
-    t.integer "schedule_id", null: false
+    t.bigint "schedule_id", null: false
     t.time "open_time"
     t.string "open_day"
     t.time "close_time"
@@ -344,25 +369,25 @@ ActiveRecord::Schema.define(version: 2023_04_04_230604) do
   end
 
   create_table "schedules", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "resource_id"
-    t.integer "service_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "resource_id"
+    t.bigint "service_id"
     t.boolean "hours_known", default: true
     t.index ["resource_id"], name: "index_schedules_on_resource_id"
     t.index ["service_id"], name: "index_schedules_on_service_id"
   end
 
   create_table "services", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.string "name"
     t.text "long_description"
     t.string "eligibility"
     t.string "required_documents"
     t.string "fee"
     t.text "application_process"
-    t.integer "resource_id"
+    t.bigint "resource_id"
     t.datetime "verified_at"
     t.string "email"
     t.integer "status"
@@ -377,6 +402,8 @@ ActiveRecord::Schema.define(version: 2023_04_04_230604) do
     t.datetime "certified_at"
     t.boolean "featured"
     t.integer "source_attribution", default: 0
+    t.text "internal_note"
+    t.string "short_description"
     t.index ["contact_id"], name: "index_services_on_contact_id"
     t.index ["funding_id"], name: "index_services_on_funding_id"
     t.index ["program_id"], name: "index_services_on_program_id"
@@ -412,18 +439,28 @@ ActiveRecord::Schema.define(version: 2023_04_04_230604) do
 
   create_table "textings", force: :cascade do |t|
     t.bigint "texting_recipient_id", null: false
-    t.bigint "service_id", null: false
+    t.bigint "service_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "resource_id"
+    t.index ["resource_id"], name: "index_textings_on_resource_id"
     t.index ["service_id"], name: "index_textings_on_service_id"
     t.index ["texting_recipient_id"], name: "index_textings_on_texting_recipient_id"
+    t.check_constraint "((resource_id IS NOT NULL) AND (service_id IS NULL)) OR ((resource_id IS NULL) AND (service_id IS NOT NULL))", name: "resource_xor_service"
   end
 
-  create_table "users", id: :serial, force: :cascade do |t|
+  create_table "user_groups", id: false, force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "group_id", null: false
+    t.index ["group_id"], name: "index_user_groups_on_group_id"
+    t.index ["user_id"], name: "index_user_groups_on_user_id"
+  end
+
+  create_table "users", force: :cascade do |t|
     t.string "name"
   end
 
-  create_table "volunteers", force: :cascade do |t|
+  create_table "volunteers", id: :serial, force: :cascade do |t|
     t.string "description"
     t.string "url"
     t.datetime "created_at", null: false
@@ -433,6 +470,8 @@ ActiveRecord::Schema.define(version: 2023_04_04_230604) do
   end
 
   add_foreign_key "addresses", "resources"
+  add_foreign_key "bookmarks", "folders"
+  add_foreign_key "bookmarks", "services"
   add_foreign_key "categories_sites", "categories"
   add_foreign_key "categories_sites", "sites"
   add_foreign_key "change_requests", "resources"
@@ -441,9 +480,12 @@ ActiveRecord::Schema.define(version: 2023_04_04_230604) do
   add_foreign_key "feedbacks", "resources"
   add_foreign_key "feedbacks", "services"
   add_foreign_key "field_changes", "change_requests"
+  add_foreign_key "folders", "users"
   add_foreign_key "instructions", "services"
   add_foreign_key "notes", "resources"
   add_foreign_key "notes", "services"
+  add_foreign_key "permissions", "resources"
+  add_foreign_key "permissions", "services"
   add_foreign_key "phones", "contacts"
   add_foreign_key "phones", "languages"
   add_foreign_key "phones", "resources"
@@ -462,6 +504,7 @@ ActiveRecord::Schema.define(version: 2023_04_04_230604) do
   add_foreign_key "services", "programs"
   add_foreign_key "services", "resources"
   add_foreign_key "synonyms", "synonym_groups"
+  add_foreign_key "textings", "resources"
   add_foreign_key "textings", "services"
   add_foreign_key "textings", "texting_recipients"
   add_foreign_key "volunteers", "resources"

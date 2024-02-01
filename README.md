@@ -72,68 +72,10 @@ $ docker-compose run --rm postman
 ### Alternative database setup
 
 ```sh
-# Populate the database with an old dump of the database (circa mid-2017)
-$ docker-compose run --rm api rake db:create db:schema:load linksf:import
-
 # Populate the database with a direct copy of the live staging database.
 # - Ask technical team for the staging database password.
 $ docker-compose run -e STAGING_DB_PASSWORD=<...> --rm api rake db:setup db:import_staging
 ```
 
 
-## macOS-based Development Environment Not Using Docker
-
-### Install Dependencies
-
-1. [Install Homebrew](http://brew.sh/).
-2. Install [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/rbenv/ruby-build#readme).
-  - `brew install rbenv`
-    + Follow further setup instructions (including updating your bash
-      profile) from the link above.
-    + Add the following lines to your `~/.bash_profile`
-    ```
-    export PATH="$HOME/.rbenv/bin:$PATH"
-    eval "$(rbenv init -)"
-    ```
-  - `brew install ruby-build`
-3. Install postgres.
-  - `brew install postgresql`
-    + Follow further setup instructions displayed after installation.
-  - `brew services start postgres`
-
-
-### Set up the project
-
-After cloning the repository and `cd`ing into the workspace:
-
-1. Install the required ruby version.
-  - `rbenv install`
-2. Install the `bundle` gem if it isn't yet installed.
-      - `which bundle || gem install bundle`
-3. Install the required gems.
-  - `bundle install`
-  If encounter "command not found" error, run
-  -`source ~/.bash_profile`
-
-4. Set up the Algolia credentials
-    - Create a .env file in the root of your askdarcel-api directory
-    - Populate that file with the backend environment variables found [here](https://www.notion.so/sheltertech/API-Keys-Env-variables-3913e9074b61403c860d1a4649060e4f)
-
-5. Set up the development database and load dummy data.
-  - `rake db:create:all`
-  - `rake db:migrate`
-  - `rake linksf:import`
-
-  Alternatively, you can generate random fixtures:
-  - `rake db:setup db:populate`
-
-6. (Optional) Run the background job worker.
-  - To run a worker to continuously process background jobs:
-    - `rake jobs:work`
-  - To run a worker to process all existing background jobs and exit:
-    - `rake jobs:workoff`
-
-7. Run the development server.
-  - `rails s -b 0.0.0.0`
-8. Do NOT do sudo install -rails
 

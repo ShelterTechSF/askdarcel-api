@@ -1,4 +1,4 @@
-class CreateScheduleDays < ActiveRecord::Migration
+class CreateScheduleDays < ActiveRecord::Migration[6.1]
   def change
     create_table :schedule_days do |t|
       t.timestamps null: false

@@ -5,7 +5,7 @@ class NewsArticlesController < ApplicationController
     news_article = params[:news_article]
     persisted_news_article = NewsArticle.create(headline: news_article[:headline], effective_date: news_article[:effective_date],
                                                 body: news_article[:body], priority: news_article[:priority],
-                                                expiration_date: news_article[:expiraton_date])
+                                                expiration_date: news_article[:expiraton_date], url: news_article[:url])
     render status: :created, json: NewsArticlePresenter.present(persisted_news_article)
   end
 

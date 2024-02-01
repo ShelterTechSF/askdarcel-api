@@ -1,4 +1,4 @@
-class CreateJoinTableCategoryKeyword < ActiveRecord::Migration
+class CreateJoinTableCategoryKeyword < ActiveRecord::Migration[6.1]
   def change
     create_join_table :categories, :keywords do |t|
       # t.index [:category_id, :keyword_id]

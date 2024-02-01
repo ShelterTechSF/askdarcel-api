@@ -50,9 +50,16 @@ group :development, :test do
   gem 'rubocop'
 end
 
+group :development do
+  gem 'annotate', require: false
+end
+
 group :test do
   gem 'rspec-collection_matchers'
 end
 
 gem 'pdfcrowd'
 gem 'google-cloud-translate'
+
+gem 'omniauth-auth0', '~> 3.0'
+gem 'omniauth-rails_csrf_protection', '~> 1.0' # prevents forged authentication requests

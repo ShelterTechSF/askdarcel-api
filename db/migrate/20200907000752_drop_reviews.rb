@@ -1,5 +1,7 @@
-class DropReviews < ActiveRecord::Migration[5.2]
+class DropReviews < ActiveRecord::Migration[6.1]
   def change
-    drop_table :reviews
+    if table_exists?(:reviews)
+      drop_table :reviews
+    end  
   end
 end

@@ -60,6 +60,11 @@ Rails.application.routes.draw do
     resources :change_requests, only: :create
   end
   resources :textings, only: %i[create destroy]
+  resources :users do
+    collection do
+      post :user_exists
+    end
+  end
   resources :instructions, only: %i[create update destroy]
   resources :change_requests do
     post :create

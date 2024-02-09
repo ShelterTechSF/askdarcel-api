@@ -3,4 +3,6 @@
 class UserPresenter < Jsonite
   property :id
   property :name
+  property :email
+  property :organization
 end

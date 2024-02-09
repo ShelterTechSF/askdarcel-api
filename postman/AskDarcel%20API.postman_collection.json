@@ -2860,7 +2860,7 @@
 						"{{base_url}}"
 					],
 					"path": [
-						"user"
+						"users"
 					]
 				}
 			},
@@ -2905,7 +2905,8 @@
 						"{{base_url}}"
 					],
 					"path": [
-						"user"
+						"users",
+						"user_exists"
 					]
 				}
 			},

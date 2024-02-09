@@ -2832,7 +2832,7 @@
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
 							"pm.test(\"Creating user\", function () {",
-							"    pm.response.to.have.status(200);",
+							"    pm.response.to.have.status(201);",
 							"});"
 						]
 					}

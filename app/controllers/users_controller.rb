@@ -2,7 +2,8 @@
 
 class UsersController < ApplicationController
   def create
-    User.create({ email: params[:email], name: params[:name], organization: params[:organization] })
+    user = User.create({ email: params[:email], name: params[:name], organization: params[:organization] })
+    render status: :created, json: UserPresenter.present(user)
   end
 
   def user_exists

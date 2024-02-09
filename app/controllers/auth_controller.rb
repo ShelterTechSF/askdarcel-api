@@ -1,38 +1,34 @@
 # frozen_string_literal: true
 
 class AuthController < ApplicationController
-  def auth0_user_exists
-    # This checks Auth0 to see if a given user exists as based on their email
-    # TODO: We will want to also check if the user exists in our database and
-    # and sync between Auth0 and our DB if there is a discrepancy
-    access_token = AuthTokenService.fetch_access_token
-    domain = Rails.configuration.x.auth0.domain
-    url = URI::HTTPS.build(host: domain, path: '/api/v2/users-by-email', query: "email=#{params[:email]}")
-
-    response = user_exists_http_request(url, access_token)
-    puts response.code
-    puts response.code == "200"
-    if response.code == "200"
-      user_json = JSON.parse(response.read_body)
-      render json: { user_exists: user_json.count.positive? }
-    else
-      Raven.capture_message("Error checking auth0 user exists endpoint. Url: #{url}. Status: #{response.code}", level: :error)
-      # There was an error. Proceed anyhow. If the user already exists, Auth0 will just log the user
-      # in rather than signing them up twice; however, once we are storing the user in our app database,
-      # we will have to handle this in a different way
-      render json: { user_exists: false }
-    end
+  def authenticate
+    hash = {
+      client_id: Rails.configuration.x.auth0.client_id,
+      response_type: 'code',
+      redirect_uri: auth0_callback_auth_url
+    }
+    redirect_to(URI::HTTPS.build(host: auth0_domain, path: '/authorize', query: hash.to_query).to_s)
   end
 
-  private
+  def callback
+    # OmniAuth stores the information returned from Auth0 and the IdP in request.env['omniauth.auth'].
+    # In this code, you will pull the raw_info supplied from the id_token and assign it to the session.
+    # Refer to
+    # https://github.com/auth0/omniauth-auth0/blob/master/EXAMPLES.md#example-of-the-resulting-authentication-hash
+    # for complete information on 'omniauth.auth' contents.
+    auth_info = request.env['omniauth.auth']
+    session[:userinfo] = auth_info['extra']['raw_info']
 
-  def user_exists_http_request(url, access_token)
-    http = Net::HTTP.new(url.host, url.port)
-    http.use_ssl = true
-    request = Net::HTTP::Get.new(url)
-    request["Authorization"] = "Bearer #{access_token}"
-    request["Accept"] = "application/json"
+    # Redirect to the URL you want after successful auth
+    redirect_to '/api-docs'
+  end
 
-    http.request(request)
+  def failure
+    # Handles failed authentication -- Show a failure page (you can also handle with a redirect)
+    @error_msg = request.params['message']
+  end
+
+  def logout
+    # you will finish this in a later step
   end
 end

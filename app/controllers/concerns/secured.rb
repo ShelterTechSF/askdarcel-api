@@ -22,8 +22,13 @@ module Secured
     return if performed?
 
     validation_response = Auth0Client.validate_token(token)
+
     error = validation_response.error
-    return unless error
+    unless error
+      # Create user_id instance variable so that it can be compared against userId recieved from client
+      @user_id = validation_response.decoded_token[0]['sub']
+      return
+    end
 
     render json: { message: error.message }, status: error.status
   end

@@ -459,6 +459,7 @@ ActiveRecord::Schema.define(version: 2023_12_01_213722) do
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "organization"
+    t.string "user_external_id"
     t.string "email"
     t.index ["email"], name: "index_users_on_email", unique: true
   end

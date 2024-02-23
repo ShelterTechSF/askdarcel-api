@@ -26,7 +26,7 @@ module Secured
     error = validation_response.error
     unless error
       # Create user_id instance variable so that it can be compared against userId recieved from client
-      @user_id = validation_response.decoded_token[0]['sub']
+      @user_external_id = validation_response.decoded_token[0]['sub']
       return
     end
 

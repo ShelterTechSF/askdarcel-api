@@ -6,9 +6,9 @@ class UsersController < ApplicationController
   def create
     # If userId param received via frontend (from Auth0) doesn't match @user_id from auth0 token validation,
     # do not allow action
-    return render json: { error: 'Unauthorized' }, status: :unauthorized unless @user_id == params[:auth0_user_id]
+    return render json: { error: 'Unauthorized' }, status: :unauthorized unless @user_external_id == params[:user_external_id]
 
-    user_params = params.permit(:email, :name, :organization)
+    user_params = params.permit(:email, :name, :organization, :user_external_id)
     user = User.new(user_params)
 
     if user.save

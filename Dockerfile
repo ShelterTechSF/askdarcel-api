@@ -12,7 +12,7 @@ FROM sheltertechsf/combostrikehq-docker-rails:ruby-2.7
 RUN mkdir -p /var/lib/dpkg/alternatives /var/lib/dpkg/info /var/lib/dpkg/parts /var/lib/dpkg/triggers /var/lib/dpkg/updates && \
   touch /var/lib/dpkg/status && \
   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
-  wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
+  wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - && \
   mv /home/app/webapp/config/appserver.sh /etc/service/appserver/run && \
   chmod 777 /etc/service/appserver/run && \
   echo 'deb http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main' > /etc/apt/sources.list.d/pgdg.list && \

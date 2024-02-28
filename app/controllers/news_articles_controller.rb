@@ -10,11 +10,11 @@ class NewsArticlesController < ApplicationController
   end
 
   def index
-    if params[:active].present?
-      news_articles = NewsArticle.active
-    else
-      news_articles = NewsArticle.all
-    end
+    news_articles = if params[:active].present?
+                      NewsArticle.active
+                    else
+                      NewsArticle.all
+                    end
 
     render json: NewsArticlePresenter.present(news_articles)
   end

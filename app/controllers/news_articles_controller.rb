@@ -5,13 +5,16 @@ class NewsArticlesController < ApplicationController
     news_article = params[:news_article]
     persisted_news_article = NewsArticle.create(headline: news_article[:headline], effective_date: news_article[:effective_date],
                                                 body: news_article[:body], priority: news_article[:priority],
-                                                expiration_date: news_article[:expiraton_date], url: news_article[:url])
+                                                expiration_date: news_article[:expiration_date], url: news_article[:url])
     render status: :created, json: NewsArticlePresenter.present(persisted_news_article)
   end
 
   def index
-    news_articles = NewsArticle.where("effective_date <= ? and (expiration_date is null or expiration_date>=?)", Time.current,
-                                      Time.current)
+    news_articles = if params[:active].present?
+                      NewsArticle.active
+                    else
+                      NewsArticle.all
+                    end
 
     render json: NewsArticlePresenter.present(news_articles)
   end

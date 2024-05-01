@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_04_04_032142) do
+ActiveRecord::Schema.define(version: 2024_05_01_005404) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -168,6 +168,7 @@ ActiveRecord::Schema.define(version: 2024_04_04_032142) do
     t.datetime "updated_at", null: false
     t.integer "feature_rank"
     t.boolean "is_parent", default: false
+    t.integer "parent_id"
     t.index ["feature_rank"], name: "index_eligibilities_on_feature_rank"
     t.index ["name"], name: "index_eligibilities_on_name", unique: true
   end
@@ -487,6 +488,7 @@ ActiveRecord::Schema.define(version: 2024_04_04_032142) do
   add_foreign_key "change_requests", "resources"
   add_foreign_key "contacts", "resources"
   add_foreign_key "contacts", "services"
+  add_foreign_key "eligibilities", "eligibilities", column: "parent_id"
   add_foreign_key "feedbacks", "resources"
   add_foreign_key "feedbacks", "services"
   add_foreign_key "field_changes", "change_requests"

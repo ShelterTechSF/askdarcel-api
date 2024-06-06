@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_04_04_032142) do
+ActiveRecord::Schema.define(version: 2024_06_06_002826) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -168,6 +168,7 @@ ActiveRecord::Schema.define(version: 2024_04_04_032142) do
     t.datetime "updated_at", null: false
     t.integer "feature_rank"
     t.boolean "is_parent", default: false
+    t.integer "parent_id"
     t.index ["feature_rank"], name: "index_eligibilities_on_feature_rank"
     t.index ["name"], name: "index_eligibilities_on_name", unique: true
   end
@@ -358,6 +359,15 @@ ActiveRecord::Schema.define(version: 2024_04_04_032142) do
     t.index ["feedback_id"], name: "index_reviews_on_feedback_id"
   end
 
+  create_table "saved_searches", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "name"
+    t.jsonb "search", default: "{}", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_saved_searches_on_user_id"
+  end
+
   create_table "schedule_days", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -487,6 +497,7 @@ ActiveRecord::Schema.define(version: 2024_04_04_032142) do
   add_foreign_key "change_requests", "resources"
   add_foreign_key "contacts", "resources"
   add_foreign_key "contacts", "services"
+  add_foreign_key "eligibilities", "eligibilities", column: "parent_id"
   add_foreign_key "feedbacks", "resources"
   add_foreign_key "feedbacks", "services"
   add_foreign_key "field_changes", "change_requests"
@@ -506,6 +517,7 @@ ActiveRecord::Schema.define(version: 2024_04_04_032142) do
   add_foreign_key "resources_sites", "resources"
   add_foreign_key "resources_sites", "sites"
   add_foreign_key "reviews", "feedbacks"
+  add_foreign_key "saved_searches", "users"
   add_foreign_key "schedule_days", "schedules"
   add_foreign_key "schedules", "resources"
   add_foreign_key "schedules", "services"

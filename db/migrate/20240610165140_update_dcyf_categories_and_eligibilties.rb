@@ -194,7 +194,14 @@ class UpdateDcyfCategoriesAndEligibilties < ActiveRecord::Migration[6.1]
         FROM resources
           INNER JOIN categories_resources ON categories_resources.resource_id = resources.id
           INNER JOIN categories ON categories_resources.category_id = categories.id
-        WHERE categories.name = $2;
+        WHERE categories.name = $2
+          -- Avoid inserting duplicate rows by excluding resources already associated with this category
+          AND resource_id NOT IN (
+            SELECT categories_resources.resource_id
+              FROM categories_resources
+                INNER JOIN categories ON categories_resources.category_id = categories.id
+              WHERE categories.name = $1
+          );
     SQL
 
     exec_query <<-SQL, "migrate services from #{from} to #{to}", [to, from]
@@ -203,7 +210,14 @@ class UpdateDcyfCategoriesAndEligibilties < ActiveRecord::Migration[6.1]
         FROM services
           INNER JOIN categories_services ON categories_services.service_id = services.id
           INNER JOIN categories ON categories_services.category_id = categories.id
-        WHERE categories.name = $2;
+        WHERE categories.name = $2
+          -- Avoid inserting duplicate rows by excluding services already associated with this category
+          AND service_id NOT IN (
+            SELECT categories_services.service_id
+              FROM categories_services
+                INNER JOIN categories ON categories_services.category_id = categories.id
+              WHERE categories.name = $1
+          );
     SQL
   end
 

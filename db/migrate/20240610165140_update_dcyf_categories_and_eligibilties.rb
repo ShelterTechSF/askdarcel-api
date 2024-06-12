@@ -83,9 +83,7 @@ class UpdateDcyfCategoriesAndEligibilties < ActiveRecord::Migration[6.1]
       # Immigration Assistance
       create_category 'Immigration Assistance'
 
-      ['Citizenship & Immigration'].each do |from|
-        migrate_resources_and_services_to_new_category from: from, to: 'Immigration Assistance'
-      end
+      migrate_resources_and_services_to_new_category from: 'Citizenship & Immigration', to: 'Immigration Assistance'
 
       # Teen Parents
       create_category 'Teen Parents'

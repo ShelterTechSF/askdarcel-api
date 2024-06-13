@@ -38,14 +38,13 @@ class UpdateDcyfCategoriesAndEligibilties < ActiveRecord::Migration[6.1]
       # Academic Support
       create_category 'Academic Support'
 
-      # TODO: Need to get the answer to two issues:
-      # 1) Summer School is not an actual category name
-      # 2) The spreadsheet says to _not_ delete Summer School, unlike all the
-      # others
-      # ['Academic', 'Education', 'Educational Supports', 'Tutoring', 'School Care', 'Summer School'].each do |from|
-      #   migrate_resources_and_services_to_new_category from: from, to: 'Academic Support'
-      #   delete_category from
-      # end
+      ['Academic', 'Education', 'Educational Supports', 'Tutoring', 'School Care'].each do |from|
+        migrate_resources_and_services_to_new_category from: from, to: 'Academic Support'
+        delete_category from
+      end
+      # Summer Programs is special in that we do not want to delete it, only
+      # copy its resources and services over to Academic Support
+      migrate_resources_and_services_to_new_category from: 'Summer Programs', to: 'Academic Support'
 
       # Alternative Education & GED
       create_category 'Alternative Education & GED'
@@ -143,6 +142,8 @@ class UpdateDcyfCategoriesAndEligibilties < ActiveRecord::Migration[6.1]
 
       # Experiencing Homelessness
       rename_eligibility from: 'I am someone experiencing homelessness', to: 'Experiencing Homelessness'
+      migrate_services_to_new_eligibility from: 'Homeless', to: 'Experiencing Homelessness'
+      delete_eligibility 'Homeless'
 
       # Boys
       create_eligibility 'Boys'
@@ -266,6 +267,41 @@ class UpdateDcyfCategoriesAndEligibilties < ActiveRecord::Migration[6.1]
       UPDATE eligibilities
         SET name = $1
         WHERE name = $2;
+    SQL
+  end
+
+  def delete_eligibility(name)
+    assert_eligibility_exists name
+
+    exec_query <<-SQL, "delete eligibility #{name}", [name]
+      DELETE FROM eligibilities
+        WHERE name = $1;
+    SQL
+  end
+
+  # Note: This does not create the new eligibility or delete the old ones, since
+  # for some migrations, we already have the new eligibility, and for some
+  # migrations, we should preserve the existing eligibilities.
+  # Also note that there is no m2m join table between eligibilities and
+  # resources, so this only performs the migration for services.
+  def migrate_services_to_new_eligibility(from:, to:)
+    assert_eligibility_exists from
+    assert_eligibility_exists to
+
+    exec_query <<-SQL, "migrate services from #{from} to #{to}", [to, from]
+      INSERT INTO eligibilities_services
+      SELECT DISTINCT services.id as service_id, (SELECT eligibilities.id FROM eligibilities WHERE eligibilities.name = $1 LIMIT 1) as eligibility_id
+        FROM services
+          INNER JOIN eligibilities_services ON eligibilities_services.service_id = services.id
+          INNER JOIN eligibilities ON eligibilities_services.eligibility_id = eligibilities.id
+        WHERE eligibilities.name = $2
+          -- Avoid inserting duplicate rows by excluding services already associated with this eligibility
+          AND service_id NOT IN (
+            SELECT eligibilities_services.service_id
+              FROM eligibilities_services
+                INNER JOIN eligibilities ON eligibilities_services.eligibility_id = eligibilities.id
+              WHERE eligibilities.name = $1
+          );
     SQL
   end
 

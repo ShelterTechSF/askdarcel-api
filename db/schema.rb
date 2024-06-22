@@ -359,6 +359,15 @@ ActiveRecord::Schema.define(version: 2024_06_10_165140) do
     t.index ["feedback_id"], name: "index_reviews_on_feedback_id"
   end
 
+  create_table "saved_searches", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "name"
+    t.jsonb "search", default: "{}", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_saved_searches_on_user_id"
+  end
+
   create_table "schedule_days", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -508,6 +517,7 @@ ActiveRecord::Schema.define(version: 2024_06_10_165140) do
   add_foreign_key "resources_sites", "resources"
   add_foreign_key "resources_sites", "sites"
   add_foreign_key "reviews", "feedbacks"
+  add_foreign_key "saved_searches", "users"
   add_foreign_key "schedule_days", "schedules"
   add_foreign_key "schedules", "resources"
   add_foreign_key "schedules", "services"

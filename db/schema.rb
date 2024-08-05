@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_07_02_155441) do
+ActiveRecord::Schema.define(version: 2024_08_04_222349) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -418,6 +418,8 @@ ActiveRecord::Schema.define(version: 2024_07_02_155441) do
     t.integer "source_attribution", default: 0
     t.text "internal_note"
     t.string "short_description"
+    t.bigint "boosted_category_id"
+    t.index ["boosted_category_id"], name: "index_services_on_boosted_category_id"
     t.index ["contact_id"], name: "index_services_on_contact_id"
     t.index ["funding_id"], name: "index_services_on_funding_id"
     t.index ["program_id"], name: "index_services_on_program_id"
@@ -521,6 +523,7 @@ ActiveRecord::Schema.define(version: 2024_07_02_155441) do
   add_foreign_key "schedule_days", "schedules"
   add_foreign_key "schedules", "resources"
   add_foreign_key "schedules", "services"
+  add_foreign_key "services", "categories", column: "boosted_category_id"
   add_foreign_key "services", "contacts"
   add_foreign_key "services", "fundings"
   add_foreign_key "services", "programs"

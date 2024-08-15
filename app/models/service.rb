@@ -9,6 +9,7 @@ class Service < ActiveRecord::Base
 
   belongs_to :resource, required: true, touch: true
   belongs_to :program
+  belongs_to :boosted_category, class_name: 'Category'
   has_many :notes, dependent: :destroy
   has_many :feedbacks, dependent: :destroy
   has_many :textings
@@ -37,7 +38,11 @@ class Service < ActiveRecord::Base
                   index_name: "#{Rails.configuration.x.algolia.index_prefix}_services_search",
                   id: :algolia_id do
       # specify the list of attributes available for faceting
-      attributesForFaceting %i[categories open_times eligibilities associated_sites type]
+      attributesForFaceting %i[categories open_times eligibilities associated_sites type boosted_category]
+
+      # Default has "geo" before "filters", but we need it after if we want
+      # optional filters to have higher priority than distance.
+      ranking %w[typo words filters geo proximity attribute exact custom]
 
       # Define attributes used to build an Algolia record
       add_attribute :status
@@ -125,6 +130,10 @@ class Service < ActiveRecord::Base
 
       add_attribute :categories do
         categories.map(&:name)
+      end
+
+      add_attribute :boosted_category do
+        boosted_category&.name
       end
 
       add_attribute :use_resource_schedule

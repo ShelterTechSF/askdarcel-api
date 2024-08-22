@@ -38,7 +38,7 @@ class Service < ActiveRecord::Base
                   index_name: "#{Rails.configuration.x.algolia.index_prefix}_services_search",
                   id: :algolia_id do
       # specify the list of attributes available for faceting
-      attributesForFaceting %i[categories open_times eligibilities associated_sites type boosted_category]
+      attributesForFaceting Rails.configuration.x.algolia.attributes_for_faceting
 
       # Default has "geo" before "filters", but we need it after if we want
       # optional filters to have higher priority than distance.

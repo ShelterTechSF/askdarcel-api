@@ -24,6 +24,12 @@ module AskdarcelApi
       config.x.algolia.index_prefix.present?
     ].all?
 
+    # Attributes for faceting (filtering, sorting, etc.) in Algolia. This needs
+    # to be kept in sync between the Service and Resource models, since we're
+    # doing something unusual by having them share the same index, so we define
+    # the list of attributes for faceting as a single constant here.
+    config.x.algolia.attributes_for_faceting = %i[categories open_times eligibilities associated_sites type boosted_category]
+
     config.x.airtable.api_key = ENV['AIRTABLE_API_KEY']
 
     config.x.google.api_key = ENV['GOOGLE_API_KEY']

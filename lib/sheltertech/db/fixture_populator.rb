@@ -32,6 +32,7 @@ module ShelterTech
         create_resources
         create_eligibilities
         create_sites
+        create_users
         NewPathwaysCategoryCreator.create_all_new_pathway_categories
       end
 
@@ -49,6 +50,18 @@ module ShelterTech
 
       def categories
         @categories ||= Category.all
+      end
+
+      def eligibilities
+        @eligibilities ||= Eligibility.all
+      end
+
+      def resources
+        @resources ||= Resource.all
+      end
+
+      def services
+        @services ||= Service.all
       end
 
       def top_level_categories
@@ -119,6 +132,18 @@ module ShelterTech
 
       def create_sites
         SiteCreator.create
+      end
+
+      def create_users
+        user_creator = UserCreator.new(
+          resources: resources,
+          services: services,
+          categories: categories,
+          eligibilities: eligibilities,
+        )
+        5.times do
+          user_creator.create
+        end
       end
     end
 
@@ -346,6 +371,60 @@ module ShelterTech
             # treat r == 0 as membership in all sites
             site.resources << resource if r.zero? || r == index + 1
           end
+        end
+      end
+    end
+
+    class UserCreator
+      def initialize(resources:, services:, categories:, eligibilities:)
+        @resources = resources
+        @services = services
+        @categories = categories
+        @eligibilities = eligibilities
+      end
+
+      def create
+        user = FactoryBot.create(:user)
+
+        # We add nil so that some bookmarks are created outside of a folder
+        folders = [nil] + rand(3).times.map do
+          FactoryBot.create(:folder, user: user)
+        end
+
+        folders.each do |folder|
+          @resources.sample(rand(3)).each do |resource|
+            FactoryBot.create(
+              :bookmark,
+              resource: resource,
+              folder: folder,
+              user: user,
+            )
+          end
+          @services.sample(rand(3)).each do |service|
+            FactoryBot.create(
+              :bookmark,
+              service: service,
+              folder: folder,
+              user: user,
+            )
+          end
+        end
+
+        rand(3).times do
+          FactoryBot.create(
+            :saved_search,
+            user: user,
+            search: {
+              eligibilities: @eligibilities.sample(rand(2)).map(&:id),
+              categories: @categories.sample(rand(2)).map(&:id),
+              lat: nil,
+              lng: nil,
+              # Making up a random string as the query will just end up with no
+              # search results, but if we pick a category as a query, then it
+              # can at least match something.
+              query: @categories.sample(1).map(&:name),
+            }
+          )
         end
       end
     end

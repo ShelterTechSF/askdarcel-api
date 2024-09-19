@@ -10,5 +10,8 @@
 FactoryBot.define do
   factory :user do
     name { Faker::Name.name }
+    organization { Faker::Company.name }
+    user_external_id { Faker::Alphanumeric.alpha(number: 10) }
+    email { Faker::Internet.email(domain: "example.com") }
   end
 end

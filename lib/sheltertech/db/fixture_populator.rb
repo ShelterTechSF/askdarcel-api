@@ -297,7 +297,7 @@ module ShelterTech
     module EligibilityCreator
       def self.create
         Constants::ELIGIBILITY_NAMES.map do |name|
-          feature_rank = Constants::ELIGIBILITY_FEATURE_RANKS[name]
+          feature_rank = Constants::ELIGIBILITY_FEATURE_RANKS[name] || nil
           resource_count = Constants::ELIGIBILITY_RESOURCE_COUNTS[name] || 5
           eligibility = FactoryBot.create(:eligibility, name: name, feature_rank: feature_rank)
           associate_with_random_resources(eligibility, resource_count)

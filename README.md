@@ -47,8 +47,11 @@ $ docker-compose build
 # Start the database container (in the background with -d)
 $ docker-compose up -d db
 
-# Generate random database fixtures
-$ docker-compose run --rm api rake db:setup db:populate
+# Create database 
+$ docker-compose run --rm api rake db:setup
+
+# Generate Fake Data
+$ docker-compose run --rm api ./utils/db/populate.sh
 
 # Start the Rails development server in the api container (in the foreground)
 $ docker-compose up api

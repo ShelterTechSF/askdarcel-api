@@ -45,6 +45,9 @@ class Resource < ActiveRecord::Base
                   id: :algolia_id do
       # specify the list of attributes available for faceting
       attributesForFaceting Rails.configuration.x.algolia.attributes_for_faceting
+
+      paginationLimitedTo 4000
+
       # Define attributes used to build an Algolia record
       add_attribute :_geoloc do
         if addresses&.any?

@@ -40,6 +40,8 @@ class Service < ActiveRecord::Base
       # specify the list of attributes available for faceting
       attributesForFaceting Rails.configuration.x.algolia.attributes_for_faceting
 
+      paginationLimitedTo 4000
+
       # Default has "geo" before "filters", but we need it after if we want
       # optional filters to have higher priority than distance.
       ranking %w[typo words filters geo proximity attribute exact custom]

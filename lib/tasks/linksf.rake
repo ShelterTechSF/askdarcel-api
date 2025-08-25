@@ -15,6 +15,8 @@ namespace :linksf do
 
     locations = JSON.parse(File.read(File.join(args.dirname, 'locations.json')), symbolize_names: true)
     organizations = JSON.parse(File.read(File.join(args.dirname, 'organizations.json')), symbolize_names: true)
+    eligibilities = JSON.parse(File.read(File.join(args.dirname, 'eligibilities.json')), symbolize_names: true)
+    eligibilities_services = JSON.parse(File.read(File.join(args.dirname, 'eligibilities_services.json')), symbolize_names: true)
 
     category_names = %w[Shelter Food Medical Hygiene Technology]
 
@@ -149,6 +151,21 @@ namespace :linksf do
                                  end
 
       change_request.save!
+    end
+
+    eligibilities_services_hash = {}
+    eligibilities_services.each do |es|
+      eligibilities_services_hash[es[:eligibility_id]] ||= []
+      eligibilities_services_hash[es[:eligibility_id]] << es[:service_id]
+    end
+
+    eligibilities.each do |eligibility|
+      el = Eligibility.create(id: eligibility[:id], name: eligibility[:name], feature_rank: eligibility[:feature_rank])
+      el_service_ids = eligibilities_services_hash[el.id] ||= []
+      el_service_ids.each do |id|
+        service = Service.find_by(id: id) || nil
+        el.services << service if service
+      end
     end
   end
 end

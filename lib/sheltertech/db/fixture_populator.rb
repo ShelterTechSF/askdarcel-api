@@ -27,7 +27,7 @@ module ShelterTech
       end
 
       def populate
-        Rails.application.eager_load! # Load all models 
+        Rails.application.eager_load! # Load all models
         create_users # Create users first
         create_categories
         create_resources

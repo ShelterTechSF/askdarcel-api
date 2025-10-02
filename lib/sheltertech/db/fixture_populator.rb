@@ -28,6 +28,7 @@ module ShelterTech
 
       def populate
         Rails.application.eager_load! # Load all models
+        create_users # Create users first
         create_categories
         create_resources
         create_eligibilities
@@ -57,6 +58,16 @@ module ShelterTech
 
       def featured_categories
         @featured_categories ||= Category.where(featured: true)
+      end
+
+      # Create a test user
+      def create_users
+        user = User.new
+        user.name = "Test User"
+        user.email = "test@test.com"
+        user.organization = "Test Organization"
+        user.user_external_id = "test_user_external_id"
+        user.save
       end
 
       def create_categories

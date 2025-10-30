@@ -13,6 +13,7 @@ RUN mkdir -p /var/lib/dpkg/alternatives /var/lib/dpkg/info /var/lib/dpkg/parts /
   touch /var/lib/dpkg/status && \
   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
   wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - && \
+  mkdir -p /etc/service/appserver && \
   mv /home/app/webapp/config/appserver.sh /etc/service/appserver/run && \
   chmod 777 /etc/service/appserver/run && \
   echo 'deb http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main' > /etc/apt/sources.list.d/pgdg.list && \

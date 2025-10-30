@@ -11,19 +11,15 @@ FROM sheltertechsf/combostrikehq-docker-rails:ruby-2.7
 
 RUN mkdir -p /var/lib/dpkg/alternatives /var/lib/dpkg/info /var/lib/dpkg/parts /var/lib/dpkg/triggers /var/lib/dpkg/updates && \
   touch /var/lib/dpkg/status && \
-  apt-get update && \
-  apt-get install -y --no-install-recommends curl wget gnupg ca-certificates && \
-  install -m 0755 -d /etc/apt/keyrings && \
-  curl -fsSL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor -o /etc/apt/keyrings/yarn.gpg && \
-  wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /etc/apt/keyrings/google.gpg && \
-  echo 'deb [signed-by=/etc/apt/keyrings/yarn.gpg] https://dl.yarnpkg.com/debian/ stable main' > /etc/apt/sources.list.d/yarn.list && \
-  mkdir -p /etc/service/appserver && \
+  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
+  wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - && \
   mv /home/app/webapp/config/appserver.sh /etc/service/appserver/run && \
   chmod 777 /etc/service/appserver/run && \
-  curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor -o /etc/apt/keyrings/postgres.gpg && \
-  echo 'deb [signed-by=/etc/apt/keyrings/postgres.gpg] http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main' > /etc/apt/sources.list.d/pgdg.list && \
+  echo 'deb http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main' > /etc/apt/sources.list.d/pgdg.list && \
+  curl --silent https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
   apt-get update && \
-  apt-get install -y libglib2.0-dev postgresql-client-common && \
+  apt-get install -y libglib2.0-dev && \
+  apt-get install -y postgresql-client-common && \
   rm -rf /var/lib/apt/lists/*
 
 ENV LD_PRELOAD=$LD_PRELOAD:/lib/x86_64-linux-gnu/libjemalloc.so.2

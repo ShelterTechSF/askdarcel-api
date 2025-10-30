@@ -3,9 +3,9 @@ name: testsuite
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, migrate-to-gcp ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, migrate-to-gcp ]
 
 env:
   RUBY_VERSION: 2.7.4

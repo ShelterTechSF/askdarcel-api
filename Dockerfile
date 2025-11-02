@@ -39,21 +39,12 @@ RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | \
   test -f /usr/share/keyrings/postgresql-keyring.gpg
 
 # Add PostgreSQL repository configuration
-RUN echo "deb [signed-by=/usr/share/keyrings/postgresql-keyring.gpg] https://apt.postgresql.org/pub/repos/apt/ focal-pgdg main" > /etc/apt/sources.list.d/pgdg.list && \
-  cat /etc/apt/sources.list.d/pgdg.list
+RUN echo "deb [signed-by=/usr/share/keyrings/postgresql-keyring.gpg] https://apt.postgresql.org/pub/repos/apt/ focal-pgdg main" > /etc/apt/sources.list.d/pgdg.list
 
 # Update package lists and install postgresql-client-common
-# Capture error output for debugging
 RUN apt-get clean && \
   rm -rf /var/lib/apt/lists/* && \
-  apt-get update --allow-releaseinfo-change 2>&1 | tee /tmp/apt-update.log || \
-  (echo "=== apt-get update failed ===" && \
-   cat /tmp/apt-update.log && \
-   echo "=== Checking repository config ===" && \
-   cat /etc/apt/sources.list.d/pgdg.list && \
-   echo "=== Checking keyring file ===" && \
-   ls -la /usr/share/keyrings/postgresql-keyring.gpg && \
-   exit 1) && \
+  apt-get update --allow-releaseinfo-change && \
   apt-get install -y postgresql-client-common && \
   rm -rf /var/lib/apt/lists/*
 

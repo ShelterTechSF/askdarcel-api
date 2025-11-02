@@ -31,26 +31,14 @@ RUN mkdir -p /usr/share/keyrings
 RUN curl --silent --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor -o /usr/share/keyrings/postgresql-keyring.gpg && \
   echo "deb [signed-by=/usr/share/keyrings/postgresql-keyring.gpg] https://apt.postgresql.org/pub/repos/apt/ focal-pgdg main" > /etc/apt/sources.list.d/pgdg.list
 
-# List all repository configurations for debugging
-RUN echo "=== Checking repository configurations ===" && \
-  ls -la /etc/apt/sources.list.d/ 2>/dev/null || true && \
-  cat /etc/apt/sources.list 2>/dev/null || true
-
 # Clean apt cache and update package lists
 # --allow-releaseinfo-change handles repository metadata changes
 RUN apt-get clean && \
   rm -rf /var/lib/apt/lists/* && \
-  apt-get update --allow-releaseinfo-change 2>&1 | tee /tmp/apt-update.log || \
-  (echo "=== apt-get update failed, checking logs ===" && \
-   cat /tmp/apt-update.log && \
-   echo "=== Listing problematic repos ===" && \
-   grep -r "Err\|W:" /tmp/apt-update.log || true && \
-   exit 1)
+  apt-get update --allow-releaseinfo-change
 
 # Install required packages
-# Install each package separately to identify which one fails
-RUN apt-get install -y libglib2.0-dev && \
-  apt-get install -y postgresql-client-common && \
+RUN apt-get install -y libglib2.0-dev postgresql-client-common && \
   rm -rf /var/lib/apt/lists/*
 
 # Configure appserver

@@ -22,23 +22,22 @@ RUN apt-get update --allow-releaseinfo-change && \
   apt-get install -y --no-install-recommends curl wget gnupg ca-certificates apt-transport-https && \
   rm -rf /var/lib/apt/lists/*
 
+# Install libglib2.0-dev from default Ubuntu repositories first
+RUN apt-get clean && \
+  rm -rf /var/lib/apt/lists/* && \
+  apt-get update --allow-releaseinfo-change && \
+  apt-get install -y libglib2.0-dev && \
+  rm -rf /var/lib/apt/lists/*
+
 # Create keyrings directory
 RUN mkdir -p /usr/share/keyrings
 
-# Add PostgreSQL repository with modern GPG keyring approach
+# Add PostgreSQL repository with modern GPG keyring approach for postgresql-client-common
 # Use HTTPS and ensure proper keyring setup
-# Only add PostgreSQL repo as that's what we need for postgresql-client-common
 RUN curl --silent --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor -o /usr/share/keyrings/postgresql-keyring.gpg && \
-  echo "deb [signed-by=/usr/share/keyrings/postgresql-keyring.gpg] https://apt.postgresql.org/pub/repos/apt/ focal-pgdg main" > /etc/apt/sources.list.d/pgdg.list
-
-# Clean apt cache and update package lists
-# --allow-releaseinfo-change handles repository metadata changes
-RUN apt-get clean && \
-  rm -rf /var/lib/apt/lists/* && \
-  apt-get update --allow-releaseinfo-change
-
-# Install required packages
-RUN apt-get install -y libglib2.0-dev postgresql-client-common && \
+  echo "deb [signed-by=/usr/share/keyrings/postgresql-keyring.gpg] https://apt.postgresql.org/pub/repos/apt/ focal-pgdg main" > /etc/apt/sources.list.d/pgdg.list && \
+  apt-get update --allow-releaseinfo-change && \
+  apt-get install -y postgresql-client-common && \
   rm -rf /var/lib/apt/lists/*
 
 # Configure appserver
@@ -46,4 +45,4 @@ RUN mkdir -p /etc/service/appserver && \
   mv /home/app/webapp/config/appserver.sh /etc/service/appserver/run && \
   chmod 777 /etc/service/appserver/run
 
-ENV LD_PRELOAD=${LD_PRELOAD}:/lib/x86_64-linux-gnu/libjemalloc.so.2
+ENV LD_PRELOAD=${LD_PRELOAD:-}:/lib/x86_64-linux-gnu/libjemalloc.so.2

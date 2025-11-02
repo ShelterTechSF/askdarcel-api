@@ -33,10 +33,9 @@ RUN apt-get clean && \
 RUN mkdir -p /usr/share/keyrings
 
 # Add PostgreSQL repository with modern GPG keyring approach for postgresql-client-common
-# Download and verify GPG key
-RUN curl --silent --fail --location https://www.postgresql.org/media/keys/ACCC4CF8.asc -o /tmp/postgresql.asc && \
-  gpg --dearmor /tmp/postgresql.asc -o /usr/share/keyrings/postgresql-keyring.gpg && \
-  rm /tmp/postgresql.asc && \
+# Download and process GPG key using wget (more reliable for piping)
+RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | \
+  gpg --dearmor -o /usr/share/keyrings/postgresql-keyring.gpg && \
   test -f /usr/share/keyrings/postgresql-keyring.gpg
 
 # Add PostgreSQL repository configuration
@@ -55,4 +54,4 @@ RUN mkdir -p /etc/service/appserver && \
   mv /home/app/webapp/config/appserver.sh /etc/service/appserver/run && \
   chmod 777 /etc/service/appserver/run
 
-ENV LD_PRELOAD=${LD_PRELOAD:-}:/lib/x86_64-linux-gnu/libjemalloc.so.2
+ENV LD_PRELOAD=/lib/x86_64-linux-gnu/libjemalloc.so.2

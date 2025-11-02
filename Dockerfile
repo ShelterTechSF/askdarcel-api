@@ -33,9 +33,19 @@ RUN apt-get clean && \
 RUN mkdir -p /usr/share/keyrings
 
 # Add PostgreSQL repository with modern GPG keyring approach for postgresql-client-common
-# Use HTTPS and ensure proper keyring setup
-RUN curl --silent --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor -o /usr/share/keyrings/postgresql-keyring.gpg && \
-  echo "deb [signed-by=/usr/share/keyrings/postgresql-keyring.gpg] https://apt.postgresql.org/pub/repos/apt/ focal-pgdg main" > /etc/apt/sources.list.d/pgdg.list && \
+# Download and verify GPG key
+RUN curl --silent --fail --location https://www.postgresql.org/media/keys/ACCC4CF8.asc -o /tmp/postgresql.asc && \
+  gpg --dearmor /tmp/postgresql.asc -o /usr/share/keyrings/postgresql-keyring.gpg && \
+  rm /tmp/postgresql.asc && \
+  test -f /usr/share/keyrings/postgresql-keyring.gpg
+
+# Add PostgreSQL repository configuration
+RUN echo "deb [signed-by=/usr/share/keyrings/postgresql-keyring.gpg] https://apt.postgresql.org/pub/repos/apt/ focal-pgdg main" > /etc/apt/sources.list.d/pgdg.list && \
+  cat /etc/apt/sources.list.d/pgdg.list
+
+# Update package lists and install postgresql-client-common
+RUN apt-get clean && \
+  rm -rf /var/lib/apt/lists/* && \
   apt-get update --allow-releaseinfo-change && \
   apt-get install -y postgresql-client-common && \
   rm -rf /var/lib/apt/lists/*

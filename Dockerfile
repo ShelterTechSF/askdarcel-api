@@ -42,9 +42,12 @@ RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | \
 RUN echo "deb [signed-by=/usr/share/keyrings/postgresql-keyring.gpg] https://apt.postgresql.org/pub/repos/apt/ focal-pgdg main" > /etc/apt/sources.list.d/pgdg.list
 
 # Update package lists and install postgresql-client-common
+# Add retry logic for network/repository issues
 RUN apt-get clean && \
   rm -rf /var/lib/apt/lists/* && \
-  apt-get update --allow-releaseinfo-change && \
+  (apt-get update --allow-releaseinfo-change || \
+   (sleep 2 && apt-get update --allow-releaseinfo-change) || \
+   (sleep 5 && apt-get update --allow-releaseinfo-change)) && \
   apt-get install -y postgresql-client-common && \
   rm -rf /var/lib/apt/lists/*
 

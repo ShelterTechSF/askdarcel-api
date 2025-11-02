@@ -42,12 +42,19 @@ RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | \
 RUN echo "deb [signed-by=/usr/share/keyrings/postgresql-keyring.gpg] https://apt.postgresql.org/pub/repos/apt/ focal-pgdg main" > /etc/apt/sources.list.d/pgdg.list
 
 # Update package lists and install postgresql-client-common
-# Add retry logic for network/repository issues
+# Debug: Show error details if update fails
 RUN apt-get clean && \
   rm -rf /var/lib/apt/lists/* && \
-  (apt-get update --allow-releaseinfo-change || \
-   (sleep 2 && apt-get update --allow-releaseinfo-change) || \
-   (sleep 5 && apt-get update --allow-releaseinfo-change)) && \
+  apt-get update --allow-releaseinfo-change 2>&1 | tee /tmp/apt-update.log || \
+  (echo "=== apt-get update failed, showing error details ===" && \
+   cat /tmp/apt-update.log | grep -E "Err|W:|E:" | head -20 && \
+   echo "=== Repository configuration ===" && \
+   cat /etc/apt/sources.list.d/pgdg.list && \
+   echo "=== Keyring file check ===" && \
+   ls -la /usr/share/keyrings/postgresql-keyring.gpg && \
+   echo "=== All sources.list.d files ===" && \
+   ls -la /etc/apt/sources.list.d/ && \
+   exit 1) && \
   apt-get install -y postgresql-client-common && \
   rm -rf /var/lib/apt/lists/*
 

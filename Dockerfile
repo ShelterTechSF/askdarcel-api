@@ -13,9 +13,9 @@ FROM sheltertechsf/combostrikehq-docker-rails:ruby-2.7
 RUN mkdir -p /var/lib/dpkg/alternatives /var/lib/dpkg/info /var/lib/dpkg/parts /var/lib/dpkg/triggers /var/lib/dpkg/updates && \
   touch /var/lib/dpkg/status
 
-# Remove problematic repository configurations that may have expired/missing GPG keys
-# These will be re-added with proper keys later
-RUN rm -f /etc/apt/sources.list.d/yarn.list /etc/apt/sources.list.d/google-chrome.list 2>/dev/null || true
+# Remove ALL problematic repository configurations that may have expired/missing GPG keys
+# We'll add only what we need later
+RUN rm -f /etc/apt/sources.list.d/*.list 2>/dev/null || true
 
 # Install prerequisites for GPG keyring management and HTTPS repositories
 RUN apt-get update --allow-releaseinfo-change && \
@@ -31,11 +31,21 @@ RUN mkdir -p /usr/share/keyrings
 RUN curl --silent --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor -o /usr/share/keyrings/postgresql-keyring.gpg && \
   echo "deb [signed-by=/usr/share/keyrings/postgresql-keyring.gpg] https://apt.postgresql.org/pub/repos/apt/ focal-pgdg main" > /etc/apt/sources.list.d/pgdg.list
 
-# Update package lists with error handling
+# List all repository configurations for debugging
+RUN echo "=== Checking repository configurations ===" && \
+  ls -la /etc/apt/sources.list.d/ 2>/dev/null || true && \
+  cat /etc/apt/sources.list 2>/dev/null || true
+
+# Clean apt cache and update package lists
 # --allow-releaseinfo-change handles repository metadata changes
-# --allow-unauthenticated temporarily if GPG verification fails (only for update, not install)
-RUN apt-get update --allow-releaseinfo-change || \
-  (apt-get clean && rm -rf /var/lib/apt/lists/* && apt-get update --allow-releaseinfo-change)
+RUN apt-get clean && \
+  rm -rf /var/lib/apt/lists/* && \
+  apt-get update --allow-releaseinfo-change 2>&1 | tee /tmp/apt-update.log || \
+  (echo "=== apt-get update failed, checking logs ===" && \
+   cat /tmp/apt-update.log && \
+   echo "=== Listing problematic repos ===" && \
+   grep -r "Err\|W:" /tmp/apt-update.log || true && \
+   exit 1)
 
 # Install required packages
 # Install each package separately to identify which one fails

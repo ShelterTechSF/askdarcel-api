@@ -17,29 +17,30 @@ RUN mkdir -p /var/lib/dpkg/alternatives /var/lib/dpkg/info /var/lib/dpkg/parts /
 # These will be re-added with proper keys later
 RUN rm -f /etc/apt/sources.list.d/yarn.list /etc/apt/sources.list.d/google-chrome.list 2>/dev/null || true
 
-# Install prerequisites for GPG keyring management
+# Install prerequisites for GPG keyring management and HTTPS repositories
 RUN apt-get update --allow-releaseinfo-change && \
-  apt-get install -y --no-install-recommends curl wget gnupg ca-certificates && \
+  apt-get install -y --no-install-recommends curl wget gnupg ca-certificates apt-transport-https && \
   rm -rf /var/lib/apt/lists/*
 
 # Create keyrings directory
 RUN mkdir -p /usr/share/keyrings
 
-# Add Yarn repository with modern GPG keyring approach
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor -o /usr/share/keyrings/yarn-keyring.gpg && \
-  echo "deb [signed-by=/usr/share/keyrings/yarn-keyring.gpg] https://dl.yarnpkg.com/debian stable main" > /etc/apt/sources.list.d/yarn.list
-
-# Add Google Chrome repository with modern GPG keyring approach
-RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /usr/share/keyrings/google-chrome-keyring.gpg && \
-  echo "deb [signed-by=/usr/share/keyrings/google-chrome-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
-
 # Add PostgreSQL repository with modern GPG keyring approach
-RUN curl --silent https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor -o /usr/share/keyrings/postgresql-keyring.gpg && \
-  echo "deb [signed-by=/usr/share/keyrings/postgresql-keyring.gpg] http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+# Use HTTPS and ensure proper keyring setup
+# Only add PostgreSQL repo as that's what we need for postgresql-client-common
+RUN curl --silent --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor -o /usr/share/keyrings/postgresql-keyring.gpg && \
+  echo "deb [signed-by=/usr/share/keyrings/postgresql-keyring.gpg] https://apt.postgresql.org/pub/repos/apt/ focal-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+
+# Update package lists with error handling
+# --allow-releaseinfo-change handles repository metadata changes
+# --allow-unauthenticated temporarily if GPG verification fails (only for update, not install)
+RUN apt-get update --allow-releaseinfo-change || \
+  (apt-get clean && rm -rf /var/lib/apt/lists/* && apt-get update --allow-releaseinfo-change)
 
 # Install required packages
-RUN apt-get update && \
-  apt-get install -y libglib2.0-dev postgresql-client-common && \
+# Install each package separately to identify which one fails
+RUN apt-get install -y libglib2.0-dev && \
+  apt-get install -y postgresql-client-common && \
   rm -rf /var/lib/apt/lists/*
 
 # Configure appserver

@@ -77,5 +77,31 @@ $ docker-compose run --rm postman
 $ docker-compose run -e STAGING_DB_PASSWORD=<...> --rm api rake db:setup db:import_staging
 ```
 
+### Developer Tools
+#### Rails console
+The [Rails console](https://guides.rubyonrails.org/command_line.html#rails-console) gives the developer access to the Rails application
+
+Steps:
+1. Navigate to the `askdarcel-api` directory
+2. Start both the DB and API
+3. Start the Rails console using the following command
+```sh
+$ docker-compose run --rm api rails console
+```
+4. Use the rails console
+
+#### Byebug
+[Byebug](https://github.com/deivid-rodriguez/byebug) allows for easy Ruby debugging
+
+Steps:
+1. Navigate to the `askdarcel-api` directory
+2. Place `byebug` on a new line in the code you want to debug
+2. Start both the DB and API
+3. Attach a listener to the askdarcel-api docker container using the following command
+    ```sh
+    $ docker attach $(docker ps -aqf "name=askdarcel-api_api")
+    ```
+4. Use the app or postman to call the code of interest. The listener should pause the execution at the `byebug` statement
+5. [Debug with byebug](https://www.sitepoint.com/the-ins-and-outs-of-debugging-ruby-with-byebug/)
 
 

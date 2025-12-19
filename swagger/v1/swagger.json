@@ -1516,6 +1516,75 @@
           "application/json"
         ]
       }
+    },
+    "/organizations": {
+      "get": {
+        "responses": {
+          "200": {
+            "examples": {
+              "application/json": {
+                "id": "string",
+                "name": "string",
+                "alternate_name": "string",
+                "description": "string",
+                "email": "string",
+                "url": "string",
+                "tax_status": "string",
+                "tax_id": "string",
+                "year_incorporated": "string",
+                "legal_status": "string"
+              }
+            },
+            "description": "Organization Response"
+          }
+        },
+        "tags": [
+          "organizations"
+        ],
+        "summary": "Retrieves all organizations",
+        "produces" : [
+          "application/json"
+        ]
+      }
+    },
+    "/organizations/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "examples": {
+              "application/json": {
+                "id": "string",
+                "name": "string",
+                "alternate_name": "string",
+                "description": "string",
+                "email": "string",
+                "url": "string",
+                "tax_status": "string",
+                "tax_id": "string",
+                "year_incorporated": "string",
+                "legal_status": "string"
+              }
+            },
+            "description": "Organization Response"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "description": "Resource ID",
+            "required": true
+          }
+        ],
+        "tags": [
+          "organizations"
+        ],
+        "summary": "Retrieves organization by id",
+        "produces" : [
+          "application/json"
+        ]
+      }
     }
   }
 }

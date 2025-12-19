@@ -50,6 +50,9 @@ Rails.application.routes.draw do
   resources :notes do
     resources :change_requests, only: :create
   end
+  resources :organizations do
+    resources :change_requests, only: :create
+  end
   resources :addresses do
     resources :change_requests, only: :create
   end

@@ -9,58 +9,17 @@ FROM sheltertechsf/combostrikehq-docker-rails:ruby-2.7
 # NB The xenial-pgdg package that we're installing with APT below may be removed from Postgres' repo
 # when future Linux updates come out. See: https://wiki.postgresql.org/wiki/Apt for updates.
 
-# Restore dpkg directories and status file
 RUN mkdir -p /var/lib/dpkg/alternatives /var/lib/dpkg/info /var/lib/dpkg/parts /var/lib/dpkg/triggers /var/lib/dpkg/updates && \
-  touch /var/lib/dpkg/status
-
-# Remove ALL problematic repository configurations that may have expired/missing GPG keys
-# We'll add only what we need later
-RUN rm -f /etc/apt/sources.list.d/*.list 2>/dev/null || true
-
-# Install prerequisites for GPG keyring management and HTTPS repositories
-RUN apt-get update --allow-releaseinfo-change && \
-  apt-get install -y --no-install-recommends curl wget gnupg ca-certificates apt-transport-https && \
-  rm -rf /var/lib/apt/lists/*
-
-# Install libglib2.0-dev from default Ubuntu repositories first
-RUN apt-get clean && \
-  rm -rf /var/lib/apt/lists/* && \
-  apt-get update --allow-releaseinfo-change && \
+  touch /var/lib/dpkg/status && \
+  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
+  wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - && \
+  mv /home/app/webapp/config/appserver.sh /etc/service/appserver/run && \
+  chmod 777 /etc/service/appserver/run && \
+  echo 'deb http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main' > /etc/apt/sources.list.d/pgdg.list && \
+  curl --silent https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
+  apt-get update && \
   apt-get install -y libglib2.0-dev && \
-  rm -rf /var/lib/apt/lists/*
-
-# Create keyrings directory
-RUN mkdir -p /usr/share/keyrings
-
-# Add PostgreSQL repository with modern GPG keyring approach for postgresql-client-common
-# Download and process GPG key using wget (more reliable for piping)
-RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | \
-  gpg --dearmor -o /usr/share/keyrings/postgresql-keyring.gpg && \
-  test -f /usr/share/keyrings/postgresql-keyring.gpg
-
-# Add PostgreSQL repository configuration
-RUN echo "deb [signed-by=/usr/share/keyrings/postgresql-keyring.gpg] https://apt.postgresql.org/pub/repos/apt/ focal-pgdg main" > /etc/apt/sources.list.d/pgdg.list
-
-# Update package lists and install postgresql-client-common
-# Debug: Show error details if update fails
-RUN apt-get clean && \
-  rm -rf /var/lib/apt/lists/* && \
-  apt-get update --allow-releaseinfo-change 2>&1 | tee /tmp/apt-update.log || \
-  (echo "=== apt-get update failed, showing error details ===" && \
-   cat /tmp/apt-update.log | grep -E "Err|W:|E:" | head -20 && \
-   echo "=== Repository configuration ===" && \
-   cat /etc/apt/sources.list.d/pgdg.list && \
-   echo "=== Keyring file check ===" && \
-   ls -la /usr/share/keyrings/postgresql-keyring.gpg && \
-   echo "=== All sources.list.d files ===" && \
-   ls -la /etc/apt/sources.list.d/ && \
-   exit 1) && \
   apt-get install -y postgresql-client-common && \
   rm -rf /var/lib/apt/lists/*
 
-# Configure appserver
-RUN mkdir -p /etc/service/appserver && \
-  mv /home/app/webapp/config/appserver.sh /etc/service/appserver/run && \
-  chmod 777 /etc/service/appserver/run
-
-ENV LD_PRELOAD=/lib/x86_64-linux-gnu/libjemalloc.so.2
+ENV LD_PRELOAD=$LD_PRELOAD:/lib/x86_64-linux-gnu/libjemalloc.so.2

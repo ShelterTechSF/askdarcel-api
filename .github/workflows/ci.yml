@@ -3,9 +3,9 @@ name: testsuite
 
 on:
   push:
-    branches: [ master, migrate-to-gcp ]
+    branches: [ master ]
   pull_request:
-    branches: [ master, migrate-to-gcp ]
+    branches: [ master ]
 
 env:
   RUBY_VERSION: 2.7.4
@@ -67,7 +67,7 @@ jobs:
   publish-latest:
     runs-on: ubuntu-latest
     needs: [lint, test_unit, test_postman]
-    if: github.ref == 'refs/heads/migrate-to-gcp' && github.event_name == 'push'
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
     steps:
       - uses: actions/checkout@v2
       - uses: docker/setup-qemu-action@v1

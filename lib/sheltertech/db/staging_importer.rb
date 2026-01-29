@@ -206,9 +206,7 @@ module ShelterTech
         quoted_table = conn.quote_table_name(table_name)
         quoted_keys  = keys.map { |k| conn.quote_column_name(k) }
         question_marks = Array.new(values.size, '?')
-        sql_query = [
-          "INSERT INTO #{quoted_table} (#{quoted_keys.join(', ')}) VALUES (#{question_marks.join(', ')})"
-        ]
+        sql_query = ["INSERT INTO #{quoted_table} (#{quoted_keys.join(', ')}) VALUES (#{question_marks.join(', ')})"]
         sql_query += values
         sql_query = ActiveRecord::Base.send(:sanitize_sql_array, sql_query)
         conn.execute(sql_query)

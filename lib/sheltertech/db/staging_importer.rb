@@ -201,14 +201,15 @@ module ShelterTech
       # queries.
       def self.fast_insert!(table_name, record)
         keys = record.keys
+        conn = ActiveRecord::Base.connection
         values = keys.map { |k| record[k] }
-        question_marks = Array.new(values.size) { '?' }
-        sql_query = [
-          "INSERT INTO #{table_name} (#{keys.join(', ')}) VALUES (#{question_marks.join(', ')})"
-        ]
+        quoted_table = conn.quote_table_name(table_name)
+        quoted_keys  = keys.map { |k| conn.quote_column_name(k) }
+        question_marks = Array.new(values.size, '?')
+        sql_query = ["INSERT INTO #{quoted_table} (#{quoted_keys.join(', ')}) VALUES (#{question_marks.join(', ')})"]
         sql_query += values
         sql_query = ActiveRecord::Base.send(:sanitize_sql_array, sql_query)
-        ActiveRecord::Base.connection.execute(sql_query)
+        conn.execute(sql_query)
       end
 
       def self.log_progress(msg)

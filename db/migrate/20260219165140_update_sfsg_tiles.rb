@@ -20,6 +20,8 @@ class UpdateSfsgTiles < ActiveRecord::Migration[6.1]
       ## sfsg-shelter
       create_category 'Adult Shelter Reservation'
 
+      create_category_service_relationship 'Adult Shelter Reservation', 'Adult Shelter Reservation System'
+
       create_category_relationship 'sfsg-shelter', 'Adult Shelter Reservation'
       create_category_relationship 'sfsg-shelter', 'Family Shelters'
       
@@ -153,5 +155,39 @@ class UpdateSfsgTiles < ActiveRecord::Migration[6.1]
 
     count = select_value("SELECT COUNT(*) FROM categories WHERE name = $1", "count category #{name}", [name])
     raise "Expected category #{name} to not exist, got #{count} results" unless count == 0
+  end
+
+  def create_category_service_relationship(category_name, service_name)
+    category_id = select_value(
+      "SELECT id FROM categories WHERE name = $1",
+      "find category #{category_name}",
+      [category_name]
+    )
+
+    service_id = select_value(
+      "SELECT id FROM services WHERE name = $1",
+      "find service #{service_name}",
+      [service_name]
+    )
+
+    if @assertions_enabled
+      raise "Expected category #{category_name} to exist" if category_id.nil?
+      raise "Expected service #{service_name} to exist" if service_id.nil?
+
+      count = select_value(
+        "SELECT COUNT(*) FROM categories_services WHERE category_id = $1 AND service_id = $2",
+        "count category service #{category_name}->#{service_name}",
+        [category_id, service_id]
+      )
+      raise "Expected category service #{category_name}->#{service_name} to not exist, got #{count} results" unless count.to_i == 0
+    end
+
+    exec_query <<-SQL, "create category service #{category_name} -> #{service_name}", [category_id, service_id]
+      INSERT INTO categories_services (category_id, service_id)
+      SELECT $1, $2
+      WHERE NOT EXISTS (
+        SELECT 1 FROM categories_services WHERE category_id = $1 AND service_id = $2
+      );
+    SQL
   end
 end

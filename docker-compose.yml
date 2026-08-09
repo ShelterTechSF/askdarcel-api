@@ -33,6 +33,10 @@ services:
     command: rails server --port=3000 --binding=0.0.0.0
     ports:
       - "3000:3000"
+    # Creates a psuedoterminal that connects a user's "terminal" with the stdin and stdout stream
+    tty: true
+    # Opens the docker container to input from the terminal
+    stdin_open: true
 
   postman:
     build:
